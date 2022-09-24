@@ -28,8 +28,6 @@ class GradiantBackground extends StatelessWidget {
       decoration: BoxDecoration(
         image: decorationImage,
         gradient: LinearGradient(
-          //begin: const FractionalOffset(0.0, 0.0),
-          //   end: const FractionalOffset(1.0, 0.0),
           begin: begin,
           end: end,
           stops: stops,
