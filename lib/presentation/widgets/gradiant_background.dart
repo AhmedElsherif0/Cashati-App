@@ -6,12 +6,12 @@ import '../styles/colors.dart';
 class GradiantBackground extends StatelessWidget {
   const GradiantBackground({
     Key? key,
-    this.gradiantColor = const [AppColor.white, AppColor.primaryColor],
+    this.gradiantColor =  AppColor.defaultLinearGradient,
     this.child,
     this.decorationImage,
-    this.stops = const [0.5, 0.8],
-    this.begin = Alignment.topCenter,
-    this.end = Alignment.bottomCenter,
+    this.stops = const [0.0,0.2,0.8,0.95],
+    this.begin = Alignment.topRight,
+    this.end = Alignment.bottomLeft,
   }) : super(key: key);
 
   final List<Color> gradiantColor;
