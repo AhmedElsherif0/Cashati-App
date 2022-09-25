@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:temp/presentation/screens/user/language_screen.dart';
 import 'business_logic/bloc_observer.dart';
 import 'business_logic/global_cubit/global_cubit.dart';
-import 'constants/language_manager.dart';
 import 'data/local/cache_helper.dart';
 import 'presentation/router/app_router.dart';
-import 'presentation/router/app_router_names.dart';
 import 'presentation/styles/themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BlocOverrides.runZoned(
-    () async {
-      await CacheHelper.init();
-
-      runApp(MyApp(appRouter: AppRouter()));
-    },
-    blocObserver: MyBlocObserver(),
-  );
+  await CacheHelper.init();
+  runApp(MyApp(appRouter: AppRouter()));
+   Bloc.observer = MyBlocObserver();
 }
 
 class MyApp extends StatefulWidget {
@@ -35,7 +26,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: appTheme,
+      home: LanguageScreen(),
+    );
+
+    /*MultiBlocProvider(
       providers: [
         BlocProvider(create: ((context) => GlobalCubit())),
       ],
@@ -47,7 +44,6 @@ class _MyAppState extends State<MyApp> {
               return LayoutBuilder(builder: (context, constraints) {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
-
                   // locale: LanguageManager.getAppLanguage(),
                   onGenerateRoute: widget.appRouter.onGenerateRoute,
                   theme: appTheme,
@@ -57,6 +53,6 @@ class _MyAppState extends State<MyApp> {
           );
         },
       ),
-    );
+    );*/
   }
 }

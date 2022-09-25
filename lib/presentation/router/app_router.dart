@@ -9,7 +9,6 @@ class AppRouter {
     switch (settings.name) {
       case AppRouterNames.rHomeRoute:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
-
       default:
         return null;
     }
