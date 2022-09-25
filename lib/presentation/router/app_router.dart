@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+=======
+import 'package:temp/presentation/screens/user/on_boarding_screens.dart';
+>>>>>>> on noaring screens without navigation
 
 import '../screens/user/home_screen.dart';
 
@@ -10,6 +14,10 @@ class AppRouter {
       case AppRouterNames.rHomeRoute:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> on noaring screens without navigation
       default:
         return null;
     }
