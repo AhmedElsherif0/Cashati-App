@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:temp/data/local/cache_helper.dart';
 
+import '../../data/local/cache_helper.dart';
 import 'end_points.dart';
 
 enum LanguageType { english, arabic }
