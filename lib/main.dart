@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
 
 import 'business_logic/bloc_observer.dart';
@@ -14,11 +15,17 @@ import 'presentation/styles/themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await translator.init(
+    localeType: LocalizationDefaultType.device,
+    languagesList: <String>['ar', 'en'],
+    assetsDirectory: 'assets/i18n/',
+  );
   BlocOverrides.runZoned(
     () async {
       await CacheHelper.init();
 
-      runApp(MyApp(appRouter: AppRouter()));
+      runApp(LocalizedApp(child: MyApp(appRouter: AppRouter())));
     },
     blocObserver: MyBlocObserver(),
   );
@@ -47,10 +54,12 @@ class _MyAppState extends State<MyApp> {
               return LayoutBuilder(builder: (context, constraints) {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
-
-                  // locale: LanguageManager.getAppLanguage(),
                   onGenerateRoute: widget.appRouter.onGenerateRoute,
                   theme: appTheme,
+                  localizationsDelegates:
+                      translator.delegates, // Android + iOS Delegates
+                  locale: translator.locale, // Active locale
+                  supportedLocales: translator.locals(), // Locals list
                 );
               });
             },

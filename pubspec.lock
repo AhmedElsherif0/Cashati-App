@@ -154,6 +154,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.5"
   http_parser:
     dependency: transitive
     description:
@@ -182,6 +189,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  localize_and_translate:
+    dependency: "direct main"
+    description:
+      name: localize_and_translate
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.1"
   matcher:
     dependency: transitive
     description:
