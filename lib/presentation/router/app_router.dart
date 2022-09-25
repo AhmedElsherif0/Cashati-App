@@ -10,7 +10,8 @@ class AppRouter {
     switch (settings.name) {
       case AppRouterNames.rHomeRoute:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
-
+      case AppRouterNames.rOnBoarding:
+        return MaterialPageRoute(builder: (_) => const OnBoardScreens());
 
       default:
         return null;

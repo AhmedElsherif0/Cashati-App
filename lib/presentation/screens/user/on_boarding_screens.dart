@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:temp/data/color_converter/hex_colors.dart';
 import 'package:temp/data/local/cache_helper.dart';
+import 'package:temp/presentation/router/app_router.dart';
+import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/styles/themes.dart';
 
@@ -164,10 +166,11 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                                       curve: Curves.easeIn,
                                     );
                                   } else {
-                                    //TODO: Navigation to home screen
 
                                     CacheHelper.saveDataSharedPreference(
                                         key: 'onBoardDone', value: true);
+                                    Navigator.of(context).pushReplacementNamed(AppRouterNames.rHomeRoute);
+
                                   }
                                 },
                                 child: Text(
@@ -207,7 +210,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                           onPressed: () {
                             CacheHelper.saveDataSharedPreference(
                                 key: 'onBoardDone', value: true);
-                            //TODO:Navigate to home screen
+                            Navigator.of(context).pushReplacementNamed(AppRouterNames.rHomeRoute);
                           },
                           child: Text(
                             'skip',
