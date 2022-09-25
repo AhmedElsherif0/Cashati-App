@@ -5,6 +5,7 @@ import '../styles/colors.dart';
 class LogoName extends StatelessWidget {
   const LogoName({Key? key}) : super(key: key);
 
+  /// logo name.
   @override
   Widget build(BuildContext context) {
     final themeStyle =
