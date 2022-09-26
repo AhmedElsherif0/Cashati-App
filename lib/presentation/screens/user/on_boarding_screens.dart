@@ -101,9 +101,10 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                             width: 320,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16)),
-                                  primary: HexColor('#80BF88')),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16)),
+                                primary: HexColor('#80BF88'),
+                              ),
                               onPressed: () {
                                 if (_currentIndex < 2) {
                                   _currentIndex++;
