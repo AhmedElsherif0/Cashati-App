@@ -54,8 +54,8 @@ class _MyAppState extends State<MyApp> {
               return LayoutBuilder(builder: (context, constraints) {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
-
                   // locale: LanguageManager.getAppLanguage(),
+                  initialRoute: AppRouterNames.rOnBoardingRoute,
                   onGenerateRoute: widget.appRouter.onGenerateRoute,
                   theme: appTheme,
                 );

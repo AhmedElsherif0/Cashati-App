@@ -3,22 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:temp/data/color_converter/hex_colors.dart';
 import 'package:temp/data/local/cache_helper.dart';
+import 'package:temp/data/models/onbaording_list_of_data.dart';
+import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/styles/themes.dart';
+import 'package:temp/presentation/widgets/logo_name.dart';
 
-class Data {
-  final String img;
-  final String description;
-  final String extraDescription;
-  final String buttonTitle;
-
-  Data({
-    required this.extraDescription,
-    required this.img,
-    required this.description,
-    required this.buttonTitle,
-  });
-}
+import '../../../data/models/onboarding_data.dart';
 
 class OnBoardScreens extends StatefulWidget {
   const OnBoardScreens({Key? key}) : super(key: key);
@@ -46,182 +36,137 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
     });
   }
 
-  List<Data> myData = [
-    Data(
-        description: "All- in -one finance tracker",
-        img: 'assets/on_boarding/onboarding_1.png',
-        buttonTitle: 'Next',
-        extraDescription: ''),
-    Data(
-        description: "Save your money and",
-        img: 'assets/on_boarding/onboarding_2.png',
-        buttonTitle: 'Next',
-        extraDescription: 'gain points.'),
-    Data(
-        description: "Track and analysis your",
-        img: 'assets/on_boarding/onboarding_3.png',
-        buttonTitle: 'Start',
-        extraDescription: 'daily expenses.'),
-  ];
+  final myData = OnBoardingData().myData;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: appTheme,
-      home: Scaffold(
-        body: Directionality(
-          textDirection: TextDirection.ltr,
-          child: PageView.builder(
-            controller: _controller,
-            onPageChanged: (value) {
-             setState(() {
-               _currentIndex = value;
-             });
-            },
-            itemCount: myData.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(30, 117, 20, 20),
-                child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(myData[index].img),
-                    Row(
+    return Scaffold(
+      body: Directionality(
+        textDirection: TextDirection.ltr,
+        child: PageView.builder(
+          controller: _controller,
+          onPageChanged: (value) {
+            setState(() {
+              _currentIndex = value;
+            });
+          },
+          itemCount: myData.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(30, 117, 20, 20),
+              child: Column(
+                children: [
+                  Image.asset(myData[index].img),
+                  Row(
+                    children: [
+                      Text(
+                        'Welcome to ',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4!
+                            .copyWith(color: HexColor('#3C5A40')),
+                      ),
+                      const LogoName(),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Column(
                       children: [
                         Text(
-                          'Welcome to ',
+                          myData[index].description,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4!
-                              .copyWith(color: HexColor('#3C5A40')),
+                              .caption!
+                              .copyWith(fontSize: 20, height: 2),
                         ),
                         Text(
-                          'CA',
+                          myData[index].extraDescription,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4!
-                              .copyWith(color: HexColor('#000000')),
+                              .caption!
+                              .copyWith(fontSize: 20, height: 2),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 190),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: SizedBox(
+                            height: 56,
+                            width: 320,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16)),
+                                  primary: HexColor('#80BF88')),
+                              onPressed: () {
+                                if (_currentIndex < 2) {
+                                  _currentIndex++;
+                                  _controller.animateToPage(
+                                    _currentIndex,
+                                    duration: const Duration(seconds: 1),
+                                    curve: Curves.easeIn,
+                                  );
+                                } else {
+                                  navigateToHomeScreen(context);
+                                }
+                              },
+                              child: Text(
+                                myData[index].buttonTitle,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .copyWith(
+                                        fontSize: 24, color: Colors.white),
+                              ),
+                            ),
+                          ),
                         ),
-                        Text(
-                          '\$',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4!
-                              .copyWith(color: HexColor('#3C5A40')),
-                        ),
-                        Text(
-                          'HATI',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4!
-                              .copyWith(color: HexColor('#000000')),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                            myData.length,
+                            (index) => Container(
+                              margin: const EdgeInsets.only(right: 5),
+                              height: 6,
+                              width: _currentIndex == index ? 70 : 10,
+                              decoration: BoxDecoration(
+                                color: _currentIndex == index
+                                    ? HexColor('80BF88')
+                                    : AppColor.grey,
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Column(
-                        children: [
-                          Text(
-                            myData[index].description,
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(fontSize: 20, height: 2),
-                          ),
-                          Text(
-                            myData[index].extraDescription,
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(fontSize: 20, height: 2),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 190),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: SizedBox(
-                              height: 56,
-                              width: 320,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(16)),
-                                    backgroundColor: HexColor('#80BF88')),
-                                onPressed: () {
-                                  if (_currentIndex < 2) {
-                                    _currentIndex++;
-                                    _controller.animateToPage(
-                                      _currentIndex,
-                                      duration: const Duration(seconds: 1),
-                                      curve: Curves.easeIn,
-                                    );
-                                  } else {
-                                    //TODO: Navigation to home screen
-
-                                    CacheHelper.saveDataSharedPreference(
-                                        key: 'onBoardDone', value: true);
-                                  }
-                                },
-                                child: Text(
-                                  myData[index].buttonTitle,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6!
-                                      .copyWith(
-                                          fontSize: 24, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(
-                                myData.length,
-                                (index) => Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  height: 6,
-                                  width: _currentIndex == index ? 70 : 10,
-                                  decoration: BoxDecoration(
-                                    color:_currentIndex == index ? HexColor('80BF88'):AppColor.grey,
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 250),
-                      child: TextButton(
-                          onPressed: () {
-                            CacheHelper.saveDataSharedPreference(
-                                key: 'onBoardDone', value: true);
-                            //TODO:Navigate to home screen
-                          },
-                          child: Text(
-                            'skip',
-                            style: TextStyle(color: HexColor('#9C9C9C')),
-                          )),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 250),
+                    child: TextButton(
+                        onPressed: () => navigateToHomeScreen(context),
+                        child: Text(
+                          'skip',
+                          style: TextStyle(color: HexColor('#9C9C9C')),
+                        )),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
   }
-}
 
+  void navigateToHomeScreen(context) {
+    CacheHelper.saveDataSharedPreference(key: 'onBoardDone', value: true);
+    Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
+  }
+}
