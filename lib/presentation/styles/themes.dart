@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ThemeData appTheme = ThemeData(
+    /// another new commit.
     // fontFamily: 'cairo',
     // scaffoldBackgroundColor: AppColor.backGroundColor,
     // appBarTheme: const AppBarTheme(
