@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/presentation/screens/user/on_boarding_screens.dart';
 
 import 'business_logic/bloc_observer.dart';
 import 'business_logic/global_cubit/global_cubit.dart';
@@ -18,7 +19,14 @@ Future<void> main() async {
     () async {
       await CacheHelper.init();
 
-      runApp(MyApp(appRouter: AppRouter()));
+      Widget startPoint;
+      if (CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') == true ||
+          CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') != null) {
+        startPoint = MyApp(appRouter: AppRouter());
+      } else {
+        startPoint = const OnBoardScreens();
+      }
+      runApp(startPoint);
     },
     blocObserver: MyBlocObserver(),
   );
@@ -44,15 +52,18 @@ class _MyAppState extends State<MyApp> {
         builder: (context, state) {
           return Sizer(
             builder: (context, orientation, deviceType) {
-              return LayoutBuilder(builder: (context, constraints) {
-                return MaterialApp(
-                  debugShowCheckedModeBanner: false,
-
-                  // locale: LanguageManager.getAppLanguage(),
-                  onGenerateRoute: widget.appRouter.onGenerateRoute,
-                  theme: appTheme,
-                );
-              });
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  return MaterialApp(
+                    /// new commit.
+                    debugShowCheckedModeBanner: false,
+                    // locale: LanguageManager.getAppLanguage(),
+                    initialRoute: AppRouterNames.rOnBoardingRoute,
+                    onGenerateRoute: widget.appRouter.onGenerateRoute,
+                    theme: appTheme,
+                  );
+                },
+              );
             },
           );
         },
