@@ -19,13 +19,14 @@ Future<void> main() async {
     () async {
       await CacheHelper.init();
 
-      Widget startPoint ;
-      if(CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') == true || CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') != null){
+      Widget startPoint;
+      if (CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') == true ||
+          CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') != null) {
         startPoint = MyApp(appRouter: AppRouter());
-      }else{
-        startPoint =const OnBoardScreens();
+      } else {
+        startPoint = const OnBoardScreens();
       }
-      runApp( startPoint);
+      runApp(startPoint);
     },
     blocObserver: MyBlocObserver(),
   );
@@ -51,15 +52,18 @@ class _MyAppState extends State<MyApp> {
         builder: (context, state) {
           return Sizer(
             builder: (context, orientation, deviceType) {
-              return LayoutBuilder(builder: (context, constraints) {
-                return MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  // locale: LanguageManager.getAppLanguage(),
-                  initialRoute: AppRouterNames.rOnBoardingRoute,
-                  onGenerateRoute: widget.appRouter.onGenerateRoute,
-                  theme: appTheme,
-                );
-              });
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  return MaterialApp(
+                    /// new commit.
+                    debugShowCheckedModeBanner: false,
+                    // locale: LanguageManager.getAppLanguage(),
+                    initialRoute: AppRouterNames.rOnBoardingRoute,
+                    onGenerateRoute: widget.appRouter.onGenerateRoute,
+                    theme: appTheme,
+                  );
+                },
+              );
             },
           );
         },
