@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -25,7 +26,7 @@ Future<void> main() async {
   BlocOverrides.runZoned(
     () async {
       await CacheHelper.init();
-      
+
       Widget startPoint;
       if (CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') == true ||
           CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') != null) {
@@ -60,13 +61,16 @@ class _MyAppState extends State<MyApp> {
           return Sizer(
             builder: (context, orientation, deviceType) {
               return LayoutBuilder(builder: (context, constraints) {
+                statusBarConfig();
+
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
                   onGenerateRoute: widget.appRouter.onGenerateRoute,
                   theme: appTheme,
-                  localizationsDelegates:
-                      translator.delegates, // Android + iOS Delegates
-                  locale: translator.locale, // Active locale
+                  localizationsDelegates: translator.delegates,
+                  // Android + iOS Delegates
+                  locale: translator.activeLocale,
+                  // Active locale
                   supportedLocales: translator.locals(), // Locals list
                 );
               });
@@ -74,6 +78,15 @@ class _MyAppState extends State<MyApp> {
           );
         },
       ),
+    );
+  }
+
+  void statusBarConfig() {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.dark),
     );
   }
 }
