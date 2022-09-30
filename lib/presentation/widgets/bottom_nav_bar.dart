@@ -19,7 +19,7 @@ class BottomNavBarWidget extends StatelessWidget {
         ],
       ),
       child: BottomNavigationBar(
-        elevation: 10,
+        elevation: 9,
         currentIndex: cubit.currentIndex,
         showUnselectedLabels: true,
         showSelectedLabels: true,
