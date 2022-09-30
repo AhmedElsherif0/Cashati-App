@@ -71,6 +71,7 @@ flutter:
     - assets/icons/categories/
     - assets/fonts/
     - assets/i18n/
+    - assets/on_boarding/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

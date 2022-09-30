@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../presentation/screens/category/category_screen.dart';
+import '../../presentation/screens/expense_screen/expense_screen.dart';
+import '../../presentation/screens/home/home_screen.dart';
+import '../../presentation/screens/settings/settings_screen.dart';
+
 part 'global_state.dart';
 
 class GlobalCubit extends Cubit<GlobalState> {
@@ -12,6 +17,18 @@ class GlobalCubit extends Cubit<GlobalState> {
   void changeLanguage() {
     isEnglish != isEnglish;
     emit(LanguageChangedState());
+  }
+  int currentIndex = 0;
+  List<Widget> nextPage = [
+    const HomeScreen(),
+    const CategoryScreen(),
+    const ExpenseScreen(),
+    const SettingsScreen()
+  ];
+
+  void changePage({required int index}){
+    currentIndex = index;
+    emit(ChangeScreenState());
   }
 
   ////////////////////////navigator

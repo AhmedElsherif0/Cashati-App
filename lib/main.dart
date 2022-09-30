@@ -19,8 +19,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await translator.init(
-    localeType: LocalizationDefaultType.device,
-    languagesList: <String>['ar', 'en'],
+    localeType: LocalizationDefaultType.asDefined,
+    languagesList: <String>['en','ar'],
     assetsDirectory: 'assets/i18n/',
   );
   BlocOverrides.runZoned(
@@ -67,7 +67,7 @@ class _MyAppState extends State<MyApp> {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
                   onGenerateRoute: widget.appRouter.onGenerateRoute,
-                  theme: appTheme,
+
                   localizationsDelegates: translator.delegates,
                   // Android + iOS Delegates
                   locale: translator.activeLocale,
