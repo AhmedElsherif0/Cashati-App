@@ -5,8 +5,8 @@ import '../styles/colors.dart';
 import 'custom_text_button.dart';
 
 
-class SignUpSignInHeader extends StatelessWidget {
-  const SignUpSignInHeader(
+class ExpensesAndIncomeHeader extends StatelessWidget {
+  const ExpensesAndIncomeHeader(
       {Key? key,
       this.isSignUp = true,
      required this.onPressedSignIn,

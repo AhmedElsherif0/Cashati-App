@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/presentation/screens/control/control_screen.dart';
 import 'package:temp/presentation/screens/user/on_boarding_screens.dart';
 
 import 'business_logic/bloc_observer.dart';
@@ -19,25 +20,26 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await translator.init(
-    localeType: LocalizationDefaultType.device,
-    languagesList: <String>['ar', 'en'],
+    localeType: LocalizationDefaultType.asDefined,
+    languagesList: <String>['en','ar'],
     assetsDirectory: 'assets/i18n/',
   );
-  BlocOverrides.runZoned(
-    () async {
-      await CacheHelper.init();
-
-      Widget startPoint;
-      if (CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') == true ||
-          CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') != null) {
-        startPoint = MyApp(appRouter: AppRouter());
-      } else {
-        startPoint = const OnBoardScreens();
-      }
-      runApp(startPoint);
-    },
-    blocObserver: MyBlocObserver(),
-  );
+  // BlocOverrides.runZoned(
+  //   () async {
+  //     await CacheHelper.init();
+  //
+  //     Widget startPoint;
+  //     if (CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') == true ||
+  //         CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') != null) {
+  //       startPoint = MyApp(appRouter: AppRouter());
+  //     } else {
+  //       startPoint = const OnBoardScreens();
+  //     }
+  //     runApp(startPoint);
+  //   },
+  //   blocObserver: MyBlocObserver(),
+  // );
+  runApp(MyApp(appRouter: AppRouter()));
 }
 
 class MyApp extends StatefulWidget {
@@ -66,8 +68,8 @@ class _MyAppState extends State<MyApp> {
 
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
-                  onGenerateRoute: widget.appRouter.onGenerateRoute,
-                  theme: appTheme,
+                //  onGenerateRoute: widget.appRouter.onGenerateRoute,
+                  home: ControlScreen(),
                   localizationsDelegates: translator.delegates,
                   // Android + iOS Delegates
                   locale: translator.activeLocale,
