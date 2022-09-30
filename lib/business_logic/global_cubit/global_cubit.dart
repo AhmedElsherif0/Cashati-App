@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../presentation/screens/category/category_screen.dart';
-import '../../presentation/screens/expense_screen/expense_screen.dart';
+import '../../presentation/screens/expense/expense_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
 import '../../presentation/screens/settings/settings_screen.dart';
 
