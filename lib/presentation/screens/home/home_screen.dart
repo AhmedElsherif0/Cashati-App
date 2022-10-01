@@ -7,13 +7,21 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import '../../../business_logic/global_cubit/global_cubit.dart';
 import '../../../constants/language_manager.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text('HomeScreen'),);
+    return Padding(
+      padding: const EdgeInsets.only(left: 20,right: 20,top: 90),
+      child: Column(
+        children: [
+          CustomAppBar(title:'Home')
+        ],
+      ),
+    );
   }
 
 
