@@ -42,6 +42,7 @@ dependencies:
   easy_localization: ^3.0.0
   flutter_phoenix: ^1.0.0
   localize_and_translate: ^4.1.1
+  flutter_svg: ^1.1.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
