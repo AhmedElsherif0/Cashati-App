@@ -8,7 +8,6 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
-
 import '../../../business_logic/global_cubit/global_cubit.dart';
 import '../../../constants/language_manager.dart';
 import '../../widgets/custom_app_bar.dart';
