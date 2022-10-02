@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../business_logic/global_cubit/global_cubit.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
@@ -19,74 +20,71 @@ class BottomNavBarWidget extends StatelessWidget {
         ],
       ),
       child: BottomNavigationBar(
+        // unselectedIconTheme: const IconThemeData(size: 40),
         elevation: 9,
         currentIndex: cubit.currentIndex,
         showUnselectedLabels: true,
         showSelectedLabels: true,
         selectedFontSize: 0,
+        unselectedFontSize: 0,
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           cubit.changePage(index: index);
         },
         items: [
+
           BottomNavigationBarItem(
             activeIcon: Column(
-              children: const [
-                Icon(Icons.monetization_on, color: Colors.green),
-                SizedBox(height: 5),
-                CircleAvatar(radius: 4, backgroundColor: Colors.green)
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/dollar.svg',
+                  color: Colors.green,
+                ),
+                const SizedBox(height: 5),
+                const CircleAvatar(radius: 4, backgroundColor: Colors.green)
               ],
             ),
             label: '',
-            icon: const Icon(Icons.monetization_on, color: Colors.black),
+            icon: SvgPicture.asset('assets/icons/dollar.svg'),
           ),
           BottomNavigationBarItem(
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: const [
-                  Icon(Icons.monetization_on, color: Colors.green),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CircleAvatar(radius: 4, backgroundColor: Colors.green)
-                ],
-              ),
+            activeIcon: Column(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/wallet.svg',
+                  color: Colors.green,
+                ),
+                const SizedBox(height: 5),
+                const CircleAvatar(radius: 4, backgroundColor: Colors.green)
+              ],
             ),
             label: '',
-            icon: const Icon(Icons.monetization_on, color: Colors.black),
+            icon: SvgPicture.asset('assets/icons/wallet.svg'),
           ),
           BottomNavigationBarItem(
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: const [
-                  Icon(Icons.monetization_on, color: Colors.green),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CircleAvatar(radius: 4, backgroundColor: Colors.green)
-                ],
-              ),
+            activeIcon: Column(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/glow_chart.svg',
+                  color: Colors.green,
+                ),
+                const SizedBox(height: 5),
+                const CircleAvatar(radius: 4, backgroundColor: Colors.green)
+              ],
             ),
             label: '',
-            icon: const Icon(Icons.monetization_on, color: Colors.black),
+            icon: SvgPicture.asset('assets/icons/glow_chart.svg'),
           ),
           BottomNavigationBarItem(
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: const [
-                  Icon(Icons.settings, color: Colors.green),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CircleAvatar(radius: 4, backgroundColor: Colors.green)
-                ],
-              ),
+            activeIcon: Column(
+              children: [
+                SvgPicture.asset('assets/icons/setting.svg',color: Colors.green,),
+                const SizedBox(height: 5),
+                const CircleAvatar(radius: 4, backgroundColor: Colors.green)
+              ],
             ),
             label: '',
-            icon: const Icon(Icons.settings, color: Colors.black),
+            icon: SvgPicture.asset('assets/icons/setting.svg'),
           ),
         ],
       ),
