@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:temp/presentation/screens/home/expenses_screen.dart';
 
-import '../../presentation/screens/category/category_screen.dart';
-import '../../presentation/screens/expense/expense_screen.dart';
+import '../../presentation/screens/home/category_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
-import '../../presentation/screens/settings/settings_screen.dart';
+import '../../presentation/screens/home/settings_screen.dart';
 
 part 'global_state.dart';
 
@@ -22,7 +22,7 @@ class GlobalCubit extends Cubit<GlobalState> {
   List<Widget> nextPage = [
     const HomeScreen(),
     const CategoryScreen(),
-    const ExpenseScreen(),
+    const ExpensesScreen(),
     const SettingsScreen()
   ];
 
