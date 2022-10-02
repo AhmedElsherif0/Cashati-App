@@ -1,0 +1,83 @@
+import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
+
+import '../styles/colors.dart';
+
+class DefaultDropDownButton extends StatefulWidget {
+  final Color? iconColor;
+  final double? iconSize;
+  final String defaultText;
+  final List<String> items;
+  final bool isExpanded;
+
+  const DefaultDropDownButton({
+    Key? key,
+    this.iconColor,
+    this.iconSize,
+    required this.defaultText,
+    required this.items,
+    this.isExpanded = false,
+  }) : super(key: key);
+
+  @override
+  State<DefaultDropDownButton> createState() => _DefaultDropDownButtonState();
+}
+
+class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
+  String selectedValue = 'choose day';
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return SizedBox(
+      height: 5.8.h,
+      child: Card(
+        elevation: 4.sp,
+        color: AppColor.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.sp)),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.sp),
+          child: AnimatedContainer(
+            duration: const Duration(seconds: 300),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                isExpanded: widget.isExpanded,
+                elevation: 8,
+                menuMaxHeight: 30.h,
+                iconEnabledColor: AppColor.black,
+                disabledHint: Text(widget.items[0]),
+                isDense: true,
+                borderRadius: BorderRadius.circular(8.sp),
+                focusColor: AppColor.grey,
+                dropdownColor: AppColor.grey,
+                style:textTheme.bodyText2,
+                icon: Icon(
+                  widget.isExpanded
+                      ? Icons.keyboard_arrow_down
+                      : Icons.keyboard_arrow_right,
+                  color: AppColor.pineGreen,
+                ),
+                hint: Text(
+                  selectedValue,
+                  style: textTheme.subtitle1?.copyWith(color: AppColor.pineGreen),
+                ),
+                items: widget.items
+                    .map(
+                      (item) => DropdownMenuItem<String>(
+                          alignment: Alignment.center,
+                          value: item,
+                          child: Align(child: Text(item, style: textTheme.bodyText1))),
+                    )
+                    .toList(),
+                onChanged: (String? value) => setState(
+                  () => selectedValue = value!,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
