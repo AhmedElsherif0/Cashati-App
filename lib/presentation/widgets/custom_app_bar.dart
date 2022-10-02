@@ -10,7 +10,6 @@ class CustomAppBar extends StatelessWidget {
       required this.onTapBack,
       required this.onTanNotification})
       : super(key: key);
-
   final String title;
   final Function() onTapBack;
   final Function() onTanNotification;
@@ -19,11 +18,11 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        InkWell(
-          onTap: onTapBack,
-          child: const Expanded(
-            flex: 1,
-            child: Icon(
+        Expanded(
+          flex: 1,
+          child: InkWell(
+            onTap: onTapBack,
+            child: const Icon(
               Icons.arrow_back_ios,
               size: 30,
               color: AppColor.pineGreen,
@@ -40,12 +39,11 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
         ),
-        InkWell(
-          onTap: onTanNotification,
-          child: Expanded(
-              flex: 1,
-              child: SvgPicture.asset('assets/images/notification.svg')),
-        )
+        Expanded(
+            flex: 1,
+            child: InkWell(
+                onTap: onTanNotification,
+                child: SvgPicture.asset('assets/images/notification.svg')))
       ],
     );
   }
