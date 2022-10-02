@@ -7,8 +7,6 @@ import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/logo_name.dart';
 
-import '../../../data/models/onboarding_data.dart';
-
 class OnBoardScreens extends StatefulWidget {
   const OnBoardScreens({Key? key}) : super(key: key);
 
@@ -18,22 +16,18 @@ class OnBoardScreens extends StatefulWidget {
 
 class _OnBoardScreensState extends State<OnBoardScreens> {
   int _currentIndex = 0;
-  final PageController _controller = PageController(
-    initialPage: 0,
-  );
+  final PageController _controller = PageController(initialPage: 0);
 
   @override
   void initState() {
     super.initState();
     Timer.periodic(const Duration(seconds: 5), (timer) {
       if (_currentIndex < 2) _currentIndex++;
-      if (_controller.hasClients) {
-        _controller.animateToPage(
-          _currentIndex,
-          duration: const Duration(seconds: 2),
-          curve: Curves.easeIn,
-        );
-      }
+      _controller.animateToPage(
+        _currentIndex,
+        duration: const Duration(seconds: 2),
+        curve: Curves.easeIn,
+      );
     });
   }
 
@@ -41,18 +35,12 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-      data: MediaQueryData(),
-      child: Scaffold(
+    return Scaffold(
         body: Directionality(
           textDirection: TextDirection.ltr,
           child: PageView.builder(
             controller: _controller,
-            onPageChanged: (value) {
-              setState(() {
-                _currentIndex = value;
-              });
-            },
+            onPageChanged: (value) => setState(() => _currentIndex = value),
             itemCount: myData.length,
             itemBuilder: (context, index) {
               return Padding(
@@ -67,7 +55,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                           style: Theme.of(context)
                               .textTheme
                               .headline4!
-                              .copyWith(color: Color(0xff3C5A40)),
+                              .copyWith(color: AppColor.pineGreen),
                         ),
                         const LogoName(),
                       ],
@@ -94,7 +82,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 190),
+                      padding: const EdgeInsets.only(bottom: 100),
                       child: Column(
                         children: [
                           Padding(
@@ -106,7 +94,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(16)),
-                                  primary: Color(0xff80BF88),
+                     primary: AppColor.primaryColor,
                                 ),
                                 onPressed: () {
                                   if (_currentIndex < 2) {
@@ -126,7 +114,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                                       .textTheme
                                       .headline6!
                                       .copyWith(
-                                          fontSize: 24, color: Colors.white),
+                                          fontSize: 24, color: AppColor.white),
                                 ),
                               ),
                             ),
@@ -141,7 +129,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                                 width: _currentIndex == index ? 70 : 10,
                                 decoration: BoxDecoration(
                                   color: _currentIndex == index
-                                      ? Color(0xff80BF88)
+                                      ? AppColor.primaryColor
                                       : AppColor.grey,
                                   borderRadius: BorderRadius.circular(20.0),
                                 ),
@@ -151,14 +139,16 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 250),
+                    Align(
+                      alignment: Alignment.topRight,
                       child: TextButton(
-                          onPressed: () => navigateToHomeScreen(context),
-                          child: Text(
-                            'skip',
-                            style: TextStyle(color: Color(0xff9C9C9C)),
-                          )),
+
+                        onPressed: () => navigateToHomeScreen(context),
+                        child: const Text(
+                          'skip',
+                          style: TextStyle(color: AppColor.grey),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -166,7 +156,6 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
             },
           ),
         ),
-      ),
     );
   }
 

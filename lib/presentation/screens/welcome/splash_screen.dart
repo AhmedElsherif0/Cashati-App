@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:temp/presentation/styles/colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:temp/presentation/widgets/gradiant_background.dart';
 
@@ -14,13 +14,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+
   @override
   void initState() {
     super.initState();
-     Timer(
+
+    /*Timer(
       const Duration(seconds: 3),
-      () => Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute),
-    );
+      () => Navigator.pushReplacementNamed(
+        context,
+        AppRouterNames.rOnBoardingRoute,
+      ),
+    );*/
   }
 
   @override
