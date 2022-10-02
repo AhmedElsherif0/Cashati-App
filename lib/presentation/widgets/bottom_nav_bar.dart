@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../business_logic/global_cubit/global_cubit.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
@@ -31,55 +32,59 @@ class BottomNavBarWidget extends StatelessWidget {
           cubit.changePage(index: index);
         },
         items: [
+
           BottomNavigationBarItem(
             activeIcon: Column(
-              children: const [
-                Icon(Icons.monetization_on, color: Colors.green),
-                SizedBox(height: 5),
-                CircleAvatar(radius: 4, backgroundColor: Colors.green)
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/dollar.svg',
+                  color: Colors.green,
+                ),
+                const SizedBox(height: 5),
+                const CircleAvatar(radius: 4, backgroundColor: Colors.green)
               ],
             ),
             label: '',
-            icon: const Icon(Icons.monetization_on, color: Colors.black),
+            icon: SvgPicture.asset('assets/icons/dollar.svg'),
           ),
           BottomNavigationBarItem(
             activeIcon: Column(
-              children: const [
-                Icon(Icons.wallet_outlined, color: Colors.green),
-                SizedBox(
-                  height: 5,
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/wallet.svg',
+                  color: Colors.green,
                 ),
-                CircleAvatar(radius: 4, backgroundColor: Colors.green)
+                const SizedBox(height: 5),
+                const CircleAvatar(radius: 4, backgroundColor: Colors.green)
               ],
             ),
             label: '',
-            icon: const Icon(Icons.wallet_outlined, color: Colors.black),
+            icon: SvgPicture.asset('assets/icons/wallet.svg'),
           ),
           BottomNavigationBarItem(
             activeIcon: Column(
-              children: const [
-                Icon(Icons.leaderboard_outlined, color: Colors.green),
-                SizedBox(
-                  height: 5,
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/glow_chart.svg',
+                  color: Colors.green,
                 ),
-                CircleAvatar(radius: 4, backgroundColor: Colors.green)
+                const SizedBox(height: 5),
+                const CircleAvatar(radius: 4, backgroundColor: Colors.green)
               ],
             ),
             label: '',
-            icon: const Icon(Icons.leaderboard_outlined, color: Colors.black),
+            icon: SvgPicture.asset('assets/icons/glow_chart.svg'),
           ),
           BottomNavigationBarItem(
             activeIcon: Column(
-              children: const [
-                Icon(Icons.settings, color: Colors.green),
-                SizedBox(
-                  height: 5,
-                ),
-                CircleAvatar(radius: 4, backgroundColor: Colors.green)
+              children: [
+                SvgPicture.asset('assets/icons/setting.svg',color: Colors.green,),
+                const SizedBox(height: 5),
+                const CircleAvatar(radius: 4, backgroundColor: Colors.green)
               ],
             ),
             label: '',
-            icon: const Icon(Icons.settings, color: Colors.black),
+            icon: SvgPicture.asset('assets/icons/setting.svg'),
           ),
         ],
       ),
