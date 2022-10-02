@@ -67,6 +67,7 @@ class _MyAppState extends State<MyApp> {
                 statusBarConfig();
 
                 return MaterialApp(
+                  theme: AppTheme.lightThemeMode,
                   debugShowCheckedModeBanner: false,
                 //  onGenerateRoute: widget.appRouter.onGenerateRoute,
                   home: ControlScreen(),
