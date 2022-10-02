@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:temp/data/color_converter/hex_colors.dart';
 import 'package:temp/data/local/cache_helper.dart';
 import 'package:temp/data/models/onbaording_list_of_data.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
@@ -68,7 +67,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                           style: Theme.of(context)
                               .textTheme
                               .headline4!
-                              .copyWith(color: HexColor('#3C5A40')),
+                              .copyWith(color: Color(0xff3C5A40)),
                         ),
                         const LogoName(),
                       ],
@@ -107,7 +106,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(16)),
-                                  primary: HexColor('#80BF88'),
+                                  primary: Color(0xff80BF88),
                                 ),
                                 onPressed: () {
                                   if (_currentIndex < 2) {
@@ -142,7 +141,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                                 width: _currentIndex == index ? 70 : 10,
                                 decoration: BoxDecoration(
                                   color: _currentIndex == index
-                                      ? HexColor('80BF88')
+                                      ? Color(0xff80BF88)
                                       : AppColor.grey,
                                   borderRadius: BorderRadius.circular(20.0),
                                 ),
@@ -158,7 +157,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                           onPressed: () => navigateToHomeScreen(context),
                           child: Text(
                             'skip',
-                            style: TextStyle(color: HexColor('#9C9C9C')),
+                            style: TextStyle(color: Color(0xff9C9C9C)),
                           )),
                     ),
                   ],

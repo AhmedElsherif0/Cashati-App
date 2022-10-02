@@ -63,7 +63,6 @@ class TabBodyView extends StatelessWidget {
                               onPressed: onPressSeeMore,
                               style: TextButton.styleFrom(
                                   backgroundColor: AppColor.lightGrey,
-                                  foregroundColor: AppColor.grey,
                                   padding: EdgeInsets.zero,
                                   alignment: Alignment.centerLeft),
                               child: const Text(
