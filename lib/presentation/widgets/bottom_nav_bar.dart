@@ -19,11 +19,13 @@ class BottomNavBarWidget extends StatelessWidget {
         ],
       ),
       child: BottomNavigationBar(
+        // unselectedIconTheme: const IconThemeData(size: 40),
         elevation: 9,
         currentIndex: cubit.currentIndex,
         showUnselectedLabels: true,
         showSelectedLabels: true,
         selectedFontSize: 0,
+        unselectedFontSize: 0,
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           cubit.changePage(index: index);
@@ -41,49 +43,40 @@ class BottomNavBarWidget extends StatelessWidget {
             icon: const Icon(Icons.monetization_on, color: Colors.black),
           ),
           BottomNavigationBarItem(
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: const [
-                  Icon(Icons.monetization_on, color: Colors.green),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CircleAvatar(radius: 4, backgroundColor: Colors.green)
-                ],
-              ),
+            activeIcon: Column(
+              children: const [
+                Icon(Icons.wallet_outlined, color: Colors.green),
+                SizedBox(
+                  height: 5,
+                ),
+                CircleAvatar(radius: 4, backgroundColor: Colors.green)
+              ],
             ),
             label: '',
-            icon: const Icon(Icons.monetization_on, color: Colors.black),
+            icon: const Icon(Icons.wallet_outlined, color: Colors.black),
           ),
           BottomNavigationBarItem(
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: const [
-                  Icon(Icons.monetization_on, color: Colors.green),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CircleAvatar(radius: 4, backgroundColor: Colors.green)
-                ],
-              ),
+            activeIcon: Column(
+              children: const [
+                Icon(Icons.leaderboard_outlined, color: Colors.green),
+                SizedBox(
+                  height: 5,
+                ),
+                CircleAvatar(radius: 4, backgroundColor: Colors.green)
+              ],
             ),
             label: '',
-            icon: const Icon(Icons.monetization_on, color: Colors.black),
+            icon: const Icon(Icons.leaderboard_outlined, color: Colors.black),
           ),
           BottomNavigationBarItem(
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: const [
-                  Icon(Icons.settings, color: Colors.green),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CircleAvatar(radius: 4, backgroundColor: Colors.green)
-                ],
-              ),
+            activeIcon: Column(
+              children: const [
+                Icon(Icons.settings, color: Colors.green),
+                SizedBox(
+                  height: 5,
+                ),
+                CircleAvatar(radius: 4, backgroundColor: Colors.green)
+              ],
             ),
             label: '',
             icon: const Icon(Icons.settings, color: Colors.black),
