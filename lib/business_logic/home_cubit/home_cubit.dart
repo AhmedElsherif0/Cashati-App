@@ -2,9 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'home_state.dart';
 
-class GlobalCubit extends Cubit<HomeState> {
-  GlobalCubit() : super(HomeInitial());
+class HomeCubit extends Cubit<HomeState> {
+  HomeCubit() : super(HomeInitial());
 
-  static GlobalCubit get(context) => BlocProvider.of(context);
+  static HomeCubit get(context) => BlocProvider.of(context);
+  bool isSelect = true;
+  void changeExpensesAndIncome(){
+    isSelect = !isSelect;
+    emit(SuccessState());
+  }
 
 }

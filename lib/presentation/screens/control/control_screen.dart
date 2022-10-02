@@ -18,6 +18,7 @@ class ControlScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = GlobalCubit.get(context);
         return Scaffold(
+
             body: cubit.nextPage[cubit.currentIndex],
             bottomNavigationBar: BottomNavBarWidget(cubit: cubit,),);
       },

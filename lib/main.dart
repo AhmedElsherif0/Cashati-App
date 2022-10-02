@@ -10,6 +10,7 @@ import 'package:temp/presentation/screens/user/on_boarding_screens.dart';
 
 import 'business_logic/bloc_observer.dart';
 import 'business_logic/global_cubit/global_cubit.dart';
+import 'business_logic/home_cubit/home_cubit.dart';
 import 'constants/language_manager.dart';
 import 'data/local/cache_helper.dart';
 import 'presentation/router/app_router.dart';
@@ -57,6 +58,8 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: ((context) => GlobalCubit())),
+        BlocProvider(create: ((context) => HomeCubit())),
+
       ],
       child: BlocConsumer<GlobalCubit, GlobalState>(
         listener: (context, state) {},
