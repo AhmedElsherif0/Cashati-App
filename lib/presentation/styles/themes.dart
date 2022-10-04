@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/styles/styles.dart';
 
-class AppTheme{
+class AppTheme {
+  static final AppStyle _appStyle = AppStyle();
 
- static final AppStyle _appStyle = AppStyle();
-
- static ThemeData lightThemeMode = ThemeData(
+  static ThemeData lightThemeMode = ThemeData(
     fontFamily: 'poppins',
     appBarTheme: AppBarTheme(
       elevation: 0.0,
+      toolbarHeight: 2.h,
       titleTextStyle: _appStyle.appBarTitleTextStyle(),
       centerTitle: true,
       backgroundColor: Colors.transparent,
@@ -36,5 +36,4 @@ class AppTheme{
     //   ),
     // ),
   );
-
 }
