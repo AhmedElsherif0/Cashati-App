@@ -1,16 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/data/models/expenses/expenses_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/tab_body_daily_view.dart';
 import 'package:temp/presentation/widgets/tab_view_item_decoration.dart';
 
 class CustomTabBarView extends StatefulWidget {
-  const CustomTabBarView(
-      {Key? key, required this.currentIndex, required this.onTapTabBar})
-      : super(key: key);
+  const CustomTabBarView({
+    Key? key,
+    required this.currentIndex,
+    required this.expensesList,
+    required this.index,
+    required this.pageController,
+  }) : super(key: key);
+
   final int currentIndex;
-  final void Function(int) onTapTabBar;
+  final int index;
+  final List<ExpensesModel> expensesList;
+  final PageController pageController;
 
   @override
   State<CustomTabBarView> createState() => _CustomTabBarViewState();
@@ -18,39 +26,60 @@ class CustomTabBarView extends StatefulWidget {
 
 class _CustomTabBarViewState extends State<CustomTabBarView>
     with TickerProviderStateMixin {
-  /* late TabController _tabController;
+  late TabController tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-    _tabController.animateTo(2);
-  }*/
+    tabController = TabController(length: 3, vsync: this);
+    tabController.animateTo(widget.index);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     String currentTime =
         DateFormat('dd/MM/yyyy').format(DateTime.now().toUtc());
     final currentTimeAfter = currentTime.replaceFirst('0', '');
+    const duration600ms = Duration(milliseconds: 600);
     return DefaultTabController(
-      animationDuration: const Duration(milliseconds: 300),
-      // list.length
+      animationDuration: duration600ms,
       length: 3,
-      initialIndex: widget.currentIndex,
+      initialIndex: widget.pageController.initialPage,
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(
-            onTap: widget.onTapTabBar,
+            onTap: (value) {
+              setState(() {
+                widget.pageController.animateToPage(
+                  tabController.index,
+                  duration: duration600ms,
+                  curve: Curves.easeOut,
+                );
+              });
+            },
+            controller: tabController,
             indicator: BoxDecoration(
                 color: AppColor.primaryColor,
                 borderRadius: BorderRadius.circular(12.sp),
                 border: Border.all(width: 1.sp, color: AppColor.primaryColor)),
             unselectedLabelColor: AppColor.primaryColor,
             labelStyle: Theme.of(context).textTheme.headline6,
-            tabs: const [
-              Tab(child: TabBarItem(text: 'Daily')),
-              Tab(child: TabBarItem(text: 'Weekly')),
-              Tab(child: TabBarItem(text: 'Monthly')),
+            tabs: [
+              Tab(
+                  height: 6.h,
+                  child: TabBarItem(text: widget.expensesList[0].header)),
+              Tab(
+                  height: 6.h,
+                  child: TabBarItem(text: widget.expensesList[1].header)),
+              Tab(
+                  height: 6.h,
+                  child: TabBarItem(text: widget.expensesList[2].header)),
             ],
           ),
         ),
@@ -66,33 +95,31 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             Expanded(
               flex: 20,
               child: TabBarView(
+                controller: tabController,
                 children: [
                   TabBodyView(
-                    isListIsEmpty: false,
-                    expensesName: 'Daily',
-                    listItemCount: 31,
-                    isImportant: true,
+                    expensesName: widget.expensesList[0].header,
+                    listItem: [31, 12, 13],
+                    isImportant: widget.expensesList[0].isImportant,
                     onPressSeeMore: () {},
                     dateTime: currentTimeAfter,
-                    price: '200',
+                    price: '${widget.expensesList[0].price}',
                   ),
                   TabBodyView(
-                    isListIsEmpty: false,
-                    expensesName: 'Weekly',
-                    listItemCount: 4,
-                    isImportant: false,
+                    expensesName: widget.expensesList[1].header,
+                    listItem: [1, 2, 3, 4],
+                    isImportant: widget.expensesList[1].isImportant,
                     onPressSeeMore: () {},
                     dateTime: currentTimeAfter,
-                    price: '200',
+                    price: '${widget.expensesList[1].price}',
                   ),
                   TabBodyView(
-                    isListIsEmpty: false,
-                    expensesName: 'Monthly',
-                    listItemCount: 12,
-                    isImportant: false,
+                    expensesName: widget.expensesList[2].header,
+                    listItem: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                    isImportant: widget.expensesList[2].isImportant,
                     onPressSeeMore: () {},
                     dateTime: currentTimeAfter,
-                    price: '200',
+                    price: '${widget.expensesList[2].price}',
                   ),
                 ],
               ),
