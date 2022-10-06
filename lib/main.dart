@@ -63,6 +63,7 @@ class _MyAppState extends State<MyApp> {
               return LayoutBuilder(builder: (context, constraints) {
                 statusBarConfig();
                 return MaterialApp(
+                  theme: AppTheme.lightThemeMode,
                   debugShowCheckedModeBanner: false,
                   theme: AppTheme.lightThemeMode,
                   localizationsDelegates: translator.delegates,

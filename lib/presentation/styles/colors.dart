@@ -17,6 +17,7 @@ class AppColor {
   static const Color primaryColor = Color(0xFF80bf88);
   static const Color secondColor = Color(0xFF18bc15);
   static const Color murdochGreen = Color(0xFF5d8c64);
+  static const Color dividerColor = Color(0xFFC8F0D2);
   static const Color pineGreen = Color(0xFF3c5a40);
 
   /// linear gradient colors
