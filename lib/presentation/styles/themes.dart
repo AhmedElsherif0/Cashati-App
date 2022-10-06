@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/styles/styles.dart';
 
-import 'colors.dart';
-
 class AppTheme {
   static final AppStyle _appStyle = AppStyle();
 
