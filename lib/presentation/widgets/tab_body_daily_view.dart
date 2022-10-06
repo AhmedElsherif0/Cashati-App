@@ -60,6 +60,7 @@ class TabBodyView extends StatelessWidget {
                           children: [
                             UnderLineTextButton(
                                 onPressed: onPressSeeMore, text: 'see more'),
+
                             const Spacer(),
                             if (isImportant)
                               Card(

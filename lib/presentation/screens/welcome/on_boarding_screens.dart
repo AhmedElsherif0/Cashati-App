@@ -95,7 +95,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(16)),
-                                  backgroundColor: AppColor.primaryColor,
+                     primary: AppColor.primaryColor,
                                 ),
                                 onPressed: () {
                                   if (_currentIndex < 2) {
@@ -143,6 +143,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                     Align(
                       alignment: Alignment.topRight,
                       child: TextButton(
+
                         onPressed: () => navigateToHomeScreen(context),
                         child: const Text(
                           'skip',
