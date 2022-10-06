@@ -10,6 +10,7 @@ class CheckBoxWithText extends StatelessWidget {
         this.textStyle = const TextStyle(fontSize: 20)})
       : super(key: key);
 
+
   final bool value;
   final void Function(bool?) onChange;
   final Color activeColor;
@@ -21,7 +22,7 @@ class CheckBoxWithText extends StatelessWidget {
     return  Center(
         child: Row(children: [
           Transform.scale(
-            scale: 1.5,
+            scale: 0.7,
             child: Checkbox(
               onChanged: onChange,
               value: value,

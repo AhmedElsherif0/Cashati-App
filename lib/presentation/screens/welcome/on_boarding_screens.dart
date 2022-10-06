@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:temp/data/local/cache_helper.dart';
-import 'package:temp/data/models/onbaording_list_of_data.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/logo_name.dart';
+
+import '../../../data/models/onbaording/onbaording_list_of_data.dart';
 
 class OnBoardScreens extends StatefulWidget {
   const OnBoardScreens({Key? key}) : super(key: key);
