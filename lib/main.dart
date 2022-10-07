@@ -4,14 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/business_logic/home_cubit/home_cubit.dart';
 import 'package:temp/presentation/screens/home/control_screen.dart';
-import 'package:temp/presentation/screens/home/expenses_screen.dart';
+import 'package:temp/presentation/styles/themes.dart';
 import 'business_logic/bloc_observer.dart';
 import 'business_logic/global_cubit/global_cubit.dart';
-
 import 'data/local/cache_helper.dart';
 import 'presentation/router/app_router.dart';
-import 'presentation/styles/themes.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +56,6 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(create: ((context) => GlobalCubit())),
         BlocProvider(create: ((context) => HomeCubit())),
-
       ],
       child: BlocConsumer<GlobalCubit, GlobalState>(
         listener: (context, state) {},
@@ -68,7 +67,6 @@ class _MyAppState extends State<MyApp> {
                 return MaterialApp(
                   theme: AppTheme.lightThemeMode,
                   debugShowCheckedModeBanner: false,
-                  theme: AppTheme.lightThemeMode,
                   localizationsDelegates: translator.delegates,
                   // Android + iOS Delegates
                   locale: translator.activeLocale,

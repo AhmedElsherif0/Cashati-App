@@ -43,7 +43,7 @@ dependencies:
   flutter_phoenix: ^1.1.0
   localize_and_translate: ^4.1.1
   flutter_svg: ^1.1.5
-  simple_circular_progress_bar: ^1.0.2
+  dashed_circular_progress_bar: ^0.0.4
   intl: ^0.17.0
   dotted_border: ^2.0.0+2
 
