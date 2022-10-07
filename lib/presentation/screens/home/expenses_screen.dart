@@ -33,8 +33,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           onPageChanged: (value) => setState(() => currentIndex = value),
           itemCount: expensesLists.expensesData.length,
           itemBuilder: (context, index) {
-            int increase = index ;
-            increase ++;
+            int increase = index;
+            increase++;
             return Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
@@ -62,14 +62,15 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
                     /// Flow Chart Widgets.
                     Expanded(
-                      flex: 12,
+                      flex: 15,
                       child: Column(
                         children: [
                           Expanded(
                             flex: 4,
                             child: CircularProgressBarChart(
                               maxExpenses: 10000,
-                              totalExpenses: ValueNotifier(0.0),
+                              totalExpenses: 0,
+                              onPressToHome: () {},
                             ),
                           ),
 
@@ -96,7 +97,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
                     /// TabBarView Widgets.
                     Expanded(
-                      flex: 16,
+                      flex: 20,
                       child: CustomTabBarView(
                           expensesList: expensesLists.expensesData,
                           currentIndex: currentIndex,
@@ -108,7 +109,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               ),
             );
           },
-
         ),
       ),
     );
