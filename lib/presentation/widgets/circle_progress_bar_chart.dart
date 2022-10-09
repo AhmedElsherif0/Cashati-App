@@ -38,7 +38,6 @@ class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
           backgroundStrokeWidth: 10.sp,
           foregroundStrokeWidth: 10.sp,
           circleCenterAlignment: Alignment.center,
-          corners: StrokeCap.butt,
           startAngle: -80,
           ltr: false,
           progress: widget.totalExpenses,
@@ -47,27 +46,33 @@ class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
           child: Center(
             child: Column(
               children: [
-                const Spacer(flex: 5),
-                Text(
-                    widget.totalExpenses != 0.0
-                        ? 'Total Expenses'
-                        : 'No Data To Show',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle1),
+                const Spacer(flex: 2),
+                Expanded(
+                  child: Text(
+                      widget.totalExpenses != 0.0
+                          ? 'Total Expenses'
+                          : 'No Data To Show',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.subtitle1),
+                ),
                 if (widget.totalExpenses != 0)
-                  ValueListenableBuilder(
-                    valueListenable: _valueNotifier,
-                    builder: (_, double value, __) => Text(
-                      '${value.toInt()} LE',
-                      style: Theme.of(context).textTheme.headline5,
+                  Expanded(
+                    child: ValueListenableBuilder(
+                      valueListenable: _valueNotifier,
+                      builder: (_, double value, __) => Text(
+                        '${value.toInt()} LE',
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
                     ),
                   ),
                 if (widget.totalExpenses == 0)
-                  UnderLineTextButton(
-                      text: 'Back To Home',
-                      onPressed: widget.onPressToHome,
-                      textStyle: const TextStyle(fontWeight: FontWeight.w500)),
-                const Spacer(flex: 5),
+                  Expanded(
+                    child: UnderLineTextButton(
+                        text: 'Back To Home',
+                        onPressed: widget.onPressToHome,
+                        textStyle: const TextStyle(fontWeight: FontWeight.w500)),
+                  ),
+                const Spacer(flex: 2),
               ],
             ),
           ),

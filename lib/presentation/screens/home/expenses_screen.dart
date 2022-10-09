@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/data/models/expenses/expenses_lists.dart';
+import 'package:temp/presentation/views/chart_bars_card.dart';
 import 'package:temp/presentation/views/importance_radio_buttons.dart';
 import '../../views/tab_bar_view.dart';
 import '../../widgets/circle_progress_bar_chart.dart';
@@ -31,7 +32,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         child: PageView.builder(
           controller: _controller,
           onPageChanged: (value) => setState(() => currentIndex = value),
-          itemCount: expensesLists.expensesData.length,
+          itemCount: 3,
           itemBuilder: (context, index) {
             int increase = index;
             increase++;
@@ -62,35 +63,37 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
                     /// Flow Chart Widgets.
                     Expanded(
-                      flex: 15,
+                      flex: 16,
                       child: Column(
                         children: [
                           Expanded(
-                            flex: 4,
-                            child: CircularProgressBarChart(
-                              maxExpenses: 10000,
-                              totalExpenses: 0,
-                              onPressToHome: () {},
-                            ),
-                          ),
+                              flex: 4,
+                              child: index == 2
+                                  ? const ChartBarsCard()
+                                  : CircularProgressBarChart(
+                                      maxExpenses: 10000,
+                                      totalExpenses: 5500,
+                                      onPressToHome: () {})),
 
                           /// importance Radio button.
-                          Expanded(
-                            child: Row(
-                              children: [
-                                const Spacer(flex: 10),
-                                if (index == 0)
-                                  Expanded(
-                                    flex: 9,
-                                    child: ImportanceRadioButton(
-                                      groupValue: importanceGroup,
-                                      onChange: (Importance? value) => setState(
-                                          () => importanceGroup = value!),
+                          if (index == 0)
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  const Spacer(flex: 13),
+                                  if (index == 0)
+                                    Expanded(
+                                      flex: 9,
+                                      child: ImportanceRadioButton(
+                                        groupValue: importanceGroup,
+                                        onChange: (Importance? value) =>
+                                            setState(
+                                                () => importanceGroup = value!),
+                                      ),
                                     ),
-                                  ),
-                              ],
-                            ),
-                          )
+                                ],
+                              ),
+                            )
                         ],
                       ),
                     ),
@@ -112,5 +115,24 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         ),
       ),
     );
+  }
+
+  Widget switchWidgets(int currentIndex) {
+    Widget widget = CircularProgressBarChart(
+        maxExpenses: 10000, totalExpenses: 5000, onPressToHome: () {});
+    switch (currentIndex) {
+      case 0:
+        widget = CircularProgressBarChart(
+            maxExpenses: 10000, totalExpenses: 5000, onPressToHome: () {});
+        break;
+      case 1:
+        widget = CircularProgressBarChart(
+            maxExpenses: 10000, totalExpenses: 5000, onPressToHome: () {});
+        break;
+      case 2:
+        widget = ChartBarsCard();
+        break;
+    }
+    return widget;
   }
 }
