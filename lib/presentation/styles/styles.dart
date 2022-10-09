@@ -51,8 +51,8 @@ class AppStyle {
       fontSize: 12, fontWeight: FontWeight.w400, color: AppColor.grey);
 
   TextStyle captionTheme() => TextStyle(
-      fontSize: 10.sp,
-      fontWeight: FontWeight.w200,
+      fontSize: 8.sp,
+      fontWeight: FontWeight.w500,
       color: AppColor.pineGreen);
 
 

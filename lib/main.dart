@@ -6,6 +6,7 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/home_cubit/home_cubit.dart';
 import 'package:temp/presentation/screens/home/control_screen.dart';
+import 'package:temp/presentation/screens/home/expenses_screen.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'business_logic/bloc_observer.dart';
 import 'business_logic/global_cubit/global_cubit.dart';
@@ -73,7 +74,7 @@ class _MyAppState extends State<MyApp> {
                   // Active locale
                   supportedLocales: translator.locals(),
                   //home: ExpensesScreen()// Locals list
-                  home: ControlScreen(),
+                  home: ExpensesScreen(),
                 );
               });
             },
