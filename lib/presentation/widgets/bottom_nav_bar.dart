@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sizer/sizer.dart';
 import '../../business_logic/global_cubit/global_cubit.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
@@ -22,6 +23,7 @@ class BottomNavBarWidget extends StatelessWidget {
       child: BottomNavigationBar(
         // unselectedIconTheme: const IconThemeData(size: 40),
         elevation: 9,
+        iconSize: 16.sp,
         currentIndex: cubit.currentIndex,
         showUnselectedLabels: true,
         showSelectedLabels: true,

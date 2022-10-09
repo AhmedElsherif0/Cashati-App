@@ -26,6 +26,7 @@ class AppTheme {
       bodyText2: _appStyle.bodyText2Theme(),
       subtitle1: _appStyle.subtitle1Theme(),
       subtitle2: _appStyle.subtitle2Theme(),
+      caption: _appStyle.captionTheme(),
     ),
     // inputDecorationTheme: const InputDecorationTheme(
     //   enabledBorder: UnderlineInputBorder(

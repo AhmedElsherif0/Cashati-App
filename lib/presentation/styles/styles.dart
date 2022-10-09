@@ -7,8 +7,8 @@ class AppStyle {
   TextStyle headline1Theme() => const TextStyle(
       fontWeight: FontWeight.w600, color: AppColor.black, fontSize: 32);
 
-  TextStyle headline2Theme() => const TextStyle(
-      fontSize: 24,
+  TextStyle headline2Theme() =>  TextStyle(
+      fontSize: 20.6.sp,
       fontWeight: FontWeight.w600,
       color: AppColor.pineGreen,
       letterSpacing: -0.3);
@@ -49,6 +49,12 @@ class AppStyle {
 
   TextStyle subtitle2Theme() => const TextStyle(
       fontSize: 12, fontWeight: FontWeight.w400, color: AppColor.grey);
+
+  TextStyle captionTheme() => TextStyle(
+      fontSize: 8.sp,
+      fontWeight: FontWeight.w500,
+      color: AppColor.pineGreen);
+
 
   TextStyle appBarTitleTextStyle() => TextStyle(
       fontSize: 16.sp,

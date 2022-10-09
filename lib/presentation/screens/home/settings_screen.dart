@@ -11,7 +11,6 @@ class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -157,5 +156,6 @@ class SettingsScreen extends StatelessWidget {
       indent: 14.3,
       endIndent: 14.3,
     );
+
   }
 }
