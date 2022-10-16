@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/data/models/expenses/expenses_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/widgets/tab_body_daily_view.dart';
-import 'package:temp/presentation/widgets/tab_view_item_decoration.dart';
+import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_body_daily_view.dart';
+import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 
 class CustomTabBarView extends StatefulWidget {
   const CustomTabBarView({
@@ -13,9 +13,11 @@ class CustomTabBarView extends StatefulWidget {
     required this.expensesList,
     required this.index,
     required this.pageController,
+    required this.priorityName,
   }) : super(key: key);
 
   final int currentIndex;
+  final String priorityName;
   final int index;
   final List<ExpensesModel> expensesList;
   final PageController pageController;
@@ -65,9 +67,10 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             },
             controller: tabController,
             indicator: BoxDecoration(
-                color: AppColor.primaryColor,
-                borderRadius: BorderRadius.circular(12.sp),
-                border: Border.all(width: 1.sp, color: AppColor.primaryColor)),
+              color: AppColor.primaryColor,
+              borderRadius: BorderRadius.circular(12.sp),
+              border: Border.all(width: 1.sp, color: AppColor.primaryColor),
+            ),
             unselectedLabelColor: AppColor.primaryColor,
             labelStyle: Theme.of(context).textTheme.headline6,
             tabs: [
@@ -93,30 +96,39 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             ),
             const Spacer(),
             Expanded(
-              flex: 20,
+              flex: 32,
               child: TabBarView(
                 controller: tabController,
                 children: [
+
+                  /// Daily List of Details Card
                   TabBodyView(
+                    priorityName: widget.priorityName,
                     expensesName: widget.expensesList[0].header,
                     listItem: [31, 12, 13],
-                    isImportant: widget.expensesList[0].isImportant,
+                    isPriority: widget.expensesList[0].isImportant,
                     onPressSeeMore: () {},
                     dateTime: currentTimeAfter,
                     price: '${widget.expensesList[0].price}',
                   ),
+
+                  /// Weekly List of Details Card
                   TabBodyView(
+                    priorityName: widget.priorityName,
                     expensesName: widget.expensesList[1].header,
                     listItem: [1, 2, 3, 4],
-                    isImportant: widget.expensesList[1].isImportant,
+                    isPriority: widget.expensesList[1].isImportant,
                     onPressSeeMore: () {},
-                    dateTime: currentTimeAfter,
+                    dateTime: 'From $currentTime To $currentTimeAfter',
                     price: '${widget.expensesList[1].price}',
                   ),
+
+                  /// Monthly List of Details Card
                   TabBodyView(
+                    priorityName: widget.priorityName,
                     expensesName: widget.expensesList[2].header,
                     listItem: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                    isImportant: widget.expensesList[2].isImportant,
+                    isPriority: widget.expensesList[2].isImportant,
                     onPressSeeMore: () {},
                     dateTime: currentTimeAfter,
                     price: '${widget.expensesList[2].price}',

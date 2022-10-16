@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../data/models/expenses/expenses_lists.dart';
 import '../../data/models/expenses/expenses_model.dart';
-import '../widgets/chart_bar.dart';
+import '../widgets/expenses_and_income_widgets/chart_bar.dart';
 
 class ChartBarsCard extends StatelessWidget {
   const ChartBarsCard({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class ChartBarsCard extends StatelessWidget {
           index: index,
           height: groupExpensesValues[index]['amount'] / 100,
           percentage: groupExpensesValues[index]['day'],
-          after: groupExpensesValues[index]['amount'] / 100,
+          after: recentExpense[index].price / 100,
         ),
       );
   }
