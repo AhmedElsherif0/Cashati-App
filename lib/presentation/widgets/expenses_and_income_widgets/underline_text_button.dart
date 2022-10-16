@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../styles/colors.dart';
+import '../../styles/colors.dart';
 
 class UnderLineTextButton extends StatelessWidget {
-  const UnderLineTextButton(
-      {Key? key, required this.onPressed, required this.text, this.textStyle})
-      : super(key: key);
+  const UnderLineTextButton({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+    this.textStyle,
+  }) : super(key: key);
   final void Function() onPressed;
   final String text;
-  final  TextStyle? textStyle;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,8 @@ class UnderLineTextButton extends StatelessWidget {
             decorationThickness: 2,
             decorationColor: AppColor.pineGreen),
         foregroundColor: AppColor.pineGreen,
-        padding: EdgeInsets.zero,),
+        padding: EdgeInsets.zero,
+      ),
       child: Text(text, style: textStyle),
     );
   }
