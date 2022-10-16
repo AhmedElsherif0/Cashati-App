@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../styles/colors.dart';
+import '../../styles/colors.dart';
 
 class ChartBar extends StatelessWidget {
   const ChartBar(
@@ -15,12 +15,13 @@ class ChartBar extends StatelessWidget {
       : super(key: key);
 
   final double? height;
-  final double after;
+  final num after;
   final int index;
   final String percentage;
 
   @override
   Widget build(BuildContext context) {
+
     final textTheme =
         Theme.of(context).textTheme.headline6?.copyWith(fontSize: 8.5.sp);
     return Column(

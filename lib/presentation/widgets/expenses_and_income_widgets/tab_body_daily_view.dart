@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/constants/app_icons.dart';
 
-import '../styles/colors.dart';
+import '../../styles/colors.dart';
 import 'underline_text_button.dart';
 
 class TabBodyView extends StatelessWidget {
@@ -9,16 +10,20 @@ class TabBodyView extends StatelessWidget {
       {Key? key,
       required this.listItem,
       required this.expensesName,
-      required this.isImportant,
+      required this.isPriority,
       required this.price,
       required this.dateTime,
-      required this.onPressSeeMore})
+      required this.onPressSeeMore,
+      this.priorityName = 'Important',
+      this.priceColor = AppColor.red})
       : super(key: key);
 
-  final bool isImportant;
+  final bool isPriority;
   final List listItem;
   final String expensesName;
+  final String priorityName;
   final String price;
+  final Color priceColor;
   final String dateTime;
   final void Function() onPressSeeMore;
 
@@ -26,7 +31,7 @@ class TabBodyView extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return listItem.isEmpty
-        ? Image.asset('assets/images/No data-cuate 1.png')
+        ? Image.asset(AppIcons.noDataCate)
         : ListView.builder(
             itemCount: listItem.length,
             itemBuilder: (_, index) => Column(
@@ -46,9 +51,13 @@ class TabBodyView extends StatelessWidget {
                           children: [
                             Text(expensesName, style: textTheme.headline5),
                             const Spacer(),
-                            Text('${price} LE',
-                                style: textTheme.headline5
-                                    ?.copyWith(color: Colors.red)),
+                            Text(
+                              '${price} LE',
+                              style: textTheme.headline5?.copyWith(
+                                  color: priorityName == 'Important'
+                                      ? AppColor.red
+                                      : AppColor.primaryColor),
+                            ),
                           ],
                         ),
                         SizedBox(height: 1.h),
@@ -60,9 +69,8 @@ class TabBodyView extends StatelessWidget {
                           children: [
                             UnderLineTextButton(
                                 onPressed: onPressSeeMore, text: 'see more'),
-
                             const Spacer(),
-                            if (isImportant)
+                            if (isPriority)
                               Card(
                                 margin: EdgeInsets.zero,
                                 shape: RoundedRectangleBorder(
@@ -74,15 +82,12 @@ class TabBodyView extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        'Important',
-                                        style: TextStyle(
-                                            color: AppColor.pineGreen,
-                                            fontSize: 8.sp,
-                                            fontWeight: FontWeight.bold),
+                                        priorityName,
+                                        style: textTheme.caption,
                                       ),
                                       Icon(Icons.circle,
                                           color: AppColor.secondColor,
-                                          size: 16.sp),
+                                          size: 14.sp)
                                     ],
                                   ),
                                 ),
@@ -93,7 +98,7 @@ class TabBodyView extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 4.h)
+                SizedBox(height: 3.h)
               ],
             ),
           );

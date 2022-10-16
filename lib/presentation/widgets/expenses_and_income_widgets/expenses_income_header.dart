@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:temp/presentation/widgets/under_line_divider.dart';
 
-import '../styles/colors.dart';
-import 'custom_text_button.dart';
+import '../../styles/colors.dart';
+import '../custom_text_button.dart';
 
 
 class ExpensesAndIncomeHeader extends StatelessWidget {
