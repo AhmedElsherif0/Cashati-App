@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sizer/sizer.dart';
 
 import '../styles/colors.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar(
-      {Key? key,
-      required this.title,
-      required this.onTapBack,
-      required this.onTanNotification})
-      : super(key: key);
+  const CustomAppBar({
+    Key? key,
+    required this.title,
+    required this.onTapBack,
+    this.onTanNotification,
+    this.textStyle,
+    this.isEndIconVisible = true,
+  }) : super(key: key);
+
   final String title;
+  final TextStyle? textStyle;
   final Function() onTapBack;
-  final Function() onTanNotification;
+  final Function()? onTanNotification;
+  final bool isEndIconVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -20,30 +26,35 @@ class CustomAppBar extends StatelessWidget {
       children: [
         Expanded(
           flex: 1,
-          child: InkWell(
-            onTap: onTapBack,
-            child: const Icon(
-              Icons.arrow_back_ios,
-              size: 30,
-              color: AppColor.pineGreen,
-            ),
+          child: IconButton(
+            color: AppColor.pineGreen,
+            icon: const Icon(Icons.arrow_back_ios, size: 30),
+            onPressed: onTapBack,
           ),
         ),
         Expanded(
           flex: 3,
           child: Center(
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.headline5!.copyWith(
-                  color: Color(0xff80BF88), fontWeight: FontWeight.w700),
-            ),
+            child: Text(title,
+                style: textStyle ?? Theme.of(context).textTheme.headline4),
           ),
         ),
         Expanded(
-            flex: 1,
+          flex: 1,
+          child: Visibility(
+            visible: isEndIconVisible,
             child: InkWell(
-                onTap: onTanNotification,
-                child: SvgPicture.asset('assets/images/notification.svg')))
+              borderRadius: BorderRadius.zero,
+              radius: 0.0,
+              onTap: onTanNotification,
+              child: SvgPicture.asset(
+                'assets/images/notification.svg',
+                height: 24.sp,
+                width: 24.sp,
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
