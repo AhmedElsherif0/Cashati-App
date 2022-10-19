@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/data/models/expenses/expenses_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_body_daily_view.dart';
+import 'package:temp/presentation/views/tab_card_View.dart';
+
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
+
+import '../../constants/enum_classes.dart';
 
 class CustomTabBarView extends StatefulWidget {
   const CustomTabBarView({
@@ -100,9 +103,8 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
               child: TabBarView(
                 controller: tabController,
                 children: [
-
                   /// Daily List of Details Card
-                  TabBodyView(
+                  TabCardView(
                     priorityName: widget.priorityName,
                     expensesName: widget.expensesList[0].header,
                     listItem: [31, 12, 13],
@@ -110,10 +112,12 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                     onPressSeeMore: () {},
                     dateTime: currentTimeAfter,
                     price: '${widget.expensesList[0].price}',
+                    isVisible: true,
+                    seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                   ),
 
                   /// Weekly List of Details Card
-                  TabBodyView(
+                  TabCardView(
                     priorityName: widget.priorityName,
                     expensesName: widget.expensesList[1].header,
                     listItem: [1, 2, 3, 4],
@@ -121,10 +125,11 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                     onPressSeeMore: () {},
                     dateTime: 'From $currentTime To $currentTimeAfter',
                     price: '${widget.expensesList[1].price}',
+                    isVisible: true,
+                    seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                   ),
-
                   /// Monthly List of Details Card
-                  TabBodyView(
+                  TabCardView(
                     priorityName: widget.priorityName,
                     expensesName: widget.expensesList[2].header,
                     listItem: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -132,6 +137,8 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                     onPressSeeMore: () {},
                     dateTime: currentTimeAfter,
                     price: '${widget.expensesList[2].price}',
+                    isVisible: true,
+                    seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                   ),
                 ],
               ),
