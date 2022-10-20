@@ -9,6 +9,7 @@ class ExpensesLists {
   int weekDate = DateTime.now().weekday;
   int monthDate = DateTime.now().weekday;
 
+
   List<ExpensesModel> expensesData = [
     ExpensesModel(
         header: 'Daily',

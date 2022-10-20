@@ -8,17 +8,20 @@ class UnderLineTextButton extends StatelessWidget {
     Key? key,
     required this.onPressed,
     required this.text,
-    this.textStyle,
+    this.textStyle  , this.decorationColor = AppColor.pineGreen,
   }) : super(key: key);
+
   final void Function() onPressed;
   final String text;
   final TextStyle? textStyle;
+  final Color? decorationColor;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onPressed,
       style: TextButton.styleFrom(
+        foregroundColor:decorationColor,
+        padding: EdgeInsets.zero,
         textStyle: TextStyle(
             color: AppColor.pineGreen,
             fontSize: 12.4.sp,
@@ -26,10 +29,10 @@ class UnderLineTextButton extends StatelessWidget {
             decoration: TextDecoration.underline,
             decorationStyle: TextDecorationStyle.solid,
             decorationThickness: 2,
-            decorationColor: AppColor.pineGreen),
-        foregroundColor: AppColor.pineGreen,
-        padding: EdgeInsets.zero,
+            decorationColor:decorationColor,
+        ),
       ),
+      onPressed: onPressed,
       child: Text(text, style: textStyle),
     );
   }

@@ -4,7 +4,8 @@ class ExpensesModel {
   String header = 'Daily';
   String chooseDate = 'Choose day';
   String chooseInnerData = 'Day';
-  String totalExpenses = 'Total Expenses';
+  String totalExpenses = 'Total';
+  String priorityName = 'Important';
   num price = 0.0;
   DateTime dateTime = DateTime.now();
   bool isImportant = false;

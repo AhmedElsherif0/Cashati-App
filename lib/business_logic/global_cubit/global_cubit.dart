@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:temp/presentation/screens/home/statistics_income_screen.dart';
 import '../../presentation/screens/home/category_screen.dart';
-import '../../presentation/screens/home/expenses_screen.dart';
+import '../../presentation/screens/home/statistics_expenses_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
 import '../../presentation/screens/home/settings_screen.dart';
 
@@ -22,6 +23,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     const HomeScreen(),
     const CategoryScreen(),
     const ExpensesScreen(),
+    const IncomeScreen(),
     const SettingsScreen()
   ];
 

@@ -4,9 +4,8 @@ import 'package:temp/data/models/expenses/expenses_lists.dart';
 import 'package:temp/presentation/views/chart_bars_card.dart';
 import 'package:temp/presentation/views/importance_radio_buttons.dart';
 import '../../views/tab_bar_view.dart';
-import '../../widgets/circle_progress_bar_chart.dart';
-import '../../widgets/drop_down_button.dart';
-import '../../widgets/radio_button_list_tile.dart';
+import '../../widgets/expenses_and_income_widgets/circle_progress_bar_chart.dart';
+import '../../widgets/expenses_and_income_widgets/drop_down_button.dart';
 
 class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({Key? key}) : super(key: key);
@@ -18,6 +17,43 @@ class ExpensesScreen extends StatefulWidget {
 class _ExpensesScreenState extends State<ExpensesScreen> {
   final PageController _controller = PageController(initialPage: 0);
   Importance importanceGroup = Importance.importantExpense;
+
+  Widget switchWidgets(int currentIndex) {
+    Widget widget = CircularProgressBarChart(
+      header: 'expense',
+      maxExpenses: 10000,
+      totalExpenses: 5000,
+      onPressToHome: () {},
+    );
+    switch (currentIndex) {
+      case 0:
+        widget = CircularProgressBarChart(
+          header: 'expense',
+          maxExpenses: 10000,
+          totalExpenses: 5000,
+          onPressToHome: () {},
+        );
+        break;
+      case 1:
+        widget = CircularProgressBarChart(
+          header: 'expense',
+          maxExpenses: 10000,
+          totalExpenses: 5000,
+          onPressToHome: () {},
+        );
+        break;
+      case 2:
+        widget = const ChartBarsCard();
+        break;
+    }
+    return widget;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +77,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Column(
                   children: [
-                    Text('${expensesLists.expensesData[index].header} expenses',
+                    Text('Statistics expenses',
                         style: textTheme.headline2),
                     DefaultDropDownButton(
                       selectedValue:
@@ -55,8 +91,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                         '${(expensesLists.expensesData[index].chooseInnerData)}${5}',
                         '${(expensesLists.expensesData[index].chooseInnerData)}${5}',
                         '${(expensesLists.expensesData[index].chooseInnerData)}${5}',
-                        '${(expensesLists.expensesData[index].chooseInnerData)}${5}',
-                        '${(expensesLists.expensesData[index].chooseInnerData)}${5}',
                       ],
                     ),
                     const Spacer(),
@@ -66,14 +100,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       flex: 16,
                       child: Column(
                         children: [
-                          Expanded(
-                              flex: 4,
-                              child: index == 2
-                                  ? const ChartBarsCard()
-                                  : CircularProgressBarChart(
-                                      maxExpenses: 10000,
-                                      totalExpenses: 5500,
-                                      onPressToHome: () {})),
+                          Expanded(flex: 4, child: switchWidgets(index)),
 
                           /// importance Radio button.
                           if (index == 0)
@@ -85,6 +112,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                     Expanded(
                                       flex: 9,
                                       child: ImportanceRadioButton(
+                                        firstRadio: 'Important Expense',
+                                        secondRadio: 'Not Important Expense',
                                         groupValue: importanceGroup,
                                         onChange: (Importance? value) =>
                                             setState(
@@ -102,6 +131,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                     Expanded(
                       flex: 20,
                       child: CustomTabBarView(
+                          priorityName: 'Important',
                           expensesList: expensesLists.expensesData,
                           currentIndex: currentIndex,
                           index: index,
@@ -115,24 +145,5 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         ),
       ),
     );
-  }
-
-  Widget switchWidgets(int currentIndex) {
-    Widget widget = CircularProgressBarChart(
-        maxExpenses: 10000, totalExpenses: 5000, onPressToHome: () {});
-    switch (currentIndex) {
-      case 0:
-        widget = CircularProgressBarChart(
-            maxExpenses: 10000, totalExpenses: 5000, onPressToHome: () {});
-        break;
-      case 1:
-        widget = CircularProgressBarChart(
-            maxExpenses: 10000, totalExpenses: 5000, onPressToHome: () {});
-        break;
-      case 2:
-        widget = ChartBarsCard();
-        break;
-    }
-    return widget;
   }
 }

@@ -25,7 +25,7 @@ mixin AlertDialogMixin {
                   Expanded(
                     flex: 3,
                     child: SvgPicture.asset(
-                        'assets/images/successfully_added.svg'),
+                        'assets/icons/successfully_added.svg'),
                   ),
                   const Spacer(),
                   Expanded(

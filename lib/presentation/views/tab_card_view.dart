@@ -1,31 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
+import '../../constants/enum_classes.dart';
+import '../styles/colors.dart';
+import '../widgets/expenses_and_income_widgets/underline_text_button.dart';
 
-import '../../styles/colors.dart';
-import 'underline_text_button.dart';
 
-class TabBodyView extends StatelessWidget {
-  const TabBodyView(
-      {Key? key,
-      required this.listItem,
-      required this.expensesName,
-      required this.isPriority,
-      required this.price,
-      required this.dateTime,
-      required this.onPressSeeMore,
-      this.priorityName = 'Important',
-      this.priceColor = AppColor.red})
-      : super(key: key);
+class TabCardView extends StatelessWidget {
+  const TabCardView({
+    Key? key,
+    required this.listItem,
+    required this.expensesName,
+    required this.isPriority,
+    required this.price,
+    required this.dateTime,
+    required this.onPressSeeMore,
+    this.priorityName = 'Important',
+    this.priceColor = AppColor.red,
+    required this.isVisible, this.seeMoreOrDetailsOrHighest,
+     this.transaction = 'Expenses',
+  }) : super(key: key);
 
   final bool isPriority;
+  final bool isVisible;
   final List listItem;
   final String expensesName;
+  final String transaction;
   final String priorityName;
   final String price;
   final Color priceColor;
   final String dateTime;
   final void Function() onPressSeeMore;
+  final SwitchWidgets? seeMoreOrDetailsOrHighest;
+
+  Widget switchWidgets(SwitchWidgets? switchWidgets, TextTheme textTheme) {
+    Widget widget = const SizedBox.shrink();
+    switch (switchWidgets) {
+      case SwitchWidgets.higherExpenses:
+        widget = _highestExpenses(textTheme);
+        break;
+      case SwitchWidgets.seeMore:
+        widget =
+            UnderLineTextButton(onPressed: onPressSeeMore, text: 'see more');
+        break;
+      default:
+        widget = const SizedBox.shrink();
+    }
+    return widget;
+  }
+
+  Widget _highestExpenses(textTheme) => Row(
+        children: [
+          Icon(Icons.circle, color: AppColor.red, size: 10.sp),
+          SizedBox(width: 0.2.w),
+          Text('Highest $transaction', style: textTheme.subtitle1),
+        ],
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +63,12 @@ class TabBodyView extends StatelessWidget {
     return listItem.isEmpty
         ? Image.asset(AppIcons.noDataCate)
         : ListView.builder(
+            padding: EdgeInsets.zero,
             itemCount: listItem.length,
             itemBuilder: (_, index) => Column(
               children: [
                 Card(
-                  margin: EdgeInsets.symmetric(horizontal: 8.sp),
+                  margin: EdgeInsets.symmetric(horizontal: 16.sp),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.sp)),
                   elevation: 4.sp,
@@ -53,10 +84,8 @@ class TabBodyView extends StatelessWidget {
                             const Spacer(),
                             Text(
                               '${price} LE',
-                              style: textTheme.headline5?.copyWith(
-                                  color: priorityName == 'Important'
-                                      ? AppColor.red
-                                      : AppColor.primaryColor),
+                              style: textTheme.headline5
+                                  ?.copyWith(color: priceColor),
                             ),
                           ],
                         ),
@@ -67,8 +96,10 @@ class TabBodyView extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            UnderLineTextButton(
-                                onPressed: onPressSeeMore, text: 'see more'),
+                            Visibility(
+                                visible: isVisible,
+                                child: switchWidgets(
+                                    seeMoreOrDetailsOrHighest, textTheme)),
                             const Spacer(),
                             if (isPriority)
                               Card(
@@ -83,7 +114,7 @@ class TabBodyView extends StatelessWidget {
                                     children: [
                                       Text(
                                         priorityName,
-                                        style: textTheme.caption,
+                                        style: textTheme.caption
                                       ),
                                       Icon(Icons.circle,
                                           color: AppColor.secondColor,

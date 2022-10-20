@@ -5,11 +5,22 @@ import 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
 
-  static HomeCubit get(context) => BlocProvider.of(context);
-  bool isSelect = true;
-  void changeExpensesAndIncome(){
-    isSelect = !isSelect;
+  bool isExpense = true;
+  void isItExpense() {
+    isExpense = !isExpense;
     emit(SuccessState());
   }
 
+  void onAddExpense(){
+
+  }
+  void onAddIncome(){
+
+  }
+  void onShowExpense(){
+
+  }
+  void onShowIncome(){
+
+  }
 }
