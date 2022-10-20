@@ -8,16 +8,18 @@ class CustomAppBar extends StatelessWidget {
   const CustomAppBar({
     Key? key,
     required this.title,
-    required this.onTapBack,
+    this.onTapFirstIcon,
     this.onTanNotification,
     this.textStyle,
     this.isEndIconVisible = true,
+    this.firstIcon = Icons.arrow_back_ios,
   }) : super(key: key);
 
   final String title;
   final TextStyle? textStyle;
-  final Function() onTapBack;
-  final Function()? onTanNotification;
+  final void Function()? onTapFirstIcon;
+  final void Function()? onTanNotification;
+  final IconData? firstIcon;
   final bool isEndIconVisible;
 
   @override
@@ -26,11 +28,19 @@ class CustomAppBar extends StatelessWidget {
       children: [
         Expanded(
           flex: 1,
-          child: IconButton(
-            color: AppColor.pineGreen,
-            icon: const Icon(Icons.arrow_back_ios, size: 30),
-            onPressed: onTapBack,
-          ),
+          child: firstIcon == Icons.arrow_back_ios
+              ? IconButton(
+                  color: AppColor.pineGreen,
+                  icon: Icon(firstIcon, size: 24.sp),
+                  onPressed: onTapFirstIcon ?? () => Navigator.of(context).pop,
+                )
+              : InkWell(
+                  borderRadius: BorderRadius.zero,
+                  radius: 0.0,
+                  onTap: onTapFirstIcon,
+                  child: SvgPicture.asset('assets/icons/Group.svg',
+                      height: 24.sp, width: 24.sp),
+                ),
         ),
         Expanded(
           flex: 3,
@@ -49,8 +59,8 @@ class CustomAppBar extends StatelessWidget {
               onTap: onTanNotification,
               child: SvgPicture.asset(
                 'assets/images/notification.svg',
-                height: 24.sp,
-                width: 24.sp,
+                height: 22.sp,
+                width: 22.sp,
               ),
             ),
           ),

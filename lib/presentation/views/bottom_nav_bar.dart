@@ -24,7 +24,7 @@ class BottomNavBarWidget extends StatelessWidget {
       child: BottomNavigationBar(
         // unselectedIconTheme: const IconThemeData(size: 40),
         elevation: 9,
-        iconSize: 16.sp,
+        iconSize: 30.sp,
         currentIndex: cubit.currentIndex,
         showUnselectedLabels: true,
         showSelectedLabels: true,
@@ -47,7 +47,7 @@ class BottomNavBarWidget extends StatelessWidget {
       BottomNavigationBarItem(
         activeIcon: Column(
           children: [
-            SvgPicture.asset(svgAsset, color: Colors.green),
+            SvgPicture.asset(svgAsset, color: Colors.green,height: 24.sp,),
             const SizedBox(height: 5),
             const CircleAvatar(radius: 4, backgroundColor: Colors.green)
           ],

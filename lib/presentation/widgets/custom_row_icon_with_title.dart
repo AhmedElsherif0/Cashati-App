@@ -31,16 +31,14 @@ class RowIconWithTitle extends StatelessWidget {
               ),
               const Spacer(),
               Expanded(
-                flex: 6,
-                child:
-                    Text(title, style: Theme.of(context).textTheme.headline6),
+                flex: 8,
+                child: Text(title,
+                    style: Theme.of(context).textTheme.headline6,
+                    overflow: TextOverflow.ellipsis),
               ),
               Expanded(
-                flex: 4,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: endIcon
-                ),
+                flex: 2,
+                child: Align(alignment: Alignment.centerRight, child: endIcon),
               ),
               const Spacer()
             ],

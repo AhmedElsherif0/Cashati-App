@@ -8,114 +8,85 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import '../../../business_logic/global_cubit/global_cubit.dart';
+import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
 import '../../../business_logic/home_cubit/home_cubit.dart';
 import '../../../business_logic/home_cubit/home_state.dart';
 import '../../../constants/language_manager.dart';
 import '../../views/card_home.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../widgets/expenses_and_income_widgets/underline_text_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeState>(
+    final textTheme = Theme.of(context).textTheme;
+    return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        var cubit = HomeCubit.get(context);
-        return Padding(
-          padding: const EdgeInsets.only(top: 90),
-          child: Column(
+        return Scaffold(
+          appBar: AppBar(),
+          body: Column(
             children: [
               CustomAppBar(
                 title: 'Home',
-                onTapBack: () {},
+                onTapFirstIcon: () {},
                 onTanNotification: () {},
+                firstIcon: Icons.menu,
               ),
-              Column(
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 30, right: 30, top: 80),
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            cubit.changeExpensesAndIncome();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                              bottom: 5, // Space between underline and text
-                            ),
-                            decoration: BoxDecoration(
-                              border: cubit.isSelect ? const Border(
-                                bottom: BorderSide(
-                                  color: Colors.green,
-                                  width: 2,
-                                ),
-                              ):null,
-                            ),
-                            child: const Text(
-                              "Expenses",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: () {
-                            cubit.changeExpensesAndIncome();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                              bottom: 5, // Space between underline and text
-                            ),
-                            decoration:  BoxDecoration(
-                              border:!cubit.isSelect? const Border(
-                                bottom: BorderSide(
-                                  color: Colors.green,
-                                  width: 2,
-                                ),
-                              ):null,
-                            ),
-                            child: const Text(
-                              "Income",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4.h,
-                  ),
-                  cubit.isSelect
-                      ? CardHome(
-                          title: "Expenses",
-                          onTapPressed: () {},
-                          onTapShow: () {},
-                        )
-                      : CardHome(
-                          title: 'Income',
-                          onTapPressed: () {},
-                          onTapShow: () {},
-                        )
-                ],
+              const Spacer(flex: 3),
+
+              /// switch between expense and income.
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14.0.sp),
+                  child: ExpensesAndIncomeHeader(
+                      onPressedIncome: () => cubit(context).isExpense
+                          ? cubit(context).isItExpense()
+                          : null,
+                      onPressedExpense: () => !cubit(context).isExpense
+                      ? cubit(context).isItExpense() : null,
+                      isExpense: cubit(context).isExpense),
+                ),
               ),
+              Expanded(
+                flex: 14,
+                child: CardHome(
+                  title: cubit(context).isExpense ? 'Expense' : 'Income',
+                  onPressedAdd: cubit(context).isExpense
+                      ? cubit(context).onAddExpense
+                      : cubit(context).onAddIncome,
+                  onPressedShow: cubit(context).isExpense
+                      ? cubit(context).onShowExpense
+                      : cubit(context).onShowIncome,
+                ),
+              ),
+              const Spacer(),
             ],
           ),
         );
       },
-      listener: (context, state) {},
+    );
+  }
+
+  HomeCubit cubit(context) => BlocProvider.of<HomeCubit>(context);
+
+  Widget missingWidget(cubit, textTheme) {
+    return Column(
+      children: [
+        cubit.isSelect
+            ? CardHome(
+                title: "Expenses",
+                onPressedAdd: () {},
+                onPressedShow: () {},
+              )
+            : CardHome(
+                title: 'Income',
+                onPressedAdd: () {},
+                onPressedShow: () {},
+              )
+      ],
     );
   }
 }

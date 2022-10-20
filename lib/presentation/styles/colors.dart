@@ -15,10 +15,16 @@ class AppColor {
   static const Color mintGreen = Color(0xFFa1f2ac);
   static const Color lightGreen = Color(0xFFaaffb5);
   static const Color primaryColor = Color(0xFF80bf88);
-  static const Color secondColor = Color(0xFF18bc15);
+  static const Color secondColor = Color(0xff18bc15);
   static const Color murdochGreen = Color(0xFF5d8c64);
   static const Color dividerColor = Color(0xFFC8F0D2);
   static const Color pineGreen = Color(0xFF3c5a40);
+
+  /// General Colors.
+  static const Color yellow = Color(0xFFE99415);
+  static const Color red   = Color(0xFFAD383F);
+  static const Color blue   = Color(0xFF154EBC);
+  static const Color green   = Color(0xFF137D11);
 
   /// linear gradient colors
   static const List<Color> defaultLinearGradient = [

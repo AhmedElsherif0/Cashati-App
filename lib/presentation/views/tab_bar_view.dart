@@ -115,7 +115,6 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                     isVisible: true,
                     seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                   ),
-
                   /// Weekly List of Details Card
                   TabCardView(
                     priorityName: widget.priorityName,

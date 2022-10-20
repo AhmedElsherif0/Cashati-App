@@ -2,14 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
+import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
 import '../styles/colors.dart';
 import '../widgets/cancel_confirm_text_button.dart';
 import '../widgets/custom_row_icon_with_title.dart';
 
-class ConfirmPayingCard extends StatelessWidget {
-  const ConfirmPayingCard({Key? key}) : super(key: key);
+class ConfirmPayingExpense extends StatelessWidget {
+  const ConfirmPayingExpense({
+    Key? key,
+    required this.amount,
+    required this.onEditAmount,
+    required this.onDetails,
+    required this.index,
+    required this.date,
+    required this.onDelete,
+    required this.onCancel,
+    required this.onConfirm,
+  }) : super(key: key);
+
+  final int index;
+  final double amount;
+  final String date;
+  final void Function() onEditAmount;
+  final void Function() onDetails;
+  final void Function() onDelete;
+  final void Function() onCancel;
+  final void Function() onConfirm;
 
   @override
   Widget build(BuildContext context) {
@@ -26,22 +46,8 @@ class ConfirmPayingCard extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                          color: AppColor.primaryColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(24.sp),
-                              topRight: Radius.circular(24.sp))),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text('Expense3',
-                            style: textTheme.headline5
-                                ?.copyWith(color: AppColor.white)),
-                      ),
-                    ),
-                  ),
+                  child: ConfirmPayingTitleCard(
+                      cardTitle: 'Expense', index: index),
                 ),
                 const Expanded(
                   child: RowIconWithTitle(
@@ -50,14 +56,17 @@ class ConfirmPayingCard extends StatelessWidget {
                 Expanded(
                   child: RowIconWithTitle(
                     startIcon: AppIcons.poundSterlingSign,
-                    title: '300 LE',
-                    endIcon: SvgPicture.asset(AppIcons.editIcon,
-                        color: AppColor.primaryColor),
+                    title: '${amount.toStringAsFixed(0)} LE',
+                    endIcon: InkWell(
+                      onTap: onEditAmount,
+                      child: SvgPicture.asset(AppIcons.editIcon,
+                          color: AppColor.primaryColor),
+                    ),
                   ),
                 ),
-                const Expanded(
+                 Expanded(
                   child: RowIconWithTitle(
-                      startIcon: AppIcons.calender, title: '23 / 04/ 2022'),
+                      startIcon: AppIcons.calender, title: date),
                 ),
                 Expanded(
                   flex: 2,
@@ -76,18 +85,24 @@ class ConfirmPayingCard extends StatelessWidget {
                                   color: AppColor.primaryColor,
                                 ),
                                 UnderLineTextButton(
-                                    onPressed: () {},
+                                    onPressed: onDetails,
                                     text: 'Details',
-                                    textStyle: textTheme.headline6),
+                                    textStyle: textTheme.headline6?.copyWith(
+                                      decoration: TextDecoration.underline,
+                                      decorationStyle: TextDecorationStyle.solid,
+                                      decorationThickness: 2,
+                                    ),
+                                decorationColor: AppColor.primaryColor),
                               ],
                             ),
                           ),
-                          const Spacer(flex: 4),
+                          const Spacer(flex: 2),
                           Expanded(
                             flex: 3,
-                            child: SvgPicture.asset(
-                              AppIcons.delete,
-                              color: AppColor.primaryColor,
+                            child: InkWell(
+                              onTap: onDelete,
+                              child: SvgPicture.asset(AppIcons.delete,
+                                  color: AppColor.primaryColor),
                             ),
                           ),
                         ],

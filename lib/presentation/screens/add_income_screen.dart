@@ -25,7 +25,6 @@ class AddIncomeScreen extends StatelessWidget {
             children: [
               CustomAppBar(
                   title: 'Week Income',
-                  onTapBack: () => Navigator.of(context).pop,
                   textStyle: textTheme.headline5?.copyWith(fontSize: 17.sp),
                   isEndIconVisible: false),
               Expanded(
@@ -40,7 +39,7 @@ class AddIncomeScreen extends StatelessWidget {
                       child: TabCardView(
                         priorityName: 'Important',
                         expensesName: 'Sat',
-                        listItem: [21, 2],
+                        listItem: const [21, 2],
                         isPriority: expensesList[0].isImportant,
                         onPressSeeMore: () {},
                         dateTime: currentTimeAfter,

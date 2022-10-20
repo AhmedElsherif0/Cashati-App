@@ -23,7 +23,6 @@ class AddExpensesScreen extends StatelessWidget {
           children: [
             CustomAppBar(
                 title: 'Week Expenses',
-                onTapBack: () => Navigator.of(context).pop,
                 textStyle: textTheme.headline5?.copyWith(fontSize: 17.sp),
                 isEndIconVisible: false),
             Expanded(

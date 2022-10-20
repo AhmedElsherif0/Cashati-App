@@ -25,7 +25,7 @@ class CancelConfirmTextButton extends StatelessWidget {
         ),
         const Spacer(flex: 4),
         Expanded(
-          flex: 5,
+          flex: 7,
           child: CustomTextButton(
               onPressed: onConfirm, text: 'Confirm', isVisible: false),
         ),
