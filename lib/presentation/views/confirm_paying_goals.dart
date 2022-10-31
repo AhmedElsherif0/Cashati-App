@@ -36,13 +36,12 @@ class ConfirmPayingGoals extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
         /// must be child for a Expanded Widget.
         Expanded(
           child: Card(
-            elevation: 8.sp,
+            elevation: 4.sp,
             color: AppColor.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24.sp)),

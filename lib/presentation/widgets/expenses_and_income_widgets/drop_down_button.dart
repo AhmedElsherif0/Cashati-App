@@ -50,7 +50,7 @@ class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
                 isDense: true,
                 borderRadius: BorderRadius.circular(8.sp),
                 focusColor: AppColor.grey,
-                dropdownColor: AppColor.grey,
+                dropdownColor: AppColor.white,
                 style: textTheme.bodyText2,
                 icon: Icon(
                   size: 16.sp,

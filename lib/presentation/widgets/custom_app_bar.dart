@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
@@ -30,6 +31,8 @@ class CustomAppBar extends StatelessWidget {
           flex: 1,
           child: firstIcon == Icons.arrow_back_ios
               ? IconButton(
+                  iconSize: 24.sp,
+                  padding: EdgeInsets.zero,
                   color: AppColor.pineGreen,
                   icon: Icon(firstIcon, size: 24.sp),
                   onPressed: onTapFirstIcon ?? () => Navigator.of(context).pop,
@@ -38,16 +41,15 @@ class CustomAppBar extends StatelessWidget {
                   borderRadius: BorderRadius.zero,
                   radius: 0.0,
                   onTap: onTapFirstIcon,
-                  child: SvgPicture.asset('assets/icons/Group.svg',
+                  child: SvgPicture.asset('assets/icons/stair_menu.svg',
                       height: 24.sp, width: 24.sp),
                 ),
         ),
         Expanded(
-          flex: 3,
+          flex: 6,
           child: Center(
-            child: Text(title,
-                style: textStyle ?? Theme.of(context).textTheme.headline4),
-          ),
+              child: Text(title,
+                  style: textStyle ?? Theme.of(context).textTheme.headline3)),
         ),
         Expanded(
           flex: 1,
@@ -57,11 +59,8 @@ class CustomAppBar extends StatelessWidget {
               borderRadius: BorderRadius.zero,
               radius: 0.0,
               onTap: onTanNotification,
-              child: SvgPicture.asset(
-                'assets/images/notification.svg',
-                height: 22.sp,
-                width: 22.sp,
-              ),
+              child: SvgPicture.asset('assets/images/notification.svg',
+                  height: 22.sp, width: 22.sp),
             ),
           ),
         )

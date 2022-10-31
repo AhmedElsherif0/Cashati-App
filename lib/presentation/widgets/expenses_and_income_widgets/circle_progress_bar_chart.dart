@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/data_inside_pie_chart.dart';
-import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
 class CircularProgressBarChart extends StatefulWidget {
   const CircularProgressBarChart({
@@ -37,7 +36,7 @@ class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
           startAngle: -80,
           backgroundStrokeWidth: 10.sp,
           foregroundStrokeWidth: 10.sp,
-          animationDuration: const Duration(seconds: 5),
+          animationDuration: const Duration(seconds: 3),
           animation: true,
           ltr: false,
           backgroundColor: AppColor.pinkishGrey,
@@ -47,11 +46,16 @@ class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
           progress: widget.totalExpenses,
           maxProgress: widget.maxExpenses,
           valueNotifier: _valueNotifier,
-          child: DataInsidePieChart(
-            header: widget.header,
-            valueNotifier: _valueNotifier,
-          totalExpenses: widget.totalExpenses,
-          onPressToHome: widget.onPressToHome),
+          child: Center(
+            child: SizedBox(
+              height: 15.h,
+              child: DataInsidePieChart(
+                header: widget.header,
+                valueNotifier: _valueNotifier,
+              totalExpenses: widget.totalExpenses,
+              onPressToHome: widget.onPressToHome),
+            ),
+          ),
           ),
         ),
     );

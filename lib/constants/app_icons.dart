@@ -6,8 +6,7 @@ class AppIcons {
   static const String languageSetting = 'assets/icons/languageSettingIcon.svg';
   static const String currencySettings =
       'assets/icons/currencySettingsIcon.svg';
-  static const String noDataCate =
-      'assets/images/nav_bottom/No data-cuate 1.png';
+  static const String noDataCate = 'assets/images/No data-cuate 1.png';
 
   /// Nav Bar Item Icons.
   static const String navDollarSign = 'assets/icons/nav_bottom/dollar.svg';
@@ -30,5 +29,6 @@ class AppIcons {
   static const String expense = 'assets/icons/confirm_paying/expense.svg';
   static const String goals = 'assets/icons/confirm_paying/goals.svg';
   static const String change = 'assets/icons/confirm_paying/change.svg';
-  static const String blockedCash = 'assets/icons/confirm_paying/blocked_cash.svg';
+  static const String blockedCash =
+      'assets/icons/confirm_paying/blocked_cash.svg';
 }

@@ -8,6 +8,7 @@ import 'package:temp/presentation/views/tab_card_View.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 
 import '../../constants/enum_classes.dart';
+import '../widgets/details_text.dart';
 
 class CustomTabBarView extends StatefulWidget {
   const CustomTabBarView({
@@ -68,6 +69,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                 );
               });
             },
+            indicatorWeight: 0,
             controller: tabController,
             indicator: BoxDecoration(
               color: AppColor.primaryColor,
@@ -76,70 +78,38 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             ),
             unselectedLabelColor: AppColor.primaryColor,
             labelStyle: Theme.of(context).textTheme.headline6,
-            tabs: [
-              Tab(
-                  height: 6.h,
-                  child: TabBarItem(text: widget.expensesList[0].header)),
-              Tab(
-                  height: 6.h,
-                  child: TabBarItem(text: widget.expensesList[1].header)),
-              Tab(
-                  height: 6.h,
-                  child: TabBarItem(text: widget.expensesList[2].header)),
-            ],
+            tabs: List.generate(
+              3,
+              (index) => Tab(
+                height: 6.h,
+                child: TabBarItem(text: widget.expensesList[index].header),
+              ),
+            ),
           ),
         ),
         body: Column(
           children: [
             const Spacer(),
-            Align(
-              alignment: Alignment.centerLeft,
-              child:
-                  Text('Details', style: Theme.of(context).textTheme.headline3),
-            ),
+            const DetailsText(),
             const Spacer(),
             Expanded(
-              flex: 32,
+              flex: 44,
               child: TabBarView(
                 controller: tabController,
-                children: [
-                  /// Daily List of Details Card
-                  TabCardView(
+                children: List.generate(
+                  3,
+                  (index) => TabCardView(
                     priorityName: widget.priorityName,
-                    expensesName: widget.expensesList[0].header,
-                    listItem: [31, 12, 13],
-                    isPriority: widget.expensesList[0].isImportant,
-                    onPressSeeMore: () {},
+                    expensesName: widget.expensesList[index].chooseInnerData,
+                    listItem: widget.expensesList,
+                    isPriority: widget.expensesList[index].isImportant,
                     dateTime: currentTimeAfter,
-                    price: '${widget.expensesList[0].price}',
-                    isVisible: true,
+                    price: '${widget.expensesList[index].price}',
                     seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
-                  ),
-                  /// Weekly List of Details Card
-                  TabCardView(
-                    priorityName: widget.priorityName,
-                    expensesName: widget.expensesList[1].header,
-                    listItem: [1, 2, 3, 4],
-                    isPriority: widget.expensesList[1].isImportant,
                     onPressSeeMore: () {},
-                    dateTime: 'From $currentTime To $currentTimeAfter',
-                    price: '${widget.expensesList[1].price}',
                     isVisible: true,
-                    seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                   ),
-                  /// Monthly List of Details Card
-                  TabCardView(
-                    priorityName: widget.priorityName,
-                    expensesName: widget.expensesList[2].header,
-                    listItem: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                    isPriority: widget.expensesList[2].isImportant,
-                    onPressSeeMore: () {},
-                    dateTime: currentTimeAfter,
-                    price: '${widget.expensesList[2].price}',
-                    isVisible: true,
-                    seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
-                  ),
-                ],
+                ),
               ),
             ),
           ],
