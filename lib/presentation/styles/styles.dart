@@ -4,8 +4,8 @@ import 'package:sizer/sizer.dart';
 import 'colors.dart';
 
 class AppStyle {
-  TextStyle headline1Theme() => const TextStyle(
-      fontWeight: FontWeight.w600, color: AppColor.black, fontSize: 32);
+  TextStyle headline1Theme() =>  TextStyle(
+      fontWeight: FontWeight.w600, color: AppColor.black, fontSize: 26.sp);
 
   TextStyle headline2Theme() => TextStyle(
       fontSize: 20.6.sp,
@@ -50,11 +50,11 @@ class AppStyle {
       fontWeight: FontWeight.w300,
       color: AppColor.pineGreen);
 
-  TextStyle subtitle2Theme() => const TextStyle(
-      fontSize: 12, fontWeight: FontWeight.w400, color: AppColor.grey);
+  TextStyle subtitle2Theme() =>  TextStyle(
+      fontSize: 12.sp, fontWeight: FontWeight.w400, color: AppColor.grey);
 
   TextStyle captionTheme() => TextStyle(
-      fontSize: 8.sp, fontWeight: FontWeight.w500, color: AppColor.pineGreen);
+      fontSize: 9.sp, fontWeight: FontWeight.w500, color: AppColor.pineGreen);
 
   TextStyle appBarTitleTextStyle() => TextStyle(
       fontSize: 16.sp,

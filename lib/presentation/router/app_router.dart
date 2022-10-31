@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
-import '../screens/home/control_screen.dart';
-import '../screens/home/settings_screen.dart';
+import '../screens/home/nav_bottom_screens/control_screen.dart';
+import '../screens/home/nav_bottom_screens/settings_screen.dart';
 import '../screens/welcome/on_boarding_screens.dart';
 import 'app_router_names.dart';
 
