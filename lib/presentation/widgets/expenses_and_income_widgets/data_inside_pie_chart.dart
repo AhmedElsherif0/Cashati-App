@@ -18,15 +18,17 @@ class DataInsidePieChart extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          const Spacer(flex: 2),
+         const Spacer(),
           Expanded(
+            flex: 4,
             child: Text(
-                totalExpenses != 0.0 ? 'Total $header' : 'No Data To Show',
+                totalExpenses != 0 ? 'Total $header' : 'No Data To Show',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.subtitle1),
           ),
           if (totalExpenses != 0)
             Expanded(
+              flex: 5,
               child: ValueListenableBuilder(
                 valueListenable: valueNotifier,
                 builder: (_, double value, __) => Text(
@@ -42,7 +44,7 @@ class DataInsidePieChart extends StatelessWidget {
                   onPressed: onPressToHome,
                   textStyle: const TextStyle(fontWeight: FontWeight.w500)),
             ),
-          const Spacer(flex: 2),
+          const Spacer()
         ],
       ),
     );

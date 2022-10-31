@@ -26,8 +26,10 @@ class ConfirmPayingTitleCard extends StatelessWidget {
                 topRight: Radius.circular(24.sp))),
         child: Align(
           alignment: Alignment.center,
-          child: Text('$cardTitle $index',
-              style: textTheme.headline5?.copyWith(color: AppColor.white)),
+          child: Text(
+            '$cardTitle $index',
+            style: textTheme.headline5?.copyWith(color: AppColor.white),
+          ),
         ),
       ),
     );

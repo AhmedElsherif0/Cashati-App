@@ -17,7 +17,7 @@ class LogoName extends StatelessWidget {
         children: <InlineSpan>[
           const TextSpan(
             text: '\$',
-            style: TextStyle(color: AppColor.murdochGreen),
+            style: TextStyle(color: AppColor.pineGreen),
           ),
           TextSpan(
             text: 'hati',

@@ -15,15 +15,15 @@ class BottomNavBarWidget extends StatelessWidget {
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 10,
-            offset: const Offset(0, 2), // changes position of shadow
+            spreadRadius: 2.sp,
+            blurRadius: 4.sp,
+            offset: const Offset(0, 0), // changes position of shadow
           ),
         ],
       ),
       child: BottomNavigationBar(
         // unselectedIconTheme: const IconThemeData(size: 40),
-        elevation: 9,
+        elevation: 4.sp,
         iconSize: 30.sp,
         currentIndex: cubit.currentIndex,
         showUnselectedLabels: true,
@@ -47,7 +47,11 @@ class BottomNavBarWidget extends StatelessWidget {
       BottomNavigationBarItem(
         activeIcon: Column(
           children: [
-            SvgPicture.asset(svgAsset, color: Colors.green,height: 24.sp,),
+            SvgPicture.asset(
+              svgAsset,
+              color: Colors.green,
+              height: 24.sp,
+            ),
             const SizedBox(height: 5),
             const CircleAvatar(radius: 4, backgroundColor: Colors.green)
           ],

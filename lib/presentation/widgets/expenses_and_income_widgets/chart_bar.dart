@@ -28,28 +28,42 @@ class ChartBar extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text(
-          after > 100
-              ? '${after.toStringAsFixed(0)}%'
-              : '${after.toStringAsFixed(1)}%',
-          style: textTheme,
-        ),
-        SizedBox(height: 0.4.h),
-        SizedBox(
-          height: ( height! <= 20) ? 3.h :height,
-          width: 5.w,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: AppColor.primaryColor,
-              borderRadius: BorderRadius.circular(12.sp),
+        Expanded(
+          flex: 2,
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              after > 100
+                  ? '${after.toStringAsFixed(0)}%'
+                  : '${after.toStringAsFixed(1)}%',
+              style: textTheme,
             ),
           ),
         ),
-        SizedBox(height: 5.h),
-        Transform(
-          transform: Matrix4.rotationZ(-65 * pi / 180),
-          child: Text('Week ${index + 1}',
-              style: textTheme),
+        Flexible(
+          flex: 10,
+          child: SizedBox(
+            height: ( height! <= 20) ? 3.h :height,
+            width: 5.w,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColor.primaryColor,
+                borderRadius: BorderRadius.circular(12.sp),
+              ),
+            ),
+          ),
+        ),
+        const Spacer(flex: 2),
+        Expanded(
+          flex: 2,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Transform(
+              transform: Matrix4.rotationZ(-65 * pi / 180),
+              child: Text('Week ${index + 1}',
+                  style: textTheme),
+            ),
+          ),
         )
       ],
     );
