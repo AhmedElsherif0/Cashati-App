@@ -11,14 +11,17 @@ part 'global_state.dart';
 class GlobalCubit extends Cubit<GlobalState> {
   GlobalCubit() : super(GlobalInitial());
 
-  static GlobalCubit get(context) => BlocProvider.of(context);
+
   ////////////////////////language
   bool isEnglish = true;
+
   void changeLanguage() {
     isEnglish != isEnglish;
     emit(LanguageChangedState());
   }
+
   int currentIndex = 0;
+
   List<Widget> nextPage = [
     const HomeScreen(),
     const CategoryScreen(),
@@ -27,9 +30,22 @@ class GlobalCubit extends Cubit<GlobalState> {
     const SettingsScreen()
   ];
 
-  void changePage({required int index}){
+  List<String> appBarTitle = [
+    'Home',
+    'Confirm Paying Today',
+    'Statistics expenses',
+    'Statistics Income',
+    'Settings'
+  ];
+
+  void changePage({required int index}) {
     currentIndex = index;
     emit(ChangeScreenState());
+  }
+
+  void emitDrawer(context) {
+    Scaffold.of(context).openDrawer();
+    emit(OpenDrawerState());
   }
 
   ////////////////////////navigator

@@ -7,3 +7,4 @@ class GlobalInitial extends GlobalState {}
 
 class LanguageChangedState extends GlobalState {}
 class ChangeScreenState extends GlobalState{}
+class OpenDrawerState extends GlobalState{}

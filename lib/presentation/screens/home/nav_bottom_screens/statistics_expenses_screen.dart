@@ -5,7 +5,6 @@ import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/chart_bars_card.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import '../../../views/tab_bar_view.dart';
-import '../../../widgets/custom_app_bar.dart';
 import '../../../widgets/expenses_and_income_widgets/circle_progress_bar_chart.dart';
 import '../../../widgets/expenses_and_income_widgets/data_inside_pie_chart.dart';
 import '../../../widgets/expenses_and_income_widgets/drop_down_button.dart';
@@ -70,30 +69,18 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
           itemCount: 3,
           itemBuilder: (context, index) {
             int increase = index;
-            increase++;
+            increase = 1;
             return Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Column(
                   children: [
-                    CustomAppBar(
-                      title: 'Statistics expenses',
-                      onTanNotification: () {},
-                      onTapFirstIcon: () {},
-                      firstIcon: Icons.menu,
-                    ),
                     DefaultDropDownButton(
                       selectedValue:
                           expensesLists.expensesData[index].chooseDate,
                       defaultText: expensesLists.expensesData[index].chooseDate,
                       items: [
                         '${(expensesLists.expensesData[index].chooseInnerData)} $increase',
-                        '${(expensesLists.expensesData[index].chooseInnerData)}${2}',
-                        '${(expensesLists.expensesData[index].chooseInnerData)}${3}',
-                        '${(expensesLists.expensesData[index].chooseInnerData)}${4}',
-                        '${(expensesLists.expensesData[index].chooseInnerData)}${5}',
-                        '${(expensesLists.expensesData[index].chooseInnerData)}${5}',
-                        '${(expensesLists.expensesData[index].chooseInnerData)}${5}',
                       ],
                     ),
                     const Spacer(),

@@ -72,7 +72,7 @@ flutter:
     - assets/images/
     - assets/images/on_boarding/
     - assets/icons/
-    - assets/icons/categories/
+    - assets/icons/app_drawer/
     - assets/icons/confirm_paying/
     - assets/icons/nav_bottom/
     - assets/fonts/

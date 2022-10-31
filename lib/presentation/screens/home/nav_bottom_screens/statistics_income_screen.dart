@@ -73,12 +73,12 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Column(
                   children: [
-                    CustomAppBar(
+                   /* CustomAppBar(
                       title: 'Statistics Income',
                       onTanNotification: () {},
                       onTapFirstIcon: () {},
                       firstIcon: Icons.menu,
-                    ),
+                    ),*/
                     DefaultDropDownButton(
                       selectedValue:
                           expensesLists.expensesData[index].chooseDate,
