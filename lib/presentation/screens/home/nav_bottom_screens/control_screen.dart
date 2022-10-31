@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../business_logic/global_cubit/global_cubit.dart';
-import '../../views/bottom_nav_bar.dart';
+import '../../../../business_logic/global_cubit/global_cubit.dart';
+import '../../../views/bottom_nav_bar.dart';
 
 
 class ControlScreen extends StatelessWidget {

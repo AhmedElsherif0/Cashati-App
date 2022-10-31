@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:temp/data/local/cache_helper.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
+import 'package:temp/presentation/widgets/elevated_button.dart';
 import 'package:temp/presentation/widgets/logo_name.dart';
 
 import '../../../data/models/onbaording/onbaording_list_of_data.dart';
@@ -16,152 +18,149 @@ class OnBoardScreens extends StatefulWidget {
 }
 
 class _OnBoardScreensState extends State<OnBoardScreens> {
+  final PageController _pageController = PageController(initialPage: 0);
   int _currentIndex = 0;
-  final PageController _controller = PageController(initialPage: 0);
-
-  @override
-  void initState() {
-    super.initState();
-    Timer.periodic(const Duration(seconds: 5), (timer) {
-      if (_currentIndex < 2) _currentIndex++;
-      _controller.animateToPage(
-        _currentIndex,
-        duration: const Duration(seconds: 2),
-        curve: Curves.easeIn,
-      );
-    });
-  }
 
   final myData = OnBoardingData().myData;
 
   @override
+  void initState() {
+    super.initState();
+    Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (_currentIndex < 2) _currentIndex++;
+      if (_pageController.hasClients) {
+        _pageController.animateToPage(
+          _currentIndex,
+          duration: const Duration(seconds: 1),
+          curve: Curves.easeIn,
+        );
+      }
+    });
+  }
+
+  void navigateToHomeScreen(context) async {
+    await CacheHelper.saveDataSharedPreference(key: 'onBoardDone', value: true);
+    Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
+  }
+
+  void onPressNext() {
+    if (_currentIndex < 2) {
+      _currentIndex++;
+      _pageController.animateToPage(
+        _currentIndex,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeIn,
+      );
+    } else {
+      navigateToHomeScreen(context);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-        body: Directionality(
-          textDirection: TextDirection.ltr,
-          child: PageView.builder(
-            controller: _controller,
-            onPageChanged: (value) => setState(() => _currentIndex = value),
-            itemCount: myData.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(30, 117, 20, 20),
+      body: Directionality(
+        textDirection: TextDirection.ltr,
+        child: PageView.builder(
+          controller: _pageController,
+          onPageChanged: (value) => setState(() => _currentIndex = value),
+          itemCount: myData.length,
+          itemBuilder: (context, index) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.sp),
                 child: Column(
                   children: [
-                    Image.asset(myData[index].img),
-                    Row(
-                      children: [
-                        Text(
-                          'Welcome to ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4!
-                              .copyWith(color: AppColor.pineGreen),
+                    const Spacer(),
+                    Expanded(
+                      flex: 2,
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: TextButton(
+                          onPressed: () => navigateToHomeScreen(context),
+                          child: Text('Skip',
+                              style: textTheme.bodyText2
+                                  ?.copyWith(letterSpacing: 2)),
                         ),
-                        const LogoName(),
-                      ],
+                      ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
+                    Expanded(
+                      flex: 5,
+                      child:
+                          Image.asset(myData[index].img, fit: BoxFit.contain),
+                    ),
+                    Expanded(
+                      flex: 3,
                       child: Column(
                         children: [
-                          Text(
-                            myData[index].description,
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(fontSize: 20, height: 2),
+                          Expanded(
+                            flex: 2,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Welcome to ', style: textTheme.headline3),
+                                const LogoName(),
+                              ],
+                            ),
                           ),
-                          Text(
-                            myData[index].extraDescription,
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(fontSize: 20, height: 2),
-                          )
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              myData[index].description,
+                              style: textTheme.subtitle2,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 100),
+                    Expanded(
+                      flex: 3,
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: SizedBox(
-                              height: 56,
-                              width: 320,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16)),
-                     primary: AppColor.primaryColor,
-                                ),
-                                onPressed: () {
-                                  if (_currentIndex < 2) {
-                                    _currentIndex++;
-                                    _controller.animateToPage(
-                                      _currentIndex,
-                                      duration: const Duration(seconds: 1),
-                                      curve: Curves.easeIn,
-                                    );
-                                  } else {
-                                    navigateToHomeScreen(context);
-                                  }
-                                },
-                                child: Text(
-                                  myData[index].buttonTitle,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6!
-                                      .copyWith(
-                                          fontSize: 24, color: AppColor.white),
-                                ),
-                              ),
-                            ),
-                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(
                               myData.length,
-                              (index) => Container(
-                                margin: const EdgeInsets.only(right: 5),
-                                height: 6,
-                                width: _currentIndex == index ? 70 : 10,
+                                  (index) => Container(
+                                margin: EdgeInsets.only(right: 4.sp),
+                                height: 1.2.h,
+                                width: _currentIndex == index ? 12.w : 3.w,
                                 decoration: BoxDecoration(
                                   color: _currentIndex == index
                                       ? AppColor.primaryColor
                                       : AppColor.grey,
-                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderRadius: BorderRadius.circular(20.0.sp),
                                 ),
                               ),
                             ),
                           ),
+                          SizedBox(height: 3.h),
+                          CustomElevatedButton(
+                            onPressed: () => onPressNext(),
+                            text: myData[index].buttonTitle,
+                            borderRadius: 6.sp,
+                            width: 80.w,
+                            height: 6.h,
+                          ),
                         ],
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: TextButton(
-
-                        onPressed: () => navigateToHomeScreen(context),
-                        child: const Text(
-                          'skip',
-                          style: TextStyle(color: AppColor.grey),
-                        ),
-                      ),
-                    ),
+                    const Spacer()
                   ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
+      ),
     );
-  }
-
-  void navigateToHomeScreen(context) {
-    CacheHelper.saveDataSharedPreference(key: 'onBoardDone', value: true);
-    Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
   }
 }

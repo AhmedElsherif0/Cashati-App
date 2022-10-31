@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/models/expenses/expenses_lists.dart';
 import 'package:temp/presentation/widgets/custom_app_bar.dart';
-import '../views/tab_card_View.dart';
+import '../../views/tab_card_View.dart';
 
 class AddExpensesScreen extends StatelessWidget {
   const AddExpensesScreen({Key? key}) : super(key: key);
