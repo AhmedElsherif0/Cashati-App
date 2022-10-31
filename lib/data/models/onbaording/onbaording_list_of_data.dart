@@ -1,20 +1,21 @@
-
 import 'onboarding_data.dart';
 
-class OnBoardingData {
+class OnBoardingData{
   List<Data> myData = [
     Data(
-      description: "All- in -one finance tracker \n gain points.",
-      img: 'assets/images/on_boarding/onboarding_1.png',
-      buttonTitle: 'Next',
-    ),
+        description: "All- in -one finance tracker",
+        img: 'assets/on_boarding/onboarding_1.png',
+        buttonTitle: 'Next',
+        extraDescription: ''),
     Data(
-        description: "Save your money and \n daily expenses.",
-        img: 'assets/images/on_boarding/onboarding_2.png',
-        buttonTitle: 'Next'),
+        description: "Save your money and",
+        img: 'assets/on_boarding/onboarding_2.png',
+        buttonTitle: 'Next',
+        extraDescription: 'gain points.'),
     Data(
         description: "Track and analysis your",
-        img: 'assets/images/on_boarding/onboarding_3.png',
-        buttonTitle: 'Start'),
+        img: 'assets/on_boarding/onboarding_3.png',
+        buttonTitle: 'Start',
+        extraDescription: 'daily expenses.'),
   ];
 }

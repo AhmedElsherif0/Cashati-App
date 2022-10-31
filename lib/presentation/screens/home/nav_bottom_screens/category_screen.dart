@@ -14,16 +14,19 @@ class CategoryScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomAppBar(
-            title: 'Confirm Paying Today',
-            onTanNotification: () {},
-            onTapFirstIcon: () {},
-            firstIcon: Icons.menu,
-            textStyle: Theme.of(context)
-                .textTheme
-                .headline3
-                ?.copyWith(fontSize: 14.sp),
-          ),
+       /*   Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
+            child: CustomAppBar(
+              title: 'Confirm Paying Today',
+              onTanNotification: () {},
+              onTapFirstIcon: () {},
+              firstIcon: Icons.menu,
+              textStyle: Theme.of(context)
+                  .textTheme
+                  .headline3
+                  ?.copyWith(fontSize: 14.sp),
+            ),
+          ),*/
           const Spacer(flex: 2),
           Expanded(
             flex: 3,

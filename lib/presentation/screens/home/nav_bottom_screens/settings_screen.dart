@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
@@ -13,13 +12,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            AppStrings.settings,
-            style: Theme.of(context).textTheme.headline3,
-          ),
-        ),
+        appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.all(24.0),
           child: SingleChildScrollView(
