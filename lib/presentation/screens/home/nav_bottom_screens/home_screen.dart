@@ -5,7 +5,6 @@ import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_i
 import '../../../../business_logic/home_cubit/home_cubit.dart';
 import '../../../../business_logic/home_cubit/home_state.dart';
 import '../../../views/card_home.dart';
-import '../../../widgets/custom_app_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,7 +14,6 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(),
           body: Column(
             children: [
               const Spacer(flex: 3),

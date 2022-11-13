@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import '../styles/colors.dart';
+import 'custom_painter_dialog.dart';
 import 'custom_text_button.dart';
+import 'details_text.dart';
 
 mixin AlertDialogMixin {
   void showSuccessfulDialog(
@@ -117,18 +119,86 @@ mixin AlertDialogMixin {
       ],
     );
   }
+
+  /// Goals Dialog ely taaalaaaa3 3eeein omy.
+  void showGoalsDialog(BuildContext context) {
+    showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel:
+            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        barrierColor: Colors.black45,
+        transitionDuration: const Duration(milliseconds: 600),
+        pageBuilder: (BuildContext buildContext, Animation animation,
+            Animation secondaryAnimation) {
+          final size = MediaQuery.of(context).size;
+          final textTheme = Theme.of(context).textTheme;
+          return Center(
+            child: SizedBox(
+              height: 40.h,
+              width: 90.w,
+              child: CustomPaint(
+                size: Size(size.width, size.height),
+                painter: RPSCustomPainter(),
+                child: Center(
+                    child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          flex: 3,
+                          child: SvgPicture.asset(
+                              'assets/icons/Hello-rafiki.svg')),
+                      Flexible(
+                        child: Text('You Will Achieve your Goal After 100 Week',
+                            style: textTheme.subtitle2),
+                      ),
+                      Flexible(
+                        child: Text('Are You Ready to Start Saving Your Money',
+                            style: textTheme.headline6),
+                      ),
+                      Expanded( flex: 2,
+                        child: Row(
+                          children: [
+                            const Spacer(),
+                            CustomTextButton(
+                                onPressed: () {},
+                                text: 'No',
+                                isVisible: false,
+                                textStyle: textTheme.headline6
+                                    ?.copyWith(color: AppColor.grey)),
+                            const Spacer(flex: 2,),
+                            Expanded(flex: 9, child: SvgPicture.asset('assets/icons/magnatic_icon.svg')),
+                            const Spacer(flex: 2,),
+                            CustomTextButton(
+                                onPressed: () {},
+                                text: 'Yes',
+                                isVisible: false),
+                            const Spacer(),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+              ),
+            ),
+          );
+        });
+  }
 }
 
 /// This uses a platform-appropriate mechanism to show users multiple choices.
 ///
 ///
-const duration6hundred = Duration(milliseconds: 800);
 
 void _customAlertDialog(
     {required BuildContext context,
     required String title,
     Widget? message,
     List<Widget>? actionButton}) async {
+  const duration6hundred = Duration(milliseconds: 800);
   switch (defaultTargetPlatform) {
     case TargetPlatform.android:
       await showDialog<void>(
@@ -139,11 +209,13 @@ void _customAlertDialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(1)),
               titleTextStyle: const TextStyle(color: Colors.black),
-              title: Text(title ?? '',
-                  style: Theme.of(context).textTheme.headline3,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center),
+              title: title.isEmpty
+                  ? null
+                  : Text(title,
+                      style: Theme.of(context).textTheme.headline3,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center),
               content: message,
               actions: actionButton,
             ),
@@ -159,14 +231,13 @@ void _customAlertDialog(
         context: context,
         builder: (context) {
           return SizedBox(
-            height: 250,
+            height: 30.h,
             child: CupertinoAlertDialog(
               insetAnimationDuration: duration6hundred,
               insetAnimationCurve: Curves.easeInOut,
               title: title.isEmpty
                   ? null
-                  : Text(title ?? '',
-                      style: Theme.of(context).textTheme.subtitle1),
+                  : Text(title, style: Theme.of(context).textTheme.subtitle1),
               content: message,
               actions: actionButton ?? [],
               scrollController: FixedExtentScrollController(initialItem: 1),

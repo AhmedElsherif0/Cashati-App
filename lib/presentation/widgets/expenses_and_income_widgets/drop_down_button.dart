@@ -62,14 +62,16 @@ class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
                 hint: Text(
                   widget.selectedValue,
                   style:
-                      textTheme.subtitle1?.copyWith(color: AppColor.pineGreen),
+                      textTheme.subtitle1,
                 ),
                 items: widget.items
                     .map(
                       (item) => DropdownMenuItem<String>(
                           value: item,
-                          child: Align(
-                              child: Text(item, style: textTheme.bodyText1))),
+                              child: Center(
+                                child: Text(item, style: textTheme.subtitle1
+                                    ?.copyWith(fontWeight: FontWeight.w500)),
+                              )),
                     )
                     .toList(),
                 onChanged: (String? value) => setState(

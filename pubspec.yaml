@@ -40,10 +40,10 @@ dependencies:
   easy_localization: ^3.0.1
   flutter_phoenix: ^1.1.0
   localize_and_translate: ^4.1.1
-  flutter_svg: ^1.1.5
+  flutter_svg: ^1.1.6
   dashed_circular_progress_bar: ^0.0.4
   intl: ^0.17.0
-  dotted_border: ^2.0.0+2
+  dotted_border: ^2.0.0+3
 
 dev_dependencies:
   flutter_test:
