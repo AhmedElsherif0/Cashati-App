@@ -5,14 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/home_cubit/home_cubit.dart';
-import 'package:temp/presentation/screens/home/control_screen.dart';
-import 'package:temp/presentation/screens/home/expenses_screen.dart';
+import 'package:temp/presentation/router/app_router_names.dart';
+
+import 'package:temp/presentation/screens/welcome/on_boarding_screens.dart';
+import 'package:temp/presentation/screens/welcome/splash_screen.dart';
+import 'package:temp/presentation/screens/welcome/test_screen.dart';
 import 'package:temp/presentation/styles/themes.dart';
+import 'package:temp/presentation/widgets/status_bar_configuration.dart';
 import 'business_logic/bloc_observer.dart';
 import 'business_logic/global_cubit/global_cubit.dart';
 import 'data/local/cache_helper.dart';
 import 'presentation/router/app_router.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +53,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -64,6 +67,7 @@ class _MyAppState extends State<MyApp> {
           return Sizer(
             builder: (context, orientation, deviceType) {
               return LayoutBuilder(builder: (context, constraints) {
+                print(constraints.maxWidth);
                 statusBarConfig();
                 return MaterialApp(
                   theme: AppTheme.lightThemeMode,
@@ -73,23 +77,15 @@ class _MyAppState extends State<MyApp> {
                   locale: translator.activeLocale,
                   // Active locale
                   supportedLocales: translator.locals(),
-                  //home: ExpensesScreen()// Locals list
-                  home: ExpensesScreen(),
+                  //   home: ExpensesStatisticsScreen()// Locals list
+                  initialRoute: AppRouterNames.rSplashScreen,
+                  onGenerateRoute: widget.appRouter.onGenerateRoute,
                 );
               });
             },
           );
         },
       ),
-    );
-  }
-
-  void statusBarConfig() {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark,
-          statusBarBrightness: Brightness.dark),
     );
   }
 }

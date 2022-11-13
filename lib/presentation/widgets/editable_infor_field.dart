@@ -70,7 +70,7 @@ class _EditableSubCategFieldState extends State<EditableSubCategField> {
                     .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
                 border: InputBorder.none),
           ),
-          leading:  SvgPicture.asset(AppIcons.categoryIcon),
+          leading:  SvgPicture.asset(AppIcons.editCategoryIcon),
         ),
       ),
     );
