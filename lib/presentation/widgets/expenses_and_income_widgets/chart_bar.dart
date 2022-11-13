@@ -53,7 +53,7 @@ class ChartBar extends StatelessWidget {
             ),
           ),
         ),
-        const Spacer(flex: 2),
+        const Spacer(),
         Expanded(
           flex: 2,
           child: Align(

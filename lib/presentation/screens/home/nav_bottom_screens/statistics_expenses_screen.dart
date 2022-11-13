@@ -55,12 +55,9 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     ExpensesLists expensesLists = ExpensesLists();
     int currentIndex = 0;
-
     return Scaffold(
-      appBar: AppBar(),
       body: Directionality(
         textDirection: TextDirection.ltr,
         child: PageView.builder(
@@ -68,29 +65,30 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
           onPageChanged: (value) => setState(() => currentIndex = value),
           itemCount: 3,
           itemBuilder: (context, index) {
-            int increase = index;
-            increase = 1;
+            final list =expensesLists.expensesData[index];
             return Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Column(
                   children: [
+
                     DefaultDropDownButton(
                       selectedValue:
-                          expensesLists.expensesData[index].chooseDate,
-                      defaultText: expensesLists.expensesData[index].chooseDate,
-                      items: [
-                        '${(expensesLists.expensesData[index].chooseInnerData)} $increase',
-                      ],
+                      list.chooseDate,
+                      defaultText: list.chooseDate,
+                      items: List.generate(12, (index) {
+                        index += 1;
+                        return '${(list.chooseInnerData)} $index';
+                      }),
                     ),
+
                     const Spacer(),
 
                     /// Flow Chart Widgets.
                     Expanded(
-                      flex: 16,
+                      flex: 36,
                       child: Column(
                         children: [
-
                           /// Chart widgets.
                           if (index == 1)
                             Expanded(
@@ -100,6 +98,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                                   onPressToHome: () {},
                                   header: 'Income'),
                             ),
+
                           /// Chart widgets
                           Expanded(flex: 4, child: switchWidgets(index)),
 
@@ -109,23 +108,22 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                               child: Row(
                                 children: [
                                   const Spacer(flex: 11),
-                                  if (index == 0)
-                                    Expanded(
-                                      flex: 11,
-                                      child: Column(
-                                        children: [
-                                          const ImportantOrFixed(
-                                            text: 'Important Expense',
-                                            circleColor: AppColor.secondColor,
-                                          ),
-                                          SizedBox(height: 0.3.h),
-                                          const ImportantOrFixed(
-                                            text: 'Not Important Expense',
-                                            circleColor: AppColor.grey,
-                                          ),
-                                        ],
-                                      ),
+                                  Expanded(
+                                    flex: 11,
+                                    child: Column(
+                                      children: [
+                                        const ImportantOrFixed(
+                                          text: 'Important Expense',
+                                          circleColor: AppColor.secondColor,
+                                        ),
+                                        SizedBox(height: 0.3.h),
+                                        const ImportantOrFixed(
+                                          text: 'Not Important Expense',
+                                          circleColor: AppColor.grey,
+                                        ),
+                                      ],
                                     ),
+                                  ),
                                 ],
                               ),
                             )
@@ -135,7 +133,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
 
                     /// TabBarView Widgets.
                     Expanded(
-                      flex: 20,
+                      flex: 40,
                       child: CustomTabBarView(
                           priorityName: 'Important',
                           expensesList: expensesLists.expensesData,

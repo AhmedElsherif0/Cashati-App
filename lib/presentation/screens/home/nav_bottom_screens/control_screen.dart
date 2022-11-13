@@ -33,17 +33,15 @@ class ControlScreen extends StatelessWidget {
                     firstIcon: Icons.menu,
                     textStyle: _cubit(context).currentIndex == 1
                         ? Theme.of(context)
-                            .textTheme
-                            .headline3
-                            ?.copyWith(fontSize: 15.sp)
+                            .textTheme.headline3?.copyWith(fontSize: 15.sp)
                         : null,
                   ),
                 ),
               ),
               Expanded(
                   flex: 19,
-                  child:
-                      _cubit(context).nextPage[_cubit(context).currentIndex]),
+                  child: _cubit(context)
+                      .nextPage[_cubit(context).currentIndex]),
             ],
           );
         },

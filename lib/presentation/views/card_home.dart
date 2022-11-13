@@ -18,12 +18,27 @@ class CardHome extends StatelessWidget {
   final Function() onPressedShow;
   final Function() onPressedAdd;
 
+  Widget dottedButton(textTheme, String text) => Align(
+        alignment: Alignment.center,
+        child: InkWell(
+          onTap: onPressedAdd,
+          child: DottedBorder(
+            color: Colors.white,
+            strokeCap: StrokeCap.round,
+            dashPattern: const [3, 6],
+            borderType: BorderType.RRect,
+            padding: EdgeInsets.symmetric(horizontal: 40.sp, vertical: 18.sp),
+            radius: Radius.circular(4.sp),
+            child: Text('$text $title', style: textTheme.bodyText1),
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Stack(
       children: [
-
         /// Show Expense or Income.
         Padding(
           padding: EdgeInsets.only(top: 40.sp),
@@ -89,24 +104,9 @@ class CardHome extends StatelessWidget {
           padding: EdgeInsets.only(top: 22.h),
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: DottedBorder(
-                  color: Colors.white,
-                  strokeCap: StrokeCap.round,
-                  dashPattern: const [3, 6],
-                  borderType: BorderType.RRect,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 40.sp, vertical: 18.sp),
-                  radius: Radius.circular(4.sp),
-                  child: Text('Top $title', style: textTheme.bodyText1),
-                ),
-              ),
-              SizedBox(height: 4.h),
-              InkWell(
-                  onTap: onPressedAdd,
-                  child: SvgPicture.asset('assets/icons/plus.svg',
-                      height: 40.sp, width: 40.sp))
+              dottedButton(textTheme, 'Top'),
+              SizedBox(height: 2.h),
+              dottedButton(textTheme, 'Add'),
             ],
           ),
         ),

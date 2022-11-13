@@ -12,133 +12,111 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
         body: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppStrings.categoriesSetting,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3!
-                      .copyWith(fontSize: 17),
-                ),
-                const SizedBox(height: 10.0),
-                SettingCardLayout(
-                    settingChild: SettingListTile(
-                  icon: AppIcons.editCategoryIcon,
-                  title: AppStrings.editCategories,
-                  subtitle: AppStrings.editCategoriesSubtitle,
-                  isTrail: false,
-                )),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  AppStrings.remindersSetting,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3!
-                      .copyWith(fontSize: 17),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                SettingCardLayout(
-                    settingChild: Column(
-                  children: [
-                    SettingListTile(
-                      icon: AppIcons.reminder,
-                      title: AppStrings.dailyReminders,
-                      subtitle: AppStrings.reminderSubtitle,
-                      isTrail: true,
-                      switchValue: false,
-                      onChangedFunc: (value) {},
-                    ),
-                    greenDivider(),
-                    SettingListTile(
-                      icon: AppIcons.notificationSetting,
-                      title: AppStrings.notifications,
-                      subtitle: AppStrings.enableAlerts,
-                      isTrail: true,
-                      switchValue: false,
-                      onChangedFunc: (value) {},
-                    ),
-                  ],
-                )),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  AppStrings.moreInfoSetting,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3!
-                      .copyWith(fontSize: 17),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                SettingCardLayout(
-                    settingChild: Column(
-                  children: [
-                    SettingListTile(
-                      icon: AppIcons.languageSetting,
-                      title: AppStrings.languageSetting,
-                      subtitle: AppStrings.englishSettingUsa,
-                      isTrail: false,
-                    ),
-                    greenDivider(),
-                    SettingListTile(
-                      icon: AppIcons.currencySettings,
-                      title: AppStrings.currencySetting,
-                      subtitle: AppStrings.currencyEgp,
-                      isTrail: false,
-                    ),
-                  ],
-                )),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  AppStrings.appInfoSetting,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3!
-                      .copyWith(fontSize: 17),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                SettingCardLayout(
-                    settingChild: Column(
-                  children: [
-                    SettingListTile(
-                      icon: AppIcons.languageSetting,
-                      title: AppStrings.languageSetting,
-                      subtitle: AppStrings.englishSettingUsa,
-                      isTrail: true,
-                      switchValue: false,
-                      onChangedFunc: (value) {},
-                    ),
-                    greenDivider(),
-                    SettingListTile(
-                      icon: AppIcons.currencySettings,
-                      title: AppStrings.currencySetting,
-                      subtitle: AppStrings.currencyEgp,
-                      isTrail: true,
-                      switchValue: false,
-                      onChangedFunc: (value) {},
-                    ),
-                  ],
-                )),
-              ],
+      padding: const EdgeInsets.all(24.0),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppStrings.categoriesSetting,
+              style:
+                  Theme.of(context).textTheme.headline3!.copyWith(fontSize: 17),
             ),
-          ),
-        ));
+            const SizedBox(height: 10.0),
+            SettingCardLayout(
+                settingChild: SettingListTile(
+              icon: AppIcons.editCategoryIcon,
+              title: AppStrings.editCategories,
+              subtitle: AppStrings.editCategoriesSubtitle,
+              isTrail: false,
+            )),
+            const SizedBox(height: 10.0),
+            Text(
+              AppStrings.remindersSetting,
+              style:
+                  Theme.of(context).textTheme.headline3!.copyWith(fontSize: 17),
+            ),
+            const SizedBox(height: 10.0),
+            SettingCardLayout(
+                settingChild: Column(
+              children: [
+                SettingListTile(
+                  icon: AppIcons.reminder,
+                  title: AppStrings.dailyReminders,
+                  subtitle: AppStrings.reminderSubtitle,
+                  isTrail: true,
+                  switchValue: false,
+                  onChangedFunc: (value) {},
+                ),
+                greenDivider(),
+                SettingListTile(
+                  icon: AppIcons.notificationSetting,
+                  title: AppStrings.notifications,
+                  subtitle: AppStrings.enableAlerts,
+                  isTrail: true,
+                  switchValue: false,
+                  onChangedFunc: (value) {},
+                ),
+              ],
+            )),
+            const SizedBox(height: 10.0),
+            Text(
+              AppStrings.moreInfoSetting,
+              style:
+                  Theme.of(context).textTheme.headline3!.copyWith(fontSize: 17),
+            ),
+            const SizedBox(height: 10.0),
+            SettingCardLayout(
+                settingChild: Column(
+              children: [
+                SettingListTile(
+                  icon: AppIcons.languageSetting,
+                  title: AppStrings.languageSetting,
+                  subtitle: AppStrings.englishSettingUsa,
+                  isTrail: false,
+                ),
+                greenDivider(),
+                SettingListTile(
+                  icon: AppIcons.currencySettings,
+                  title: AppStrings.currencySetting,
+                  subtitle: AppStrings.currencyEgp,
+                  isTrail: false,
+                ),
+              ],
+            )),
+            const SizedBox(height: 10.0),
+            Text(
+              AppStrings.appInfoSetting,
+              style:
+                  Theme.of(context).textTheme.headline3!.copyWith(fontSize: 17),
+            ),
+            const SizedBox(height: 10.0),
+            SettingCardLayout(
+                settingChild: Column(
+              children: [
+                SettingListTile(
+                    icon: AppIcons.languageSetting,
+                    title: AppStrings.languageSetting,
+                    subtitle: AppStrings.englishSettingUsa,
+                    isTrail: true,
+                    switchValue: false,
+                    onChangedFunc: (value) {}),
+                greenDivider(),
+                SettingListTile(
+                  icon: AppIcons.currencySettings,
+                  title: AppStrings.currencySetting,
+                  subtitle: AppStrings.currencyEgp,
+                  isTrail: true,
+                  switchValue: false,
+                  onChangedFunc: (value) {},
+                ),
+              ],
+            )),
+          ],
+        ),
+      ),
+    ));
   }
 
   Divider greenDivider() {

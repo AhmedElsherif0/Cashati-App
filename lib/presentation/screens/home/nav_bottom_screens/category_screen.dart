@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
 import '../../../views/confirm_paying_goals.dart';
-import '../../../widgets/custom_app_bar.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);
@@ -10,23 +9,9 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-       /*   Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
-            child: CustomAppBar(
-              title: 'Confirm Paying Today',
-              onTanNotification: () {},
-              onTapFirstIcon: () {},
-              firstIcon: Icons.menu,
-              textStyle: Theme.of(context)
-                  .textTheme
-                  .headline3
-                  ?.copyWith(fontSize: 14.sp),
-            ),
-          ),*/
           const Spacer(flex: 2),
           Expanded(
             flex: 3,

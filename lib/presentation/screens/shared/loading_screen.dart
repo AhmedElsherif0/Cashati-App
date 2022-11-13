@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
-
 import '../../widgets/custom_text_button.dart';
 import '../../widgets/show_dialog.dart';
 
@@ -13,6 +12,22 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> with AlertDialogMixin {
+
+  Widget anotherApproachForLoading() {
+    return Expanded(
+      child: SizedBox(
+        width: 22.w,
+        height: 8.h,
+        child: CircularProgressIndicator(
+          strokeWidth: 4.5.sp,
+          color: AppColor.mintGreen,
+          backgroundColor: AppColor.pineGreen,
+        ),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,29 +48,10 @@ class _LoadingScreenState extends State<LoadingScreen> with AlertDialogMixin {
                         gaplessPlayback: true,
                       ),
                     ),
-                    Expanded(
-                      child: SizedBox(
-                        width: 22.w,
-                        height: 8.h,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 4.5.sp,
-                          color: AppColor.mintGreen,
-                          backgroundColor: AppColor.pineGreen,
-                        ),
-                      ),
-                    ),
                     Text(
                       'Loading...',
                       style: Theme.of(context).textTheme.headline2,
                     ),
-                    CustomTextButton(
-                      onPressed: () {
-                        setState(() {
-                          showLoadingDialog(context);
-                        });
-                      },
-                      text: 'open dialog',
-                    )
                   ],
                 ),
               ),
