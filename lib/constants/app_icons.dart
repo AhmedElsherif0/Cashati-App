@@ -30,8 +30,15 @@ class AppIcons {
   static const String expense = 'assets/icons/confirm_paying/expense.svg';
   static const String goals = 'assets/icons/confirm_paying/goals.svg';
   static const String change = 'assets/icons/confirm_paying/change.svg';
-  static const String blockedCash =
-      'assets/icons/confirm_paying/blocked_cash.svg';
+  static const String blockedCash = 'assets/icons/confirm_paying/blocked_cash.svg';
+  static const String categoryIcon = 'assets/icons/categories/categoryIcon.svg';
+
+  /// add income or expense icons
+  static const String amountIcon = 'assets/icons/amountIcon.svg';
+  static const String dateIcon = 'assets/icons/dateIcon.svg';
+  static const String descriptionIcon = 'assets/icons/descriptionIcon.svg';
+  static const String forwardArrow = 'assets/icons/forwardArrow.svg';
+  static const String downArrow = 'assets/icons/downArrow.svg';
 
   /// Drawer Icons
   static const String closeDrawer = 'assets/icons/app_drawer/drawer_close.svg';
