@@ -9,7 +9,7 @@ class ExpensesLists {
   int weekDate = DateTime.now().weekday;
   int monthDate = DateTime.now().weekday;
 
-
+  List<String> noRepeats =['Day','Weekly','Monthly','No Repeat'];
   List<ExpensesModel> expensesData = [
     ExpensesModel(
         header: 'Daily',
@@ -20,10 +20,18 @@ class ExpensesLists {
         isImportant: true,
         totalExpenses: 'No data to Show'),
     ExpensesModel(
-        header: 'Weekly',
+        header: 'Monthly',
         price: 14100.00,
         chooseDate: 'choose Week',
         chooseInnerData: 'Week',
+        dateTime: DateTime.now(),
+        isImportant: false,
+        totalExpenses: 'No data to Show'),
+    ExpensesModel(
+        header: 'Yearly',
+        price: 11100.00,
+        chooseDate: 'choose Month',
+        chooseInnerData: 'Month',
         dateTime: DateTime.now(),
         isImportant: false,
         totalExpenses: 'No data to Show'),
@@ -86,14 +94,6 @@ class ExpensesLists {
     ExpensesModel(
         header: 'Monthly',
         price: 1000.00,
-        chooseDate: 'choose Month',
-        chooseInnerData: 'Month',
-        dateTime: DateTime.now(),
-        isImportant: false,
-        totalExpenses: 'No data to Show'),
-    ExpensesModel(
-        header: 'Monthly',
-        price: 5000.00,
         chooseDate: 'choose Month',
         chooseInnerData: 'Month',
         dateTime: DateTime.now(),

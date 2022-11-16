@@ -50,7 +50,7 @@ class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
                 isDense: true,
                 borderRadius: BorderRadius.circular(8.sp),
                 focusColor: AppColor.grey,
-                dropdownColor: AppColor.grey,
+                dropdownColor: AppColor.white,
                 style: textTheme.bodyText2,
                 icon: Icon(
                   size: 16.sp,
@@ -62,14 +62,16 @@ class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
                 hint: Text(
                   widget.selectedValue,
                   style:
-                      textTheme.subtitle1?.copyWith(color: AppColor.pineGreen),
+                      textTheme.subtitle1,
                 ),
                 items: widget.items
                     .map(
                       (item) => DropdownMenuItem<String>(
                           value: item,
-                          child: Align(
-                              child: Text(item, style: textTheme.bodyText1))),
+                              child: Center(
+                                child: Text(item, style: textTheme.subtitle1
+                                    ?.copyWith(fontWeight: FontWeight.w500)),
+                              )),
                     )
                     .toList(),
                 onChanged: (String? value) => setState(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../styles/colors.dart';
 
@@ -9,11 +10,11 @@ class SettingCardLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
+        padding: EdgeInsets.symmetric(vertical: 15.sp),
         decoration: BoxDecoration(
             color: AppColor.white,
             border: Border.all(color: AppColor.grey.withOpacity(.4)),
-            borderRadius: BorderRadius.circular(23),
+            borderRadius: BorderRadius.circular(24.sp),
             boxShadow: [
               BoxShadow(
                 blurRadius: 10,

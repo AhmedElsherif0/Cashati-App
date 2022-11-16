@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
-
-import '../../../constants/app_icons.dart';
-import '../../styles/colors.dart';
-import '../../views/confirm_paying_expense.dart';
-import '../../views/confirm_paying_goals.dart';
-import '../../widgets/custom_app_bar.dart';
+import '../../../views/confirm_paying_goals.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);
@@ -15,16 +9,9 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomAppBar(
-            title: 'Confirm Paying Today',
-            onTanNotification: () {},
-            onTapFirstIcon: () {},
-            firstIcon: Icons.menu,
-          ),
           const Spacer(flex: 2),
           Expanded(
             flex: 3,
@@ -41,10 +28,11 @@ class CategoryScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 10,
+            flex: 11,
             child: SizedBox(
-              width: 100.w - 5.w,
+              width: 95.w,
               child: ListView.builder(
+                padding: EdgeInsets.symmetric(vertical: 4.sp),
                 itemExtent: 85.w,
                 scrollDirection: Axis.horizontal,
                 itemCount: 3,

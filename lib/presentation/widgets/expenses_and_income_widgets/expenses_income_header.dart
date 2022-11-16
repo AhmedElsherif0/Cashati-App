@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/presentation/widgets/under_line_divider.dart';
-
 import '../../../constants/app_icons.dart';
 import '../../styles/colors.dart';
 import '../custom_text_button.dart';
