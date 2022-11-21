@@ -1,4 +1,4 @@
-// // class IncomeSubcategoryRepoImpl implements  IncomeSubcategoryRepo {
+//  class IncomeSubcategoryRepoImpl implements  IncomeSubcategoryRepo {
 //
 //
 // List<SubCategoryIncome> fetchAllIncomeSubCats(){
@@ -27,4 +27,4 @@
 // Future <void> deleteIncomeSubCat(SubCategoryIncome subCategoryIncome)async{
 //   await subCategoryIncome.delete();
 // }
-// // }
+// }

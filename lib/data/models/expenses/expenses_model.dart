@@ -1,7 +1,7 @@
 enum Header { daily, weekly, monthly }
 
 class ExpensesModel {
-  String header = 'Daily';
+  String name = 'Daily';
   String chooseDate = 'Choose day';
   String chooseInnerData = 'Day';
   String totalExpenses = 'Total';
@@ -11,7 +11,7 @@ class ExpensesModel {
   bool isImportant = false;
 
   ExpensesModel(
-      {required this.header,
+      {required this.name,
       required this.chooseDate,
       required this.chooseInnerData,
       required this.totalExpenses,

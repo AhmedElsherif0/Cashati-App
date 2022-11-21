@@ -132,15 +132,15 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                     ),
 
                     /// TabBarView Widgets.
-                    Expanded(
+                 /*   Expanded(
                       flex: 40,
-                      child: CustomTabBarView(
+                      child: *//*CustomTabBarView(
                           priorityName: 'Important',
                           expensesList: expensesLists.expensesData,
                           currentIndex: currentIndex,
                           index: index,
-                          pageController: _controller),
-                    ),
+                          pageController: _controller),*//*
+                    ),*/
                   ],
                 ),
               ),

@@ -1,12 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/data/models/expenses/expenses_model.dart';
+import 'package:temp/data/models/expenses/expense_details_model.dart';
+import 'package:temp/data/models/expenses/expense_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/tab_card_View.dart';
-
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
-
 import '../../constants/enum_classes.dart';
 import '../widgets/details_text.dart';
 
@@ -23,7 +22,7 @@ class CustomTabBarView extends StatefulWidget {
   final int currentIndex;
   final String priorityName;
   final int index;
-  final List<ExpensesModel> expensesList;
+  final List<ExpenseRepeatDetailsModel> expensesList;
   final PageController pageController;
 
   @override
@@ -82,7 +81,9 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
               3,
               (index) => Tab(
                 height: 6.h,
-                child: TabBarItem(text: widget.expensesList[index].header),
+                child: TabBarItem(
+                    text: widget.expensesList[index].expenseModel.name,
+                    onTap: () {}),
               ),
             ),
           ),
@@ -92,7 +93,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             const Spacer(),
             const DetailsText(),
             const Spacer(),
-            Expanded(
+         /*   Expanded(
               flex: 44,
               child: TabBarView(
                 controller: tabController,
@@ -100,18 +101,19 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                   3,
                   (index) => TabCardView(
                     priorityName: widget.priorityName,
-                    expensesName: widget.expensesList[index].chooseInnerData,
+                    expensesName: widget.expensesList[index].expenseModel.name,
                     listItem: widget.expensesList,
-                    isPriority: widget.expensesList[index].isImportant,
+                    isPriority:
+                        widget.expensesList[index].expenseModel.isPriority,
                     dateTime: currentTimeAfter,
-                    price: '${widget.expensesList[index].price}',
+                    price: '${widget.expensesList[index].expenseModel.amount}',
                     seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                     onPressSeeMore: () {},
                     isVisible: true,
                   ),
                 ),
               ),
-            ),
+            ),*/
           ],
         ),
       ),

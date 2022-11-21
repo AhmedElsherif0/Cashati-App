@@ -124,7 +124,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                     ),
 
                     /// TabBarView Widgets.
-                    Expanded(
+                  /*  Expanded(
                       flex: 40,
                       child: CustomTabBarView(
                           priorityName: 'Fixed',
@@ -132,7 +132,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                           currentIndex: currentIndex,
                           index: index,
                           pageController: _controller),
-                    ),
+                    ),*/
                   ],
                 ),
               ),
