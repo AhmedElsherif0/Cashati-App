@@ -1,49 +1,51 @@
-// import 'package:flutter/material.dart';
-// import 'package:hive/hive.dart';
-// part 'databases_models.g.dart';
-//
-// @HiveType(typeId: 0)
-// class ExpenseModel extends HiveObject {
-//   ExpenseModel();
-//   ExpenseModel.copyWith({
-//     required this.expenseId,
-//     required this.expenseName,
-//     required this.expenseAmount,
-//     required this.expenseComment,
-//     required this.expenseRepeat,
-//     required this.expenseMainCateg,
-//     required this.expenseAddAuto,
-//     required this.expensePriority,
-//     required this.expenseSubCateg,
-//     required this.isReceiveNotification,
-//     required this.isExpensePaid,
-//     required this.expenseCreatedDate,
-//     required this.expensePaymentDate,
-//   });
-//   @HiveField(0)
-//   late String expenseId;
-//   @HiveField(1)
-//   late String expenseName;
-//   @HiveField(2)
-//   late num expenseAmount;
-//   @HiveField(3)
-//   late String expenseMainCateg;
-//   @HiveField(4)
-//   late String expenseSubCateg;
-//   @HiveField(5)
-//   late bool expensePriority;
-//   @HiveField(6)
-//   late String expenseRepeat;
-//   @HiveField(7)
-//   late String expenseComment;
-//   @HiveField(8)
-//   late bool isReceiveNotification;
-//   @HiveField(9)
-//   late bool expenseAddAuto;
-//   @HiveField(10)
-//   late bool isExpensePaid;
-//   @HiveField(11)
-//   late DateTime expensePaymentDate;
-//   @HiveField(12)
-//   late DateTime expenseCreatedDate;
-// }
+import 'package:hive/hive.dart';
+
+part 'expense_model.g.dart';
+
+@HiveType(typeId: 0)
+class ExpenseModel {
+  ExpenseModel();
+
+  ExpenseModel.copyWith({
+    required this.id,
+    required this.name,
+    required this.amount,
+    required this.comment,
+    required this.repeat,
+    required this.mainCategory,
+    required this.isAddAuto,
+    required this.isPriority,
+    required this.subCategory,
+    required this.isReceiveNotification,
+    required this.isPaid,
+    required this.createdDate,
+    required this.paymentDate,
+  });
+
+  @HiveField(0)
+  late String id;
+  @HiveField(1)
+  String name ='daily';
+  @HiveField(2)
+  num? amount;
+  @HiveField(3)
+  late String mainCategory;
+  @HiveField(4)
+  late String subCategory;
+  @HiveField(5)
+  bool isPriority = false;
+  @HiveField(6)
+  late String repeat;
+  @HiveField(7)
+  String? comment;
+  @HiveField(8)
+   bool isReceiveNotification=false;
+  @HiveField(9)
+   bool isAddAuto = false;
+  @HiveField(10)
+  bool? isPaid;
+  @HiveField(11)
+  DateTime paymentDate =DateTime.now();
+  @HiveField(12)
+  DateTime createdDate = DateTime.now();
+}

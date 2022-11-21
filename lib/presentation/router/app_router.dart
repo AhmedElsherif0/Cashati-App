@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_type_screen.dart';
+import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screen.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import '../screens/home/nav_bottom_screens/control_screen.dart';
 import '../screens/home/nav_bottom_screens/settings_screen.dart';
@@ -16,6 +18,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const OnBoardScreens());
       case AppRouterNames.rSettingsRoute:
         return MaterialPageRoute(builder: (_) => const SettingsScreen());
+      case AppRouterNames.rExpenseRepeatType:
+        return MaterialPageRoute(
+            builder: (_) => const ExpenseRepeatTypeScreen());
+      case AppRouterNames.rExpenseRepeatDetails:
+        return MaterialPageRoute(
+            builder: (_) => const HomeScreen());
       default:
         return null;
     }

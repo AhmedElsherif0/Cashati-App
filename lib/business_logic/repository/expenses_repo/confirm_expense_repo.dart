@@ -1,44 +1,66 @@
-// abstract class ConfirmExpenseRepo {
-//
-//   Future<void> addExpenseToBoxFromRepeatedBox({required ExpenseModel currentExpenseModel, num? newAmount});
-//
-//
-//   List<ExpenseModel> getTodayPayments();
-//   bool weeklyShowCheckings(WeeklyExpenseModel weeklyExpenseModel);
-//   bool checkSameDay({required DateTime date});
-//   bool checkNoConfirmedAndWeekly({required DateTime nextShownDate,required DateTime lastConfirmedDate, required DateTime expensePayment});
-//   bool checkNoConfirmedAndMonthly({required DateTime nextShownDate,required DateTime lastConfirmedDate, required DateTime expensePayment});
-//
-// // when Yes
-//   DailyExpenseModel editDailyExpenseLastShown({required ExpenseModel theAddedExpense,required DateTime today});
-//   Future saveDailyExpenseAndAddToRepeatBox(DailyExpenseModel theMatchingDailyExpense);
-//
-//
-//
-//   Future saveDailyExpenseNoConfirm(DailyExpenseModel theMatchingDailyExpense);
-//   Future saveWeeklyExpenseNoConfirm(WeeklyExpenseModel theMatchingWeeklyExpenseModel);
-//   Future saveMonthlyExpenseNoConfirm(MonthlyExpenseModel theMatchingMonthlyExpenseModel);
-//
-//
-//
-//   WeeklyExpenseModel editWeeklyExpenseLastShown({required ExpenseModel theAddedExpense,required DateTime today});
-//   Future saveWeeklyExpenseAndAddToRepeatBox(WeeklyExpenseModel theMatchingWeeklyExpenseModel);
-//
-//   MonthlyExpenseModel editMonthlyExpenseLastShown({required ExpenseModel theAddedExpense,required DateTime today});
-//   Future saveMonthlyExpenseAndAddToRepeatBox(MonthlyExpenseModel theMatchingMonthlyExpenseModel);
-//
-//
-//   NoRepeatExpenseModel editNoRepeatExpenseLastShown({required ExpenseModel theAddedExpense,required DateTime today});
-//   Future saveNoRepeatExpenseAndDeleteRepeatBox(NoRepeatExpenseModel theMatchingNoRepExpenseModel);
-//   Future deleteNoRepeatExpense(NoRepeatExpenseModel theMatchingNoRepExpenseModel);
-//
-//
-//   Future<void> onYesConfirmed({
-//     required String currentRepeatType,
-//     required ExpenseModel theAddedExpense});
-//
-//   Future<void> onNoConfirmed({
-//     required String currentRepeatType,
-//     required ExpenseModel theAddedExpense});
-//
-// }
+import '../../../data/models/expenses/expense_details_model.dart';
+import '../../../data/models/expenses/expense_model.dart';
+
+abstract class ConfirmExpenseRepo {
+  Future<void> addExpenseToBoxFromRepeatedBox(
+      {required ExpenseModel currentExpense, num? newAmount});
+
+  List<ExpenseModel> getTodayPayments();
+
+  bool weeklyShowChecking(ExpenseRepeatDetailsModel weeklyExpense);
+
+  bool checkSameDay({required DateTime date});
+
+  bool checkNoConfirmedAndWeekly(
+      {required DateTime nextShownDate,
+      required DateTime lastConfirmedDate,
+      required DateTime expensePayment});
+
+  bool checkNoConfirmedAndMonthly(
+      {required DateTime nextShownDate,
+      required DateTime lastConfirmedDate,
+      required DateTime expensePayment});
+
+// when Yes
+  ExpenseRepeatDetailsModel editDailyExpenseLastShown(
+      {required ExpenseModel addedExpense, required DateTime today});
+
+  Future saveDailyExpenseAndAddToRepeatBox(
+      ExpenseRepeatDetailsModel theMatchingDailyExpense);
+
+  Future saveDailyExpenseNoConfirm(
+      ExpenseRepeatDetailsModel theMatchingDailyExpense);
+
+  Future saveWeeklyExpenseNoConfirm(
+      ExpenseRepeatDetailsModel theMatchingWeeklyExpenseModel);
+
+  Future saveMonthlyExpenseNoConfirm(
+      ExpenseRepeatDetailsModel theMatchingMonthlyExpenseModel);
+
+  ExpenseRepeatDetailsModel editWeeklyExpenseLastShown(
+      {required ExpenseModel addedExpense, required DateTime today});
+
+  Future saveWeeklyExpenseAndAddToRepeatBox(
+      ExpenseRepeatDetailsModel theMatchingWeeklyExpenseModel);
+
+  ExpenseRepeatDetailsModel editMonthlyExpenseLastShown(
+      {required ExpenseModel addedExpense, required DateTime today});
+
+  Future saveMonthlyExpenseAndAddToRepeatBox(
+      ExpenseRepeatDetailsModel theMatchingMonthlyExpenseModel);
+
+  ExpenseRepeatDetailsModel editNoRepeatExpenseLastShown(
+      {required ExpenseModel addedExpense, required DateTime today});
+
+  Future saveNoRepeatExpenseAndDeleteRepeatBox(
+      ExpenseRepeatDetailsModel theMatchingNoRepExpenseModel);
+
+  Future deleteNoRepeatExpense(
+      ExpenseRepeatDetailsModel theMatchingNoRepExpenseModel);
+
+  Future<void> onYesConfirmed(
+      {required String currentRepeatType, required ExpenseModel addedExpense});
+
+  Future<void> onNoConfirmed(
+      {required String currentRepeatType, required ExpenseModel addedExpense});
+}

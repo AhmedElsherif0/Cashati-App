@@ -8,25 +8,31 @@ class TabBarItem extends StatelessWidget {
     Key? key,
     required this.text,
     this.backGroundColor,
-    this.textStyle,
+    this.textColor,
+    required this.onTap,
   }) : super(key: key);
   final String text;
   final Color? backGroundColor;
-  final TextStyle? textStyle;
+  final Color? textColor;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: backGroundColor,
-        borderRadius: BorderRadius.circular(12.sp),
-        border: Border.all(width: 1.sp, color: AppColor.primaryColor),
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: textStyle,
+    return InkWell(
+      onTap: onTap,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: backGroundColor,
+          borderRadius: BorderRadius.circular(12.sp),
+          border: Border.all(width: 1.sp, color: AppColor.primaryColor),
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(text,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  ?.copyWith(color: textColor??AppColor.primaryColor)),
         ),
       ),
     );

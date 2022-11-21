@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
+import 'package:temp/data/models/expenses/expense_details_model.dart';
+import 'package:temp/data/models/expenses/expense_model.dart';
+import 'package:temp/data/models/expenses/expenses_model.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import '../../constants/enum_classes.dart';
 import '../styles/colors.dart';
@@ -9,32 +12,22 @@ import '../widgets/expenses_and_income_widgets/underline_text_button.dart';
 class TabCardView extends StatelessWidget {
   const TabCardView(
       {Key? key,
-      required this.listItem,
-      required this.expensesName,
-      required this.isPriority,
-      required this.price,
-      required this.dateTime,
+      required this.expenseRepeatList,
       required this.onPressSeeMore,
       this.priorityName = 'Important',
       this.priceColor = AppColor.red,
       required this.isVisible,
       this.seeMoreOrDetailsOrHighest,
-      this.transaction = 'Expenses',
       this.isRepeated = false,
       this.priorityColor = AppColor.secondColor})
       : super(key: key);
 
-  final bool isPriority;
   final bool isVisible;
   final bool isRepeated;
-  final List listItem;
-  final String expensesName;
-  final String transaction;
+  final List<ExpenseRepeatDetailsModel> expenseRepeatList;
   final String priorityName;
-  final String price;
   final Color priceColor;
   final Color priorityColor;
-  final String dateTime;
   final void Function() onPressSeeMore;
   final SwitchWidgets? seeMoreOrDetailsOrHighest;
 
@@ -43,7 +36,8 @@ class TabCardView extends StatelessWidget {
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
         widget = ImportantOrFixed(
-            text: 'Heighset $expensesName', circleColor: AppColor.red);
+            text: 'Heighset ${expenseRepeatList[0].expenseModel.name}',
+            circleColor: AppColor.red);
         break;
       case SwitchWidgets.seeMore:
         widget =
@@ -58,13 +52,12 @@ class TabCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return listItem.isEmpty
+    return expenseRepeatList.isEmpty
         ? Image.asset(AppIcons.noDataCate)
         : ListView.builder(
             padding: EdgeInsets.zero,
-            itemCount: listItem.length,
-            itemBuilder: (_, index) {
-              index += 1;
+            itemCount: expenseRepeatList.length,
+            itemBuilder: (context, index) {
               return Column(
                 children: [
                   Card(
@@ -80,11 +73,12 @@ class TabCardView extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text('$expensesName $index',
+                              Text(
+                                  '${expenseRepeatList[index].expenseModel.name} ${index+1}',
                                   style: textTheme.headline5),
                               const Spacer(),
                               Text(
-                                '${price} LE',
+                                '${expenseRepeatList[index].expenseModel.amount ?? 200} LE',
                                 style: textTheme.headline5
                                     ?.copyWith(color: priceColor),
                               ),
@@ -93,7 +87,9 @@ class TabCardView extends StatelessWidget {
                           SizedBox(height: 1.h),
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(dateTime, style: textTheme.subtitle1),
+                            child: Text(
+                                '${expenseRepeatList[index].expenseModel.createdDate}',
+                                style: textTheme.subtitle1),
                           ),
                           SizedBox(height: 1.h),
                           Row(
@@ -120,17 +116,17 @@ class TabCardView extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      const Spacer(),
-                                      ImportantOrFixed(
-                                        text: priorityName,
-                                        circleColor: priorityColor,
-                                      ),
-                                    ],
-                                  ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    const Spacer(),
+                                    ImportantOrFixed(
+                                      text: priorityName,
+                                      circleColor: priorityColor,
+                                    ),
+                                  ],
                                 ),
+                              ),
                             ],
                           )
                         ],

@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 
 import 'package:temp/presentation/widgets/gradiant_background.dart';
 
-import '../../../data/local/cache_helper.dart';
+import '../../../data/local/sharedPrefrence/cache_helper.dart';
 import '../../router/app_router_names.dart';
 
 class SplashScreen extends StatefulWidget {

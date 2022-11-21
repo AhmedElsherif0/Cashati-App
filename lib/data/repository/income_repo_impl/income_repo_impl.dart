@@ -1,4 +1,4 @@
-// // class IncomeRepositoryImpl implements  IncomeRepository {
+// class IncomeRepositoryImpl implements  IncomeRepository {
 //
 //
 // Future<void> addIncomeToIncomeBox({
@@ -165,4 +165,4 @@
 //
 //
 //
-// //}
+// }

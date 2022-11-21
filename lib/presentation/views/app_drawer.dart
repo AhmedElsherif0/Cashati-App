@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
+import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/widgets/drawer_item.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -19,23 +20,31 @@ class AppDrawer extends StatelessWidget {
           const Spacer(flex: 2),
           Expanded(
             flex: 3,
-            child: DrawerItem(icon: AppIcons.closeDrawer, onTap: () {}),
+            child: DrawerItem(
+                icon: AppIcons.closeDrawer,
+                onTap: () => Navigator.of(context).pop()),
           ),
           const Spacer(),
           Expanded(
             flex: 3,
             child: DrawerItem(
-                icon: AppIcons.expenseDrawer, text: 'Expense Types', onTap: () {}),
+              icon: AppIcons.expenseDrawer,
+              text: 'Expense Types',
+              onTap: () => Navigator.of(context)
+                  .pushNamed(AppRouterNames.rExpenseRepeatType),
+            ),
           ),
           Expanded(
             flex: 3,
             child: DrawerItem(
-                icon: AppIcons.incomeDrawer, text: 'Income Types', onTap: () {}),
+                icon: AppIcons.incomeDrawer,
+                text: 'Income Types',
+                onTap: () {}),
           ),
           Expanded(
             flex: 3,
-            child:
-                DrawerItem(icon: AppIcons.goalsDrawer, text: 'Goals', onTap: () {}),
+            child: DrawerItem(
+                icon: AppIcons.goalsDrawer, text: 'Goals', onTap: () {}),
           ),
           Expanded(
             flex: 3,

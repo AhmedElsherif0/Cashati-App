@@ -36,12 +36,8 @@ class AddExpensesScreen extends StatelessWidget {
                     flex: 32,
                     child: TabCardView(
                       priorityName: 'Important',
-                      expensesName: 'Sat',
-                      listItem: [21, 2],
-                      isPriority: expensesList[0].isImportant,
+                      expenseRepeatList: [],
                       onPressSeeMore: () {},
-                      dateTime: currentTimeAfter,
-                      price: '${expensesList[0].price}',
                       seeMoreOrDetailsOrHighest: SwitchWidgets.higherExpenses,
                       isVisible: true,
                     ),
