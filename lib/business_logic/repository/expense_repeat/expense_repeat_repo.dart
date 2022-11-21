@@ -9,8 +9,8 @@ abstract class ExpenseRepeatRepo{
 
 
  List<ExpenseRepeatDetailsModel> getRepeatDaily();
- List<ExpenseRepeatDetailsModel> getRepeatWeekly(int index);
- List<ExpenseRepeatDetailsModel> getRepeatMonthly(int index);
- List<ExpenseRepeatDetailsModel> getRepeatNoRepeat(int index);
+ List<ExpenseRepeatDetailsModel> getRepeatWeekly();
+ List<ExpenseRepeatDetailsModel> getRepeatMonthly();
+ List<ExpenseRepeatDetailsModel> getRepeatNoRepeat();
 
 }
