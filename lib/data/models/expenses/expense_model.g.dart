@@ -23,7 +23,7 @@ class ExpenseModelAdapter extends TypeAdapter<ExpenseModel> {
       ..mainCategory = fields[3] as String
       ..subCategory = fields[4] as String
       ..isPriority = fields[5] as bool
-      ..repeat = fields[6] as String
+      ..repeatType = fields[6] as String
       ..comment = fields[7] as String
       ..isReceiveNotification = fields[8] as bool
       ..isAddAuto = fields[9] as bool
@@ -49,7 +49,7 @@ class ExpenseModelAdapter extends TypeAdapter<ExpenseModel> {
       ..writeByte(5)
       ..write(obj.isPriority)
       ..writeByte(6)
-      ..write(obj.repeat)
+      ..write(obj.repeatType)
       ..writeByte(7)
       ..write(obj.comment)
       ..writeByte(8)
