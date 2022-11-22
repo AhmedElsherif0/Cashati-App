@@ -31,7 +31,7 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
         comment: expenseComment,
         id: GUIDGen.generate(),
         name: expenseName,
-        repeat: expenseRepeat,
+        repeatType: expenseRepeat,
         mainCategory: expenseMainCateg,
         isAddAuto: false,
         isPriority: expensePriority,
@@ -45,9 +45,9 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
         _hiveDatabase.getBox(boxName: AppBoxes.expenseModel);
     if (isEqualToday(date: expenseModel.paymentDate)) {
       await allExpensesModel.add(expenseModel);
-      await addToRepeatedBoxes(expenseModel.repeat, expenseModel);
+      await addToRepeatedBoxes(expenseModel.repeatType, expenseModel);
     } else {
-      await addToRepeatedBoxes(expenseModel.repeat, expenseModel);
+      await addToRepeatedBoxes(expenseModel.repeatType, expenseModel);
     }
     print('Expenses values are ${allExpensesModel.values}');
   }

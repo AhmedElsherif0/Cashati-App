@@ -9,17 +9,33 @@ import '../../models/expenses/expense_model.dart';
 
 class ExpensesRepeatImpl extends ExpenseRepeatRepo {
   final HiveHelper _hiveHelper = HiveHelper();
-  List<ExpenseRepeatDetailsModel> expenseRepeatModel = [];
 
   @override
-  Future<Box> openExpenseRepeatBox() async =>
-      await _hiveHelper.openBox(boxName: AppBoxes.expenseRepeatTypes);
+  Future<Box> openExpenseRepeatBox(String boxName) async =>
+      await _hiveHelper.openBox(boxName: boxName);
 
   @override
-  List<ExpenseRepeatDetailsModel> getRepeatDaily() {
-    /// get dailyExpenseRepeatList from BOX based on key number = 0.
+  List<ExpenseRepeatDetailsModel> getExpenseTypeList(int currentIndex) {
+    List<List<ExpenseRepeatDetailsModel>> expenseTypesList = [];
     try {
-      expenseRepeatModel = _getExpenseDataFromBox().dailyExpense;
+      expenseTypesList = [
+        _getRepeatDaily(),
+        _getRepeatWeekly(),
+        _getRepeatMonthly(),
+        _getRepeatNoRepeat(),
+      ];
+    } catch (error) {
+      print(' ${error.toString()}');
+    }
+    return expenseTypesList[currentIndex];
+  }
+
+  List<ExpenseRepeatDetailsModel> _getRepeatDaily() {
+    /// get dailyExpenseRepeatList from BOX based on key number = 0.
+    List<ExpenseRepeatDetailsModel> expenseRepeatModel = [];
+
+    try {
+       expenseRepeatModel = _getExpenseDataFromBox().dailyExpense;
     } catch (error) {
       print('from repeatDaily Impl : ${error.toString()}');
       HiveError('RepeatDaily is Empty: ${error.toString()}');
@@ -27,11 +43,10 @@ class ExpensesRepeatImpl extends ExpenseRepeatRepo {
     return expenseRepeatModel;
   }
 
-  @override
-  List<ExpenseRepeatDetailsModel> getRepeatWeekly() {
+  List<ExpenseRepeatDetailsModel> _getRepeatWeekly() {
     /// get weeklyExpenseRepeatList from BOX .
 
-    /// Dummy Data that used for Testing.
+    List<ExpenseRepeatDetailsModel> expenseRepeatModel = [];
     expenseRepeatModel = [
       ExpenseRepeatDetailsModel.copyWith(
           lastConfirmationDate: DateTime.now(),
@@ -57,9 +72,10 @@ class ExpensesRepeatImpl extends ExpenseRepeatRepo {
     return expenseRepeatModel;
   }
 
-  @override
-  List<ExpenseRepeatDetailsModel> getRepeatMonthly() {
+  List<ExpenseRepeatDetailsModel> _getRepeatMonthly() {
     /// get monthlyExpenseRepeatList from BOX .
+    List<ExpenseRepeatDetailsModel> expenseRepeatModel = [];
+
     try {
       expenseRepeatModel = _getExpenseDataFromBox().monthlyExpense;
     } catch (error) {
@@ -69,9 +85,9 @@ class ExpensesRepeatImpl extends ExpenseRepeatRepo {
     return expenseRepeatModel;
   }
 
-  @override
-  List<ExpenseRepeatDetailsModel> getRepeatNoRepeat() {
+  List<ExpenseRepeatDetailsModel> _getRepeatNoRepeat() {
     /// get noRepeatExpenseRepeatList from BOX .
+    List<ExpenseRepeatDetailsModel> expenseRepeatModel = [];
     try {
       expenseRepeatModel = _getExpenseDataFromBox().noRepeatExpense;
     } catch (error) {

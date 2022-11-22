@@ -74,7 +74,7 @@ class TabCardView extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                  '${expenseRepeatList[index].expenseModel.name} ${index+1}',
+                                  '${expenseRepeatList[index].expenseModel.repeatType} ${index+1}',
                                   style: textTheme.headline5),
                               const Spacer(),
                               Text(

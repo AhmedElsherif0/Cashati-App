@@ -11,7 +11,7 @@ class ExpenseModel {
     required this.name,
     required this.amount,
     required this.comment,
-    required this.repeat,
+    required this.repeatType,
     required this.mainCategory,
     required this.isAddAuto,
     required this.isPriority,
@@ -27,7 +27,7 @@ class ExpenseModel {
   @HiveField(1)
   String name ='daily';
   @HiveField(2)
-  num? amount;
+  num? amount = 0;
   @HiveField(3)
   late String mainCategory;
   @HiveField(4)
@@ -35,7 +35,7 @@ class ExpenseModel {
   @HiveField(5)
   bool isPriority = false;
   @HiveField(6)
-  late String repeat;
+  String repeatType = 'day';
   @HiveField(7)
   String? comment;
   @HiveField(8)
