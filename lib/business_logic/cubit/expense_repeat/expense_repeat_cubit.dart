@@ -18,18 +18,7 @@ class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
   int currentIndex = 0;
 
   List<ExpenseRepeatDetailsModel> getExpenseTypeList() {
-    List<List<ExpenseRepeatDetailsModel>> expenseTypesList = [];
-    try {
-      expenseTypesList = [
-        _expenseRepeatRepo.getRepeatDaily(),
-        _expenseRepeatRepo.getRepeatWeekly(),
-        _expenseRepeatRepo.getRepeatMonthly(),
-        _expenseRepeatRepo.getRepeatNoRepeat(),
-      ];
-    } catch (error) {
-      print(' ${error.toString()}');
-    }
-    return expenseTypesList[currentIndex];
+    return _expenseRepeatRepo.getExpenseTypeList(currentIndex);
   }
 
   void changePage({required int index}) {
@@ -37,9 +26,8 @@ class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
     emit(ExpenseRepeatScreenState());
   }
 
-  String _convertedCurrentDay() {
-    String currentTime =
-        DateFormat('dd/MM/yyyy').format(DateTime.now().toUtc());
+  String _convertedCurrentDay(DateTime inputDate) {
+    String currentTime = DateFormat('dd/MM/yyyy').format(inputDate.toUtc());
     final currentTimeAfter = currentTime.replaceFirst('0', '');
     return currentTimeAfter;
   }
