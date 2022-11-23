@@ -4,15 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/home_cubit/home_cubit.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
-
-import 'package:temp/presentation/screens/welcome/on_boarding_screens.dart';
-import 'package:temp/presentation/screens/welcome/splash_screen.dart';
-import 'package:temp/presentation/screens/welcome/test_screen.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'package:temp/presentation/widgets/status_bar_configuration.dart';
-import 'business_logic/bloc_observer.dart';
+import 'business_logic/cubit/bloc_observer.dart';
 import 'business_logic/global_cubit/global_cubit.dart';
 import 'data/local/cache_helper.dart';
 import 'presentation/router/app_router.dart';
@@ -60,6 +57,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
       providers: [
         BlocProvider(create: ((context) => GlobalCubit())),
         BlocProvider(create: ((context) => HomeCubit())),
+        BlocProvider(create: ((context) => ExpenseRepeatCubit())),
       ],
       child: BlocConsumer<GlobalCubit, GlobalState>(
         listener: (context, state) {},
