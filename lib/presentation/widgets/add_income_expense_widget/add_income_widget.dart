@@ -1,58 +1,99 @@
-/*
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:temp/constants/app_icons.dart';
+import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/local/hive/id_generator.dart';
+import 'package:temp/data/models/income/income_model.dart';
+import 'package:temp/data/models/subcategories_models/income_subcaegory_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/subcategory_choice.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
 import 'package:temp/presentation/widgets/editable_infor_field.dart';
 import 'package:temp/presentation/widgets/editable_text.dart';
 
+import '../../../data/local/hive/hive_database.dart';
+import '../../../data/models/expenses/expense_model.dart';
+import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import 'choose_container.dart';
 import 'main_category_choice.dart';
 
-class AddIncOrExpWidget extends StatefulWidget {
-  const AddIncOrExpWidget({Key? key}) : super(key: key);
+class AddIncomeWidget extends StatefulWidget {
+  const AddIncomeWidget({Key? key}) : super(key: key);
 
 
   @override
-  _AddIncOrExpWidgetState createState() => _AddIncOrExpWidgetState();
+  _AddIncomeWidgetState createState() => _AddIncomeWidgetState();
 }
 
-class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
+class _AddIncomeWidgetState extends State<AddIncomeWidget> {
   DateTime? choosedDate;
   bool isSubChoosed=false;
-  bool choosed=false;
   bool isRepeat=false;
   String currentID='';
+  String? subCatName;
+
   TextEditingController amountCtrl=TextEditingController();
   TextEditingController descriptionCtrl=TextEditingController();
-  List<SubCategoryExpense> list=[
-    SubCategoryExpense(
-      subCategoryExpenseId: 'ssfsf55',
-      subCategoryExpenseName: 'Feeeee',
-        mainCategoryExpenseName:'Fixed',
-      subCategoryExpenseColor: 'red',
-      subCategoryExpenseIconName: 'sss',
-      subCategoryExpenseIconCodePoint: Icons.star.codePoint
+  TextEditingController nameCtrl=TextEditingController();
+  List<SubCategoryIncome> list=[
+    SubCategoryIncome.copyWith(
+      id: 'ssfsf55',
+      subCategoryIncomeName:  'Full Time',
+        mainCategoryIncomeName: 'Fixed',
+      subCategoryIncomeColor: 'red',
+      subCategoryIncomeIconName: 'sss',
+      subCategoryIncomeCodePoint: Icons.ten_k.codePoint
     ),
-    SubCategoryExpense(
-        subCategoryExpenseId: 'odfiefi25',
-      mainCategoryExpenseName:'Fixed',
-      subCategoryExpenseName: 'KIMMMNA',
+    SubCategoryIncome.copyWith(
+      id: 'ssfsdggef55',
+      subCategoryIncomeName:  'Part Time',
+        mainCategoryIncomeName: 'Fixed',
+      subCategoryIncomeColor: 'red',
+      subCategoryIncomeIconName: 'sss',
+      subCategoryIncomeCodePoint: Icons.ten_k.codePoint
+    ),
+    SubCategoryIncome.copyWith(
+      id: 'knfwoglf55',
+      subCategoryIncomeName:  'Freelance Designing',
+        mainCategoryIncomeName: 'Fixed',
+      subCategoryIncomeColor: 'red',
+      subCategoryIncomeIconName: 'sss',
+      subCategoryIncomeCodePoint: Icons.ten_k.codePoint
+    ),
+    SubCategoryIncome.copyWith(
+      id: 'sdwfwgr533',
+      subCategoryIncomeName:  'Freelance Marketing',
+        mainCategoryIncomeName: 'Fixed',
+      subCategoryIncomeColor: 'red',
+      subCategoryIncomeIconName: 'sss',
+      subCategoryIncomeCodePoint: Icons.ten_k.codePoint
+    ),
+    SubCategoryIncome.copyWith(
+      id: 'sdwfw21gr533',
+      subCategoryIncomeName:  'Weekly Work',
+        mainCategoryIncomeName: 'Fixed',
+      subCategoryIncomeColor: 'red',
+      subCategoryIncomeIconName: 'sss',
+      subCategoryIncomeCodePoint: Icons.ten_k.codePoint
+    ),
+    SubCategoryIncome.copyWith(
+      id: 's1333535dwfw21gr533',
+      subCategoryIncomeName:  'Friday Programming',
+        mainCategoryIncomeName: 'Fixed',
+      subCategoryIncomeColor: 'red',
+      subCategoryIncomeIconName: 'sss',
+      subCategoryIncomeCodePoint: Icons.ten_k.codePoint
+    ),
+    SubCategoryIncome.copyWith(
+      id: 'sokogkenemwk3356',
+      subCategoryIncomeName:  'Interviews',
+        mainCategoryIncomeName: 'Fixed',
+      subCategoryIncomeColor: 'red',
+      subCategoryIncomeIconName: 'sss',
+      subCategoryIncomeCodePoint: Icons.ten_k.codePoint
+    ),
 
-      subCategoryExpenseColor: 'red',
-        subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.star.codePoint,
-    ),
-    SubCategoryExpense(
-        subCategoryExpenseId: 'efefgg99',
-        mainCategoryExpenseName:'Fixed',
-        subCategoryExpenseName: 'KIMMMNA',
-        subCategoryExpenseColor: 'red',
-        subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.star.codePoint
-    ),
   ];
   String dropDownValue='Choose Repeat';
   List<DropdownMenuItem<String>> dropDownChannelItems=[
@@ -62,7 +103,12 @@ class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
     DropdownMenuItem(child: Text('No Repeat'),value: 'No Repeat'),
 
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,12 +142,25 @@ class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
                       onTap: (){
                         setState(() {
                           //currentID=list.where((element) => element.subCategoryExpenseId==currentID).single.subCategoryExpenseId;
-                          currentID=list[index].subCategoryExpenseId;
+                          currentID=list[index].id;
+                          subCatName=list[index].subCategoryIncomeName;
 
                         });
                       },
-                        child: SubCategoryChoice(color: Colors.red,currentID: currentID,subCategoryExpense: list[index],));
+                        child: SubCategoryChoice(color: Colors.red,currentID: currentID,
+                        subCatIconCode:  list[index].subCategoryIncomeCodePoint,
+                        subCatID:   list[index].id,
+                        subCatName:   list[index].subCategoryIncomeName,
+                        ));
                   }),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              width: 270,
+              child: EditableInfoField(textEditingController: nameCtrl, hint: 'Income Name',
+                IconName: AppIcons.descriptionIcon,
+                keyboardType: TextInputType.text,
+              ),
             ),
             SizedBox(height: 10,),
             Row(
@@ -119,7 +178,7 @@ class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
                 FittedBox(child: Text('EGP',style: Theme.of(context).textTheme.headline5!.copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.bold),)),
               ],
             ),
-         
+
 
             SizedBox(height: 10,),
             Container(
@@ -184,6 +243,21 @@ class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
               replacement: SizedBox(),
             ),
             SizedBox(height: 10,),
+            ElevatedButton(onPressed: (){
+              HiveHelper().getBox(boxName: AppBoxes.incomeModel).add(IncomeModel.copyWith(
+                  id: GUIDGen.generate(),
+                  name: nameCtrl.text,
+                  amount: int.parse(amountCtrl.text)??400,
+                  comment: amountCtrl.text,
+                  repeat: dropDownValue,
+                  mainCategory: 'Fixed',
+                  addAuto: false,
+                  received: false,
+                  subCategory: subCatName??'SubCategoryDefault',
+                  isReceiveNotification: true,
+                  createdDate: DateTime.now(),
+                  paymentDate: choosedDate??DateTime.now()));
+            }, child: Text('Add')),
 
             MainCategoryChoice(mainCategoryName: 'Variable'),
           ],
@@ -195,4 +269,4 @@ class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
 
 
 
-*/
+
