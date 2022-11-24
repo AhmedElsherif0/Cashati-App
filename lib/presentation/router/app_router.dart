@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:temp/presentation/screens/add_exp_inc_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screen.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
@@ -24,6 +25,9 @@ class AppRouter {
       case AppRouterNames.rExpenseRepeatDetails:
         return MaterialPageRoute(
             builder: (_) => const HomeScreen());
+      case AppRouterNames.rAddExpenseOrIncomeScreen:
+        return MaterialPageRoute(
+            builder: (_) => const AddExpenseOrIncomeScreen());
       default:
         return null;
     }

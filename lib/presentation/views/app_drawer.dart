@@ -4,6 +4,8 @@ import 'package:temp/constants/app_icons.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/widgets/drawer_item.dart';
 
+import '../screens/test_screens/all_inc_and_exp_test.dart';
+
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
 
@@ -50,6 +52,13 @@ class AppDrawer extends StatelessWidget {
             flex: 3,
             child: DrawerItem(
                 icon: AppIcons.exportDrawer, text: 'Export Data', onTap: () {}),
+          ),
+          Expanded(
+            flex: 3,
+            child: DrawerItem(
+                icon: AppIcons.notificationSetting, text: 'Test Data', onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>AllExpIncTest()));
+            }),
           ),
           const Spacer(flex: 3),
         ],
