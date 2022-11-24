@@ -6,6 +6,8 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/home_cubit/home_cubit.dart';
+import 'package:temp/business_logic/repository/expense_repeat/expense_repeat_repo.dart';
+import 'package:temp/data/repository/expenses_repeat/expenses_repeat_impl.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'package:temp/presentation/widgets/status_bar_configuration.dart';
@@ -51,13 +53,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
+
+  final ExpenseRepeatRepo _expenseRepeatRepo = ExpensesRepeatImpl();
+  
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: ((context) => GlobalCubit())),
         BlocProvider(create: ((context) => HomeCubit())),
-        BlocProvider(create: ((context) => ExpenseRepeatCubit())),
+        BlocProvider(create: ((context) => ExpenseRepeatCubit(_expenseRepeatRepo))),
       ],
       child: BlocConsumer<GlobalCubit, GlobalState>(
         listener: (context, state) {},
