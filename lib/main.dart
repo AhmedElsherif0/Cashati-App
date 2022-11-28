@@ -43,15 +43,6 @@ Future<void> main() async {
     () async {
       await CacheHelper.init();
       await EasyLocalization.ensureInitialized();
-
-      /*  Widget startPoint;
-      if (CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') == true ||
-          CacheHelper.getDataFromSharedPreference(key: 'onBoardDone') != null) {
-        startPoint =MyApp(appRouter: AppRouter());
-      } else {
-        startPoint = const OnBoardScreens();
-      }*/
-
       runApp(MyApp(appRouter: AppRouter()));
     },
     blocObserver: MyBlocObserver(),
