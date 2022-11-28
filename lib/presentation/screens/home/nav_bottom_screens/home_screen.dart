@@ -37,11 +37,9 @@ class HomeScreen extends StatelessWidget {
                 flex: 14,
                 child: CardHome(
                   title: cubit(context).isExpense ? 'Expense' : 'Income',
-                  onPressedAdd:(){
-                    cubit(context).isExpense
-                        ? cubit(context).onAddExpense(context)
-                        : cubit(context).onAddIncome(context);
-                  },
+                  onPressedAdd: () => cubit(context).isExpense
+                      ? cubit(context).onAddExpense
+                      : cubit(context).onAddIncome,
                   onPressedShow: cubit(context).isExpense
                       ? cubit(context).onShowExpense
                       : cubit(context).onShowIncome,
