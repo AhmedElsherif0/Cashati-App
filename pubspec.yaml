@@ -75,6 +75,7 @@ flutter:
     - assets/images/on_boarding/
     - assets/icons/
     - assets/icons/app_drawer/
+    - assets/icons/categories/
     - assets/icons/confirm_paying/
     - assets/icons/nav_bottom/
     - assets/fonts/
