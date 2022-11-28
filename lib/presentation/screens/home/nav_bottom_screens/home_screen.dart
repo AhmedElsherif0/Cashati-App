@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
-import '../../../../business_logic/home_cubit/home_cubit.dart';
-import '../../../../business_logic/home_cubit/home_state.dart';
+import '../../../../business_logic/cubit/home_cubit/home_cubit.dart';
+import '../../../../business_logic/cubit/home_cubit/home_state.dart';
 import '../../../views/card_home.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -37,9 +37,11 @@ class HomeScreen extends StatelessWidget {
                 flex: 14,
                 child: CardHome(
                   title: cubit(context).isExpense ? 'Expense' : 'Income',
-                  onPressedAdd: cubit(context).isExpense
-                      ? cubit(context).onAddExpense
-                      : cubit(context).onAddIncome,
+                  onPressedAdd:(){
+                    cubit(context).isExpense
+                        ? cubit(context).onAddExpense(context)
+                        : cubit(context).onAddIncome(context);
+                  },
                   onPressedShow: cubit(context).isExpense
                       ? cubit(context).onShowExpense
                       : cubit(context).onShowIncome,
