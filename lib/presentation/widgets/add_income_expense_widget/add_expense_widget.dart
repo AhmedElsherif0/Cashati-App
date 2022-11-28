@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:temp/constants/app_icons.dart';
@@ -18,7 +17,6 @@ import 'main_category_choice.dart';
 
 class AddExpenseWidget extends StatefulWidget {
   const AddExpenseWidget({Key? key}) : super(key: key);
-
 
   @override
   _AddExpenseWidgetState createState() => _AddExpenseWidgetState();
@@ -43,17 +41,16 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
       subCategoryExpenseIconCodePoint: Icons.ten_k.codePoint
     ),
     SubCategoryExpense.copyWith(
-        id: 'odfiefi25',
-      mainCategoryExpenseName:'Home',
+      id: 'odfiefi25',
+      mainCategoryExpenseName: 'Home',
       subCategoryExpenseName: 'Food',
-
       subCategoryExpenseColor: 'red',
-        subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.star.codePoint,
+      subCategoryExpenseIconName: 'sss',
+      subCategoryExpenseIconCodePoint: Icons.star.codePoint,
     ),
     SubCategoryExpense.copyWith(
         id: 'efefgg99',
-        mainCategoryExpenseName:'Home',
+        mainCategoryExpenseName: 'Home',
         subCategoryExpenseName: 'Random',
         subCategoryExpenseColor: 'red',
         subCategoryExpenseIconName: 'sss',
@@ -61,54 +58,50 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
     ),
     SubCategoryExpense.copyWith(
         id: 'efefggs99',
-        mainCategoryExpenseName:'Home',
+        mainCategoryExpenseName: 'Home',
         subCategoryExpenseName: 'Try1',
         subCategoryExpenseColor: 'red',
         subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint
-    ),
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
     SubCategoryExpense.copyWith(
         id: 'efefefefggs99',
-        mainCategoryExpenseName:'Home',
+        mainCategoryExpenseName: 'Home',
         subCategoryExpenseName: 'Try2',
         subCategoryExpenseColor: 'red',
         subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint
-    ),
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
     SubCategoryExpense.copyWith(
         id: 'efefef4rggs99',
-        mainCategoryExpenseName:'Home',
+        mainCategoryExpenseName: 'Home',
         subCategoryExpenseName: 'Try3',
         subCategoryExpenseColor: 'red',
         subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint
-    ),
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
     SubCategoryExpense.copyWith(
         id: 'rf33f',
-        mainCategoryExpenseName:'Home',
+        mainCategoryExpenseName: 'Home',
         subCategoryExpenseName: 'Try4',
         subCategoryExpenseColor: 'red',
         subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint
-    ),
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
     SubCategoryExpense.copyWith(
         id: 'rf33wwwwf',
-        mainCategoryExpenseName:'Home',
+        mainCategoryExpenseName: 'Home',
         subCategoryExpenseName: 'Try5',
         subCategoryExpenseColor: 'red',
         subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
+  ];
+  String dropDownValue = 'Choose Repeat';
+  List<DropdownMenuItem<String>> dropDownChannelItems = [
+    DropdownMenuItem(
+      child: Text('Daily'),
+      value: 'Daily',
     ),
+    DropdownMenuItem(child: Text('Weekly'), value: 'Weekly'),
+    DropdownMenuItem(child: Text('Monthly'), value: 'Monthly'),
+    DropdownMenuItem(child: Text('No Repeat'), value: 'No Repeat'),
   ];
-  String dropDownValue='Choose Repeat';
-  List<DropdownMenuItem<String>> dropDownChannelItems=[
-    DropdownMenuItem(child: Text('Daily'),value: 'Daily',),
-    DropdownMenuItem(child: Text('Weekly'),value: 'Weekly'),
-    DropdownMenuItem(child: Text('Monthly'),value: 'Monthly'),
-    DropdownMenuItem(child: Text('No Repeat'),value: 'No Repeat'),
-
-  ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -262,10 +255,4 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
           ],
     ));
   }
-
-
 }
-
-
-
-
