@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../presentation/screens/home/nav_bottom_screens/category_screen.dart';
-import '../../presentation/screens/home/nav_bottom_screens/home_screen.dart';
-import '../../presentation/screens/home/nav_bottom_screens/settings_screen.dart';
-import '../../presentation/screens/home/nav_bottom_screens/statistics_expenses_screen.dart';
-import '../../presentation/screens/home/nav_bottom_screens/statistics_income_screen.dart';
+
+import '../../../presentation/screens/home/nav_bottom_screens/category_screen.dart';
+import '../../../presentation/screens/home/nav_bottom_screens/home_screen.dart';
+import '../../../presentation/screens/home/nav_bottom_screens/settings_screen.dart';
+import '../../../presentation/screens/home/nav_bottom_screens/statistics_expenses_screen.dart';
+import '../../../presentation/screens/home/nav_bottom_screens/statistics_income_screen.dart';
 
 part 'global_state.dart';
 

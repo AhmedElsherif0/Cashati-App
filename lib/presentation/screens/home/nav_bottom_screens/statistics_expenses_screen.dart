@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/data/models/expenses/expenses_lists.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/chart_bars_card.dart';
@@ -53,6 +55,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     super.dispose();
   }
 
+  ExpenseRepeatCubit getStatisticsCubit() => BlocProvider.of<ExpenseRepeatCubit>(context);
+
   @override
   Widget build(BuildContext context) {
     ExpensesLists expensesLists = ExpensesLists();
@@ -62,26 +66,23 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
         textDirection: TextDirection.ltr,
         child: PageView.builder(
           controller: _controller,
-          onPageChanged: (value) => setState(() => currentIndex = value),
+          onPageChanged: (index) => setState(() => currentIndex = index),
           itemCount: 3,
           itemBuilder: (context, index) {
-            final list =expensesLists.expensesData[index];
+            final list = expensesLists.expensesData[index];
             return Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Column(
                   children: [
-
                     DefaultDropDownButton(
-                      selectedValue:
-                      list.chooseDate,
+                      selectedValue: list.chooseDate,
                       defaultText: list.chooseDate,
                       items: List.generate(12, (index) {
                         index += 1;
                         return '${(list.chooseInnerData)} $index';
                       }),
                     ),
-
                     const Spacer(),
 
                     /// Flow Chart Widgets.
@@ -132,15 +133,20 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                     ),
 
                     /// TabBarView Widgets.
-                 /*   Expanded(
+                    Expanded(
                       flex: 40,
-                      child: *//*CustomTabBarView(
-                          priorityName: 'Important',
-                          expensesList: expensesLists.expensesData,
-                          currentIndex: currentIndex,
-                          index: index,
-                          pageController: _controller),*//*
-                    ),*/
+                      child: BlocBuilder<ExpenseRepeatCubit, ExpenseRepeatState>(
+                        builder: (context, state) {
+                          return CustomTabBarView(
+                              priorityName: 'Important',
+                              expenseDetailsList:
+                              getStatisticsCubit().getExpenseTypeList(),
+                              currentIndex: currentIndex,
+                              index: index,
+                              pageController: _controller);
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

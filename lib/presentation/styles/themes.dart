@@ -6,7 +6,6 @@ import 'package:temp/presentation/styles/styles.dart';
 
 class AppTheme {
   static final AppStyle _appStyle = AppStyle();
-
   static ThemeData lightThemeMode = ThemeData(
     fontFamily: 'poppins',
     appBarTheme: AppBarTheme(
@@ -18,7 +17,6 @@ class AppTheme {
       systemOverlayStyle: _appStyle.systemUiStatusBarStyle(),
     ),
     textTheme: TextTheme(
-
       headline1: _appStyle.headline1Theme(),
       headline2: _appStyle.headline2Theme(),
       headline3: _appStyle.headline3Theme(),

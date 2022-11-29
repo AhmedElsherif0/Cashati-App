@@ -100,8 +100,6 @@ class ExpensesRepeatImpl extends ExpenseRepeatRepo {
   /// box is already opened..now you can handle the data as you can.
   ExpenseRepeatTypes _getExpenseDataFromBox() {
     return _hiveHelper
-        .getBox(boxName: AppBoxes.expenseRepeatTypes)
-        .values
-        .toList()[0];
+        .getBox(boxName: AppBoxes.expenseRepeatTypes).getAt(0);
   }
 }

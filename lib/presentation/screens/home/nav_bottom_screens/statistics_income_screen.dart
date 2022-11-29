@@ -54,7 +54,6 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
   Widget build(BuildContext context) {
     ExpensesLists expensesLists = ExpensesLists();
     int currentIndex = 0;
-
     return Scaffold(
       body: Directionality(
         textDirection: TextDirection.ltr,
@@ -93,10 +92,9 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                                   onPressToHome: () {},
                                   header: 'Income'),
                             ),
-
                           Expanded(
                             flex: 4,
-                            child: Center(child: switchWidgets(index)),
+                            child: switchWidgets(index),
                           ),
 
                           /// importance Radio button.
@@ -124,15 +122,16 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                     ),
 
                     /// TabBarView Widgets.
-                  /*  Expanded(
+                    Expanded(
                       flex: 40,
                       child: CustomTabBarView(
-                          priorityName: 'Fixed',
-                          expensesList: expensesLists.expensesData,
-                          currentIndex: currentIndex,
-                          index: index,
-                          pageController: _controller),
-                    ),*/
+                        priorityName: 'Fixed',
+                        currentIndex: currentIndex,
+                        index: index,
+                        pageController: _controller,
+                        expenseDetailsList: [],
+                      ),
+                    ),
                   ],
                 ),
               ),

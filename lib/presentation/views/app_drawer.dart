@@ -56,9 +56,16 @@ class AppDrawer extends StatelessWidget {
           Expanded(
             flex: 3,
             child: DrawerItem(
-                icon: AppIcons.notificationSetting, text: 'Test Data', onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=>AllExpIncTest()));
-            }),
+                icon: AppIcons.notificationSetting,
+                text: 'Test Data',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const AllExpIncTest(),
+                    ),
+                  );
+                }),
           ),
           const Spacer(flex: 3),
         ],

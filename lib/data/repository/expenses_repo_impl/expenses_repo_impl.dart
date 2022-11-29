@@ -5,13 +5,13 @@ import 'package:temp/data/models/expenses/expense_details_model.dart';
 import 'package:temp/data/models/expenses/expense_types_model.dart';
 
 import '../../../business_logic/repository/expenses_repo/expenses_repo.dart';
-import '../../../constants/app_strings.dart';
 import '../../local/hive/id_generator.dart';
 import '../../models/expenses/expense_model.dart';
 
 class ExpensesRepositoryImpl implements ExpensesRepository {
   DateTime today = DateTime.now();
   final HiveHelper _hiveDatabase = HiveHelper();
+  ExpenseRepeatTypes expenseRepeatTypes = ExpenseRepeatTypes();
 
   @override
   Future<void> addExpenseToExpensesBox({
@@ -104,6 +104,9 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
     //DateTime today=DateTime(2022,12,5);
 
     // if(today.difference(date).inDays==0){
+
+    // Todo :: this function will return false any way..
+    // Todo ::  return the condition instead of " false ".
     (today.day == date.day &&
             today.month == today.month &&
             today.year == date.year)
@@ -115,10 +118,8 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
   /// something missed.
   @override
   Future addDailyExpenseToRepeatedBox(ExpenseModel expenseModel) async {
-    final expenseRepeatTypesBox =
-        _hiveDatabase.getBox(boxName: AppBoxes.expenseRepeatTypes);
-    final ExpenseRepeatDetailsModel dailyExpenseModel =
-        ExpenseRepeatDetailsModel.copyWith(
+
+    ExpenseRepeatDetailsModel dailyExpenseModel = ExpenseRepeatDetailsModel.copyWith(
       lastConfirmationDate: today,
       isLastConfirmed: false,
       creationDate: today,
@@ -127,13 +128,20 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
           expensePaymentDate: expenseModel.paymentDate, repeatType: 'Daily'),
       nextShownDate: expenseModel.paymentDate,
     );
-    await _hiveDatabase.addBox(boxName: expenseRepeatTypesBox);
+    expenseRepeatTypes.dailyExpense.add(dailyExpenseModel);
+
+    /// the IndexKey refer to the Index of the HiveField in the DataModel.
+    await _hiveDatabase.putByIndexKey(
+        indexKey: 0,
+        boxName: _hiveDatabase.getBox(boxName: AppBoxes.expenseRepeatTypes),
+        dataModel: dailyExpenseModel);
   }
 
   @override
   Future addWeeklyExpenseToRepeatedBox(ExpenseModel expenseModel) async {
     final weeklyExpensesBox =
         _hiveDatabase.getBox(boxName: AppBoxes.expenseRepeatTypes);
+
     final ExpenseRepeatDetailsModel weeklyExpenseModel =
         ExpenseRepeatDetailsModel.copyWith(
       lastConfirmationDate: today,
