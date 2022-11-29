@@ -54,22 +54,4 @@ class HomeScreen extends StatelessWidget {
   }
 
   HomeCubit cubit(context) => BlocProvider.of<HomeCubit>(context);
-
-  Widget missingWidget(cubit, textTheme) {
-    return Column(
-      children: [
-        cubit.isSelect
-            ? CardHome(
-                title: "Expenses",
-                onPressedAdd: () {},
-                onPressedShow: () {},
-              )
-            : CardHome(
-                title: 'Income',
-                onPressedAdd: () {},
-                onPressedShow: () {},
-              )
-      ],
-    );
   }
-}
