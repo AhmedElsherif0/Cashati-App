@@ -10,9 +10,9 @@ import '../../repository/expense_repeat/expense_repeat_repo.dart';
 part 'expense_repeat_state.dart';
 
 class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
-  ExpenseRepeatCubit() : super(ExpenseRepeatInitial());
+  ExpenseRepeatCubit(this._expenseRepeatRepo) : super(ExpenseRepeatInitial());
 
-  final ExpenseRepeatRepo _expenseRepeatRepo = ExpensesRepeatImpl();
+  final ExpenseRepeatRepo _expenseRepeatRepo ;
   List<String> noRepeats = ExpensesLists().noRepeats;
 
   int currentIndex = 0;

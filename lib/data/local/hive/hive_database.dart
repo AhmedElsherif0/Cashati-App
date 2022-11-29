@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 /// SingleTon Data Class.
 class HiveHelper {
@@ -13,18 +14,27 @@ class HiveHelper {
 
   Box<T> getBox<T>({required String boxName}) => Hive.box<T>(boxName);
 
-  List<Box> getBoxList({required Box boxName}) =>
-      boxName.values.toList().cast();
+  List getBoxList<T>({required Box<T> boxName}) => boxName.values.toList();
 
-  Future<int> addBox<T>({required Box boxName}) async {
+  Future<int> addBox<T>({required Box boxName,required T dataModel}) async {
     _requireInitialized(boxName);
-    return await boxName.add('$boxName');
+    return await boxName.add(dataModel);
   }
 
-  Future<void> save<T>(
-      {required Box boxName, required dynamic dataModel}) async {
+  Future<void> putByIndexKey<E>(
+      {required Box<E> boxName,
+      required int indexKey,
+      required E dataModel}) async {
+    return await boxName.putAt(indexKey, dataModel);
+  }
+
+  /// for updates the value.
+  Future<void> update<T>(
+      {required Box boxName,
+      required int indexKey,
+      required dynamic dataModel}) async {
     _requireInitialized(boxName);
-    await boxName.put(dataModel.id, dataModel);
+    await boxName.putAt(indexKey, dataModel);
   }
 
   Future<void> deleteBox(

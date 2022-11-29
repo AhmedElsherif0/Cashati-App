@@ -15,8 +15,8 @@ class CardHome extends StatelessWidget {
       : super(key: key);
 
   final String title;
-  final  Function() onPressedShow;
-  final  Function() onPressedAdd;
+  final Function() onPressedShow;
+  final Function() onPressedAdd;
 
   Widget dottedButton(textTheme, String text) => Align(
         alignment: Alignment.center,

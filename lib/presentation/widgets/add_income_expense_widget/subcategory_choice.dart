@@ -8,15 +8,11 @@ class SubCategoryChoice extends StatefulWidget {
     Key? key,
     required this.color,
     required this.currentID,
-    required this.subCatName,
-    required this.subCatIconCode,
-    required this.subCatID,
+    required this.subCategoryExpense,
   }) : super(key: key);
   final Color color;
   final String currentID;
-  final String subCatID;
-  final String subCatName;
-  final int subCatIconCode;
+  final SubCategoryExpense subCategoryExpense;
 
   @override
   _SubCategoryChoiceState createState() => _SubCategoryChoiceState();
@@ -32,7 +28,7 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
   Widget build(BuildContext context) {
     const duration400 = Duration(milliseconds: 400);
     return Visibility(
-      visible: widget.subCatID == widget.currentID,
+      visible: widget.subCategoryExpense.id == widget.currentID,
       replacement: AnimatedContainer(
         duration: duration400,
         // height: 91,
@@ -45,12 +41,12 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
           children: [
             Icon(
               IconData(
-                  widget.subCatIconCode),
+                  widget.subCategoryExpense.subCategoryExpenseIconCodePoint),
               color: widget.color,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Text(
-              widget.subCatName,
+              widget.subCategoryExpense.subCategoryExpenseName,
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: widget.color,
                   fontSize: 15,
@@ -63,11 +59,7 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
         duration: duration400,
         // height: 91,
         //   width: 129,
-        decoration: BoxDecoration(
-          color: widget.color,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: widget.color, width: 1),
-        ),
+        decoration: animatedDecoration(widget.color),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,12 +67,12 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
           children: [
             Icon(
               IconData(
-                  widget.subCatIconCode),
+                  widget.subCategoryExpense.subCategoryExpenseIconCodePoint),
               color: AppColor.white,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Text(
-              widget.subCatName,
+              widget.subCategoryExpense.subCategoryExpenseName,
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: AppColor.white,
                   fontSize: 15,

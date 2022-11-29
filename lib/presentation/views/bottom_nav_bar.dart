@@ -3,11 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
 
-import '../../business_logic/cubit/global_cubit/global_cubit.dart';
+import '../../business_logic/global_cubit/global_cubit.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
   const BottomNavBarWidget({Key? key, required this.cubit}) : super(key: key);
-
   final GlobalCubit cubit;
 
   @override

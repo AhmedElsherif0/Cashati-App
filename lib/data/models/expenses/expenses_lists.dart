@@ -10,6 +10,7 @@ class ExpensesLists {
   int monthDate = DateTime.now().weekday;
 
   List<String> noRepeats =['Day','Weekly','Monthly','No Repeat'];
+  List<String> statisticsList =['Daily','Monthly','Yearly'];
   List<ExpensesModel> expensesData = [
     ExpensesModel(
         name: 'Daily',
