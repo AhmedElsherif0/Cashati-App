@@ -1,4 +1,3 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:temp/constants/app_icons.dart';
@@ -22,8 +21,6 @@ class DropDownCustomWidget extends StatefulWidget {
 }
 
 class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,12 +44,9 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
         onChanged: (value) {
           widget.onChangedFunc(value!);
         },
-        icon: SvgPicture.asset(
-          AppIcons.downArrow,
-          color: AppColor.primaryColor,
-        ),
+        icon:
+            SvgPicture.asset(AppIcons.downArrow, color: AppColor.primaryColor),
       ),
     );
   }
 }
-*/
