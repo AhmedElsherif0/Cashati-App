@@ -7,13 +7,14 @@ import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/tab_card_View.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 import '../../constants/enum_classes.dart';
+import '../../data/models/expenses/expenses_lists.dart';
 import '../widgets/details_text.dart';
 
 class CustomTabBarView extends StatefulWidget {
   const CustomTabBarView({
     Key? key,
     required this.currentIndex,
-    required this.expensesList,
+    required this.expenseDetailsList,
     required this.index,
     required this.pageController,
     required this.priorityName,
@@ -22,7 +23,7 @@ class CustomTabBarView extends StatefulWidget {
   final int currentIndex;
   final String priorityName;
   final int index;
-  final List<ExpenseRepeatDetailsModel> expensesList;
+  final List<ExpenseRepeatDetailsModel> expenseDetailsList;
   final PageController pageController;
 
   @override
@@ -32,6 +33,14 @@ class CustomTabBarView extends StatefulWidget {
 class _CustomTabBarViewState extends State<CustomTabBarView>
     with TickerProviderStateMixin {
   late TabController tabController;
+
+  void onSwapByIndex({required int index}) {
+    widget.pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.easeOut,
+    );
+  }
 
   @override
   void initState() {
@@ -48,9 +57,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
 
   @override
   Widget build(BuildContext context) {
-    String currentTime =
-        DateFormat('dd/MM/yyyy').format(DateTime.now().toUtc());
-    final currentTimeAfter = currentTime.replaceFirst('0', '');
+    ExpensesLists expensesLists = ExpensesLists();
     const duration600ms = Duration(milliseconds: 600);
     return DefaultTabController(
       animationDuration: duration600ms,
@@ -59,15 +66,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(
-            onTap: (value) {
-              setState(() {
-                widget.pageController.animateToPage(
-                  tabController.index,
-                  duration: duration600ms,
-                  curve: Curves.easeOut,
-                );
-              });
-            },
+            onTap: (value) => setState(() => onSwapByIndex(index: value)),
             indicatorWeight: 0,
             controller: tabController,
             indicator: BoxDecoration(
@@ -77,15 +76,18 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             ),
             unselectedLabelColor: AppColor.primaryColor,
             labelStyle: Theme.of(context).textTheme.headline6,
-            tabs: List.generate(
-              3,
-              (index) => Tab(
+            tabs: List.generate(3, (index) {
+              return Tab(
                 height: 6.h,
                 child: TabBarItem(
-                    text: widget.expensesList[index].expenseModel.name,
-                    onTap: () {}),
-              ),
-            ),
+                  text: expensesLists.statisticsList[index],
+                  onTap: () => setState(() => onSwapByIndex(index: index)),
+                  textColor: tabController.index == index
+                      ? AppColor.white
+                      : AppColor.primaryColor,
+                ),
+              );
+            }),
           ),
         ),
         body: Column(
@@ -93,27 +95,23 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             const Spacer(),
             const DetailsText(),
             const Spacer(),
-         /*   Expanded(
+            Expanded(
               flex: 44,
               child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
                 controller: tabController,
                 children: List.generate(
-                  3,
+                  expensesLists.noRepeats.length - 1,
                   (index) => TabCardView(
                     priorityName: widget.priorityName,
-                    expensesName: widget.expensesList[index].expenseModel.name,
-                    listItem: widget.expensesList,
-                    isPriority:
-                        widget.expensesList[index].expenseModel.isPriority,
-                    dateTime: currentTimeAfter,
-                    price: '${widget.expensesList[index].expenseModel.amount}',
                     seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                     onPressSeeMore: () {},
                     isVisible: true,
+                    expenseRepeatList: widget.expenseDetailsList,
                   ),
                 ),
               ),
-            ),*/
+            ),
           ],
         ),
       ),

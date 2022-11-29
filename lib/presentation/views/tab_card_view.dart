@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/data/models/expenses/expense_details_model.dart';
-import 'package:temp/data/models/expenses/expense_model.dart';
-import 'package:temp/data/models/expenses/expenses_model.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import '../../constants/enum_classes.dart';
 import '../styles/colors.dart';
@@ -24,7 +21,7 @@ class TabCardView extends StatelessWidget {
 
   final bool isVisible;
   final bool isRepeated;
-  final List<ExpenseRepeatDetailsModel> expenseRepeatList;
+  final List expenseRepeatList;
   final String priorityName;
   final Color priceColor;
   final Color priorityColor;
@@ -32,7 +29,7 @@ class TabCardView extends StatelessWidget {
   final SwitchWidgets? seeMoreOrDetailsOrHighest;
 
   Widget switchWidgets(SwitchWidgets? switchWidgets) {
-    Widget widget = const SizedBox.shrink();
+    Widget widget;
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
         widget = ImportantOrFixed(
@@ -58,12 +55,14 @@ class TabCardView extends StatelessWidget {
             padding: EdgeInsets.zero,
             itemCount: expenseRepeatList.length,
             itemBuilder: (context, index) {
+              final expenseModel = expenseRepeatList[index].expenseModel;
               return Column(
                 children: [
                   Card(
                     margin: EdgeInsets.symmetric(horizontal: 16.sp),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.sp)),
+                      borderRadius: BorderRadius.circular(12.sp),
+                    ),
                     elevation: 4.sp,
                     color: AppColor.lightGrey,
                     child: Padding(
@@ -73,12 +72,11 @@ class TabCardView extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text(
-                                  '${expenseRepeatList[index].expenseModel.repeatType} ${index+1}',
+                              Text('${expenseModel.repeatType} ${index + 1}',
                                   style: textTheme.headline5),
                               const Spacer(),
                               Text(
-                                '${expenseRepeatList[index].expenseModel.amount ?? 200} LE',
+                                '${expenseModel.amount ?? 200} LE',
                                 style: textTheme.headline5
                                     ?.copyWith(color: priceColor),
                               ),
@@ -88,8 +86,9 @@ class TabCardView extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                                '${expenseRepeatList[index].expenseModel.createdDate}',
-                                style: textTheme.subtitle1),
+                              '${expenseModel.createdDate}',
+                              style: textTheme.subtitle1,
+                            ),
                           ),
                           SizedBox(height: 1.h),
                           Row(
