@@ -1,68 +1,107 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:temp/constants/app_icons.dart';
+import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/local/hive/id_generator.dart';
+import 'package:temp/data/models/expenses/expense_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/subcategory_choice.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
 import 'package:temp/presentation/widgets/editable_infor_field.dart';
 import 'package:temp/presentation/widgets/editable_text.dart';
 
+import '../../../data/local/hive/hive_database.dart';
+import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import 'choose_container.dart';
 import 'main_category_choice.dart';
 
-class AddIncOrExpWidget extends StatefulWidget {
-  const AddIncOrExpWidget({Key? key}) : super(key: key);
-
+class AddExpenseWidget extends StatefulWidget {
+  const AddExpenseWidget({Key? key}) : super(key: key);
 
   @override
-  _AddIncOrExpWidgetState createState() => _AddIncOrExpWidgetState();
+  _AddExpenseWidgetState createState() => _AddExpenseWidgetState();
 }
 
-class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
+class _AddExpenseWidgetState extends State<AddExpenseWidget> {
   DateTime? choosedDate;
   bool isSubChoosed=false;
-  bool choosed=false;
   bool isRepeat=false;
   String currentID='';
+  String? subCatName;
   TextEditingController amountCtrl=TextEditingController();
   TextEditingController descriptionCtrl=TextEditingController();
+  TextEditingController nameCtrl=TextEditingController();
   List<SubCategoryExpense> list=[
-    SubCategoryExpense(
-      subCategoryExpenseId: 'ssfsf55',
-      subCategoryExpenseName: 'Feeeee',
-        mainCategoryExpenseName:'Fixed',
+    SubCategoryExpense.copyWith(
+      id: 'ssfsf55',
+      subCategoryExpenseName: 'Transportation',
+        mainCategoryExpenseName:'Home',
       subCategoryExpenseColor: 'red',
       subCategoryExpenseIconName: 'sss',
-      subCategoryExpenseIconCodePoint: Icons.star.codePoint
+      subCategoryExpenseIconCodePoint: Icons.ten_k.codePoint
     ),
-    SubCategoryExpense(
-        subCategoryExpenseId: 'odfiefi25',
-      mainCategoryExpenseName:'Fixed',
-      subCategoryExpenseName: 'KIMMMNA',
-
+    SubCategoryExpense.copyWith(
+      id: 'odfiefi25',
+      mainCategoryExpenseName: 'Home',
+      subCategoryExpenseName: 'Food',
       subCategoryExpenseColor: 'red',
-        subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.star.codePoint,
+      subCategoryExpenseIconName: 'sss',
+      subCategoryExpenseIconCodePoint: Icons.star.codePoint,
     ),
-    SubCategoryExpense(
-        subCategoryExpenseId: 'efefgg99',
-        mainCategoryExpenseName:'Fixed',
-        subCategoryExpenseName: 'KIMMMNA',
+    SubCategoryExpense.copyWith(
+        id: 'efefgg99',
+        mainCategoryExpenseName: 'Home',
+        subCategoryExpenseName: 'Random',
         subCategoryExpenseColor: 'red',
         subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.star.codePoint
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint
     ),
+    SubCategoryExpense.copyWith(
+        id: 'efefggs99',
+        mainCategoryExpenseName: 'Home',
+        subCategoryExpenseName: 'Try1',
+        subCategoryExpenseColor: 'red',
+        subCategoryExpenseIconName: 'sss',
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
+    SubCategoryExpense.copyWith(
+        id: 'efefefefggs99',
+        mainCategoryExpenseName: 'Home',
+        subCategoryExpenseName: 'Try2',
+        subCategoryExpenseColor: 'red',
+        subCategoryExpenseIconName: 'sss',
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
+    SubCategoryExpense.copyWith(
+        id: 'efefef4rggs99',
+        mainCategoryExpenseName: 'Home',
+        subCategoryExpenseName: 'Try3',
+        subCategoryExpenseColor: 'red',
+        subCategoryExpenseIconName: 'sss',
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
+    SubCategoryExpense.copyWith(
+        id: 'rf33f',
+        mainCategoryExpenseName: 'Home',
+        subCategoryExpenseName: 'Try4',
+        subCategoryExpenseColor: 'red',
+        subCategoryExpenseIconName: 'sss',
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
+    SubCategoryExpense.copyWith(
+        id: 'rf33wwwwf',
+        mainCategoryExpenseName: 'Home',
+        subCategoryExpenseName: 'Try5',
+        subCategoryExpenseColor: 'red',
+        subCategoryExpenseIconName: 'sss',
+        subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
   ];
-  String dropDownValue='Choose Repeat';
-  List<DropdownMenuItem<String>> dropDownChannelItems=[
-    DropdownMenuItem(child: Text('Daily'),value: 'Daily',),
-    DropdownMenuItem(child: Text('Weekly'),value: 'Weekly'),
-    DropdownMenuItem(child: Text('Monthly'),value: 'Monthly'),
-    DropdownMenuItem(child: Text('No Repeat'),value: 'No Repeat'),
-
+  String dropDownValue = 'Choose Repeat';
+  List<DropdownMenuItem<String>> dropDownChannelItems = [
+    DropdownMenuItem(
+      child: Text('Daily'),
+      value: 'Daily',
+    ),
+    DropdownMenuItem(child: Text('Weekly'), value: 'Weekly'),
+    DropdownMenuItem(child: Text('Monthly'), value: 'Monthly'),
+    DropdownMenuItem(child: Text('No Repeat'), value: 'No Repeat'),
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +110,7 @@ class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 35,),
-            MainCategoryChoice(mainCategoryName: 'Fixed',),
+            MainCategoryChoice(mainCategoryName: 'Home',),
             Visibility(
               visible: isSubChoosed,
                 child: SizedBox(height: 45,),
@@ -96,12 +135,24 @@ class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
                       onTap: (){
                         setState(() {
                           //currentID=list.where((element) => element.subCategoryExpenseId==currentID).single.subCategoryExpenseId;
-                          currentID=list[index].subCategoryExpenseId;
+                          currentID=list[index].id;
+                          subCatName=list[index].subCategoryExpenseName;
 
                         });
                       },
-                        child: SubCategoryChoice(color: Colors.red,currentID: currentID,subCategoryExpense: list[index],));
+                        child: SubCategoryChoice(color: Colors.red,currentID: currentID,
+                          subCatIconCode:  list[index].subCategoryExpenseIconCodePoint,
+                          subCatID:   list[index].id,
+                          subCatName:   list[index].subCategoryExpenseIconName,));
                   }),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              width: 270,
+              child: EditableInfoField(textEditingController: nameCtrl, hint: 'Expense Name',
+                IconName: AppIcons.descriptionIcon,
+                keyboardType: TextInputType.text,
+              ),
             ),
             SizedBox(height: 10,),
             Row(
@@ -119,7 +170,7 @@ class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
                 FittedBox(child: Text('EGP',style: Theme.of(context).textTheme.headline5!.copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.bold),)),
               ],
             ),
-         
+
 
             SizedBox(height: 10,),
             Container(
@@ -184,15 +235,24 @@ class _AddIncOrExpWidgetState extends State<AddIncOrExpWidget> {
               replacement: SizedBox(),
             ),
             SizedBox(height: 10,),
+            ElevatedButton(onPressed: (){
+              HiveHelper().getBox(boxName: AppBoxes.expenseModel).add(ExpenseModel.copyWith(id: GUIDGen.generate(),
+                  name: nameCtrl.text,
+                  amount: int.parse(amountCtrl.text)??500,
+                  comment: amountCtrl.text,
+                  repeatType: dropDownValue,
+                  mainCategory: 'Home',
+                  isAddAuto: false,
+                  isPriority: false,
+                  subCategory: subCatName??'SubCategoryDefault',
+                  isReceiveNotification: true,
+                  isPaid: choosedDate!.day==DateTime.now()?true:false,
+                  createdDate: DateTime.now(),
+                  paymentDate: choosedDate??DateTime.now()));
+            }, child: Text('Add')),
 
             MainCategoryChoice(mainCategoryName: 'Variable'),
           ],
     ));
   }
-
-
 }
-
-
-
-*/
