@@ -24,7 +24,7 @@ class AppRouter {
             builder: (_) => const ExpenseRepeatTypeScreen());
       case AppRouterNames.rExpenseRepeatDetails:
         return MaterialPageRoute(
-            builder: (_) => const HomeScreen());
+            builder: (_) => const AddExpenseOrIncomeScreen());
       case AppRouterNames.rAddExpenseOrIncomeScreen:
         return MaterialPageRoute(
             builder: (_) => const AddExpenseOrIncomeScreen());
