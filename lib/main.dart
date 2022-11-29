@@ -8,6 +8,8 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/repository/expense_repeat/expense_repeat_repo.dart';
+import 'package:temp/data/models/expenses/expense_details_model.dart';
+import 'package:temp/data/models/expenses/expense_types_model.dart';
 import 'package:temp/data/repository/expenses_repeat/expenses_repeat_impl.dart';
 import 'package:temp/data/models/expenses/expense_model.dart';
 import 'package:temp/data/models/income/income_model.dart';
@@ -34,6 +36,8 @@ Future<void> main() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(ExpenseModelAdapter());
+  Hive.registerAdapter(ExpenseRepeatTypesAdapter());
+  Hive.registerAdapter(ExpenseRepeatDetailsModelAdapter());
   Hive.registerAdapter(IncomeModelAdapter());
   await HiveHelper().openBox(boxName: AppBoxes.expenseModel);
   await HiveHelper().openBox(boxName: AppBoxes.expenseRepeatTypes);

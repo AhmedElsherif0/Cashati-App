@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
+import 'package:temp/data/models/expenses/expense_details_model.dart';
 import 'package:temp/data/models/expenses/expense_model.dart';
+import 'package:temp/data/models/expenses/expense_types_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/subcategory_choice.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
@@ -38,7 +41,8 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
         mainCategoryExpenseName:'Home',
       subCategoryExpenseColor: 'red',
       subCategoryExpenseIconName: 'sss',
-      subCategoryExpenseIconCodePoint: Icons.ten_k.codePoint
+      subCategoryExpenseIconCodePoint: Icons.ten_k.codePoint,
+
     ),
     SubCategoryExpense.copyWith(
       id: 'odfiefi25',
@@ -236,9 +240,10 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
             ),
             SizedBox(height: 10,),
             ElevatedButton(onPressed: (){
-              HiveHelper().getBox(boxName: AppBoxes.expenseModel).add(ExpenseModel.copyWith(id: GUIDGen.generate(),
+              final today=DateTime.now();
+              final ExpenseModel expense= ExpenseModel.copyWith(id: GUIDGen.generate(),
                   name: nameCtrl.text,
-                  amount: int.parse(amountCtrl.text)??500,
+                  amount: int.parse(amountCtrl.text),
                   comment: amountCtrl.text,
                   repeatType: dropDownValue,
                   mainCategory: 'Home',
@@ -246,10 +251,24 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                   isPriority: false,
                   subCategory: subCatName??'SubCategoryDefault',
                   isReceiveNotification: true,
-                  isPaid: choosedDate!.day==DateTime.now()?true:false,
+                  //isPaid: choosedDate!.day==DateTime.now()?true:false,
+                  isPaid: false,
                   createdDate: DateTime.now(),
-                  paymentDate: choosedDate??DateTime.now()));
-            }, child: Text('Add')),
+                  paymentDate: choosedDate??DateTime.now());
+              final ExpenseRepeatDetailsModel expRep=ExpenseRepeatDetailsModel.copyWith(
+                  lastConfirmationDate:today ,
+                  isLastConfirmed: true,
+                  creationDate: today,
+                  expenseModel: expense,
+                  lastShownDate: today,
+                  nextShownDate: today);
+
+              HiveHelper().putByIndexKey(
+                  boxName: HiveHelper().getBox(boxName: AppBoxes.expenseRepeatTypes),
+                  indexKey:expense.repeatType=='Daily'?0:expense.repeatType=='Weekly'?1:expense.repeatType=='Monthly'? 2:3 ,
+                  //indexKey:1 ,
+                  dataModel: expRep);
+             }, child: Text('Add')),
 
             MainCategoryChoice(mainCategoryName: 'Variable'),
           ],
