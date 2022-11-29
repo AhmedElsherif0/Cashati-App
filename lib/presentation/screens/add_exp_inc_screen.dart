@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:temp/presentation/widgets/add_income_expense_widget/add_income_widget.dart';
 
 import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
-import '../widgets/add_income_expense_widget/add_inc_exp_widget.dart';
+import '../widgets/add_income_expense_widget/add_expense_widget.dart';
 
 class AddExpenseOrIncomeScreen extends StatefulWidget {
   const AddExpenseOrIncomeScreen({Key? key}) : super(key: key);
@@ -59,8 +60,8 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
             padding: EdgeInsets.symmetric(horizontal: 24.0),
             child: TabBarView(
               children: [
-                /* AddIncOrExpWidget(),
-                AddIncOrExpWidget(),*/
+                AddExpenseWidget(),
+                AddIncomeWidget(),
               ],
             ),
           )),
