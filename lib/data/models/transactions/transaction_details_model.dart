@@ -1,23 +1,21 @@
 import 'package:hive/hive.dart';
-import 'income_model.dart';
+import 'transaction_model.dart';
 
-part 'income_repeat_details_model.g.dart';
+part 'transaction_details_model.g.dart';
 
-@HiveType(typeId: 4)
-class IncomeRepeatDetailsModel {
-  IncomeRepeatDetailsModel();
-
-  IncomeRepeatDetailsModel.copyWith({
-    required this.incomeModel,
+@HiveType(typeId: 1)
+class TransactionRepeatDetailsModel extends HiveObject{
+  TransactionRepeatDetailsModel();
+  TransactionRepeatDetailsModel.copyWith({
     required this.lastConfirmationDate,
-    required this.nextShownDate,
-    required this.lastShownDate,
     required this.isLastConfirmed,
     required this.creationDate,
-  });
-
+    required this.transactionModel,
+    required this.lastShownDate,
+    required this.nextShownDate,
+});
   @HiveField(0)
-  late IncomeModel incomeModel;
+  late TransactionModel transactionModel;
   @HiveField(1)
   late bool isLastConfirmed;
   @HiveField(2)

@@ -1,26 +1,23 @@
-import '../../../data/models/income/income_model.dart';
+
+import '../../../data/models/transactions/transaction_model.dart';
 
 abstract class IncomeRepository {
 
 Future<void> addIncomeToIncomeBox({
-  required String incomeName,
-  required num incomeAmount,
-  required String incomeMainCateg,
-  required String incomeSubCateg,
-  required String incomeComment,
-  required String incomeRepeat,
-  required DateTime incomePaymentDate,
-  required DateTime incomeCreatedDate,
+  required String name,
+  required num amount,
+  required String mainCategory,
+  required String subCategory,
+  required String comment,
+  required String repeat,
+  required DateTime paymentDate,
+  required DateTime createdDate,
 });
-Future<void> addToRepeatedBoxes(String repeat,IncomeModel incomeModel);
-DateTime putNextShownDate({required DateTime incomePaymentDate,required String repeatType});
-bool isEqualToday({required DateTime date});
-Future addDailyIncomeToRepeatedBox(IncomeModel incomeModel);
-Future addWeeklyIncomeToRepeatedBox(IncomeModel incomeModel);
-Future addMonthlyIncomeToRepeatedBox(IncomeModel incomeModel);
-Future addNoRepeatIncomeToRepeatedBox(IncomeModel incomeModel);
+Future<void> addToRepeatedBoxes(String repeat,TransactionModel incomeModel);
 
-bool checkSameDay({required DateTime date});
-
+Future addDailyIncomeToRepeatedBox(TransactionModel incomeModel);
+Future addWeeklyIncomeToRepeatedBox(TransactionModel incomeModel);
+Future addMonthlyIncomeToRepeatedBox(TransactionModel incomeModel);
+Future addNoRepeatIncomeToRepeatedBox(TransactionModel incomeModel);
 
 }

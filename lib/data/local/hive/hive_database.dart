@@ -12,11 +12,11 @@ class HiveHelper {
   Future<Box<E>> openBox<E>({required String boxName}) async =>
       await Hive.openBox<E>(boxName);
 
-  Box<T> getBox<T>({required String boxName}) => Hive.box<T>(boxName);
+  Box<T> getBoxName<T>({required String boxName}) => Hive.box<T>(boxName);
 
-  List getBoxList<T>({required Box<T> boxName}) => boxName.values.toList();
+  List<T> getBoxData<T>({required Box<T> boxName}) => boxName.values.toList();
 
-  Future<int> addBox<T>({required Box boxName,required T dataModel}) async {
+  Future<int> addToBox<T>({required Box boxName, required T dataModel}) async {
     _requireInitialized(boxName);
     return await boxName.add(dataModel);
   }
@@ -25,14 +25,14 @@ class HiveHelper {
       {required Box<E> boxName,
       required int indexKey,
       required E dataModel}) async {
-    return await boxName.putAt(indexKey, dataModel);
+    return await boxName.put(indexKey, dataModel);
   }
 
   /// for updates the value.
   Future<void> update<T>(
       {required Box boxName,
       required int indexKey,
-      required dynamic dataModel}) async {
+      required T dataModel}) async {
     _requireInitialized(boxName);
     await boxName.putAt(indexKey, dataModel);
   }

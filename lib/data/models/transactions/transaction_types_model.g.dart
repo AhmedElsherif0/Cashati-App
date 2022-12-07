@@ -1,30 +1,34 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'income_types_model.dart';
+part of 'transaction_types_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class MonthlyIncomeModelAdapter extends TypeAdapter<MonthlyIncomeModel> {
+class TransactionRepeatTypesAdapter
+    extends TypeAdapter<TransactionRepeatTypes> {
   @override
-  final int typeId = 5;
+  final int typeId = 2;
 
   @override
-  MonthlyIncomeModel read(BinaryReader reader) {
+  TransactionRepeatTypes read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return MonthlyIncomeModel()
-      ..dailyExpense = (fields[0] as List).cast<IncomeRepeatDetailsModel>()
-      ..weeklyExpense = (fields[1] as List).cast<IncomeRepeatDetailsModel>()
-      ..monthlyExpense = (fields[2] as List).cast<IncomeRepeatDetailsModel>()
-      ..noRepeatExpense = (fields[3] as List).cast<IncomeRepeatDetailsModel>();
+    return TransactionRepeatTypes()
+      ..dailyExpense = (fields[0] as List).cast<TransactionRepeatDetailsModel>()
+      ..weeklyExpense =
+          (fields[1] as List).cast<TransactionRepeatDetailsModel>()
+      ..monthlyExpense =
+          (fields[2] as List).cast<TransactionRepeatDetailsModel>()
+      ..noRepeatExpense =
+          (fields[3] as List).cast<TransactionRepeatDetailsModel>();
   }
 
   @override
-  void write(BinaryWriter writer, MonthlyIncomeModel obj) {
+  void write(BinaryWriter writer, TransactionRepeatTypes obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
@@ -43,7 +47,7 @@ class MonthlyIncomeModelAdapter extends TypeAdapter<MonthlyIncomeModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MonthlyIncomeModelAdapter &&
+      other is TransactionRepeatTypesAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
-import 'package:temp/data/models/expenses/expense_details_model.dart';
-import 'package:temp/data/models/expenses/expense_model.dart';
-import 'package:temp/data/models/expenses/expense_types_model.dart';
+import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/subcategory_choice.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
-import 'package:temp/presentation/widgets/editable_infor_field.dart';
 import 'package:temp/presentation/widgets/editable_text.dart';
 
-import '../../../data/local/hive/hive_database.dart';
 import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import 'choose_container.dart';
 import 'main_category_choice.dart';
@@ -93,7 +89,9 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
         subCategoryExpenseIconName: 'sss',
         subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
   ];
-  String dropDownValue = 'Choose Repeat';
+
+  String choseRepeat = 'Choose Repeat';
+
   List<DropdownMenuItem<String>> dropDownChannelItems = [
     DropdownMenuItem(child: Text('Daily'), value: 'Daily'),
     DropdownMenuItem(child: Text('Weekly'), value: 'Weekly'),
@@ -103,199 +101,207 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 35,
-        ),
-        MainCategoryChoice(
-          mainCategoryName: 'Home',
-        ),
-        Visibility(
-          visible: isSubChoosed,
-          child: SizedBox(
-            height: 45,
-          ),
-          replacement: SizedBox(
-            height: 35,
-          ),
-        ),
-        Container(
-          height: 250,
-          child: GridView.builder(
-              itemCount: list.length,
-              scrollDirection: Axis.horizontal,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
-              itemBuilder: (context, index) {
-                bool isChoosed = false;
-                return InkWell(
-                    onTap: () {
-                      setState(() {
-                        //currentID=list.where((element) => element.subCategoryExpenseId==currentID).single.subCategoryExpenseId;
-                        currentID = list[index].id;
-                        subCatName = list[index].subCategoryExpenseName;
-                      });
-                    },
-                    child: SubCategoryChoice(
-                      color: Colors.red,
-                      currentID: currentID,
-                      subCatIconCode:
-                          list[index].subCategoryExpenseIconCodePoint,
-                      subCatID: list[index].id,
-                      subCatName: list[index].subCategoryExpenseIconName,
-                    ));
-              }),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          width: 270,
-          child: EditableInfoField(
-            textEditingController: nameCtrl,
-            hint: 'Expense Name',
-            IconName: AppIcons.descriptionIcon,
-            keyboardType: TextInputType.text,
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 270,
-              child: EditableInfoField(
-                textEditingController: amountCtrl,
-                hint: 'Amount',
-                IconName: AppIcons.amountIcon,
-                keyboardType: TextInputType.number,
-              ),
-            ),
-            FittedBox(
-                child: Text(
-              'EGP',
-              style: Theme.of(context).textTheme.headline5!.copyWith(
-                  color: AppColor.primaryColor, fontWeight: FontWeight.bold),
-            )),
-            SizedBox(width: 4),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-            width: 270, child: DateChooseContainer(dateTime: choosedDate)),
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          width: 270,
-          child: EditableInfoField(
-            textEditingController: descriptionCtrl,
-            hint: 'Write Description',
-            IconName: AppIcons.descriptionIcon,
-            keyboardType: TextInputType.text,
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          width: 250,
-          child: Row(
-            children: [
-              SizedBox(
-                height: 30,
-                width: 40,
-                child: Checkbox(
-                  value: isRepeat,
-                  onChanged: (val) {
-                    setState(() {
-                      isRepeat = val!;
-                    });
-                  },
-                  hoverColor: AppColor.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  activeColor: AppColor.white,
-                  checkColor: AppColor.white,
-                  fillColor: MaterialStateProperty.all(AppColor.primaryColor),
+    return BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
+      builder: (context, state) {
+        return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 35,
                 ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                'Repeat',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: AppColor.primaryColor),
-              )
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Visibility(
-          visible: isRepeat,
-          child: Container(
-            width: 270,
-            child: DropDownCustomWidget(
-              dropDownList: dropDownChannelItems,
-              hint: dropDownValue,
-              onChangedFunc: (value) {
-                setState(() {
-                  dropDownValue = value;
-                });
-              },
-            ),
-
-          ),
-          replacement: SizedBox(),
-        ),
-
-            SizedBox(height: 10,),
-            ElevatedButton(onPressed: (){
-              final today=DateTime.now();
-              final ExpenseModel expense= ExpenseModel.copyWith(id: GUIDGen.generate(),
-                  name: nameCtrl.text,
-                  amount: int.parse(amountCtrl.text),
-                  comment: amountCtrl.text,
-                  repeatType: dropDownValue,
-                  mainCategory: 'Home',
-                  isAddAuto: false,
-                  isPriority: false,
-                  subCategory: subCatName??'SubCategoryDefault',
-                  isReceiveNotification: true,
-                  //isPaid: choosedDate!.day==DateTime.now()?true:false,
-                  isPaid: false,
-                  createdDate: DateTime.now(),
-                  paymentDate: choosedDate??DateTime.now());
-              final ExpenseRepeatDetailsModel expRep=ExpenseRepeatDetailsModel.copyWith(
-                  lastConfirmationDate:today ,
-                  isLastConfirmed: true,
-                  creationDate: today,
-                  expenseModel: expense,
-                  lastShownDate: today,
-                  nextShownDate: today);
-
-              HiveHelper().putByIndexKey(
-                  boxName: HiveHelper().getBox(boxName: AppBoxes.expenseRepeatTypes),
-                  indexKey:expense.repeatType=='Daily'?0:expense.repeatType=='Weekly'?1:expense.repeatType=='Monthly'? 2:3 ,
-                  //indexKey:1 ,
-                  dataModel: expRep);
-             }, child: Text('Add')),
-            MainCategoryChoice(mainCategoryName: 'Variable'),
-          ],
-    ));
+                MainCategoryChoice(
+                  mainCategoryName: 'Home',
+                ),
+                Visibility(
+                  visible: isSubChoosed,
+                  child: SizedBox(
+                    height: 45,
+                  ),
+                  replacement: SizedBox(
+                    height: 35,
+                  ),
+                ),
+                Container(
+                  height: 250,
+                  child: GridView.builder(
+                      itemCount: list.length,
+                      scrollDirection: Axis.horizontal,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 20),
+                      itemBuilder: (context, index) {
+                        bool isChoosed = false;
+                        return InkWell(
+                            onTap: () {
+                              setState(() {
+                                //currentID=list.where((element) => element.subCategoryExpenseId==currentID).single.subCategoryExpenseId;
+                                currentID = list[index].id;
+                                subCatName = list[index].subCategoryExpenseName;
+                              });
+                            },
+                            child: SubCategoryChoice(
+                              color: Colors.red,
+                              currentID: currentID,
+                              subCatIconCode:
+                              list[index].subCategoryExpenseIconCodePoint,
+                              subCatID: list[index].id,
+                              subCatName: list[index]
+                                  .subCategoryExpenseIconName,
+                            ));
+                      }),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: 270,
+                  child: EditableInfoField(
+                    textEditingController: nameCtrl,
+                    hint: 'Expense Name',
+                    IconName: AppIcons.descriptionIcon,
+                    keyboardType: TextInputType.text,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 270,
+                      child: EditableInfoField(
+                        textEditingController: amountCtrl,
+                        hint: 'Amount',
+                        IconName: AppIcons.amountIcon,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    FittedBox(
+                        child: Text(
+                          'EGP',
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(
+                              color: AppColor.primaryColor,
+                              fontWeight: FontWeight.bold),
+                        )),
+                    SizedBox(width: 4),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                    width: 270,
+                    child: DateChooseContainer(dateTime: choosedDate)),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: 270,
+                  child: EditableInfoField(
+                    textEditingController: descriptionCtrl,
+                    hint: 'Write Description',
+                    IconName: AppIcons.descriptionIcon,
+                    keyboardType: TextInputType.text,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: 250,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                        width: 40,
+                        child: Checkbox(
+                          value: isRepeat,
+                          onChanged: (val) {
+                            setState(() {
+                              isRepeat = val!;
+                            });
+                          },
+                          hoverColor: AppColor.primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          activeColor: AppColor.white,
+                          checkColor: AppColor.white,
+                          fillColor: MaterialStateProperty.all(
+                              AppColor.primaryColor),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Repeat',
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: AppColor.primaryColor),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Visibility(
+                  visible: isRepeat,
+                  child: Container(
+                    width: 270,
+                    child: DropDownCustomWidget(
+                      dropDownList: dropDownChannelItems,
+                      hint: choseRepeat,
+                      onChangedFunc: (value) {
+                        setState(() {
+                          choseRepeat = value;
+                        });
+                      },
+                    ),
+                  ),
+                  replacement: SizedBox(),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    
+                    context.read<AddExpOrIncCubit>().addExpense(
+                        expenseModel: TransactionModel.expense(
+                            id: GUIDGen.generate(),
+                            name: nameCtrl.text,
+                            amount: int.parse(amountCtrl.text),
+                            comment: amountCtrl.text,
+                            repeatType: choseRepeat,
+                            mainCategory: 'Home',
+                            isAddAuto: false,
+                            isPriority: false,
+                            subCategory: subCatName ?? 'SubCategoryDefault',
+                            isReceiveNotification: true,
+                            //isPaid: choosedDate!.day==DateTime.now()?true:false,
+                            isProcessing: false,
+                            createdDate: DateTime.now(),
+                            paymentDate: choosedDate ?? DateTime.now()),
+                        choseRepeat: choseRepeat);
+                  },
+                  child: const Text('Add'),
+                ),
+                const MainCategoryChoice(mainCategoryName: 'Variable'),
+              ],
+            ));
+      },
+    );
   }
 }

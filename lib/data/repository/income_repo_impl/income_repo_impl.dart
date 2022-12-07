@@ -1,168 +1,133 @@
-// class IncomeRepositoryImpl implements  IncomeRepository {
-//
-//
-// Future<void> addIncomeToIncomeBox({
-//   required String incomeName,
-//   required num incomeAmount,
-//   required String incomeMainCateg,
-//   required String incomeSubCateg,
-//   required String incomeComment,
-//   required String incomeRepeat,
-//   required DateTime incomePaymentDate,
-//   required DateTime incomeCreatedDate,
-// })async {
-//
-//   final  incomeModel=IncomeModel.copyWith(
-//       incomeId: GUIDGen.generate(),
-//       incomeName: incomeName,
-//       incomeAmount: incomeAmount,
-//       incomeMainCateg: incomeMainCateg,
-//       incomeSubCateg: incomeSubCateg,
-//       incomeComment:incomeComment ,
-//       incomeRepeat: incomeRepeat,
-//       incomeAddAuto: false,
-//       incomeReceived: false,
-//       isReceiveNotification: false,
-//       incomeCreatedDate: incomeCreatedDate,
-//       incomePaymentDate: incomePaymentDate
-//   );
-//
-//
-//   final allIncomeBox=Boxes.fetchIncomeModelBox();
-//   if(isEqualToday(date: incomeModel.incomePaymentDate)){
-//     await allIncomeBox.add(incomeModel);
-//     await addToRepeatedBoxes(incomeModel.incomeRepeat,incomeModel);
-//   }else{
-//     await addToRepeatedBoxes(incomeModel.incomeRepeat,incomeModel);
-//   }
-//
-//
-//   print('Income values are ${allIncomeBox.values}');
-// }
-// Future<void> addToRepeatedBoxes(String repeat,IncomeModel incomeModel)async{
-//   if(repeat==AppStrings.daily)
-//   {
-//     addDailyIncomeToRepeatedBox(incomeModel);
-//   }else if(repeat==AppStrings.weekly){
-//     addWeeklyIncomeToRepeatedBox(incomeModel);
-//
-//   }else if(repeat==AppStrings.monthly){
-//     addMonthlyIncomeToRepeatedBox(incomeModel);
-//   }else if(repeat==AppStrings.noRepeat){
-//     addNoRepeatIncomeToRepeatedBox(incomeModel);
-//   }
-// }
-// DateTime putNextShownDate({required DateTime incomePaymentDate,required String repeatType}){
-//   DateTime today=DateTime.now();
-//   switch(repeatType){
-//     case 'Daily':
-//
-//       return incomePaymentDate;
-//
-//     case 'Weekly':
-//     //if(expensePaymentDate.day==today.day&&expensePaymentDate.month==today.month&&expensePaymentDate.year==today.year){
-//       if(incomePaymentDate.difference(today).inDays==0){
-//         return incomePaymentDate.add(Duration(days: 7));
-//       }else{
-//         // return expensePaymentDate.add(Duration(days: 7));
-//         // the right return is below
-//         return incomePaymentDate;
-//       }
-//     case 'Monthly':
-//       if(incomePaymentDate.difference(today).inDays==0){
-//         return incomePaymentDate.add(Duration(days: 30));
-//       }else{
-//         return incomePaymentDate;
-//       }
-//     case 'No Repeat':
-//       return incomePaymentDate;
-//
-//     default:
-//       return today;
-//   }
-//
-// }
-// bool isEqualToday({required DateTime date}){
-//   //DateTime today=DateTime(2022,12,5);
-//
-//
-//   // the right today is below
-//   DateTime today=DateTime.now();
-//   // if(today.difference(date).inDays==0){
-//   if(today.day==date.day&&today.month==today.month&&today.year==date.year){
-//     return true;
-//   }else{
-//     return false;
-//   }
-// }
-// Future addDailyIncomeToRepeatedBox(IncomeModel incomeModel)async{
-//   //TODO add copyWith so we can put paramaters
-//   DateTime today =DateTime.now();
-//   final box=Boxes.fetchDailyIncomeBox();
-//   final DailyIncomeModel dailyIncomeModel=DailyIncomeModel.copyWith(
-//       dailyIncomeModel: incomeModel,
-//       lastConfirmationDate: today,
-//       nextShownDate: putNextShownDate(
-//           incomePaymentDate:  incomeModel.incomePaymentDate
-//           , repeatType: AppStrings.daily),
-//       lastShownDate: today,
-//       isLastConfirmed: false,
-//       creationDate: today);
-//
-//   await box.add(dailyIncomeModel);
-//
-// }
-// Future addWeeklyIncomeToRepeatedBox(IncomeModel incomeModel)async{
-//   //TODO add copyWith so we can put paramaters
-//   DateTime today =DateTime.now();
-//   final box=Boxes.fetchWeeklyIncomeBox();
-//   final WeeklyIncomeModel weeklyIncomeModel=WeeklyIncomeModel.copyWith(
-//       weekIncomeModel: incomeModel,
-//       weekLastConfirmationDate: today,
-//       nextShownDate: putNextShownDate(
-//           incomePaymentDate:  incomeModel.incomePaymentDate
-//           , repeatType: 'Weekly'),
-//       weekLastShownDate: today,
-//       weekIsLastConfirmed: false,
-//       weekCreationDate: today);
-//
-//   await box.add(weeklyIncomeModel);
-//
-// }
-// Future addMonthlyIncomeToRepeatedBox(IncomeModel incomeModel)async{
-//   //TODO add copyWith so we can put paramaters
-//   DateTime today =DateTime.now();
-//   final monthlyBox=Boxes.fetchMonthlyIncomeBox();
-//   final MonthlyIncomeModel monthlyIncomeModel=MonthlyIncomeModel.copyWith(
-//       monthIncomeModel: incomeModel,
-//       monthLastConfirmationDate:today ,
-//       nextShownDate: putNextShownDate(incomePaymentDate: incomeModel.incomePaymentDate, repeatType: AppStrings.monthly),
-//       monthLastShownDate: today,
-//       monthIsLastConfirmed: false,
-//       monthCreationDate: today);
-//
-//   await monthlyBox.add(monthlyIncomeModel);
-//
-// }
-// Future addNoRepeatIncomeToRepeatedBox(IncomeModel incomeModel)async{
-//   //TODO add copyWith so we can put paramaters
-//   DateTime today =DateTime.now();
-//   final noRepeatBox=Boxes.fetchNoRepeatIncomeBox();
-//   final NoRepeatIncomeModel noRepeatIncomeModel=NoRepeatIncomeModel.copyWith(
-//       noRepLastShownDate: putNextShownDate(incomePaymentDate:incomeModel.incomePaymentDate,
-//           repeatType: 'No Repeat'
-//       ),
-//       noRepLastConfirmationDate: today,
-//       nextShownDate: incomeModel.incomePaymentDate,
-//       noRepIsLastConfirmed: false,
-//       noRepCreationDate: today,
-//       noRepIncomeModel: incomeModel);
-//
-//   await noRepeatBox.add(noRepeatIncomeModel);
-//
-// }
-//
-//
-//
-//
-// }
+import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/local/hive/hive_database.dart';
+import 'package:temp/data/local/hive/id_generator.dart';
+import 'package:temp/data/models/transactions/transaction_details_model.dart';
+import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
+import '../../../business_logic/repository/income_repo/income_repo.dart';
+import '../../../constants/app_strings.dart';
+import '../../models/transactions/transaction_model.dart';
+
+class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
+
+  @override
+  Future<void> addIncomeToIncomeBox({
+    required String name,
+    required num amount,
+    required String mainCategory,
+    required String subCategory,
+    required String comment,
+    required String repeat,
+    required DateTime paymentDate,
+    required DateTime createdDate,
+  }) async {
+    final incomeModel = TransactionModel.income(
+        id: GUIDGen.generate(),
+        name: name,
+        amount: amount,
+        comment: comment,
+        isReceiveNotification: false,
+        isAddAuto: false,
+        createdDate: createdDate,
+        mainCategory: mainCategory,
+        paymentDate: paymentDate,
+        repeatType: repeat,
+        subCategory: subCategory,
+        isProcessing: false);
+
+    final allIncomeBox = hiveDatabase.getBoxName(boxName: AppBoxes.incomeModel);
+    if (isEqualToday(date: incomeModel.paymentDate)) {
+      await allIncomeBox.add(incomeModel);
+      await addToRepeatedBoxes(incomeModel.repeatType, incomeModel);
+    } else {
+      await addToRepeatedBoxes(incomeModel.repeatType, incomeModel);
+    }
+
+    print('Income values are ${allIncomeBox.values}');
+  }
+
+  @override
+  Future<void> addToRepeatedBoxes(
+      String repeat, TransactionModel incomeModel) async {
+    if (repeat == AppStrings.daily) {
+      addDailyIncomeToRepeatedBox(incomeModel);
+    } else if (repeat == AppStrings.weekly) {
+      addWeeklyIncomeToRepeatedBox(incomeModel);
+    } else if (repeat == AppStrings.monthly) {
+      addMonthlyIncomeToRepeatedBox(incomeModel);
+    } else if (repeat == AppStrings.noRepeat) {
+      addNoRepeatIncomeToRepeatedBox(incomeModel);
+    }
+  }
+
+  @override
+  Future addDailyIncomeToRepeatedBox(TransactionModel incomeModel) async {
+    //TODO add copyWith so we can put paramaters
+    final box = hiveDatabase.getBoxName(boxName: AppBoxes.incomeModel);
+    final TransactionRepeatDetailsModel dailyIncomeModel =
+        TransactionRepeatDetailsModel.copyWith(
+            transactionModel: incomeModel,
+            lastConfirmationDate: today,
+            nextShownDate: putNextShownDate(
+                paymentDate: incomeModel.paymentDate,
+                repeatType: AppStrings.daily),
+            lastShownDate: today,
+            isLastConfirmed: false,
+            creationDate: today);
+
+    await box.add(dailyIncomeModel);
+  }
+
+  @override
+  Future addWeeklyIncomeToRepeatedBox(TransactionModel incomeModel) async {
+    //TODO add copyWith so we can put paramaters
+    final box = hiveDatabase.getBoxName(boxName: AppBoxes.incomeModel);
+    final TransactionRepeatDetailsModel weeklyIncomeModel =
+        TransactionRepeatDetailsModel.copyWith(
+            transactionModel: incomeModel,
+            lastConfirmationDate: today,
+            nextShownDate: putNextShownDate(
+                paymentDate: incomeModel.paymentDate,
+                repeatType: AppStrings.weekly),
+            lastShownDate: today,
+            isLastConfirmed: false,
+            creationDate: today);
+
+    await box.add(weeklyIncomeModel);
+  }
+
+  @override
+  Future addMonthlyIncomeToRepeatedBox(TransactionModel incomeModel) async {
+    //TODO add copyWith so we can put paramaters
+    final box = hiveDatabase.getBoxName(boxName: AppBoxes.incomeModel);
+    final TransactionRepeatDetailsModel monthlyIncomeModel =
+        TransactionRepeatDetailsModel.copyWith(
+            transactionModel: incomeModel,
+            lastConfirmationDate: today,
+            nextShownDate: putNextShownDate(
+                paymentDate: incomeModel.paymentDate,
+                repeatType: AppStrings.monthly),
+            lastShownDate: today,
+            isLastConfirmed: false,
+            creationDate: today);
+
+    await box.add(monthlyIncomeModel);
+  }
+
+  @override
+  Future addNoRepeatIncomeToRepeatedBox(TransactionModel incomeModel) async {
+    //TODO add copyWith so we can put paramaters
+    final box = hiveDatabase.getBoxName(boxName: AppBoxes.incomeModel);
+    final TransactionRepeatDetailsModel noRepeatIncomeModel =
+        TransactionRepeatDetailsModel.copyWith(
+            transactionModel: incomeModel,
+            lastConfirmationDate: today,
+            nextShownDate: putNextShownDate(
+                paymentDate: incomeModel.paymentDate,
+                repeatType: AppStrings.noRepeat),
+            lastShownDate: today,
+            isLastConfirmed: false,
+            creationDate: today);
+
+    await box.add(noRepeatIncomeModel);
+  }
+}

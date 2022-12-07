@@ -2,23 +2,23 @@ import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
-import '../../../data/models/expenses/expense_details_model.dart';
-import '../../../data/models/expenses/expenses_lists.dart';
-import '../../../data/repository/expenses_repeat/expenses_repeat_impl.dart';
-import '../../repository/expense_repeat/expense_repeat_repo.dart';
+import 'package:temp/business_logic/repository/expenses_repo/expenses_repo.dart';
+import 'package:temp/data/models/transactions/transaction_details_model.dart';
+import '../../../data/models/transactions/expenses_lists.dart';
 
 part 'expense_repeat_state.dart';
 
 class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
-  ExpenseRepeatCubit(this._expenseRepeatRepo) : super(ExpenseRepeatInitial());
+  ExpenseRepeatCubit(this._expensesRepository) : super(ExpenseRepeatInitial());
 
-  final ExpenseRepeatRepo _expenseRepeatRepo ;
+  final TransactionsRepository _expensesRepository;
+
   List<String> noRepeats = ExpensesLists().noRepeats;
 
   int currentIndex = 0;
 
-  List<ExpenseRepeatDetailsModel> getExpenseTypeList() {
-    return _expenseRepeatRepo.getExpenseTypeList(currentIndex);
+  List<TransactionRepeatDetailsModel> getExpenseTypeList() {
+    return _expensesRepository.getExpenseTypeList(currentIndex);
   }
 
   void changePage({required int index}) {
