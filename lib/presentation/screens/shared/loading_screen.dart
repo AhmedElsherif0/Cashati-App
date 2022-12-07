@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import '../../widgets/custom_text_button.dart';
+import '../../widgets/buttons/custom_text_button.dart';
 import '../../widgets/show_dialog.dart';
 
 class LoadingScreen extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import '../../../constants/app_icons.dart';
 import '../../styles/colors.dart';
-import '../custom_text_button.dart';
+import '../buttons/custom_text_button.dart';
 
 class ExpensesAndIncomeHeader extends StatelessWidget {
   const ExpensesAndIncomeHeader({

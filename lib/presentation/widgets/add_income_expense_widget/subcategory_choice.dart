@@ -43,11 +43,7 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              IconData(
-                  widget.subCatIconCode),
-              color: widget.color,
-            ),
+            Icon(IconData(widget.subCatIconCode), color: widget.color),
             const SizedBox(height: 10),
             Text(
               widget.subCatName,
@@ -74,8 +70,7 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              IconData(
-                  widget.subCatIconCode),
+              IconData(widget.subCatIconCode),
               color: AppColor.white,
             ),
             const SizedBox(height: 10),

@@ -1,19 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
-import 'package:temp/data/models/income/income_model.dart';
 import 'package:temp/data/models/subcategories_models/income_subcaegory_model.dart';
+import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/subcategory_choice.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
-import 'package:temp/presentation/widgets/editable_infor_field.dart';
 import 'package:temp/presentation/widgets/editable_text.dart';
-
 import '../../../data/local/hive/hive_database.dart';
-import '../../../data/models/expenses/expense_model.dart';
-import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import 'choose_container.dart';
 import 'main_category_choice.dart';
 
@@ -133,20 +130,21 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
               itemBuilder: (context, index) {
                 bool isChoosed = false;
                 return InkWell(
-                    onTap: () {
-                      setState(() {
-                        //currentID=list.where((element) => element.subCategoryExpenseId==currentID).single.subCategoryExpenseId;
-                        currentID = list[index].id;
-                        subCatName = list[index].subCategoryIncomeName;
-                      });
-                    },
-                    child: SubCategoryChoice(
-                      color: Colors.red,
-                      currentID: currentID,
-                      subCatIconCode: list[index].subCategoryIncomeCodePoint,
-                      subCatID: list[index].id,
-                      subCatName: list[index].subCategoryIncomeName,
-                    ));
+                  onTap: () {
+                    setState(() {
+                      //currentID=list.where((element) => element.subCategoryExpenseId==currentID).single.subCategoryExpenseId;
+                      currentID = list[index].id;
+                      subCatName = list[index].subCategoryIncomeName;
+                    });
+                  },
+                  child: SubCategoryChoice(
+                    color: Colors.red,
+                    currentID: currentID,
+                    subCatIconCode: list[index].subCategoryIncomeCodePoint,
+                    subCatID: list[index].id,
+                    subCatName: list[index].subCategoryIncomeName,
+                  ),
+                );
               }),
         ),
         SizedBox(
@@ -268,16 +266,16 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
         ),
         ElevatedButton(
             onPressed: () {
-              HiveHelper().getBox(boxName: AppBoxes.incomeModel).add(
-                  IncomeModel.copyWith(
+              HiveHelper().getBoxName(boxName: AppBoxes.incomeModel).add(
+                  TransactionModel.income(
                       id: GUIDGen.generate(),
                       name: nameCtrl.text,
                       amount: int.parse(amountCtrl.text) ?? 400,
                       comment: amountCtrl.text,
-                      repeat: dropDownValue,
+                      repeatType: dropDownValue,
                       mainCategory: 'Fixed',
-                      addAuto: false,
-                      received: false,
+                      isAddAuto: false,
+                      isProcessing: false,
                       subCategory: subCatName ?? 'SubCategoryDefault',
                       isReceiveNotification: true,
                       createdDate: DateTime.now(),

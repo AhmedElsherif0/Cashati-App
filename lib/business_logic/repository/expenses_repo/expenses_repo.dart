@@ -1,33 +1,25 @@
-import '../../../data/models/expenses/expense_model.dart';
 
-abstract class ExpensesRepository {
+import '../../../data/models/transactions/transaction_details_model.dart';
+import '../../../data/models/transactions/transaction_model.dart';
+
+abstract class TransactionsRepository {
+
   Future<void> addExpenseToExpensesBox({
-    required String expenseName,
-    required num expenseAmount,
-    required String expenseMainCateg,
-    required String expenseSubCateg,
-    required String expenseComment,
-    required String expenseRepeat,
-    required bool expensePriority,
-    required bool isExpensePaid,
-    required DateTime expensePaymentDate,
-    required DateTime expenseCreatedDate,
+    required String name,
+    required num amount,
+    required String mainCategory,
+    required String subCategory,
+    required String comment,
+    required String repeat,
+    required bool isPriority,
+    required bool isPaid,
+    required DateTime paymentDate,
+    required DateTime createdDate,
   });
 
-  Future<void> addToRepeatedBoxes(String repeat, ExpenseModel expenseModel);
+  void addTransactions(
+      {required TransactionModel expenseModel, required String choseRepeat});
 
-  DateTime putNextShownDate(
-      {required DateTime expensePaymentDate, required String repeatType});
+  List<TransactionRepeatDetailsModel> getExpenseTypeList(int currentIndex);
 
-  bool isEqualToday({required DateTime date});
-
-  Future addDailyExpenseToRepeatedBox(ExpenseModel expenseModel);
-
-  Future addWeeklyExpenseToRepeatedBox(ExpenseModel expenseModel);
-
-  Future addMonthlyExpenseToRepeatedBox(ExpenseModel expenseModel);
-
-  Future addNoRepeatExpenseToRepeatedBox(ExpenseModel expenseModel);
-
-  bool checkSameDay({required DateTime date});
 }

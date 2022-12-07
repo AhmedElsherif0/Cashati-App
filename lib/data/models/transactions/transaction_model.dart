@@ -1,12 +1,12 @@
 import 'package:hive/hive.dart';
 
-part 'expense_model.g.dart';
+part 'transaction_model.g.dart';
 
 @HiveType(typeId: 0)
-class ExpenseModel {
-  ExpenseModel();
+class TransactionModel {
+  TransactionModel();
 
-  ExpenseModel.copyWith({
+  TransactionModel.expense({
     required this.id,
     required this.name,
     required this.amount,
@@ -17,7 +17,22 @@ class ExpenseModel {
     required this.isPriority,
     required this.subCategory,
     required this.isReceiveNotification,
-    required this.isPaid,
+    required this.isProcessing,
+    required this.createdDate,
+    required this.paymentDate,
+  });
+
+  TransactionModel.income({
+    required this.id,
+    required this.name,
+    required this.amount,
+    required this.comment,
+    required this.repeatType,
+    required this.mainCategory,
+    required this.isAddAuto,
+    required this.subCategory,
+    required this.isReceiveNotification,
+    required this.isProcessing,
     required this.createdDate,
     required this.paymentDate,
   });
@@ -43,7 +58,7 @@ class ExpenseModel {
   @HiveField(9)
    bool isAddAuto = false;
   @HiveField(10)
-  bool? isPaid;
+  bool? isProcessing;
   @HiveField(11)
   DateTime paymentDate =DateTime.now();
   @HiveField(12)

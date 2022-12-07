@@ -33,7 +33,7 @@ class TabCardView extends StatelessWidget {
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
         widget = ImportantOrFixed(
-            text: 'Heighset ${expenseRepeatList[0].expenseModel.name}',
+            text: 'Heighset ${expenseRepeatList[0].transactionModel.name}',
             circleColor: AppColor.red);
         break;
       case SwitchWidgets.seeMore:
@@ -55,7 +55,7 @@ class TabCardView extends StatelessWidget {
             padding: EdgeInsets.zero,
             itemCount: expenseRepeatList.length,
             itemBuilder: (context, index) {
-              final expenseModel = expenseRepeatList[index].expenseModel;
+              final expenseModel = expenseRepeatList[index].transactionModel;
               return Column(
                 children: [
                   Card(

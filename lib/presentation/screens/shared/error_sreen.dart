@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import '../../widgets/elevated_button.dart';
+import '../../widgets/buttons/elevated_button.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({Key? key}) : super(key: key);

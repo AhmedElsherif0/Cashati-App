@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
-import '../widgets/cancel_confirm_text_button.dart';
+import '../widgets/buttons/cancel_confirm_text_button.dart';
 import '../widgets/confirm_paying_title_card.dart';
 import '../widgets/custom_row_icon_with_title.dart';
 

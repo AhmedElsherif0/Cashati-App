@@ -1,4 +1,5 @@
-import 'package:temp/data/models/expenses/expenses_model.dart';
+
+import 'expenses_model.dart';
 
 ///  Importance enum class
 enum Importance { importantExpense, notImportantExpense }

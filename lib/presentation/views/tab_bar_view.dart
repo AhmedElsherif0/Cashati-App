@@ -1,13 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/data/models/expenses/expense_details_model.dart';
-import 'package:temp/data/models/expenses/expense_model.dart';
+import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/tab_card_View.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 import '../../constants/enum_classes.dart';
-import '../../data/models/expenses/expenses_lists.dart';
+import '../../data/models/transactions/expenses_lists.dart';
 import '../widgets/details_text.dart';
 
 class CustomTabBarView extends StatefulWidget {
@@ -23,7 +22,7 @@ class CustomTabBarView extends StatefulWidget {
   final int currentIndex;
   final String priorityName;
   final int index;
-  final List<ExpenseRepeatDetailsModel> expenseDetailsList;
+  final List<TransactionRepeatDetailsModel> expenseDetailsList;
   final PageController pageController;
 
   @override

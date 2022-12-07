@@ -23,16 +23,12 @@ class GoalModel {
   late String id;
   @HiveField(1)
   late String goalName;
-
   @HiveField(2)
   late num goalTotalAmount;
-
   @HiveField(3)
   late num goalSaveAmount;
-
   @HiveField(4)
   late num goalRemainingAmount;
-
   @HiveField(5)
   late String goalSaveAmountRepeat;
   @HiveField(6)
