@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/elevated_button.dart';
+import '../../widgets/buttons/elevated_button.dart';
 
 
 class EmptyScreen extends StatelessWidget {

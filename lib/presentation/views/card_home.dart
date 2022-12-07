@@ -2,7 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/presentation/widgets/dotted_button.dart';
+import 'package:temp/presentation/widgets/buttons/dotted_button.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
 import '../styles/colors.dart';
@@ -12,13 +12,14 @@ class CardHome extends StatelessWidget {
       {Key? key,
       required this.title,
       required this.onPressedShow,
-      required this.onPressedAdd})
+      required this.onPressedAdd,
+      required this.onPressedTop})
       : super(key: key);
 
   final String title;
-  final  Function() onPressedShow;
-  final  Function() onPressedAdd;
-
+  final Function() onPressedShow;
+  final Function() onPressedAdd;
+  final Function() onPressedTop;
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +91,9 @@ class CardHome extends StatelessWidget {
           padding: EdgeInsets.only(top: 22.h),
           child: Column(
             children: [
-              DottedButton(text:'Top',title: title,onPressed: (){}),
+              DottedButton(text: 'Top', title: title, onPressed: onPressedTop),
               SizedBox(height: 2.h),
-              DottedButton(text:'Add',title: title,onPressed: (){}),
+              DottedButton(text: 'Add', title: title, onPressed: onPressedAdd),
             ],
           ),
         ),

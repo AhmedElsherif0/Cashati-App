@@ -5,8 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import '../styles/colors.dart';
 import 'custom_painter_dialog.dart';
-import 'custom_text_button.dart';
-import 'details_text.dart';
+import 'buttons/custom_text_button.dart';
 
 mixin AlertDialogMixin {
   void showSuccessfulDialog(

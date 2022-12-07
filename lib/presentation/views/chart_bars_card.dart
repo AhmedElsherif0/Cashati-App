@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../data/models/expenses/expenses_lists.dart';
-import '../../data/models/expenses/expenses_model.dart';
+
+import '../../data/models/transactions/expenses_lists.dart';
+import '../../data/models/transactions/expenses_model.dart';
 import '../widgets/expenses_and_income_widgets/chart_bar.dart';
 
 class ChartBarsCard extends StatelessWidget {

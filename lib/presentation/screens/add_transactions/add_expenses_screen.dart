@@ -1,8 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/enum_classes.dart';
-import 'package:temp/data/models/expenses/expenses_lists.dart';
 import 'package:temp/presentation/widgets/custom_app_bar.dart';
 import '../../views/tab_card_View.dart';
 
@@ -11,10 +9,6 @@ class AddExpensesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final expensesList = ExpensesLists().expensesData;
-    String currentTime =
-        DateFormat('dd/MM/yyyy').format(DateTime.now().toUtc());
-    final currentTimeAfter = currentTime.replaceFirst('0', '');
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(),

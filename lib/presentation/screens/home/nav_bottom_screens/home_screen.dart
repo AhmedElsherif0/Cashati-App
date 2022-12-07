@@ -43,6 +43,7 @@ class HomeScreen extends StatelessWidget {
                   onPressedShow: cubit(context).isExpense
                       ? cubit(context).onShowExpense
                       : cubit(context).onShowIncome,
+                  onPressedTop: (){},
                 ),
               ),
               const Spacer(),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/data/models/expenses/expenses_lists.dart';
+import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/chart_bars_card.dart';
+import '../../../../data/models/transactions/expenses_lists.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/expenses_and_income_widgets/circle_progress_bar_chart.dart';
 import '../../../widgets/expenses_and_income_widgets/data_inside_pie_chart.dart';
@@ -124,12 +126,19 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                     /// TabBarView Widgets.
                     Expanded(
                       flex: 40,
-                      child: CustomTabBarView(
-                        priorityName: 'Fixed',
-                        currentIndex: currentIndex,
-                        index: index,
-                        pageController: _controller,
-                        expenseDetailsList: [],
+                      child:
+                          BlocBuilder<ExpenseRepeatCubit, ExpenseRepeatState>(
+                        builder: (context, state) {
+                          return CustomTabBarView(
+                            priorityName: 'Fixed',
+                            currentIndex: currentIndex,
+                            index: index,
+                            pageController: _controller,
+                            expenseDetailsList: context
+                                .read<ExpenseRepeatCubit>()
+                                .getExpenseTypeList(),
+                          );
+                        },
                       ),
                     ),
                   ],
