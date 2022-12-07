@@ -21,6 +21,7 @@ class CardHome extends StatelessWidget {
   final Function() onPressedAdd;
   final Function() onPressedTop;
 
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -94,6 +95,7 @@ class CardHome extends StatelessWidget {
               DottedButton(text: 'Top', title: title, onPressed: onPressedTop),
               SizedBox(height: 2.h),
               DottedButton(text: 'Add', title: title, onPressed: onPressedAdd),
+
             ],
           ),
         ),
