@@ -29,6 +29,7 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
           color: Colors.blueGrey.withOpacity(.2),
           borderRadius: BorderRadius.circular(20)),
       child: DropdownButton<String>(
+        style: TextStyle(color: AppColor.primaryColor),
         elevation: 0,
         isExpanded: true,
         dropdownColor: Theme.of(context).primaryColor,
