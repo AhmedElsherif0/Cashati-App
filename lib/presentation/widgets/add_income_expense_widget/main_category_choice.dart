@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 
 import '../../../constants/app_icons.dart';
 import '../../styles/colors.dart';
@@ -17,23 +19,32 @@ class _MainCategoryChoiceState extends State<MainCategoryChoice> {
 
   @override
   Widget build(BuildContext context) {
+    AddExpOrIncCubit addExpOrIncCubit=BlocProvider.of<AddExpOrIncCubit>(context);
     return InkWell(
       onTap: (){
-        setState(() {
-          isChoosed=!isChoosed;
-        });
-        print('isChoosed ${isChoosed}');
+        // setState(() {
+        //   isChoosed=!isChoosed;
+        // });
+        // print('isChoosed ${isChoosed}');
+        if(addExpOrIncCubit.currentMainCat==widget.mainCategoryName){
+          addExpOrIncCubit.chooseMainCategory('');
+        }else{
+          addExpOrIncCubit.chooseMainCategory(widget.mainCategoryName);
+        }
       },
-      child: Visibility(
-        visible: !isChoosed,
+      child: BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
+  builder: (context, state) {
+    return Visibility(
+        visible:addExpOrIncCubit.currentMainCat!=widget.mainCategoryName,
         child: AnimatedContainer(
+
           padding: EdgeInsets.symmetric(horizontal: 30.0,vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             border: Border.all(color: AppColor.primaryColor,width: 1),
             color: AppColor.white,
           ),
-          duration: Duration(milliseconds:300),
+          duration: Duration(milliseconds:1),
           child: ListTile(
             leading:  SvgPicture.asset(AppIcons.categoryIcon,color: AppColor.primaryColor,),
             title: Text(widget.mainCategoryName,style:  Theme.of(context).textTheme.headline5!.copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.bold,fontSize: 16),),
@@ -42,7 +53,7 @@ class _MainCategoryChoiceState extends State<MainCategoryChoice> {
           ),
         ),
         replacement: AnimatedContainer(
-          duration: Duration(milliseconds:300),
+          duration: Duration(milliseconds:1),
           padding: EdgeInsets.symmetric(horizontal: 30.0,vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
@@ -55,7 +66,9 @@ class _MainCategoryChoiceState extends State<MainCategoryChoice> {
             trailing: Icon(Icons.arrow_downward,color: AppColor.white,),
           ),
         ),
-      ),
+      );
+  },
+),
     );
   }
 }

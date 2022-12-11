@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/add_income_widget.dart';
 
 import '../../constants/app_icons.dart';
@@ -33,11 +34,11 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
                 labelStyle: Theme.of(context)
                     .textTheme
                     .bodyMedium!
-                    .copyWith(fontSize: 15),
+                    .copyWith(fontSize: 15.sp),
                 unselectedLabelStyle: Theme.of(context)
                     .textTheme
                     .bodyMedium!
-                    .copyWith(fontSize: 15),
+                    .copyWith(fontSize: 15.sp),
                 //  padding: EdgeInsets.symmetric(horizontal: 24.0),
                 indicatorSize: TabBarIndicatorSize.label,
                 indicatorColor: AppColor.primaryColor,

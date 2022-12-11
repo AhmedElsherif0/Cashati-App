@@ -34,6 +34,7 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
     return Visibility(
       visible: widget.subCatID == widget.currentID,
       replacement: AnimatedContainer(
+        padding: EdgeInsets.symmetric(horizontal: 5),
         duration: duration400,
         // height: 91,
         //   width: 129,
@@ -43,19 +44,23 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(IconData(widget.subCatIconCode), color: widget.color),
+            Icon(IconData(widget.subCatIconCode,fontFamily: Icons.add.fontFamily), color: widget.color),
             const SizedBox(height: 10),
-            Text(
-              widget.subCatName,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: widget.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500),
+            FittedBox(
+              child: Text(
+                widget.subCatName,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: widget.color,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500),
+              ),
             )
           ],
         ),
       ),
       child: AnimatedContainer(
+        padding: EdgeInsets.symmetric(horizontal: 5),
+
         duration: duration400,
         // height: 91,
         //   width: 129,
@@ -70,16 +75,18 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              IconData(widget.subCatIconCode),
+              IconData(widget.subCatIconCode,fontFamily: Icons.add.fontFamily),
               color: AppColor.white,
             ),
             const SizedBox(height: 10),
-            Text(
-              widget.subCatName,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: AppColor.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500),
+            FittedBox(
+              child: Text(
+                widget.subCatName,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: AppColor.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500),
+              ),
             ),
           ],
         ),
