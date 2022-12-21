@@ -3,6 +3,7 @@ import 'package:temp/presentation/screens/add_exp_inc_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screen.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
+import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
 import '../screens/home/nav_bottom_screens/control_screen.dart';
 import '../screens/home/nav_bottom_screens/settings_screen.dart';
 import '../screens/welcome/on_boarding_screens.dart';
@@ -28,6 +29,9 @@ class AppRouter {
       case AppRouterNames.rAddExpenseOrIncomeScreen:
         return MaterialPageRoute(
             builder: (_) => const AddExpenseOrIncomeScreen());
+      case AppRouterNames.rAddSubCategory:
+        return MaterialPageRoute(
+            builder: (_) => const AddSubCategoryScreen());
       default:
         return null;
     }

@@ -17,7 +17,12 @@ class HiveHelper {
   List<T> getBoxData<T>({required Box<T> boxName}) => boxName.values.toList();
 
   Future<int> addToBox<T>({required Box boxName, required T dataModel}) async {
+    //TODO by when we add item if box is empty ithrows an error because of the method reuireInitialize
     _requireInitialized(boxName);
+    return await boxName.add(dataModel);
+  }
+  Future<int> addToBox2<T>({required Box boxName, required T dataModel}) async {
+    //TODO by when we add item if box is empty ithrows an error because of the method reuireInitialize
     return await boxName.add(dataModel);
   }
 

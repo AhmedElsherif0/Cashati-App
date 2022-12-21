@@ -29,7 +29,7 @@ class ExpenseSubCategoryImpl implements ExpenseSubCategoryRepo {
         subCategoryExpenseIconName: subCategoryExpenseIconName,
         subCategoryExpenseIconCodePoint: subCategoryExpenseIconCodePoint,
         subCategoryExpenseColor: subCategoryExpenseColor);
-    await _hiveHelper.addToBox(
+    await _hiveHelper.addToBox2(
         dataModel: subCategoryExpense, boxName: _getSubCatExpenseBox());
   }
 
