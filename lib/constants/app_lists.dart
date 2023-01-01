@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:temp/data/models/subcategories_models/income_subcaegory_model.dart';
 
 import '../data/models/subcategories_models/expense_subcaegory_model.dart';
 
@@ -9,6 +10,13 @@ final SubCategoryExpense addMoreOption= SubCategoryExpense.copyWith(
     subCategoryExpenseColor: 'red',
     subCategoryExpenseIconName: 'qdqdqd',
     subCategoryExpenseIconCodePoint: Icons.minimize.codePoint);
+final SubCategoryIncome addMoreOptionIncome= SubCategoryIncome.copyWith(
+    id: 'feverrsssrr',
+    mainCategoryIncomeName: 'AddMore',
+    subCategoryIncomeName: 'Add More',
+    subCategoryIncomeColor: 'red',
+    subCategoryIncomeIconName: 'qdqdqd',
+    subCategoryIncomeCodePoint: Icons.add.codePoint);
 
  final List<SubCategoryExpense> expenseHomeFixedList=[
   SubCategoryExpense.copyWith(
@@ -206,4 +214,46 @@ final List<SubCategoryExpense> expenseBusinessFixedList=[
   Colors.indigo,
   Colors.pink,
   Colors.indigo,
+];
+
+final List<SubCategoryIncome> incomeFixedSubFixedList=[
+
+  SubCategoryIncome.copyWith(
+    id: 'odfiefi25',
+    mainCategoryIncomeName: 'Fixed',
+    subCategoryIncomeName: 'Part Time',
+    subCategoryIncomeColor: 'red',
+    subCategoryIncomeIconName: 'sss',
+    subCategoryIncomeCodePoint: Icons.star.codePoint,
+  ),
+  SubCategoryIncome.copyWith(
+    id: 'odfiefsi2sd5',
+    mainCategoryIncomeName: 'Fixed',
+    subCategoryIncomeName: 'Full Time',
+    subCategoryIncomeColor: 'red',
+    subCategoryIncomeIconName: 'sss',
+    subCategoryIncomeCodePoint: Icons.star.codePoint,
+  ),
+
+];
+
+final List<SubCategoryIncome> incomeVariableSubFixedList=[
+
+  SubCategoryIncome.copyWith(
+    id: 'odfie33fi25',
+    mainCategoryIncomeName: 'Variable',
+    subCategoryIncomeName: 'Freelance Programming',
+    subCategoryIncomeColor: 'red',
+    subCategoryIncomeIconName: 'sss',
+    subCategoryIncomeCodePoint: Icons.star.codePoint,
+  ),
+  SubCategoryIncome.copyWith(
+    id: 'odfiefsi2ssdd5',
+    mainCategoryIncomeName: 'Variable',
+    subCategoryIncomeName: 'Freelance Marketing',
+    subCategoryIncomeColor: 'red',
+    subCategoryIncomeIconName: 'sss',
+    subCategoryIncomeCodePoint: Icons.star.codePoint,
+  ),
+
 ];

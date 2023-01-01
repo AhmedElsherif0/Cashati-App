@@ -27,8 +27,6 @@ class _EditableSubCategFieldState extends State<EditableSubCategField> {
           title: TextFormField(
             controller:widget.subCategoryName,
             validator: (value){
-             // widget.subCategoryName?.text=value!;
-             // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(widget.subCategoryName??'')));
 
               if(value!.isEmpty){
                 return 'This field can\'t be empty';
@@ -36,27 +34,7 @@ class _EditableSubCategFieldState extends State<EditableSubCategField> {
                // widget.subCategoryName=value;
               }
             },
-            // onFieldSubmitted: (val){
-            //   setState(() {
-            //
-            //     widget.subCategoryName=val;
-            //   });
-            //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(widget.subCategoryName??'')));
-            // },
-            // onEditingComplete: (){
-            //   widget.subCategoryName=subName.text;
-            //
-            // },
-            onChanged: (value){
 
-              //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(widget.subCategoryName)));
-              //widget.subCategoryName=value;
-              //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(widget.subName.text)));
-              // setState(() {
-              //  // widget.subCategoryName=value;
-              //   widget.subCategoryName=subName.text;
-              // });
-            },
             cursorColor: AppColor.primaryColor,
             style:  Theme.of(context)
                 .textTheme

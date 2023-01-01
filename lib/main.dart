@@ -41,6 +41,7 @@ Future<void> main() async {
   Hive.registerAdapter(TransactionRepeatTypesAdapter());
   Hive.registerAdapter(TransactionRepeatDetailsModelAdapter());
   Hive.registerAdapter(SubCategoryExpenseAdapter());
+  Hive.registerAdapter(SubCategoryIncomeAdapter());
 
   await HiveHelper()
       .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.expenseRepeatDaily);

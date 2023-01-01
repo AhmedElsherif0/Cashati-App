@@ -38,7 +38,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
     // TODO: implement initState
     super.initState();
 
-    BlocProvider.of<AddExpOrIncCubit>(context).addMoreToList();
+    BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList();
 
     print(
         'Icon Add Code Point ${Icons.add.codePoint}, Color ${Colors.indigo.value}');
@@ -57,7 +57,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
               addExpOrIncCubit,
               context,
               addExpOrIncCubit.expMainCats[index],
-              addExpOrIncCubit.distributeSubcategories(
+              addExpOrIncCubit.distributeExpenseSubcategories(
                   addExpOrIncCubit.expMainCats[index]));
         });
   }

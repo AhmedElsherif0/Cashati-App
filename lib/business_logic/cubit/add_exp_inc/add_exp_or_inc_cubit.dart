@@ -4,9 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
+import 'package:temp/business_logic/repository/subcategories_repo/income_subcategory_repo.dart';
 import 'package:temp/constants/app_lists.dart';
+import 'package:temp/data/models/subcategories_models/income_subcaegory_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/subcategories_repo_impl/expense_subcategory_repo_impl.dart';
+import 'package:temp/data/repository/subcategories_repo_impl/income_subcategory_repo_impl.dart';
 import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import '../../repository/expenses_repo/expenses_repo.dart';
 
@@ -21,9 +24,12 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   List<MaterialColor>lastColorList=[];
   bool isExpense=true;
   List<String> expMainCats=['Personal','Home','Business'];
+  List<String> incomeMainCats=['Fixed','Variable'];
   List<SubCategoryExpense> personalSubCatsList=[];
   List<SubCategoryExpense> homeSubCatsList=[];
   List<SubCategoryExpense> businessSubCatsList=[];
+  List<SubCategoryIncome> fixedSubCatsList=[];
+  List<SubCategoryIncome> variableSubCatsList=[];
    String currentMainCat='';
 
 
@@ -31,6 +37,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   String choseRepeat = 'Choose Repeat';
   bool isRepeat = false;
   ExpenseSubCategoryRepo expenseSubCategoryRepo=ExpenseSubCategoryImpl();
+  IncomeSubcategoryRepo incomeSubCategoryRepo=IncomeSubcategoryImpl();
 
   List<DropdownMenuItem<String>> dropDownChannelItems = [
     DropdownMenuItem(child: Text('Daily'), value: 'Daily'),
@@ -39,65 +46,6 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     DropdownMenuItem(child: Text('No Repeat'), value: 'No Repeat'),
   ];
 
-  // List<SubCategoryExpense> list = [
-  //   SubCategoryExpense.copyWith(
-  //       id: 'ssfsf55',
-  //       subCategoryExpenseName: 'Transportation',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.ten_k.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //     id: 'odfiefi25',
-  //     mainCategoryExpenseName: 'Home',
-  //     subCategoryExpenseName: 'Food',
-  //     subCategoryExpenseColor: 'red',
-  //     subCategoryExpenseIconName: 'sss',
-  //     subCategoryExpenseIconCodePoint: Icons.star.codePoint,
-  //   ),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'efefgg99',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Random',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'efefggs99',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Try1',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'efefefefggs99',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Try2',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'efefef4rggs99',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Try3',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'rf33f',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Try4',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'rf33wwwwf',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Try5',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  // ];
   final TransactionsRepository _expensesRepository;
 
   chooseMainCategory(String mainCategory){
@@ -108,6 +56,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   }
   resetSubCategory(){
     currentID='';
+    emit(ChoosedSubCategoryState());
   }
   chooseRepeat(String value){
     choseRepeat = value;
@@ -127,7 +76,18 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     print('Fetched list is ${fetchedList}');
     return fetchedList;
   }
-  List<SubCategoryExpense> distributeSubcategories(String mainCategoryName){
+  List<SubCategoryIncome>fetchIncomeSubCategories(){
+    List<SubCategoryIncome> fetchedList=[];
+    try{
+      fetchedList= incomeSubCategoryRepo.fetchAllIncomeSubCats();
+    }catch(e){
+      print('error is $e');
+    }
+    print('Fetched list is ${fetchedList}');
+    return fetchedList;
+  }
+
+  List<SubCategoryExpense> distributeExpenseSubcategories(String mainCategoryName){
 
     switch(mainCategoryName){
       case 'Personal':
@@ -140,8 +100,21 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
         return personalSubCatsList;
     }
   }
+  List<SubCategoryIncome> distributeIncomeSubcategories(String mainCategoryName){
 
-  filterSubCategoriesList(){
+    switch(mainCategoryName){
+      case 'Fixed':
+        return fixedSubCatsList;
+      case 'Variable':
+        return variableSubCatsList;
+
+      default:
+        return fixedSubCatsList;
+    }
+  }
+
+
+  filterExpenseSubCategoriesList(){
     List<SubCategoryExpense>list=fetchExpensesSubCategories();
     personalSubCatsList.addAll(expensePersonalFixedList);
     homeSubCatsList.addAll(expenseHomeFixedList);
@@ -160,9 +133,38 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       }
     }
   }
-  addMoreToList(){
+  filterIncomeSubCategoriesList(){
+    List<SubCategoryIncome>list=fetchIncomeSubCategories();
+    fixedSubCatsList.addAll(incomeFixedSubFixedList);
+    variableSubCatsList.addAll(incomeVariableSubFixedList);
+    if(list.isNotEmpty){
+      for(var item in list){
+        if(item.mainCategoryIncomeName=='Fixed'){
+          fixedSubCatsList.add(item);
+        }else if(item.mainCategoryIncomeName=='Variable'){
+          variableSubCatsList.add(item);
+        }else{
+
+        }
+      }
+    }
+  }
+  addMoreToIncomeList(){
+   variableSubCatsList.clear();
+   fixedSubCatsList.clear();
+    filterIncomeSubCategoriesList();
+    fixedSubCatsList.insert(fixedSubCatsList.length, addMoreOptionIncome);
+    variableSubCatsList.insert(variableSubCatsList.length, addMoreOptionIncome);
+
+
+   // emit(ChoosedMainCategoryState());
+  }
+  addMoreToExpenseList(){
    // dataList.clear();
-    filterSubCategoriesList();
+    personalSubCatsList.clear();
+    homeSubCatsList.clear();
+    businessSubCatsList.clear();
+    filterExpenseSubCategoriesList();
     personalSubCatsList.insert(personalSubCatsList.length, addMoreOption);
     homeSubCatsList.insert(homeSubCatsList.length, addMoreOption);
     businessSubCatsList.insert(businessSubCatsList.length, addMoreOption);
@@ -190,7 +192,11 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
    subCatName = currentSubcategory.subCategoryExpenseName;
    emit(ChoosedSubCategoryState());
   }
-
+  void chooseIncomeCategory(SubCategoryIncome currentSubcategory){
+    currentID = currentSubcategory.id;
+    subCatName = currentSubcategory.subCategoryIncomeName;
+    emit(ChoosedSubCategoryState());
+  }
   void addExpense({
     required TransactionModel expenseModel,
     required String choseRepeat,

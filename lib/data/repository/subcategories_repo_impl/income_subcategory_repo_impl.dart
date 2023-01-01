@@ -30,7 +30,7 @@ class IncomeSubcategoryImpl implements IncomeSubcategoryRepo {
       subCategoryIncomeName: subCategoryIncomeName,
       subCategoryIncomeCodePoint: subCategoryIncomeCodePoint,
     );
-    await _hiveHelper.addToBox(
+    await _hiveHelper.addToBox2(
         dataModel: subCategoryIncome, boxName: _getSubCategoryBox());
   }
 

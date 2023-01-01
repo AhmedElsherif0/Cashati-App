@@ -14,11 +14,13 @@ class AddSubCategoryScreen extends StatelessWidget {
           appBar: AppBar(
 
           ),
-          body: Column(
-            children: [
-              CustomAppBar(title: 'Add Subcategory'),
-              AddSubCategoryWidget(mainCategoryName:context.read<AddSubcategoryCubit>().currentMainCategory),
-            ],
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                CustomAppBar(title: 'Add Subcategory'),
+                AddSubCategoryWidget(mainCategoryName:context.read<AddSubcategoryCubit>().currentMainCategory),
+              ],
+            ),
           ),
         );
 
