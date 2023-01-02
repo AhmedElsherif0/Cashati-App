@@ -3,7 +3,13 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
+import 'package:temp/business_logic/repository/subcategories_repo/income_subcategory_repo.dart';
+import 'package:temp/constants/app_lists.dart';
+import 'package:temp/data/models/subcategories_models/income_subcaegory_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
+import 'package:temp/data/repository/subcategories_repo_impl/expense_subcategory_repo_impl.dart';
+import 'package:temp/data/repository/subcategories_repo_impl/income_subcategory_repo_impl.dart';
 import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import '../../repository/expenses_repo/expenses_repo.dart';
 
@@ -18,31 +24,20 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   List<MaterialColor>lastColorList=[];
   bool isExpense=true;
   List<String> expMainCats=['Personal','Home','Business'];
+  List<String> incomeMainCats=['Fixed','Variable'];
+  List<SubCategoryExpense> personalSubCatsList=[];
+  List<SubCategoryExpense> homeSubCatsList=[];
+  List<SubCategoryExpense> businessSubCatsList=[];
+  List<SubCategoryIncome> fixedSubCatsList=[];
+  List<SubCategoryIncome> variableSubCatsList=[];
    String currentMainCat='';
 
-  static const List<MaterialColor> colorsList=[
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.purple,
-    Colors.indigo,
-    Colors.pink,
-    Colors.indigo,
-    Colors.green,
-    Colors.purple,
-    Colors.blue,
-    Colors.red,
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.purple,
-    Colors.indigo,
-    Colors.pink,
-    Colors.indigo,
-  ];
-  List<SubCategoryExpense> dataList=[] ;
+
+//  List<SubCategoryExpense> dataList=[] ;
   String choseRepeat = 'Choose Repeat';
   bool isRepeat = false;
+  ExpenseSubCategoryRepo expenseSubCategoryRepo=ExpenseSubCategoryImpl();
+  IncomeSubcategoryRepo incomeSubCategoryRepo=IncomeSubcategoryImpl();
 
   List<DropdownMenuItem<String>> dropDownChannelItems = [
     DropdownMenuItem(child: Text('Daily'), value: 'Daily'),
@@ -51,74 +46,17 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     DropdownMenuItem(child: Text('No Repeat'), value: 'No Repeat'),
   ];
 
-  // List<SubCategoryExpense> list = [
-  //   SubCategoryExpense.copyWith(
-  //       id: 'ssfsf55',
-  //       subCategoryExpenseName: 'Transportation',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.ten_k.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //     id: 'odfiefi25',
-  //     mainCategoryExpenseName: 'Home',
-  //     subCategoryExpenseName: 'Food',
-  //     subCategoryExpenseColor: 'red',
-  //     subCategoryExpenseIconName: 'sss',
-  //     subCategoryExpenseIconCodePoint: Icons.star.codePoint,
-  //   ),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'efefgg99',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Random',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'efefggs99',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Try1',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'efefefefggs99',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Try2',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'efefef4rggs99',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Try3',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'rf33f',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Try4',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  //   SubCategoryExpense.copyWith(
-  //       id: 'rf33wwwwf',
-  //       mainCategoryExpenseName: 'Home',
-  //       subCategoryExpenseName: 'Try5',
-  //       subCategoryExpenseColor: 'red',
-  //       subCategoryExpenseIconName: 'sss',
-  //       subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-  // ];
   final TransactionsRepository _expensesRepository;
 
   chooseMainCategory(String mainCategory){
     currentMainCat=mainCategory;
+    print('current main cat is ${currentMainCat}');
     resetSubCategory();
     emit(ChoosedMainCategoryState());
   }
   resetSubCategory(){
     currentID='';
+    emit(ChoosedSubCategoryState());
   }
   chooseRepeat(String value){
     choseRepeat = value;
@@ -128,82 +66,117 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     isRepeat = value??false;
     emit(ChoosedRepeatState());
   }
-  addMoreToList(){
-    List<SubCategoryExpense> list = [
-      SubCategoryExpense.copyWith(
-          id: 'ssfsf55',
-          subCategoryExpenseName: 'Transportation',
-          mainCategoryExpenseName: 'Home',
-          subCategoryExpenseColor: 'red',
-          subCategoryExpenseIconName: 'sss',
-          subCategoryExpenseIconCodePoint: Icons.ten_k.codePoint),
-      SubCategoryExpense.copyWith(
-        id: 'odfiefi25',
-        mainCategoryExpenseName: 'Home',
-        subCategoryExpenseName: 'Food',
-        subCategoryExpenseColor: 'red',
-        subCategoryExpenseIconName: 'sss',
-        subCategoryExpenseIconCodePoint: Icons.star.codePoint,
-      ),
-      SubCategoryExpense.copyWith(
-          id: 'efefgg99',
-          mainCategoryExpenseName: 'Home',
-          subCategoryExpenseName: 'Random',
-          subCategoryExpenseColor: 'red',
-          subCategoryExpenseIconName: 'sss',
-          subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-      SubCategoryExpense.copyWith(
-          id: 'efefggs99',
-          mainCategoryExpenseName: 'Home',
-          subCategoryExpenseName: 'Try1',
-          subCategoryExpenseColor: 'red',
-          subCategoryExpenseIconName: 'sss',
-          subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-      SubCategoryExpense.copyWith(
-          id: 'efefefefggs99',
-          mainCategoryExpenseName: 'Home',
-          subCategoryExpenseName: 'Try2',
-          subCategoryExpenseColor: 'red',
-          subCategoryExpenseIconName: 'sss',
-          subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-      SubCategoryExpense.copyWith(
-          id: 'efefef4rggs99',
-          mainCategoryExpenseName: 'Home',
-          subCategoryExpenseName: 'Try3',
-          subCategoryExpenseColor: 'red',
-          subCategoryExpenseIconName: 'sss',
-          subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-      SubCategoryExpense.copyWith(
-          id: 'rf33f',
-          mainCategoryExpenseName: 'Home',
-          subCategoryExpenseName: 'Try4',
-          subCategoryExpenseColor: 'red',
-          subCategoryExpenseIconName: 'sss',
-          subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-      SubCategoryExpense.copyWith(
-          id: 'rf33wwwwf',
-          mainCategoryExpenseName: 'Home',
-          subCategoryExpenseName: 'Try5',
-          subCategoryExpenseColor: 'red',
-          subCategoryExpenseIconName: 'sss',
-          subCategoryExpenseIconCodePoint: Icons.vaccines_outlined.codePoint),
-    ];
-    list.insert(
-      list.length,
-      SubCategoryExpense.copyWith(
-          id: 'feverrrr',
-          mainCategoryExpenseName: 'Home',
-          subCategoryExpenseName: 'Add More',
-          subCategoryExpenseColor: 'red',
-          subCategoryExpenseIconName: 'qdqdqd',
-          subCategoryExpenseIconCodePoint: Icons.minimize.codePoint),
-    );
-    dataList=list;
+  List<SubCategoryExpense>fetchExpensesSubCategories(){
+    List<SubCategoryExpense> fetchedList=[];
+    try{
+      fetchedList= expenseSubCategoryRepo.fetchAllExpenseSubCats();
+    }catch(e){
+      print('error is $e');
+    }
+    print('Fetched list is ${fetchedList}');
+    return fetchedList;
+  }
+  List<SubCategoryIncome>fetchIncomeSubCategories(){
+    List<SubCategoryIncome> fetchedList=[];
+    try{
+      fetchedList= incomeSubCategoryRepo.fetchAllIncomeSubCats();
+    }catch(e){
+      print('error is $e');
+    }
+    print('Fetched list is ${fetchedList}');
+    return fetchedList;
+  }
+
+  List<SubCategoryExpense> distributeExpenseSubcategories(String mainCategoryName){
+
+    switch(mainCategoryName){
+      case 'Personal':
+        return personalSubCatsList;
+      case 'Home':
+        return homeSubCatsList;
+      case 'Business':
+        return businessSubCatsList;
+      default:
+        return personalSubCatsList;
+    }
+  }
+  List<SubCategoryIncome> distributeIncomeSubcategories(String mainCategoryName){
+
+    switch(mainCategoryName){
+      case 'Fixed':
+        return fixedSubCatsList;
+      case 'Variable':
+        return variableSubCatsList;
+
+      default:
+        return fixedSubCatsList;
+    }
+  }
+
+
+  filterExpenseSubCategoriesList(){
+    List<SubCategoryExpense>list=fetchExpensesSubCategories();
+    personalSubCatsList.addAll(expensePersonalFixedList);
+    homeSubCatsList.addAll(expenseHomeFixedList);
+    businessSubCatsList.addAll(expenseBusinessFixedList);
+    if(list.isNotEmpty){
+      for(var item in list){
+        if(item.mainCategoryExpenseName=='Personal'){
+          personalSubCatsList.add(item);
+        }else if(item.mainCategoryExpenseName=='Home'){
+          homeSubCatsList.add(item);
+        }else if(item.mainCategoryExpenseName=='Business'){
+          businessSubCatsList.add(item);
+        }else{
+
+        }
+      }
+    }
+  }
+  filterIncomeSubCategoriesList(){
+    List<SubCategoryIncome>list=fetchIncomeSubCategories();
+    fixedSubCatsList.addAll(incomeFixedSubFixedList);
+    variableSubCatsList.addAll(incomeVariableSubFixedList);
+    if(list.isNotEmpty){
+      for(var item in list){
+        if(item.mainCategoryIncomeName=='Fixed'){
+          fixedSubCatsList.add(item);
+        }else if(item.mainCategoryIncomeName=='Variable'){
+          variableSubCatsList.add(item);
+        }else{
+
+        }
+      }
+    }
+  }
+  addMoreToIncomeList(){
+   variableSubCatsList.clear();
+   fixedSubCatsList.clear();
+    filterIncomeSubCategoriesList();
+    fixedSubCatsList.insert(fixedSubCatsList.length, addMoreOptionIncome);
+    variableSubCatsList.insert(variableSubCatsList.length, addMoreOptionIncome);
+
+
+   // emit(ChoosedMainCategoryState());
+  }
+  addMoreToExpenseList(){
+   // dataList.clear();
+    personalSubCatsList.clear();
+    homeSubCatsList.clear();
+    businessSubCatsList.clear();
+    filterExpenseSubCategoriesList();
+    personalSubCatsList.insert(personalSubCatsList.length, addMoreOption);
+    homeSubCatsList.insert(homeSubCatsList.length, addMoreOption);
+    businessSubCatsList.insert(businessSubCatsList.length, addMoreOption);
+
+
+   // emit(ChoosedMainCategoryState());
   }
 
   List<MaterialColor> fitRandomColors(){
-   if(dataList.length>colorsList.length){
-     for(int i=colorsList.length; i<dataList.length; i++ ){
+    //TODO recode this method as there are 3 lists for expenses and 2 for income
+   if(homeSubCatsList.length>colorsList.length){
+     for(int i=colorsList.length; i<homeSubCatsList.length; i++ ){
        colorsList.add(colorsList[Random().nextInt(6)]);
      }
      lastColorList=colorsList;
@@ -214,12 +187,16 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
    }
   }
 
-  void chooseCategory(int index){
-    currentID = dataList[index].id;
-   subCatName = dataList[index].subCategoryExpenseName;
+  void chooseCategory(SubCategoryExpense currentSubcategory){
+    currentID = currentSubcategory.id;
+   subCatName = currentSubcategory.subCategoryExpenseName;
    emit(ChoosedSubCategoryState());
   }
-
+  void chooseIncomeCategory(SubCategoryIncome currentSubcategory){
+    currentID = currentSubcategory.id;
+    subCatName = currentSubcategory.subCategoryIncomeName;
+    emit(ChoosedSubCategoryState());
+  }
   void addExpense({
     required TransactionModel expenseModel,
     required String choseRepeat,

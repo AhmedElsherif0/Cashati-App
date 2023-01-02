@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/add_income_widget.dart';
 
 import '../../constants/app_icons.dart';
@@ -53,7 +54,9 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
                 ]),
             actions: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRouterNames.rAddSubCategory);
+                  },
                   icon: SvgPicture.asset(AppIcons.notificationSetting))
             ],
           ),

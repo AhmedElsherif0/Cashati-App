@@ -5,7 +5,10 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
+import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
+import 'package:temp/data/models/subcategories_models/income_subcaegory_model.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'package:temp/presentation/widgets/status_bar_configuration.dart';
@@ -37,6 +40,8 @@ Future<void> main() async {
   Hive.registerAdapter(TransactionModelAdapter());
   Hive.registerAdapter(TransactionRepeatTypesAdapter());
   Hive.registerAdapter(TransactionRepeatDetailsModelAdapter());
+  Hive.registerAdapter(SubCategoryExpenseAdapter());
+  Hive.registerAdapter(SubCategoryIncomeAdapter());
 
   await HiveHelper()
       .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.expenseRepeatDaily);
@@ -46,6 +51,8 @@ Future<void> main() async {
       boxName: AppBoxes.expenseRepeatMonthly);
   await HiveHelper()
       .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.expenseNoRepeat);
+ await HiveHelper().openBox<SubCategoryExpense>(boxName: AppBoxes.subCategoryExpense);
+ await  HiveHelper().openBox<SubCategoryIncome>(boxName: AppBoxes.subCategoryIncome);
 
   BlocOverrides.runZoned(
     () async {
@@ -79,6 +86,9 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
         ),
         BlocProvider(
           create: ((context) => ExpenseRepeatCubit(_expensesRepository)),
+        ),
+        BlocProvider(
+          create: ((context) => AddSubcategoryCubit()),
         ),
       ],
       child: BlocConsumer<GlobalCubit, GlobalState>(
