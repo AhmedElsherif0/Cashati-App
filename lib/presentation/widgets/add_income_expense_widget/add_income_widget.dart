@@ -137,7 +137,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                   ),
                   Container(
                       width: 270,
-                      child: DateChooseContainer(dateTime: choosedDate)),
+                      child: DateChooseContainer(dateTime: addExpOrIncCubit.chosenDate)),
                   SizedBox(
                     height: 10,
                   ),
@@ -214,22 +214,22 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      addExpOrIncCubit.addExpense(
-                          expenseModel: TransactionModel.income(
-                              id: GUIDGen.generate(),
-                              name: nameCtrl.text,
-                              amount: int.parse(amountCtrl.text),
-                              comment: amountCtrl.text,
-                              repeatType: addExpOrIncCubit.choseRepeat,
-                              mainCategory: 'Home',
-                              isAddAuto: false,
-                              subCategory: addExpOrIncCubit.subCatName,
-                              isExpense: true,
-                              //isPaid: choosedDate!.day==DateTime.now()?true:false,
-                              isProcessing: false,
-                              createdDate: DateTime.now(),
-                              paymentDate: choosedDate ?? DateTime.now()),
-                          repeat: addExpOrIncCubit.choseRepeat);
+                      addExpOrIncCubit.validateIncomeFields(context,amountCtrl.text,
+                        TransactionModel.income(
+                            id: GUIDGen.generate(),
+                            name: nameCtrl.text,
+                            amount: int.parse(amountCtrl.text),
+                            comment: amountCtrl.text,
+                            repeatType: addExpOrIncCubit.choseRepeat,
+                            mainCategory:addExpOrIncCubit.currentMainCat ,
+                            isAddAuto: false,
+                            subCategory: addExpOrIncCubit.subCatName,
+                            isExpense: false,
+                            //isPaid: choosedDate!.day==DateTime.now()?true:false,
+                            isProcessing: false,
+                            createdDate: DateTime.now(),
+                            paymentDate: choosedDate ?? DateTime.now()),
+                      );
                     },
                     child: const Text('Add'),
                   ),
