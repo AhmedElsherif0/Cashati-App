@@ -138,7 +138,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                   ),
                   Container(
                       width: 270,
-                      child: DateChooseContainer(dateTime: choosedDate)),
+                      child: DateChooseContainer(dateTime: addExpOrIncCubit.chosenDate)),
                   SizedBox(
                     height: 10,
                   ),
@@ -149,6 +149,46 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                       hint: 'Write Description',
                       IconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    width: 250,
+                    child: Row(
+                      children: [
+                        BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
+                          builder: (context, state) {
+                            return SizedBox(
+                              height: 30,
+                              width: 40,
+                              child: Checkbox(
+                                value: addExpOrIncCubit.isImportant,
+                                onChanged: addExpOrIncCubit.isImportantOrNo,
+                                hoverColor: AppColor.primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                activeColor: AppColor.white,
+                                checkColor: AppColor.white,
+                                fillColor: MaterialStateProperty.all(
+                                    AppColor.primaryColor),
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Important',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: AppColor.primaryColor),
+                        )
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -215,24 +255,24 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      addExpOrIncCubit.addExpense(
-                          expenseModel: TransactionModel.expense(
+                      addExpOrIncCubit.validateExpenseFields(context,amountCtrl.text,
+                          TransactionModel.expense(
                               id: GUIDGen.generate(),
                               name: nameCtrl.text,
-                              amount: int.parse(amountCtrl.text),
+                              amount: amountCtrl.text.isNotEmpty?num.parse(amountCtrl.text):0,
                               comment: amountCtrl.text,
                               repeatType: addExpOrIncCubit.choseRepeat,
-                              mainCategory: 'Home',
+                              mainCategory:addExpOrIncCubit.currentMainCat,
                               isAddAuto: false,
-                              isPriority: false,
-                              subCategory: addExpOrIncCubit.subCatName ??
-                                  'SubCategoryDefault',
-                              isReceiveNotification: true,
+                              isPriority: addExpOrIncCubit.isImportant,
+                              subCategory: addExpOrIncCubit.subCatName,
+                              isExpense: true,
                               //isPaid: choosedDate!.day==DateTime.now()?true:false,
                               isProcessing: false,
                               createdDate: DateTime.now(),
-                              paymentDate: choosedDate ?? DateTime.now()),
-                          choseRepeat: addExpOrIncCubit.choseRepeat);
+                              paymentDate: addExpOrIncCubit.chosenDate ?? DateTime.now()),
+
+                      );
                     },
                     child: const Text('Add'),
                   ),
@@ -257,7 +297,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
           itemBuilder: (context, index) {
-            print('Rebuild');
+
             //addExpOrIncCubit.fitRandomColors().shuffle();
 
             bool isChoosed = false;

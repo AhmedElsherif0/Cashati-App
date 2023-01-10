@@ -58,7 +58,7 @@ mixin MixinTransaction {
 
     // if(today.difference(date).inDays==0){
     return (today.day == date.day &&
-        today.month == today.month &&
+        today.month == date.month &&
         today.year == date.year)
         ? true
         : false;

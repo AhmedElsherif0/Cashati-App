@@ -25,7 +25,7 @@ class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
         name: name,
         amount: amount,
         comment: comment,
-        isReceiveNotification: false,
+        isExpense: false,
         isAddAuto: false,
         createdDate: createdDate,
         mainCategory: mainCategory,

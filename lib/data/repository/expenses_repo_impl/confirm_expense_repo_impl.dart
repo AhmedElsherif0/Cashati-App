@@ -114,7 +114,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
           checkNoConfirmedAndMonthly(
               nextShownDate: item.nextShownDate,
               lastConfirmedDate: item.lastConfirmationDate,
-              expensePayment: item.transactionModel.paymentDate??DateTime.now())) {
+              expensePayment: item.transactionModel.paymentDate)) {
         todayList.add(item.transactionModel);
       }
     }
@@ -141,7 +141,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
         checkNoConfirmedAndWeekly(
             nextShownDate: weeklyExpense.nextShownDate,
             lastConfirmedDate: weeklyExpense.lastConfirmationDate,
-            expensePayment: weeklyExpense.transactionModel.paymentDate ?? DateTime.now())) {
+            expensePayment: weeklyExpense.transactionModel.paymentDate )) {
       return true;
     } else {
       return false;

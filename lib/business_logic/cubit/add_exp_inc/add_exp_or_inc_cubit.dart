@@ -18,9 +18,9 @@ part 'add_exp_or_inc_state.dart';
 class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   AddExpOrIncCubit(this._expensesRepository) : super(AddExpOrIncInitial());
   String currentID = '';
-  String? subCatName;
+  String subCatName='';
   bool isSubChoosed = false;
-
+  DateTime? chosenDate;
   List<MaterialColor>lastColorList=[];
   bool isExpense=true;
   List<String> expMainCats=['Personal','Home','Business'];
@@ -36,6 +36,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 //  List<SubCategoryExpense> dataList=[] ;
   String choseRepeat = 'Choose Repeat';
   bool isRepeat = false;
+  bool isImportant = false;
   ExpenseSubCategoryRepo expenseSubCategoryRepo=ExpenseSubCategoryImpl();
   IncomeSubcategoryRepo incomeSubCategoryRepo=IncomeSubcategoryImpl();
 
@@ -65,6 +66,12 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   void isRepeatOrNo(bool? value){
     isRepeat = value??false;
     emit(ChoosedRepeatState());
+  }
+  void isImportantOrNo(bool? value){
+    isImportant = value??false;
+    if(isImportant)    emit(ChoosedPriorityYesState());
+    if(!isImportant)    emit(ChoosedPriorityNoState());
+
   }
   List<SubCategoryExpense>fetchExpensesSubCategories(){
     List<SubCategoryExpense> fetchedList=[];
@@ -197,17 +204,42 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     subCatName = currentSubcategory.subCategoryIncomeName;
     emit(ChoosedSubCategoryState());
   }
+
+  validateExpenseFields(BuildContext context,String amount, TransactionModel transactionModel){
+
+    if(amount.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text( 'Kindly put the amount ! ')));
+
+    }else if(subCatName.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text( 'Kindly choose a subCategory ')));
+
+
+    }else{
+      addExpense(repeat: choseRepeat,expenseModel: transactionModel);
+    }
+  }
   void addExpense({
     required TransactionModel expenseModel,
-    required String choseRepeat,
+    required String repeat,
   }) {
     try {
-      _expensesRepository.addTransactions(
-          expenseModel: expenseModel, choseRepeat: choseRepeat);
+      _expensesRepository.addExpenseToTransactionBox(
+         transactionModel:expenseModel );
       emit(AddExpOrIncSuccess());
     } catch (error) {
       print('${error.toString()}');
       emit(AddExpOrIncError());
     }
   }
+
+  Future<void> changeDate(BuildContext context)async{
+
+    chosenDate=await showDatePicker(context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 365)),
+    );
+    emit(ChoosedDateState());
+  }
+
 }

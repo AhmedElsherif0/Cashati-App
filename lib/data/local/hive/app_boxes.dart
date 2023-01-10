@@ -1,5 +1,6 @@
 class AppBoxes {
 
+  static const String transactionBox = 'transactionBox';
   static const String expenseRepeatDaily = 'ExpenseRepeatDaily';
   static const String expenseRepeatWeekly = 'ExpenseRepeatWeekly';
   static const String expenseRepeatMonthly = 'ExpenseRepeatMonthly';

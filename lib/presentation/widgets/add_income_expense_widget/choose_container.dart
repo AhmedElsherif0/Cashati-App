@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 
 import '../../../constants/app_icons.dart';
 
@@ -15,8 +17,10 @@ class _DateChooseContainerState extends State<DateChooseContainer> {
   @override
   Widget build(BuildContext context) {
     return  InkWell(
-      onTap: (){
-        chooseDate();
+      onTap: ()async{
+        await context.read<AddExpOrIncCubit>().changeDate(context);
+
+        print('Choosed Date is ${widget.dateTime}');
       },
       child: Container(
         decoration: BoxDecoration(

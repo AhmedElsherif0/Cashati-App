@@ -13,40 +13,47 @@ class ExpensesRepositoryImpl with MixinTransaction implements TransactionsReposi
   ExpensesRepositoryImpl();
 
   @override
-  Future<void> addExpenseToExpensesBox({
-    required String name,
-    required num amount,
-    required String mainCategory,
-    required String subCategory,
-    required String comment,
-    required String repeat,
-    required bool isPriority,
-    required bool isPaid,
-    required DateTime paymentDate,
-    required DateTime createdDate,
+  Future<void> addExpenseToTransactionBox({
+  required TransactionModel transactionModel
+    // required String name,
+    // required num amount,
+    // required String mainCategory,
+    // required String subCategory,
+    // required String comment,
+    // required String repeat,
+    // required bool isPriority,
+    // required bool isPaid,
+    // required DateTime paymentDate,
+    // required DateTime createdDate,
   }) async {
     final expenseModel = TransactionModel.expense(
-        amount: amount,
-        comment: comment,
+        amount: transactionModel.amount,
+        comment:  transactionModel.comment,
         id: GUIDGen.generate(),
-        name: name,
-        repeatType: repeat,
-        mainCategory: mainCategory,
+        name:  transactionModel.name,
+        repeatType:  transactionModel.repeatType,
+        mainCategory:  transactionModel.mainCategory,
         isAddAuto: false,
-        isPriority: isPriority,
-        subCategory: subCategory,
-        isReceiveNotification: false,
-        isProcessing: isEqualToday(date: paymentDate),
+        isPriority:  transactionModel.isPriority,
+        subCategory:  transactionModel.subCategory,
+        isExpense: true,
+        isProcessing: isEqualToday(date:  transactionModel.paymentDate),
         createdDate: DateTime.now(),
-        paymentDate: paymentDate);
+        paymentDate:  transactionModel.paymentDate);
 
-    final allExpensesModel =
-        hiveDatabase.getBoxName(boxName: AppBoxes.expenseRepeatDaily);
+    final Box<TransactionModel> allExpensesModel =
+        hiveDatabase.getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
     if (isEqualToday(date: expenseModel.paymentDate)) {
-      await allExpensesModel.add(expenseModel);
+      print('is equal today in if ?${isEqualToday(date: expenseModel.paymentDate)}');
+     // await allExpensesModel.add(expenseModel);
+      await allExpensesModel.put(expenseModel.id,expenseModel);
+      print("name of the value added by  key is ${allExpensesModel.get(expenseModel.id)!.name} and key is ${allExpensesModel.get(expenseModel.id)!.id}");
+
       addTransactions(
           expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
     } else {
+      print('is  equal today in else  ?${isEqualToday(date: expenseModel.paymentDate)}');
+
       addTransactions(
           expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
     }
@@ -60,16 +67,16 @@ class ExpensesRepositoryImpl with MixinTransaction implements TransactionsReposi
 
     switch (choseRepeat) {
       case 'Daily':
-        DailyTransaction().addTransaction(expenseModel);
+        DailyTransaction().addTransactionToRepeatedBox(expenseModel);
         break;
       case 'Weekly':
-        WeeklyTransaction().addTransaction(expenseModel);
+        WeeklyTransaction().addTransactionToRepeatedBox(expenseModel);
         break;
       case 'Monthly':
-        MonthlyTransaction().addTransaction(expenseModel);
+        MonthlyTransaction().addTransactionToRepeatedBox(expenseModel);
         break;
       case 'No Repeat':
-        NoRepeatTransaction().addTransaction(expenseModel);
+        NoRepeatTransaction().addTransactionToRepeatedBox(expenseModel);
         break;
     }
   }
@@ -78,10 +85,10 @@ class ExpensesRepositoryImpl with MixinTransaction implements TransactionsReposi
   List<TransactionRepeatDetailsModel> getExpenseTypeList(int currentIndex) {
     List<List<TransactionRepeatDetailsModel>> expenseTypesList = [];
     expenseTypesList = [
-      DailyTransaction().getTransaction(),
-      WeeklyTransaction().getTransaction(),
-      MonthlyTransaction().getTransaction(),
-      NoRepeatTransaction().getTransaction(),
+      DailyTransaction().getRepeatedTransactions(),
+      WeeklyTransaction().getRepeatedTransactions(),
+      MonthlyTransaction().getRepeatedTransactions(),
+      NoRepeatTransaction().getRepeatedTransactions(),
     ];
 
     return expenseTypesList[currentIndex];

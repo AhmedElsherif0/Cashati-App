@@ -53,6 +53,8 @@ Future<void> main() async {
       .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.expenseNoRepeat);
  await HiveHelper().openBox<SubCategoryExpense>(boxName: AppBoxes.subCategoryExpense);
  await  HiveHelper().openBox<SubCategoryIncome>(boxName: AppBoxes.subCategoryIncome);
+ await  HiveHelper().openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
+
 
   BlocOverrides.runZoned(
     () async {

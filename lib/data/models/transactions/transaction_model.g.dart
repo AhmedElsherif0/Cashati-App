@@ -25,7 +25,7 @@ class TransactionModelAdapter extends TypeAdapter<TransactionModel> {
       ..isPriority = fields[5] as bool
       ..repeatType = fields[6] as String
       ..comment = fields[7] as String?
-      ..isReceiveNotification = fields[8] as bool
+      ..isExpense = fields[8] as bool
       ..isAddAuto = fields[9] as bool
       ..isProcessing = fields[10] as bool?
       ..paymentDate = fields[11] as DateTime
@@ -53,7 +53,7 @@ class TransactionModelAdapter extends TypeAdapter<TransactionModel> {
       ..writeByte(7)
       ..write(obj.comment)
       ..writeByte(8)
-      ..write(obj.isReceiveNotification)
+      ..write(obj.isExpense)
       ..writeByte(9)
       ..write(obj.isAddAuto)
       ..writeByte(10)

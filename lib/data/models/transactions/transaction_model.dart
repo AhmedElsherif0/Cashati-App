@@ -16,7 +16,7 @@ class TransactionModel {
     required this.isAddAuto,
     required this.isPriority,
     required this.subCategory,
-    required this.isReceiveNotification,
+    required this.isExpense,
     required this.isProcessing,
     required this.createdDate,
     required this.paymentDate,
@@ -31,7 +31,7 @@ class TransactionModel {
     required this.mainCategory,
     required this.isAddAuto,
     required this.subCategory,
-    required this.isReceiveNotification,
+    required this.isExpense,
     required this.isProcessing,
     required this.createdDate,
     required this.paymentDate,
@@ -54,7 +54,7 @@ class TransactionModel {
   @HiveField(7)
   String? comment;
   @HiveField(8)
-   bool isReceiveNotification=false;
+   bool isExpense=false;
   @HiveField(9)
    bool isAddAuto = false;
   @HiveField(10)

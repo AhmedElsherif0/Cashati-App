@@ -7,7 +7,7 @@ import '../../../business_logic/repository/transactions_repo/transactions_interf
 class DailyTransaction extends ITransactions with MixinTransaction  {
 
   @override
-  void addTransaction(TransactionModel expenseModel) {
+  void addTransactionToRepeatedBox(TransactionModel expenseModel) {
 
     TransactionRepeatDetailsModel dailyDetails = TransactionRepeatDetailsModel.copyWith(
       lastConfirmationDate: today,
@@ -26,12 +26,13 @@ class DailyTransaction extends ITransactions with MixinTransaction  {
     expenseRepeatTypes.dailyExpense.add(dailyDetails);
 
     expenseRepeatDailyBox.add(dailyDetails);
+    print("key is ${dailyDetails.key}");
 
     print('expense Daily List add ${expenseRepeatDailyBox.length}');
     print('box add length ${expenseRepeatTypes.dailyExpense.length}');
   }
   @override
-  List<TransactionRepeatDetailsModel> getTransaction() {
+  List<TransactionRepeatDetailsModel> getRepeatedTransactions() {
     /// get dailyExpenseRepeatList from BOX based on key number = 0.
     List<TransactionRepeatDetailsModel> expenseRepeatModel = [];
     try {
@@ -52,7 +53,7 @@ class DailyTransaction extends ITransactions with MixinTransaction  {
 
 class WeeklyTransaction extends ITransactions with MixinTransaction {
   @override
-  void addTransaction(TransactionModel expenseModel) {
+  void addTransactionToRepeatedBox(TransactionModel expenseModel) {
     final TransactionRepeatDetailsModel weeklyDetails =
     TransactionRepeatDetailsModel.copyWith(
       lastConfirmationDate: today,
@@ -74,7 +75,7 @@ class WeeklyTransaction extends ITransactions with MixinTransaction {
     print('box add length ${expenseRepeatTypes.weeklyExpense.length}');
   }
   @override
-  List<TransactionRepeatDetailsModel> getTransaction() {
+  List<TransactionRepeatDetailsModel> getRepeatedTransactions() {
     /// get weeklyExpenseRepeatList from BOX .
 
     List<TransactionRepeatDetailsModel> expenseRepeatModel = [];
@@ -93,7 +94,7 @@ class WeeklyTransaction extends ITransactions with MixinTransaction {
 
 class MonthlyTransaction extends ITransactions with MixinTransaction {
   @override
-  void addTransaction(TransactionModel expenseModel) {
+  void addTransactionToRepeatedBox(TransactionModel expenseModel) {
     final expenseRepeatMonthlyBox =
         hiveDatabase.getBoxName<TransactionRepeatDetailsModel>(
             boxName: AppBoxes.expenseRepeatMonthly);
@@ -116,7 +117,7 @@ class MonthlyTransaction extends ITransactions with MixinTransaction {
   }
 
   @override
-  List<TransactionRepeatDetailsModel> getTransaction() {
+  List<TransactionRepeatDetailsModel> getRepeatedTransactions() {
     /// get monthlyExpenseRepeatList from BOX .
     List<TransactionRepeatDetailsModel> expenseRepeatModel = [];
 
@@ -133,7 +134,7 @@ class MonthlyTransaction extends ITransactions with MixinTransaction {
 
 class NoRepeatTransaction extends ITransactions with MixinTransaction {
   @override
-  void addTransaction(TransactionModel expenseModel) {
+  void addTransactionToRepeatedBox(TransactionModel expenseModel) {
     ///
     final expenseNoRepeatBox =
         hiveDatabase.getBoxName<TransactionRepeatDetailsModel>(
@@ -161,7 +162,7 @@ class NoRepeatTransaction extends ITransactions with MixinTransaction {
   }
 
   @override
-  List<TransactionRepeatDetailsModel> getTransaction() {
+  List<TransactionRepeatDetailsModel> getRepeatedTransactions() {
     /// get noRepeatExpenseRepeatList from BOX .
     List<TransactionRepeatDetailsModel> expenseRepeatModel = [];
     try {

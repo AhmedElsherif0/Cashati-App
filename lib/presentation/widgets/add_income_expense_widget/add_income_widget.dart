@@ -101,7 +101,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                     width: 270,
                     child: EditableInfoField(
                       textEditingController: nameCtrl,
-                      hint: 'Expense Name',
+                      hint: 'Income Name',
                       IconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
@@ -215,7 +215,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                   ElevatedButton(
                     onPressed: () {
                       addExpOrIncCubit.addExpense(
-                          expenseModel: TransactionModel.expense(
+                          expenseModel: TransactionModel.income(
                               id: GUIDGen.generate(),
                               name: nameCtrl.text,
                               amount: int.parse(amountCtrl.text),
@@ -223,15 +223,13 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                               repeatType: addExpOrIncCubit.choseRepeat,
                               mainCategory: 'Home',
                               isAddAuto: false,
-                              isPriority: false,
-                              subCategory: addExpOrIncCubit.subCatName ??
-                                  'SubCategoryDefault',
-                              isReceiveNotification: true,
+                              subCategory: addExpOrIncCubit.subCatName,
+                              isExpense: true,
                               //isPaid: choosedDate!.day==DateTime.now()?true:false,
                               isProcessing: false,
                               createdDate: DateTime.now(),
                               paymentDate: choosedDate ?? DateTime.now()),
-                          choseRepeat: addExpOrIncCubit.choseRepeat);
+                          repeat: addExpOrIncCubit.choseRepeat);
                     },
                     child: const Text('Add'),
                   ),
