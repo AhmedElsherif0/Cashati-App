@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
         BlocProvider(create: ((context) => GlobalCubit())),
         BlocProvider(create: ((context) => HomeCubit())),
         BlocProvider(
-          create: ((context) => AddExpOrIncCubit(_expensesRepository)),
+          create: ((context) => AddExpOrIncCubit(_expensesRepository,_incomeRepository)),
         ),
         BlocProvider(
           create: ((context) => ExpenseRepeatCubit(_expensesRepository,)),
