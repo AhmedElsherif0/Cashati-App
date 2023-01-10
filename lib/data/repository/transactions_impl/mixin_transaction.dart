@@ -70,19 +70,19 @@ mixin MixinTransaction {
   }
 
   /// box is already opened..now you can handle the data as you can.
-  List<TransactionRepeatDetailsModel> getExpenseDataFromBox(String boxName) {
-    List<TransactionRepeatDetailsModel> expenseDetailsData = [];
+  List<TransactionRepeatDetailsModel> getRepeatedTransByBoxName(String boxName) {
+    List<TransactionRepeatDetailsModel> repeatedTransactions = [];
     try {
       ///get box name first
       Box<TransactionRepeatDetailsModel> expenseBox = _hiveDatabase
           .getBoxName<TransactionRepeatDetailsModel>(boxName: boxName);
 
       /// get data from box and assign it to dailyExpense List.
-      expenseDetailsData = expenseBox.values.toList();
-      print('the length :${expenseDetailsData.length}');
+      repeatedTransactions = expenseBox.values.toList();
+      print('the length :${repeatedTransactions.length}');
     } catch (error) {
       print('new error ${error.toString()}');
     }
-    return expenseDetailsData;
+    return repeatedTransactions;
   }
 }

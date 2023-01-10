@@ -85,10 +85,10 @@ class ExpensesRepositoryImpl with MixinTransaction implements TransactionsReposi
   List<TransactionRepeatDetailsModel> getExpenseTypeList(int currentIndex) {
     List<List<TransactionRepeatDetailsModel>> expenseTypesList = [];
     expenseTypesList = [
-      DailyTransaction().getRepeatedTransactions(),
-      WeeklyTransaction().getRepeatedTransactions(),
-      MonthlyTransaction().getRepeatedTransactions(),
-      NoRepeatTransaction().getRepeatedTransactions(),
+      DailyTransaction().getRepeatedTransactions(isExpense: true),
+      WeeklyTransaction().getRepeatedTransactions(isExpense: true),
+      MonthlyTransaction().getRepeatedTransactions(isExpense: true),
+      NoRepeatTransaction().getRepeatedTransactions(isExpense: true),
     ];
 
     return expenseTypesList[currentIndex];

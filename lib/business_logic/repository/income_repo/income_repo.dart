@@ -1,8 +1,23 @@
 
+import '../../../data/models/transactions/transaction_details_model.dart';
 import '../../../data/models/transactions/transaction_model.dart';
 
 abstract class IncomeRepository {
 
+
+
+Future<void> addIncomeToTransactionBox({
+  required TransactionModel transactionModel
+});
+
+void addTransactions(
+    {required TransactionModel incomeModel, required String choseRepeat});
+
+List<TransactionRepeatDetailsModel> getIncomeTypeList(int currentIndex);
+
+}
+/*
+old abstract methods for income repository
 Future<void> addIncomeToIncomeBox({
   required String name,
   required num amount,
@@ -19,5 +34,4 @@ Future addDailyIncomeToRepeatedBox(TransactionModel incomeModel);
 Future addWeeklyIncomeToRepeatedBox(TransactionModel incomeModel);
 Future addMonthlyIncomeToRepeatedBox(TransactionModel incomeModel);
 Future addNoRepeatIncomeToRepeatedBox(TransactionModel incomeModel);
-
-}
+ */

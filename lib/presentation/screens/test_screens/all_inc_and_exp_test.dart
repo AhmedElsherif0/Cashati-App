@@ -81,7 +81,7 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
                                     HiveHelper()
                                         .getBoxName(
                                             boxName:
-                                                AppBoxes.expenseRepeatDaily)
+                                                AppBoxes.dailyTransactionsBoxName)
                                         .delete(transactionsExpense[index]);
                                    // expenseDataDaily[index].delete();
                                   },

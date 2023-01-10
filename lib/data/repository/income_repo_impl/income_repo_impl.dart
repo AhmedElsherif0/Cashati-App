@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
@@ -6,9 +7,95 @@ import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 import '../../../business_logic/repository/income_repo/income_repo.dart';
 import '../../../constants/app_strings.dart';
 import '../../models/transactions/transaction_model.dart';
+import '../transactions_impl/transaction_impl.dart';
 
 class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
 
+
+
+  @override
+  Future<void> addIncomeToTransactionBox({
+    required TransactionModel transactionModel
+    // required String name,
+    // required num amount,
+    // required String mainCategory,
+    // required String subCategory,
+    // required String comment,
+    // required String repeat,
+    // required bool isPriority,
+    // required bool isPaid,
+    // required DateTime paymentDate,
+    // required DateTime createdDate,
+  }) async {
+    final incomeModel = TransactionModel.income(
+        amount: transactionModel.amount,
+        comment:  transactionModel.comment,
+        id: GUIDGen.generate(),
+        name:  transactionModel.name,
+        repeatType:  transactionModel.repeatType,
+        mainCategory:  transactionModel.mainCategory,
+        isAddAuto: false,
+        subCategory:  transactionModel.subCategory,
+        isExpense: false,
+        isProcessing: isEqualToday(date:  transactionModel.paymentDate),
+        createdDate: DateTime.now(),
+        paymentDate:  transactionModel.paymentDate);
+
+   // final Box<TransactionModel> allExpensesModel = hiveDatabase.getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
+    final Box<TransactionModel> allIncomeBox = hiveDatabase.getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
+    if (isEqualToday(date: incomeModel.paymentDate)) {
+      print('is equal today in if ?${isEqualToday(date: incomeModel.paymentDate)}');
+      // await allExpensesModel.add(expenseModel);
+      await allIncomeBox.put(incomeModel.id,incomeModel);
+      print("name of the value added by  key is ${allIncomeBox.get(incomeModel.id)!.name} and key is ${allIncomeBox.get(incomeModel.id)!.id}");
+
+      addTransactions(
+          incomeModel: incomeModel, choseRepeat: incomeModel.repeatType);
+    } else {
+      print('is  equal today in else  ?${isEqualToday(date: incomeModel.paymentDate)}');
+
+      addTransactions(
+          incomeModel: incomeModel, choseRepeat: incomeModel.repeatType);
+    }
+    print('Income values are ${allIncomeBox.values}');
+  }
+
+  @override
+  void addTransactions(
+      {required TransactionModel incomeModel, required String choseRepeat}) {
+
+
+    switch (choseRepeat) {
+      case 'Daily':
+        DailyTransaction().addTransactionToRepeatedBox(incomeModel);
+        break;
+      case 'Weekly':
+        WeeklyTransaction().addTransactionToRepeatedBox(incomeModel);
+        break;
+      case 'Monthly':
+        MonthlyTransaction().addTransactionToRepeatedBox(incomeModel);
+        break;
+      case 'No Repeat':
+        NoRepeatTransaction().addTransactionToRepeatedBox(incomeModel);
+        break;
+    }
+  }
+
+  @override
+  List<TransactionRepeatDetailsModel> getIncomeTypeList(int currentIndex) {
+    List<List<TransactionRepeatDetailsModel>> expenseTypesList = [];
+    expenseTypesList = [
+      DailyTransaction().getRepeatedTransactions(isExpense: false),
+      WeeklyTransaction().getRepeatedTransactions(isExpense: false),
+      MonthlyTransaction().getRepeatedTransactions(isExpense: false),
+      NoRepeatTransaction().getRepeatedTransactions(isExpense: false),
+    ];
+
+    return expenseTypesList[currentIndex];
+  }
+}
+/*
+OLD Implementation for Income Repository
   @override
   Future<void> addIncomeToIncomeBox({
     required String name,
@@ -61,7 +148,6 @@ class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
 
   @override
   Future addDailyIncomeToRepeatedBox(TransactionModel incomeModel) async {
-    //TODO add copyWith so we can put paramaters
     final box = hiveDatabase.getBoxName(boxName: AppBoxes.incomeModel);
     final TransactionRepeatDetailsModel dailyIncomeModel =
         TransactionRepeatDetailsModel.copyWith(
@@ -79,7 +165,6 @@ class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
 
   @override
   Future addWeeklyIncomeToRepeatedBox(TransactionModel incomeModel) async {
-    //TODO add copyWith so we can put paramaters
     final box = hiveDatabase.getBoxName(boxName: AppBoxes.incomeModel);
     final TransactionRepeatDetailsModel weeklyIncomeModel =
         TransactionRepeatDetailsModel.copyWith(
@@ -97,7 +182,6 @@ class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
 
   @override
   Future addMonthlyIncomeToRepeatedBox(TransactionModel incomeModel) async {
-    //TODO add copyWith so we can put paramaters
     final box = hiveDatabase.getBoxName(boxName: AppBoxes.incomeModel);
     final TransactionRepeatDetailsModel monthlyIncomeModel =
         TransactionRepeatDetailsModel.copyWith(
@@ -115,7 +199,6 @@ class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
 
   @override
   Future addNoRepeatIncomeToRepeatedBox(TransactionModel incomeModel) async {
-    //TODO add copyWith so we can put paramaters
     final box = hiveDatabase.getBoxName(boxName: AppBoxes.incomeModel);
     final TransactionRepeatDetailsModel noRepeatIncomeModel =
         TransactionRepeatDetailsModel.copyWith(
@@ -130,4 +213,4 @@ class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
 
     await box.add(noRepeatIncomeModel);
   }
-}
+ */

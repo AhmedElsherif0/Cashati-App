@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:temp/presentation/screens/add_exp_inc_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_type_screen.dart';
+import 'package:temp/presentation/screens/home/drawer_screens/income_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screen.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
@@ -23,6 +24,9 @@ class AppRouter {
       case AppRouterNames.rExpenseRepeatType:
         return MaterialPageRoute(
             builder: (_) => const ExpenseRepeatTypeScreen());
+      case AppRouterNames.rIncomeRepeatType:
+        return MaterialPageRoute(
+            builder: (_) => const IncomeRepeatTypeScreen());
       case AppRouterNames.rExpenseRepeatDetails:
         return MaterialPageRoute(
             builder: (_) => const AddExpenseOrIncomeScreen());
@@ -30,8 +34,7 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => const AddExpenseOrIncomeScreen());
       case AppRouterNames.rAddSubCategory:
-        return MaterialPageRoute(
-            builder: (_) => const AddSubCategoryScreen());
+        return MaterialPageRoute(builder: (_) => const AddSubCategoryScreen());
       default:
         return null;
     }

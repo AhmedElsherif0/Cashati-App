@@ -3,7 +3,7 @@ import '../../../data/models/transactions/transaction_details_model.dart';
 
 abstract class ITransactions {
 
-  void addTransactionToRepeatedBox(TransactionModel expenseModel);
-  List<TransactionRepeatDetailsModel> getRepeatedTransactions();
+  Future<void> addTransactionToRepeatedBox(TransactionModel transactionModel);
+  List<TransactionRepeatDetailsModel> getRepeatedTransactions({required bool isExpense});
 
 }

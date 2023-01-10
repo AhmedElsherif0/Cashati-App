@@ -19,7 +19,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
     expenseModel.createdDate = today;
 
     final allExpensesModel =
-        hiveDatabase.getBoxName(boxName: AppBoxes.expenseRepeatDaily);
+        hiveDatabase.getBoxName(boxName: AppBoxes.dailyTransactionsBoxName);
 
     await allExpensesModel.add(expenseModel);
 
@@ -70,7 +70,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
 
   @override
   List<TransactionModel> getTodayPayments() {
-    Box expenseRepeatTypes = hiveDatabase.getBoxName(boxName: AppBoxes.expenseRepeatDaily);
+    Box expenseRepeatTypes = hiveDatabase.getBoxName(boxName: AppBoxes.dailyTransactionsBoxName);
     _getTodayDailyExpenses(todayList, expenseRepeatTypes);
     _getTodayWeeklyExpenses(todayList, expenseRepeatTypes);
     _getTodayMonthlyExpenses(todayList, expenseRepeatTypes);
