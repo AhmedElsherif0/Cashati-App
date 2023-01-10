@@ -41,7 +41,8 @@ class AppDrawer extends StatelessWidget {
             child: DrawerItem(
                 icon: AppIcons.incomeDrawer,
                 text: 'Income Types',
-                onTap: () {}),
+              onTap: () => Navigator.of(context)
+                  .pushNamed(AppRouterNames.rIncomeRepeatType),),
           ),
           Expanded(
             flex: 3,

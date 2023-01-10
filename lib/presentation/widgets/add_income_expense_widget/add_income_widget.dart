@@ -101,7 +101,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                     width: 270,
                     child: EditableInfoField(
                       textEditingController: nameCtrl,
-                      hint: 'Expense Name',
+                      hint: 'Income Name',
                       IconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
@@ -137,7 +137,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                   ),
                   Container(
                       width: 270,
-                      child: DateChooseContainer(dateTime: choosedDate)),
+                      child: DateChooseContainer(dateTime: addExpOrIncCubit.chosenDate)),
                   SizedBox(
                     height: 10,
                   ),
@@ -214,24 +214,22 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      addExpOrIncCubit.addExpense(
-                          expenseModel: TransactionModel.expense(
-                              id: GUIDGen.generate(),
-                              name: nameCtrl.text,
-                              amount: int.parse(amountCtrl.text),
-                              comment: amountCtrl.text,
-                              repeatType: addExpOrIncCubit.choseRepeat,
-                              mainCategory: 'Home',
-                              isAddAuto: false,
-                              isPriority: false,
-                              subCategory: addExpOrIncCubit.subCatName ??
-                                  'SubCategoryDefault',
-                              isReceiveNotification: true,
-                              //isPaid: choosedDate!.day==DateTime.now()?true:false,
-                              isProcessing: false,
-                              createdDate: DateTime.now(),
-                              paymentDate: choosedDate ?? DateTime.now()),
-                          choseRepeat: addExpOrIncCubit.choseRepeat);
+                      addExpOrIncCubit.validateIncomeFields(context,amountCtrl.text,
+                        TransactionModel.income(
+                            id: GUIDGen.generate(),
+                            name: nameCtrl.text,
+                            amount: int.parse(amountCtrl.text),
+                            comment: amountCtrl.text,
+                            repeatType: addExpOrIncCubit.choseRepeat,
+                            mainCategory:addExpOrIncCubit.currentMainCat ,
+                            isAddAuto: false,
+                            subCategory: addExpOrIncCubit.subCatName,
+                            isExpense: false,
+                            //isPaid: choosedDate!.day==DateTime.now()?true:false,
+                            isProcessing: false,
+                            createdDate: DateTime.now(),
+                            paymentDate: choosedDate ?? DateTime.now()),
+                      );
                     },
                     child: const Text('Add'),
                   ),

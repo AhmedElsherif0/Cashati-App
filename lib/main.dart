@@ -7,8 +7,11 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
+import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
+import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
 import 'package:temp/data/models/subcategories_models/income_subcaegory_model.dart';
+import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'package:temp/presentation/widgets/status_bar_configuration.dart';
@@ -44,15 +47,17 @@ Future<void> main() async {
   Hive.registerAdapter(SubCategoryIncomeAdapter());
 
   await HiveHelper()
-      .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.expenseRepeatDaily);
+      .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.dailyTransactionsBoxName);
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-      boxName: AppBoxes.expenseRepeatWeekly);
+      boxName: AppBoxes.weeklyTransactionsBoxName);
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-      boxName: AppBoxes.expenseRepeatMonthly);
+      boxName: AppBoxes.monthlyTransactionsBoxName);
   await HiveHelper()
-      .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.expenseNoRepeat);
+      .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.noRepeaTransactionsBoxName);
  await HiveHelper().openBox<SubCategoryExpense>(boxName: AppBoxes.subCategoryExpense);
  await  HiveHelper().openBox<SubCategoryIncome>(boxName: AppBoxes.subCategoryIncome);
+ await  HiveHelper().openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
+
 
   BlocOverrides.runZoned(
     () async {
@@ -74,6 +79,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
   final TransactionsRepository _expensesRepository = ExpensesRepositoryImpl();
+  final IncomeRepository _incomeRepository = IncomeRepositoryImpl();
 
   @override
   Widget build(BuildContext context) {
@@ -82,10 +88,13 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
         BlocProvider(create: ((context) => GlobalCubit())),
         BlocProvider(create: ((context) => HomeCubit())),
         BlocProvider(
-          create: ((context) => AddExpOrIncCubit(_expensesRepository)),
+          create: ((context) => AddExpOrIncCubit(_expensesRepository,_incomeRepository)),
         ),
         BlocProvider(
-          create: ((context) => ExpenseRepeatCubit(_expensesRepository)),
+          create: ((context) => ExpenseRepeatCubit(_expensesRepository,)),
+        ),
+        BlocProvider(
+          create: ((context) => IncomeRepeatCubit(_incomeRepository,)),
         ),
         BlocProvider(
           create: ((context) => AddSubcategoryCubit()),

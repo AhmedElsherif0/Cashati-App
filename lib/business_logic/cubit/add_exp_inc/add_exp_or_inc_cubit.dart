@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/income_subcategory_repo.dart';
 import 'package:temp/constants/app_lists.dart';
@@ -16,11 +17,11 @@ import '../../repository/expenses_repo/expenses_repo.dart';
 part 'add_exp_or_inc_state.dart';
 
 class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
-  AddExpOrIncCubit(this._expensesRepository) : super(AddExpOrIncInitial());
+  AddExpOrIncCubit(this._expensesRepository,this._incomeRepository) : super(AddExpOrIncInitial());
   String currentID = '';
-  String? subCatName;
+  String subCatName='';
   bool isSubChoosed = false;
-
+  DateTime? chosenDate;
   List<MaterialColor>lastColorList=[];
   bool isExpense=true;
   List<String> expMainCats=['Personal','Home','Business'];
@@ -36,6 +37,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 //  List<SubCategoryExpense> dataList=[] ;
   String choseRepeat = 'Choose Repeat';
   bool isRepeat = false;
+  bool isImportant = false;
   ExpenseSubCategoryRepo expenseSubCategoryRepo=ExpenseSubCategoryImpl();
   IncomeSubcategoryRepo incomeSubCategoryRepo=IncomeSubcategoryImpl();
 
@@ -47,6 +49,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   ];
 
   final TransactionsRepository _expensesRepository;
+  final IncomeRepository _incomeRepository;
 
   chooseMainCategory(String mainCategory){
     currentMainCat=mainCategory;
@@ -65,6 +68,12 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   void isRepeatOrNo(bool? value){
     isRepeat = value??false;
     emit(ChoosedRepeatState());
+  }
+  void isImportantOrNo(bool? value){
+    isImportant = value??false;
+    if(isImportant)    emit(ChoosedPriorityYesState());
+    if(!isImportant)    emit(ChoosedPriorityNoState());
+
   }
   List<SubCategoryExpense>fetchExpensesSubCategories(){
     List<SubCategoryExpense> fetchedList=[];
@@ -197,17 +206,69 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     subCatName = currentSubcategory.subCategoryIncomeName;
     emit(ChoosedSubCategoryState());
   }
+
+  validateExpenseFields(BuildContext context,String amount, TransactionModel transactionModel){
+
+    if(amount.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text( 'Kindly put the amount ! ')));
+
+    }else if(subCatName.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text( 'Kindly choose a subCategory ')));
+
+
+    }else{
+      addExpense(repeat: choseRepeat,expenseModel: transactionModel);
+    }
+  }
+  validateIncomeFields(BuildContext context,String amount, TransactionModel transactionModel){
+
+    if(amount.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text( 'Kindly put the amount ! ')));
+
+    }else if(subCatName.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text( 'Kindly choose a subCategory ')));
+
+
+    }else{
+      addIncome(expenseModel: transactionModel);
+    }
+  }
   void addExpense({
     required TransactionModel expenseModel,
-    required String choseRepeat,
+    required String repeat,
   }) {
     try {
-      _expensesRepository.addTransactions(
-          expenseModel: expenseModel, choseRepeat: choseRepeat);
+      _expensesRepository.addExpenseToTransactionBox(
+         transactionModel:expenseModel );
       emit(AddExpOrIncSuccess());
     } catch (error) {
       print('${error.toString()}');
       emit(AddExpOrIncError());
     }
   }
+
+  void addIncome({
+    required TransactionModel expenseModel,
+
+  }) {
+    try {
+      _incomeRepository.addIncomeToTransactionBox(
+          transactionModel:expenseModel );
+      emit(AddExpOrIncSuccess());
+    } catch (error) {
+      print('${error.toString()}');
+      emit(AddExpOrIncError());
+    }
+  }
+
+  Future<void> changeDate(BuildContext context)async{
+
+    chosenDate=await showDatePicker(context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 365)),
+    );
+    emit(ChoosedDateState());
+  }
+
 }

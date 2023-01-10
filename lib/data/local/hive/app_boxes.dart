@@ -1,9 +1,10 @@
 class AppBoxes {
 
-  static const String expenseRepeatDaily = 'ExpenseRepeatDaily';
-  static const String expenseRepeatWeekly = 'ExpenseRepeatWeekly';
-  static const String expenseRepeatMonthly = 'ExpenseRepeatMonthly';
-  static const String expenseNoRepeat = 'ExpenseNoRepeat';
+  static const String transactionBox = 'transactionBox';
+  static const String dailyTransactionsBoxName = 'ExpenseRepeatDaily';
+  static const String weeklyTransactionsBoxName = 'ExpenseRepeatWeekly';
+  static const String monthlyTransactionsBoxName = 'ExpenseRepeatMonthly';
+  static const String noRepeaTransactionsBoxName = 'ExpenseNoRepeat';
 
   static const String incomeModel = 'IncomeModel';
   static const String incomeRepeatTypes = 'incomeRepeatTypes';

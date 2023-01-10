@@ -18,6 +18,7 @@ class AllExpIncTest extends StatefulWidget {
 class _AllExpIncTestState extends State<AllExpIncTest> {
   List<TransactionModel> incomeData = [];
   List<TransactionRepeatDetailsModel> expenseDataDaily = [];
+  List<TransactionModel> transactionsExpense = [];
   bool isExpense = true;
 
   @override
@@ -35,10 +36,19 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
         .values
         .toList()
         .cast<ExpenseRepeatDetailsModel>();*/
+    transactionsExpense =
+        HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
+        .values
+        .cast<TransactionModel>().where((element) => element.isExpense==true).toList();
+    incomeData=
+        HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
+            .values
+            .cast<TransactionModel>().where((element) => element.isExpense==false).toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('data is ${transactionsExpense.length}');
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -56,33 +66,33 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: Visibility(
-                      visible: expenseDataDaily.isNotEmpty,
+                      visible: transactionsExpense.isNotEmpty,
                       replacement: const Center(
                         child: Text('data is empty'),
                       ),
                       child: ListView.builder(
-                          itemCount: expenseDataDaily.length,
+                          itemCount: transactionsExpense.length,
                           itemBuilder: (context, index) {
                             return ExpansionTile(
                               title: Text(
-                                  '${expenseDataDaily[index].transactionModel.name}'),
+                                  '${transactionsExpense[index].name}'),
                               trailing: IconButton(
                                   onPressed: () {
                                     HiveHelper()
                                         .getBoxName(
                                             boxName:
-                                                AppBoxes.expenseRepeatDaily)
-                                        .delete(expenseDataDaily[index]);
-                                    expenseDataDaily[index].delete();
+                                                AppBoxes.dailyTransactionsBoxName)
+                                        .delete(transactionsExpense[index]);
+                                   // expenseDataDaily[index].delete();
                                   },
                                   icon: const Icon(Icons.delete)),
                               children: [
                                 Text(
-                                    'Expense Amount ${expenseDataDaily[index].transactionModel.amount}'),
+                                    'Expense Amount ${transactionsExpense[index].amount}'),
                                 Text(
-                                    'Expense payment Date  ${expenseDataDaily[index].transactionModel.paymentDate}'),
+                                    'Expense payment Date  ${transactionsExpense[index].paymentDate}'),
                                 Text(
-                                    'Expense id  ${expenseDataDaily[index].transactionModel.id}'),
+                                    'Expense id  ${transactionsExpense[index].id}'),
                               ],
                             );
                           }),

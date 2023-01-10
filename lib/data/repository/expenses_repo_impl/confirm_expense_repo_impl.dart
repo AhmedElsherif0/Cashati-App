@@ -19,7 +19,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
     expenseModel.createdDate = today;
 
     final allExpensesModel =
-        hiveDatabase.getBoxName(boxName: AppBoxes.expenseRepeatDaily);
+        hiveDatabase.getBoxName(boxName: AppBoxes.dailyTransactionsBoxName);
 
     await allExpensesModel.add(expenseModel);
 
@@ -70,7 +70,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
 
   @override
   List<TransactionModel> getTodayPayments() {
-    Box expenseRepeatTypes = hiveDatabase.getBoxName(boxName: AppBoxes.expenseRepeatDaily);
+    Box expenseRepeatTypes = hiveDatabase.getBoxName(boxName: AppBoxes.dailyTransactionsBoxName);
     _getTodayDailyExpenses(todayList, expenseRepeatTypes);
     _getTodayWeeklyExpenses(todayList, expenseRepeatTypes);
     _getTodayMonthlyExpenses(todayList, expenseRepeatTypes);
@@ -114,7 +114,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
           checkNoConfirmedAndMonthly(
               nextShownDate: item.nextShownDate,
               lastConfirmedDate: item.lastConfirmationDate,
-              expensePayment: item.transactionModel.paymentDate??DateTime.now())) {
+              expensePayment: item.transactionModel.paymentDate)) {
         todayList.add(item.transactionModel);
       }
     }
@@ -141,7 +141,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
         checkNoConfirmedAndWeekly(
             nextShownDate: weeklyExpense.nextShownDate,
             lastConfirmedDate: weeklyExpense.lastConfirmationDate,
-            expensePayment: weeklyExpense.transactionModel.paymentDate ?? DateTime.now())) {
+            expensePayment: weeklyExpense.transactionModel.paymentDate )) {
       return true;
     } else {
       return false;
