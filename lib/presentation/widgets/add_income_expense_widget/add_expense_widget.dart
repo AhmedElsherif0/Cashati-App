@@ -48,7 +48,8 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
   Widget build(BuildContext context) {
     AddExpOrIncCubit addExpOrIncCubit =
         BlocProvider.of<AddExpOrIncCubit>(context);
-    BlocProvider.of<AddExpOrIncCubit>(context).fitRandomColors();
+    BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList();
+    print('Built Exp');
 
     return ListView.builder(
         itemCount: addExpOrIncCubit.expMainCats.length,
@@ -295,19 +296,15 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
           itemCount: subCatsList.length,
           scrollDirection: Axis.horizontal,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+
               crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
           itemBuilder: (context, index) {
-
             //addExpOrIncCubit.fitRandomColors().shuffle();
 
             bool isChoosed = false;
-            return BlocConsumer<AddExpOrIncCubit, AddExpOrIncState>(
-              listener: (context, state) {
-                // if(state==AddExpOrIncInitial){
-                //   addExpOrIncCubit.addMoreToList();
-                // }
-              },
-              builder: (context, s) {
+            return BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
+
+              builder: (context, state) {
                 return Visibility(
                   visible: index != subCatsList.length - 1,
                   child: InkWell(
@@ -328,7 +325,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                         addExpOrIncCubit.chooseCategory(subCatsList[index]);
                       },
                       child: SubCategoryChoice(
-                        color: addExpOrIncCubit.lastColorList[index],
+                        color: addExpOrIncCubit.fitRandomColors(subCatsList)[index],
                         currentID: addExpOrIncCubit.currentID,
                         subCatIconCode:
                             subCatsList[index].subCategoryExpenseIconCodePoint,

@@ -28,6 +28,7 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
       child: Scaffold(
           appBar: AppBar(
             title: const Text('Add Expense'),
+            leading: IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back)),
             bottom: TabBar(
                 isScrollable: false,
                 unselectedLabelColor: AppColor.grey,
