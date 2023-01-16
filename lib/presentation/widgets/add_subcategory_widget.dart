@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
+import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 
 import '../styles/colors.dart';
 import 'category_info_field.dart';
+import 'common_texts/green_text.dart';
 import 'editable_infor_field.dart';
 
 class AddSubCategoryWidget extends StatelessWidget {
@@ -28,35 +30,17 @@ class AddSubCategoryWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Main Category',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontWeight: FontWeight.w500),
-            ),
+           const GreenText(text:'Main Category'),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 32.0),
               child: CategoryInfoField(mainCategoryName: mainCategoryName),
             ),
-            Text(
-              'Sub Category',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontWeight: FontWeight.w500),
-            ),
+            const GreenText(text: 'Sub Category'),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 32.0),
               child: EditableSubCategField(subCategoryName: subCategoryName),
             ),
-            Text(
-              'Icons',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontWeight: FontWeight.w500),
-            ),
+            const GreenText(text: 'Icons'),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 32.0),
               child: Container(
@@ -107,20 +91,10 @@ class AddSubCategoryWidget extends StatelessWidget {
                     }),
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(),
-                  onPressed: () {
-                    addSubcategoryCubit.addSubCategory(subCategoryName.text);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      'Save',
-                    ),
-                  )),
-            )
+            CustomElevatedButton(
+                onPressed: () =>
+                    addSubcategoryCubit.addSubCategory(subCategoryName.text),
+                text: 'Save'),
           ],
         ),
       )),

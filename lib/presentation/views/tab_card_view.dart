@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
+import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import '../../constants/enum_classes.dart';
 import '../styles/colors.dart';
@@ -21,7 +22,7 @@ class TabCardView extends StatelessWidget {
 
   final bool isVisible;
   final bool isRepeated;
-  final List expenseRepeatList;
+  final List<TransactionRepeatDetailsModel> expenseRepeatList;
   final String priorityName;
   final Color priceColor;
   final Color priorityColor;
@@ -72,7 +73,7 @@ class TabCardView extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text('${expenseModel.repeatType} ${index + 1}',
+                              Text('${expenseModel.name} ${index + 1}',
                                   style: textTheme.headline5),
                               const Spacer(),
                               Text(

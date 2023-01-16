@@ -110,21 +110,22 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                                 children: [
                                   const Spacer(flex: 11),
                                   Expanded(
-                                    flex: 11,
+                                    flex: 6,
                                     child: Column(
                                       children: [
                                         const ImportantOrFixed(
-                                          text: 'Important Expense',
+                                          text: 'Important',
                                           circleColor: AppColor.secondColor,
                                         ),
                                         SizedBox(height: 0.3.h),
                                         const ImportantOrFixed(
-                                          text: 'Not Important Expense',
+                                          text: 'Not Important',
                                           circleColor: AppColor.grey,
                                         ),
                                       ],
                                     ),
                                   ),
+                                  const Spacer()
                                 ],
                               ),
                             )

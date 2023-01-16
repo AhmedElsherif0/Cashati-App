@@ -24,7 +24,6 @@ class GradiantBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      child: child,
       decoration: BoxDecoration(
         image: decorationImage,
         gradient: LinearGradient(
@@ -34,6 +33,7 @@ class GradiantBackground extends StatelessWidget {
           colors: gradiantColor,
         ),
       ),
+      child: child,
     );
   }
 }

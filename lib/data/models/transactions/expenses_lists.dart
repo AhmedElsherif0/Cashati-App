@@ -5,16 +5,18 @@ import 'expenses_model.dart';
 enum Importance { importantExpense, notImportantExpense }
 
 
+
+
 class ExpensesLists {
   int daysDate = DateTime.now().day;
   int weekDate = DateTime.now().weekday;
-  int monthDate = DateTime.now().weekday;
+  int monthDate = DateTime.now().month;
 
   List<String> noRepeats =['Day','Weekly','Monthly','No Repeat'];
-  List<String> statisticsList =['Daily','Monthly','Yearly'];
+  List<String> statisticsList =['By Day','By Month','By Year'];
   List<ExpensesModel> expensesData = [
     ExpensesModel(
-        name: 'Daily',
+        name: 'Day',
         price: 200,
         chooseDate: 'choose Day',
         chooseInnerData: 'Day',

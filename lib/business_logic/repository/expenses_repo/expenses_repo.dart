@@ -11,6 +11,6 @@ abstract class TransactionsRepository {
   void addTransactions(
       {required TransactionModel expenseModel, required String choseRepeat});
 
-  List<TransactionRepeatDetailsModel> getExpenseTypeList(int currentIndex);
+ List<TransactionRepeatDetailsModel> getExpenseTypeList(int currentIndex);
 
 }

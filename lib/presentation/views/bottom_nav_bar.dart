@@ -6,7 +6,10 @@ import 'package:temp/constants/app_icons.dart';
 import '../../business_logic/cubit/global_cubit/global_cubit.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
-  const BottomNavBarWidget({Key? key, required this.cubit}) : super(key: key);
+  const BottomNavBarWidget({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
   final GlobalCubit cubit;
 
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/presentation/router/app_router_names.dart';
 
 import '../styles/colors.dart';
 
@@ -10,7 +11,7 @@ class CustomAppBar extends StatelessWidget {
     Key? key,
     required this.title,
     this.onTapFirstIcon,
-    this.onTanNotification,
+    this.onTapNotification,
     this.textStyle,
     this.isEndIconVisible = true,
     this.firstIcon = Icons.arrow_back_ios,
@@ -19,7 +20,7 @@ class CustomAppBar extends StatelessWidget {
   final String title;
   final TextStyle? textStyle;
   final void Function()? onTapFirstIcon;
-  final void Function()? onTanNotification;
+  final void Function()? onTapNotification;
   final IconData? firstIcon;
   final bool isEndIconVisible;
 
@@ -35,7 +36,7 @@ class CustomAppBar extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   color: AppColor.pineGreen,
                   icon: Icon(firstIcon, size: 24.sp),
-                  onPressed: onTapFirstIcon ?? () => Navigator.of(context).pop,
+                  onPressed: onTapFirstIcon ?? () => Navigator.pop(context),
                 )
               : InkWell(
                   borderRadius: BorderRadius.zero,
@@ -58,7 +59,8 @@ class CustomAppBar extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.zero,
               radius: 0.0,
-              onTap: onTanNotification,
+              onTap: () =>
+                  Navigator.of(context).pushNamed(AppRouterNames.rNotification),
               child: SvgPicture.asset('assets/images/notification.svg',
                   height: 22.sp, width: 22.sp),
             ),

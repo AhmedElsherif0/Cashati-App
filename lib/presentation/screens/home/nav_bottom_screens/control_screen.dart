@@ -27,7 +27,7 @@ class ControlScreen extends StatelessWidget {
                     title: _cubit(context)
                         .appBarTitle[_cubit(context).currentIndex],
                     onTapFirstIcon: () => _cubit(context).emitDrawer(context),
-                    onTanNotification: () {},
+                    onTapNotification: () {},
                     isEndIconVisible:
                         _cubit(context).currentIndex == 4 ? false : true,
                     firstIcon: Icons.menu,

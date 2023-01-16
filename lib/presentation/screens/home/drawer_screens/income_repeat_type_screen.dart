@@ -10,7 +10,7 @@ import 'package:temp/presentation/widgets/expenses_and_income_widgets/income_rep
 import '../../../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import '../../../../business_logic/cubit/income_repeat/income_repeat_cubit.dart';
 import '../../../../constants/enum_classes.dart';
-import '../../../widgets/details_text.dart';
+import '../../../widgets/common_texts/details_text.dart';
 
 class IncomeRepeatTypeScreen extends StatelessWidget {
   const IncomeRepeatTypeScreen({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class IncomeRepeatTypeScreen extends StatelessWidget {
                 child: CustomAppBar(
                   title: 'Income Repeat ',
                   onTapFirstIcon: () => Navigator.of(context).pop(),
-                  onTanNotification: () {},
+                  onTapNotification: () {},
                   textStyle: Theme.of(context).textTheme.headline5,
                 ),
               ),

@@ -28,7 +28,9 @@ class AppTheme {
       subtitle1: _appStyle.subtitle1Theme(),
       subtitle2: _appStyle.subtitle2Theme(),
       caption: _appStyle.captionTheme(),
+      overline: _appStyle.overLineTheme()
     ),
+
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
