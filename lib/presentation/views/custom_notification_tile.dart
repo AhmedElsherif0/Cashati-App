@@ -3,14 +3,14 @@ import 'package:sizer/sizer.dart';
 import '../styles/colors.dart';
 
 class CustomNotificationTile extends StatelessWidget {
-  const CustomNotificationTile(
-      {required this.title,
-      this.firstIcon = const Icon(Icons.chat),
-      Key? key,
-      this.onPressedNotification,
-      required this.subTitle,
-      required this.dateTime})
-      : super(key: key);
+  const CustomNotificationTile({
+    required this.title,
+    this.firstIcon = const Icon(Icons.chat),
+    Key? key,
+    this.onPressedNotification,
+    required this.subTitle,
+    required this.dateTime,
+  }) : super(key: key);
 
   final String title;
   final String subTitle;
@@ -36,10 +36,9 @@ class CustomNotificationTile extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.topRight,
-                  child: Text(
-                    '$dateTime ago',
-                    style: Theme.of(context).textTheme.overline,
-                    overflow: TextOverflow.ellipsis),
+                  child: Text('$dateTime ago',
+                      style: Theme.of(context).textTheme.overline,
+                      overflow: TextOverflow.ellipsis),
                 ),
                 Expanded(
                   flex: 4,
@@ -62,7 +61,7 @@ class CustomNotificationTile extends StatelessWidget {
                       Expanded(
                         flex: 8,
                         child: Text(
-                          title ?? '',
+                          title,
                           style: Theme.of(context).textTheme.subtitle1,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
