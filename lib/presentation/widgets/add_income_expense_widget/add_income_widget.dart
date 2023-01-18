@@ -47,7 +47,8 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
   Widget build(BuildContext context) {
     AddExpOrIncCubit addExpOrIncCubit =
     BlocProvider.of<AddExpOrIncCubit>(context);
-    BlocProvider.of<AddExpOrIncCubit>(context).fitRandomColors();
+    BlocProvider.of<AddExpOrIncCubit>(context).addMoreToIncomeList();
+    print('Built Inc');
 
     return ListView.builder(
         itemCount: addExpOrIncCubit.incomeMainCats.length,
@@ -254,26 +255,17 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
           itemBuilder: (context, index) {
-            print('Rebuild');
             //addExpOrIncCubit.fitRandomColors().shuffle();
 
             bool isChoosed = false;
-            return BlocConsumer<AddExpOrIncCubit, AddExpOrIncState>(
-              listener: (context, state) {
-                // if(state==AddExpOrIncInitial){
-                //   addExpOrIncCubit.addMoreToList();
-                // }
-              },
+            return BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
+
               builder: (context, s) {
                 return Visibility(
                   visible: index != subCatsList.length - 1,
                   child: InkWell(
                       onTap: () {
-                        // setState(() {
-                        //   //currentID=list.where((element) => element.subCategoryExpenseId==currentID).single.subCategoryExpenseId;
-                        //   currentID = list[index].id;
-                        //   subCatName = list[index].subCategoryExpenseName;
-                        // });
+
                         BlocProvider.of<AddSubcategoryCubit>(context)
                             .currentMainCategory =
                             BlocProvider.of<AddExpOrIncCubit>(context)
@@ -285,7 +277,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                         addExpOrIncCubit.chooseIncomeCategory(subCatsList[index]);
                       },
                       child: SubCategoryChoice(
-                        color: addExpOrIncCubit.lastColorList[index],
+                        color: addExpOrIncCubit.fitRandomColors(subCatsList)[index],
                         currentID: addExpOrIncCubit.currentID,
                         subCatIconCode:
                         subCatsList[index].subCategoryIncomeCodePoint,
