@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
+import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 
 import '../router/app_router_names.dart';
 import '../styles/colors.dart';
 import 'category_info_field.dart';
+import 'common_texts/green_text.dart';
 import 'editable_infor_field.dart';
 
 class AddSubCategoryWidget extends StatelessWidget {
@@ -28,8 +30,6 @@ class AddSubCategoryWidget extends StatelessWidget {
        }
        else if(state is AddedIncSubcategorySuccessfully){
          addSubcategoryCubit.goBackWithNewData(context,isExpSub:false);
-
-
        }
       },
       child: Form(
@@ -119,27 +119,19 @@ class AddSubCategoryWidget extends StatelessWidget {
                                 },
                               ),
                             );
-                          }),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(),
-                        onPressed: () {
-                          addSubcategoryCubit.addSubCategory(subCategoryName.text,context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            'Save',
-                          ),
-                        )),
-                  )
-                ],
+                          },
+                        ),
+                      );
+                    }),
               ),
-            )),
-      ),
+            ),
+            CustomElevatedButton(
+                onPressed: () =>
+                    addSubcategoryCubit.addSubCategory(subCategoryName.text),
+                text: 'Save'),
+          ],
+        ),
+      )),
     );
   }
 }

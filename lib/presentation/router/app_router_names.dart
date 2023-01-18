@@ -8,5 +8,6 @@ class AppRouterNames {
   static const rExpenseRepeatDetails = '/rExpenseRepeatDetails';
   static const rAddExpenseOrIncomeScreen = '/rAddExpenseOrIncomeScreen';
   static const rAddSubCategory = '/rAddSubCategory';
+  static const rNotification = '/rNotification';
 
 }

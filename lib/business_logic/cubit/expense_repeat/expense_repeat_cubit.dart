@@ -17,7 +17,7 @@ class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
 
   int currentIndex = 0;
 
-  List<TransactionRepeatDetailsModel> getExpenseTypeList() {
+ List<TransactionRepeatDetailsModel> getExpenseTypeList() {
     return _expensesRepository.getExpenseTypeList(currentIndex);
   }
 

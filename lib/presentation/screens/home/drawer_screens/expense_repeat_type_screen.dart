@@ -8,7 +8,7 @@ import 'package:temp/presentation/widgets/custom_app_bar.dart';
 import 'package:temp/presentation/widgets/expense_repeat_header.dart';
 import '../../../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import '../../../../constants/enum_classes.dart';
-import '../../../widgets/details_text.dart';
+import '../../../widgets/common_texts/details_text.dart';
 
 class ExpenseRepeatTypeScreen extends StatelessWidget {
   const ExpenseRepeatTypeScreen({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
                 child: CustomAppBar(
                   title: 'Expense Repeat Income',
                   onTapFirstIcon: () => Navigator.of(context).pop(),
-                  onTanNotification: () {},
+                  onTapNotification: () {},
                   textStyle: Theme.of(context).textTheme.headline5,
                 ),
               ),

@@ -7,7 +7,7 @@ import 'package:temp/presentation/views/tab_card_View.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 import '../../constants/enum_classes.dart';
 import '../../data/models/transactions/expenses_lists.dart';
-import '../widgets/details_text.dart';
+import '../widgets/common_texts/details_text.dart';
 
 class CustomTabBarView extends StatefulWidget {
   const CustomTabBarView({
@@ -22,7 +22,7 @@ class CustomTabBarView extends StatefulWidget {
   final int currentIndex;
   final String priorityName;
   final int index;
-  final List<TransactionRepeatDetailsModel> expenseDetailsList;
+  final  List<TransactionRepeatDetailsModel> expenseDetailsList;
   final PageController pageController;
 
   @override

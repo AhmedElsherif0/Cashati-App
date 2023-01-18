@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../styles/colors.dart';
+import '../../styles/colors.dart';
 
 class LogoName extends StatelessWidget {
   const LogoName({Key? key}) : super(key: key);
