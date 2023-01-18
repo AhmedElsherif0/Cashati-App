@@ -83,6 +83,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       print('error is $e');
     }
     print('Fetched list is ${fetchedList}');
+   // emit(FetchedSubCategories());
     return fetchedList;
   }
   List<SubCategoryIncome>fetchIncomeSubCategories(){
@@ -93,6 +94,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       print('error is $e');
     }
     print('Fetched list is ${fetchedList}');
+    //emit(FetchedSubCategories());
     return fetchedList;
   }
 
@@ -158,6 +160,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       }
     }
   }
+
   addMoreToIncomeList(){
    variableSubCatsList.clear();
    fixedSubCatsList.clear();
@@ -182,11 +185,14 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
    // emit(ChoosedMainCategoryState());
   }
 
-  List<MaterialColor> fitRandomColors(){
+  List<MaterialColor> fitRandomColors(List subcategoryList){
     //TODO recode this method as there are 3 lists for expenses and 2 for income
-   if(homeSubCatsList.length>colorsList.length){
-     for(int i=colorsList.length; i<homeSubCatsList.length; i++ ){
+   if(subcategoryList.length>colorsList.length){
+     for(int i=colorsList.length; i!=subcategoryList.length; i++ ){
        colorsList.add(colorsList[Random().nextInt(6)]);
+       print('colorList length Color ${colorsList.length}');
+       print('subcategoryList length Color ${subcategoryList.length}');
+       print('Added Color ${i}');
      }
      lastColorList=colorsList;
      return lastColorList;

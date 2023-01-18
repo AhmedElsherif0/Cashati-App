@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/income_subcategory_repo.dart';
@@ -8,6 +9,7 @@ import 'package:temp/presentation/router/app_router_names.dart';
 
 import '../../../data/repository/subcategories_repo_impl/expense_subcategory_repo_impl.dart';
 import '../../repository/subcategories_repo/expense_subcategory_repo.dart';
+import '../add_exp_inc/add_exp_or_inc_cubit.dart';
 
 part 'add_subcategory_state.dart';
 
@@ -37,11 +39,33 @@ class AddSubcategoryCubit extends Cubit<AddSubcategoryState> {
     currentIconData = iconData;
     emit(ChoseSubCategory());
   }
+  goBackWithNewData(BuildContext context,{required bool isExpSub}){
+    if(isExpSub){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Added Successfully')));
+      BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList();
+      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context,AppRouterNames.rAddExpenseOrIncomeScreen);
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Added Successfully')));
+      BlocProvider.of<AddExpOrIncCubit>(context).addMoreToIncomeList();
+      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context,AppRouterNames.rAddExpenseOrIncomeScreen);
+    }
 
-  addSubCategory(String subCategoryName) async {
+  }
+
+  addSubCategory(String subCategoryName,BuildContext context) async {
     if (formKey.currentState!.validate()) {
       print('validated');
-      filterSubCategory(subCategoryName);
+     await filterSubCategory(subCategoryName).then((value)  {
+       // if(state==AddedSubcategorySuccessfully()){
+       //   print('state is $state');
+       //
+       //   Navigator.pushNamedAndRemoveUntil(context, AppRouterNames.rAddExpenseOrIncomeScreen, (route) => false);
+       // }else{
+       //   print('state is $state');
+       // }
+     });
     }
   }
 
@@ -68,6 +92,8 @@ class AddSubcategoryCubit extends Cubit<AddSubcategoryState> {
   }
 
   Future addExpenseSubCategory(String subCategoryName) async {
+    emit(AddSubCategoryLoading());
+
     try {
       await expenseSubCategoryRepo.addExpenseSubCat(
           mainCategoryExpenseName: currentMainCategory,
@@ -75,12 +101,17 @@ class AddSubcategoryCubit extends Cubit<AddSubcategoryState> {
           subCategoryExpenseIconName: 'Expense',
           subCategoryExpenseColor: 'none',
           subCategoryExpenseIconCodePoint: currentIconData.codePoint);
+      emit(AddedExpSubcategorySuccessfully());
+
     } catch (e) {
       print('Error Adding Expense subcat is $e');
+      emit(AddSubCategoryError(e.toString()));
     }
   }
 
   Future addIncomeSubCategory(String subCategoryName) async {
+    emit(AddSubCategoryLoading());
+
     try {
       await incomeSubcategoryRepo.addIncomeSubCat(
           mainCategoryIncomeName: currentMainCategory,
@@ -88,8 +119,12 @@ class AddSubcategoryCubit extends Cubit<AddSubcategoryState> {
           subCategoryIncomeIconName: 'Income',
           subCategoryIncomeColor: 'none',
           subCategoryIncomeCodePoint: currentIconData.codePoint);
+      emit(AddedIncSubcategorySuccessfully());
+
     } catch (e) {
       print('Error Adding subcat is $e');
+      emit(AddSubCategoryError(e.toString()));
+
     }
   }
 }
