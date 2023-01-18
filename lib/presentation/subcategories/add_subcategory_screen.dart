@@ -9,20 +9,18 @@ class AddSubCategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-        return Scaffold(
-          appBar: AppBar(
-
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                CustomAppBar(title: 'Add Subcategory'),
-                AddSubCategoryWidget(mainCategoryName:context.read<AddSubcategoryCubit>().currentMainCategory),
-              ],
-            ),
-          ),
-        );
-
+    return Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const CustomAppBar(title: 'Add Subcategory'),
+            AddSubCategoryWidget(
+                mainCategoryName:
+                    context.read<AddSubcategoryCubit>().currentMainCategory),
+          ],
+        ),
+      ),
+    );
   }
 }

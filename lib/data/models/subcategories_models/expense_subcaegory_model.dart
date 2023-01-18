@@ -1,32 +1,34 @@
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
 part 'expense_subcaegory_model.g.dart';
 
-
-
 @HiveType(typeId: 6)
-class SubCategoryExpense{
-  SubCategoryExpense();
-  SubCategoryExpense.copyWith({
-    required this.mainCategoryExpenseName,
-    required this.id,
-    required this.subCategoryExpenseName,
-    required this.subCategoryExpenseIconName,
-    required this.subCategoryExpenseColor,
-    required this.subCategoryExpenseIconCodePoint,
+class SubCategory {
+  SubCategory();
 
+  SubCategory.copyWith({
+    required this.mainCategoryName,
+    required this.id,
+    required this.subCategoryName,
+    required this.subCategoryIconName,
+    required this.subCategoryColor,
+    required this.subCategoryIconCodePoint,
   });
+
   @HiveField(0)
   late String id;
   @HiveField(1)
-  late String mainCategoryExpenseName ;
+  late String mainCategoryName;
+
   @HiveField(2)
-  late String subCategoryExpenseName ;
+  late String subCategoryName;
+
   @HiveField(3)
-  late String subCategoryExpenseIconName;
+  late String subCategoryIconName;
+
   //TODO remove colors
   @HiveField(4)
-  late String subCategoryExpenseColor;
+  late String subCategoryColor;
   @HiveField(5)
-  late int subCategoryExpenseIconCodePoint;
+  late int subCategoryIconCodePoint;
 }

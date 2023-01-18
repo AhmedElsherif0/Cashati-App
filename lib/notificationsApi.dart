@@ -80,7 +80,6 @@ class NotificationsApi {
 
   tz.TZDateTime _scheduleWeekly(DateTime time) {
     final now = DateTime.now().toLocal();
-    final localTime = time.toLocal();
     final scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, now.day,
         time.hour, time.minute, time.second);
 

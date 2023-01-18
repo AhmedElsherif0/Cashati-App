@@ -6,41 +6,41 @@ part of 'expense_subcaegory_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SubCategoryExpenseAdapter extends TypeAdapter<SubCategoryExpense> {
+class SubCategoryAdapter extends TypeAdapter<SubCategory> {
   @override
   final int typeId = 6;
 
   @override
-  SubCategoryExpense read(BinaryReader reader) {
+  SubCategory read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SubCategoryExpense()
+    return SubCategory()
       ..id = fields[0] as String
-      ..mainCategoryExpenseName = fields[1] as String
-      ..subCategoryExpenseName = fields[2] as String
-      ..subCategoryExpenseIconName = fields[3] as String
-      ..subCategoryExpenseColor = fields[4] as String
-      ..subCategoryExpenseIconCodePoint = fields[5] as int;
+      ..mainCategoryName = fields[1] as String
+      ..subCategoryName = fields[2] as String
+      ..subCategoryIconName = fields[3] as String
+      ..subCategoryColor = fields[4] as String
+      ..subCategoryIconCodePoint = fields[5] as int;
   }
 
   @override
-  void write(BinaryWriter writer, SubCategoryExpense obj) {
+  void write(BinaryWriter writer, SubCategory obj) {
     writer
       ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.mainCategoryExpenseName)
+      ..write(obj.mainCategoryName)
       ..writeByte(2)
-      ..write(obj.subCategoryExpenseName)
+      ..write(obj.subCategoryName)
       ..writeByte(3)
-      ..write(obj.subCategoryExpenseIconName)
+      ..write(obj.subCategoryIconName)
       ..writeByte(4)
-      ..write(obj.subCategoryExpenseColor)
+      ..write(obj.subCategoryColor)
       ..writeByte(5)
-      ..write(obj.subCategoryExpenseIconCodePoint);
+      ..write(obj.subCategoryIconCodePoint);
   }
 
   @override
@@ -49,7 +49,7 @@ class SubCategoryExpenseAdapter extends TypeAdapter<SubCategoryExpense> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SubCategoryExpenseAdapter &&
+      other is SubCategoryAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
