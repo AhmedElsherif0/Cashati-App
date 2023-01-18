@@ -62,7 +62,7 @@ Future<void> main() async {
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
       boxName: AppBoxes.noRepeaTransactionsBoxName);
   await HiveHelper()
-      .openBox<SubCategoryExpense>(boxName: AppBoxes.subCategoryExpense);
+      .openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
   await HiveHelper()
       .openBox<SubCategoryIncome>(boxName: AppBoxes.subCategoryIncome);
   await HiveHelper()
@@ -73,7 +73,6 @@ Future<void> main() async {
       await CacheHelper.init();
       await EasyLocalization.ensureInitialized();
       await NotificationsApi.initialize();
-
       runApp(MyApp(appRouter: AppRouter()));
     },
     blocObserver: MyBlocObserver(),
