@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
-import 'package:temp/presentation/widgets/logo_name.dart';
+import 'package:temp/presentation/widgets/common_texts/logo_name.dart';
 
 import '../../../data/local/cache_helper.dart';
 import '../../../data/models/onbaording/onbaording_list_of_data.dart';

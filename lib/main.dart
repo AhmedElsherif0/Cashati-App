@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -13,13 +12,12 @@ import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.da
 import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
 import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
-import 'package:temp/data/models/subcategories_models/income_subcaegory_model.dart';
 import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 import 'package:temp/notificationsApi.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
-import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'package:temp/presentation/widgets/status_bar_configuration.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'business_logic/cubit/bloc_observer.dart';
 import 'business_logic/cubit/global_cubit/global_cubit.dart';
@@ -33,11 +31,15 @@ import 'data/models/transactions/transaction_model.dart';
 import 'data/models/transactions/transaction_types_model.dart';
 import 'data/repository/expenses_repo_impl/expenses_repo_impl.dart';
 import 'presentation/router/app_router.dart';
-import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
+
+  final now = DateTime.now();
+  final local = DateTime.now().toLocal();
+  print('now time $now');
+  print('local time $local');
 
   await translator.init(
     localeType: LocalizationDefaultType.device,
@@ -50,8 +52,7 @@ Future<void> main() async {
   Hive.registerAdapter(TransactionModelAdapter());
   Hive.registerAdapter(TransactionRepeatTypesAdapter());
   Hive.registerAdapter(TransactionRepeatDetailsModelAdapter());
-  Hive.registerAdapter(SubCategoryExpenseAdapter());
-  Hive.registerAdapter(SubCategoryIncomeAdapter());
+  Hive.registerAdapter(SubCategoryAdapter());
 
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
       boxName: AppBoxes.dailyTransactionsBoxName);
@@ -61,10 +62,8 @@ Future<void> main() async {
       boxName: AppBoxes.monthlyTransactionsBoxName);
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
       boxName: AppBoxes.noRepeaTransactionsBoxName);
-  await HiveHelper()
-      .openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
-  await HiveHelper()
-      .openBox<SubCategoryIncome>(boxName: AppBoxes.subCategoryIncome);
+  await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
+  await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryIncome);
   await HiveHelper()
       .openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
 

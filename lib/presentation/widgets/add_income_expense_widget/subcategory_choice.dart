@@ -4,19 +4,15 @@ import '../../../data/models/subcategories_models/expense_subcaegory_model.dart'
 import '../../styles/colors.dart';
 
 class SubCategoryChoice extends StatefulWidget {
-  const SubCategoryChoice({
-    Key? key,
-    required this.color,
-    required this.currentID,
-    required this.subCatName,
-    required this.subCatIconCode,
-    required this.subCatID,
-  }) : super(key: key);
+  const SubCategoryChoice(
+      {Key? key,
+      required this.subCategory,
+      required this.currentID,
+      required this.color})
+      : super(key: key);
+  final SubCategory subCategory;
   final Color color;
   final String currentID;
-  final String subCatID;
-  final String subCatName;
-  final int subCatIconCode;
 
   @override
   _SubCategoryChoiceState createState() => _SubCategoryChoiceState();
@@ -30,9 +26,9 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
 
   @override
   Widget build(BuildContext context) {
-    const duration400 = Duration(milliseconds: 400);
+    const duration400 = Duration(milliseconds: 600);
     return Visibility(
-      visible: widget.subCatID == widget.currentID,
+      visible: widget.subCategory.id == widget.currentID,
       replacement: AnimatedContainer(
         padding: EdgeInsets.symmetric(horizontal: 5),
         duration: duration400,
@@ -44,11 +40,14 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(IconData(widget.subCatIconCode,fontFamily: Icons.add.fontFamily), color: widget.color),
+            Icon(
+                IconData(widget.subCategory.subCategoryIconCodePoint,
+                    fontFamily: Icons.add.fontFamily),
+                color: widget.color),
             const SizedBox(height: 10),
             FittedBox(
               child: Text(
-                widget.subCatName,
+                widget.subCategory.subCategoryName,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: widget.color,
                     fontSize: 15,
@@ -75,13 +74,14 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              IconData(widget.subCatIconCode,fontFamily: Icons.add.fontFamily),
+              IconData(widget.subCategory.subCategoryIconCodePoint,
+                  fontFamily: Icons.add.fontFamily),
               color: AppColor.white,
             ),
             const SizedBox(height: 10),
             FittedBox(
               child: Text(
-                widget.subCatName,
+                widget.subCategory.subCategoryName,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: AppColor.white,
                     fontSize: 15,
