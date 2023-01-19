@@ -1,45 +1,38 @@
 import 'package:hive/hive.dart';
-
-import '../../../business_logic/repository/subcategories_repo/income_subcategory_repo.dart';
+import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
+import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
 import '../../local/hive/app_boxes.dart';
 import '../../local/hive/hive_database.dart';
 import '../../local/hive/id_generator.dart';
-import '../../models/subcategories_models/income_subcaegory_model.dart';
 
-class IncomeSubcategoryImpl implements IncomeSubcategoryRepo {
+class IncomeSubcategoryImpl implements CategoryTransactionRepo {
   final HiveHelper _hiveHelper = HiveHelper();
 
   @override
-  List<SubCategoryIncome> fetchAllIncomeSubCats() {
-    return _getSubCategoryBox().values.toList().cast<SubCategoryIncome>();
+  List<SubCategory> fetchSubCategories() {
+    return _getSubCategoryBox().values.toList().cast<SubCategory>();
   }
 
   @override
-  Future<void> addIncomeSubCat({
-    required String mainCategoryIncomeName,
-    required String subCategoryIncomeColor,
-    required String subCategoryIncomeIconName,
-    required String subCategoryIncomeName,
-    required int subCategoryIncomeCodePoint,
-  }) async {
-    SubCategoryIncome subCategoryIncome = SubCategoryIncome.copyWith(
+  Future<void> addSubCategories({required SubCategory subCategory}) async {
+    SubCategory subCategories = SubCategory.copyWith(
       id: GUIDGen.generate(),
-      mainCategoryIncomeName: mainCategoryIncomeName,
-      subCategoryIncomeColor: subCategoryIncomeColor,
-      subCategoryIncomeIconName: subCategoryIncomeIconName,
-      subCategoryIncomeName: subCategoryIncomeName,
-      subCategoryIncomeCodePoint: subCategoryIncomeCodePoint,
+      mainCategoryName: subCategory.mainCategoryName,
+      subCategoryColor: subCategory.subCategoryColor,
+      subCategoryIconName: subCategory.subCategoryIconName,
+      subCategoryName: subCategory.subCategoryName,
+      subCategoryIconCodePoint: subCategory.subCategoryIconCodePoint,
     );
     await _hiveHelper.addToBox2(
-        dataModel: subCategoryIncome, boxName: _getSubCategoryBox());
+        dataModel: subCategories, boxName: _getSubCategoryBox());
   }
 
   @override
-  Future<void> deleteIncomeSubCat(SubCategoryIncome subCategoryIncome) async {
+  Future<void> deleteSubCategories({required SubCategory subCategory}) async {
     await _hiveHelper.deleteBox(
-        boxName: _getSubCategoryBox(), dataModel: subCategoryIncome);
+        boxName: _getSubCategoryBox(), dataModel: subCategory);
   }
 
-  Box<SubCategoryIncome> _getSubCategoryBox() =>
+  Box<SubCategory> _getSubCategoryBox() =>
       _hiveHelper.getBoxName(boxName: AppBoxes.subCategoryIncome);
 }

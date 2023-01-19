@@ -1,31 +1,19 @@
 import 'package:hive/hive.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
-import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 import '../../../business_logic/repository/income_repo/income_repo.dart';
-import '../../../constants/app_strings.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
 class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
 
-
+  IncomeRepositoryImpl();
 
   @override
   Future<void> addIncomeToTransactionBox({
     required TransactionModel transactionModel
-    // required String name,
-    // required num amount,
-    // required String mainCategory,
-    // required String subCategory,
-    // required String comment,
-    // required String repeat,
-    // required bool isPriority,
-    // required bool isPaid,
-    // required DateTime paymentDate,
-    // required DateTime createdDate,
   }) async {
     final incomeModel = TransactionModel.income(
         amount: transactionModel.amount,
@@ -63,8 +51,6 @@ class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
   @override
   void addTransactions(
       {required TransactionModel incomeModel, required String choseRepeat}) {
-
-
     switch (choseRepeat) {
       case 'Daily':
         DailyTransaction().addTransactionToRepeatedBox(incomeModel);
@@ -94,6 +80,7 @@ class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
     return expenseTypesList[currentIndex];
   }
 }
+
 /*
 OLD Implementation for Income Repository
   @override

@@ -1,15 +1,10 @@
 import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 
-abstract class ExpenseSubCategoryRepo {
-  List<SubCategoryExpense> fetchAllExpenseSubCats();
+abstract class CategoryTransactionRepo {
 
-  Future<void> addExpenseSubCat({
-    required String mainCategoryExpenseName,
-    required String subCategoryExpenseName,
-    required String subCategoryExpenseIconName,
-    required String subCategoryExpenseColor,
-    required int subCategoryExpenseIconCodePoint,
-  });
+  List<SubCategory> fetchSubCategories();
 
-  Future<void> deleteExpenseSubCat(SubCategoryExpense subCategoryExpense);
+  Future<void> addSubCategories({required SubCategory subCategory});
+
+  Future<void> deleteSubCategories({required SubCategory subCategory});
 }

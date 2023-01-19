@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/data/local/hive/app_boxes.dart';
-import 'package:temp/data/local/hive/hive_database.dart';
+import 'package:temp/constants/app_lists.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/subcategory_choice.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
 import 'package:temp/presentation/widgets/editable_text.dart';
-import 'package:sizer/sizer.dart';
-
 import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import '../../router/app_router_names.dart';
 import 'choose_container.dart';
@@ -37,11 +33,18 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList();
-
     print(
         'Icon Add Code Point ${Icons.add.codePoint}, Color ${Colors.indigo.value}');
+  }
+
+
+  @override
+  void dispose() {
+    amountCtrl.dispose();
+    nameCtrl.dispose();
+    descriptionCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -67,7 +70,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
       AddExpOrIncCubit addExpOrIncCubit,
       BuildContext context,
       String mainCategoryName,
-      List<SubCategoryExpense> subCategoriesList) {
+      List<SubCategory> subCategoriesList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -272,7 +275,6 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                               isProcessing: false,
                               createdDate: DateTime.now(),
                               paymentDate: addExpOrIncCubit.chosenDate ?? DateTime.now()),
-
                       );
                     },
                     child: const Text('Add'),
@@ -289,7 +291,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
   }
 
   Container subCategoriesListContainer(
-      List<SubCategoryExpense> subCatsList, AddExpOrIncCubit addExpOrIncCubit) {
+      List<SubCategory> subCatsList, AddExpOrIncCubit addExpOrIncCubit) {
     return Container(
       height: 250,
       child: GridView.builder(
@@ -325,12 +327,9 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                         addExpOrIncCubit.chooseCategory(subCatsList[index]);
                       },
                       child: SubCategoryChoice(
-                        color: addExpOrIncCubit.fitRandomColors(subCatsList)[index],
+                        color: addExpOrIncCubit.fitRandomColors()[index],
                         currentID: addExpOrIncCubit.currentID,
-                        subCatIconCode:
-                            subCatsList[index].subCategoryExpenseIconCodePoint,
-                        subCatID: subCatsList[index].id,
-                        subCatName: subCatsList[index].subCategoryExpenseName,
+                        subCategory: subCatsList[index],
                       )),
                   replacement: InkWell(
                       onTap: () {
@@ -345,9 +344,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                       child: SubCategoryChoice(
                         color: AppColor.green,
                         currentID: 'feverrrr',
-                        subCatIconCode: Icons.add.codePoint,
-                        subCatID: 'jjjhj',
-                        subCatName: 'Add More',
+                         subCategory:AppConstantList().addMoreOption,
                       )),
                 );
               },

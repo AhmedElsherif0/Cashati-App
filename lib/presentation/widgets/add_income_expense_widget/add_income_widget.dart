@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/constants/app_lists.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
-import 'package:temp/data/models/subcategories_models/income_subcaegory_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/subcategory_choice.dart';
@@ -13,8 +10,9 @@ import 'package:temp/presentation/widgets/drop_down_custom.dart';
 import 'package:temp/presentation/widgets/editable_text.dart';
 import '../../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import '../../../business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
-import '../../../data/local/hive/hive_database.dart';
+import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import '../../router/app_router_names.dart';
+import '../buttons/elevated_button.dart';
 import 'choose_container.dart';
 import 'main_category_choice.dart';
 
@@ -66,7 +64,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
       AddExpOrIncCubit addExpOrIncCubit,
       BuildContext context,
       String mainCategoryName,
-      List<SubCategoryIncome> subCategoriesList) {
+      List<SubCategory> subCategoriesList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -213,8 +211,8 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                   SizedBox(
                     height: 10,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
+                  CustomElevatedButton(
+                    onPressed: (){
                       addExpOrIncCubit.validateIncomeFields(context,amountCtrl.text,
                         TransactionModel.income(
                             id: GUIDGen.generate(),
@@ -232,7 +230,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                             paymentDate: choosedDate ?? DateTime.now()),
                       );
                     },
-                    child: const Text('Add'),
+                    text: 'Add',
                   ),
                 ],
               ),
@@ -246,7 +244,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
   }
 
   Container subCategoriesListContainer(
-      List<SubCategoryIncome> subCatsList, AddExpOrIncCubit addExpOrIncCubit) {
+      List<SubCategory> subCatsList, AddExpOrIncCubit addExpOrIncCubit) {
     return Container(
       height: 250,
       child: GridView.builder(
@@ -256,7 +254,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
               crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
           itemBuilder: (context, index) {
             //addExpOrIncCubit.fitRandomColors().shuffle();
-
+            SubCategory subCategory;
             bool isChoosed = false;
             return BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
 
@@ -277,12 +275,9 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                         addExpOrIncCubit.chooseIncomeCategory(subCatsList[index]);
                       },
                       child: SubCategoryChoice(
-                        color: addExpOrIncCubit.fitRandomColors(subCatsList)[index],
+                        color: addExpOrIncCubit.fitRandomColors()[index],
                         currentID: addExpOrIncCubit.currentID,
-                        subCatIconCode:
-                        subCatsList[index].subCategoryIncomeCodePoint,
-                        subCatID: subCatsList[index].id,
-                        subCatName: subCatsList[index].subCategoryIncomeName,
+                        subCategory: subCatsList[index],
                       )),
                   replacement: InkWell(
                       onTap: () {
@@ -297,9 +292,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                       child: SubCategoryChoice(
                         color: AppColor.green,
                         currentID: 'feverrrr',
-                        subCatIconCode: Icons.add.codePoint,
-                        subCatID: 'jjjhj',
-                        subCatName: 'Add More',
+                        subCategory: AppConstantList().addMoreOption ,
                       )),
                 );
               },

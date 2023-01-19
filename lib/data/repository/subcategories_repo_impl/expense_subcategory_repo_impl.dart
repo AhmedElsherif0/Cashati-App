@@ -1,45 +1,37 @@
 import 'package:hive/hive.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
-
 import '../../../business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import '../../local/hive/id_generator.dart';
 import '../../models/subcategories_models/expense_subcaegory_model.dart';
 
-class ExpenseSubCategoryImpl implements ExpenseSubCategoryRepo {
+class ExpenseSubCategoryImpl implements CategoryTransactionRepo {
   final HiveHelper _hiveHelper = HiveHelper();
 
   @override
-  List<SubCategoryExpense> fetchAllExpenseSubCats() {
-    return _getSubCatExpenseBox().values.toList().cast<SubCategoryExpense>();
+  List<SubCategory> fetchSubCategories() {
+    return _getSubCatExpenseBox().values.toList().cast<SubCategory>();
   }
 
   @override
-  Future<void> addExpenseSubCat({
-    required String mainCategoryExpenseName,
-    required String subCategoryExpenseName,
-    required String subCategoryExpenseIconName,
-    required String subCategoryExpenseColor,
-    required int subCategoryExpenseIconCodePoint,
-  }) async {
-    final SubCategoryExpense subCategoryExpense = SubCategoryExpense.copyWith(
-        mainCategoryExpenseName: mainCategoryExpenseName,
+  Future<void> addSubCategories({required SubCategory subCategory}) async {
+    final SubCategory subCategoryExpense = SubCategory.copyWith(
+        mainCategoryName: subCategory.mainCategoryName,
         id: GUIDGen.generate(),
-        subCategoryExpenseName: subCategoryExpenseName,
-        subCategoryExpenseIconName: subCategoryExpenseIconName,
-        subCategoryExpenseIconCodePoint: subCategoryExpenseIconCodePoint,
-        subCategoryExpenseColor: subCategoryExpenseColor);
+        subCategoryName: subCategory.subCategoryName,
+        subCategoryIconName: subCategory.subCategoryIconName,
+        subCategoryIconCodePoint: subCategory.subCategoryIconCodePoint,
+        subCategoryColor: subCategory.subCategoryColor);
     await _hiveHelper.addToBox2(
         dataModel: subCategoryExpense, boxName: _getSubCatExpenseBox());
   }
 
   @override
-  Future<void> deleteExpenseSubCat(
-      SubCategoryExpense subCategoryExpense) async {
+  Future<void> deleteSubCategories({ required SubCategory subCategory}) async {
     await _hiveHelper.deleteBox(
-        boxName: _getSubCatExpenseBox(), dataModel: subCategoryExpense);
+        boxName: _getSubCatExpenseBox(), dataModel: subCategory);
   }
 
-  Box<SubCategoryExpense> _getSubCatExpenseBox()=>
-  _hiveHelper.getBoxName(boxName: AppBoxes.subCategoryExpense);
+  Box<SubCategory> _getSubCatExpenseBox() =>
+      _hiveHelper.getBoxName(boxName: AppBoxes.subCategoryExpense);
 }
