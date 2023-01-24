@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:temp/presentation/screens/add_exp_inc_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/income_repeat_type_screen.dart';
-import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screen.dart';
 import 'package:temp/presentation/screens/home/notification_screen.dart';
+import 'package:temp/presentation/screens/test_screens/add_goal_test_screen.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
 import '../screens/home/nav_bottom_screens/control_screen.dart';
@@ -38,6 +38,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const AddSubCategoryScreen());
       case AppRouterNames.rNotification:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
+      case AppRouterNames.rTestAddGoalScreen:
+        return MaterialPageRoute(builder: (_) =>  AddGoalTestScreen());
       default:
         return null;
     }

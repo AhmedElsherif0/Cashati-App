@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/constants/app_lists.dart';
@@ -50,7 +49,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       child: Text('Monthly'),
       value: 'Monthly',
     ),
-    DropdownMenuItem(child: Text('No Repeat'), value: 'No Repeat'),
+
   ];
 
   final TransactionsRepository _expensesRepository;
@@ -222,7 +221,13 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Kindly choose a subCategory ')));
     } else {
-      addExpense(repeat: choseRepeat, expenseModel: transactionModel);
+     if(transactionModel.repeatType.contains('Choose')){
+       addExpense(repeat: 'No Repeat', expenseModel: transactionModel);
+
+     }else{
+       addExpense(repeat: choseRepeat, expenseModel: transactionModel);
+
+     }
     }
   }
 
