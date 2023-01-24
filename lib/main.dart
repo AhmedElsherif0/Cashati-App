@@ -63,7 +63,7 @@ Future<void> main() async {
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
       boxName: AppBoxes.noRepeaTransactionsBoxName);
   await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
-  await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryIncome);
+  await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
   await HiveHelper()
       .openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
 

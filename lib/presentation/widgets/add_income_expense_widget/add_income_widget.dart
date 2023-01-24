@@ -254,8 +254,6 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
               crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
           itemBuilder: (context, index) {
             //addExpOrIncCubit.fitRandomColors().shuffle();
-            SubCategory subCategory;
-            bool isChoosed = false;
             return BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
 
               builder: (context, s) {
@@ -275,7 +273,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                         addExpOrIncCubit.chooseIncomeCategory(subCatsList[index]);
                       },
                       child: SubCategoryChoice(
-                        color: addExpOrIncCubit.fitRandomColors()[index],
+                        color: addExpOrIncCubit.fitRandomColors(subCatsList)[index],
                         currentID: addExpOrIncCubit.currentID,
                         subCategory: subCatsList[index],
                       )),

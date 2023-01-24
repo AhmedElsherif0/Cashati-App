@@ -187,10 +187,10 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     // emit(ChoosedMainCategoryState());
   }
 
-  List<MaterialColor> fitRandomColors() {
+  List<MaterialColor> fitRandomColors(List<SubCategory> subcategoryList) {
     //TODO recode this method as there are 3 lists for expenses and 2 for income
-    if (homeSubCatsList.length > appList.colorsList.length) {
-      for (int i = appList.colorsList.length; i < homeSubCatsList.length; i++) {
+    if (subcategoryList.length > appList.colorsList.length) {
+      for (int i = appList.colorsList.length; i < subcategoryList.length; i++) {
         appList.colorsList.add(appList.colorsList[Random().nextInt(6)]);
       }
       lastColorList = appList.colorsList;
