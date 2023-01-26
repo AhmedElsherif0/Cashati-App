@@ -12,6 +12,8 @@ import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.da
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
 import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
+import 'package:temp/data/models/goals/goal_model.dart';
+import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
 import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 import 'package:temp/notificationsApi.dart';
@@ -54,6 +56,8 @@ Future<void> main() async {
   Hive.registerAdapter(TransactionRepeatTypesAdapter());
   Hive.registerAdapter(TransactionRepeatDetailsModelAdapter());
   Hive.registerAdapter(SubCategoryAdapter());
+  Hive.registerAdapter(GoalModelAdapter());
+  Hive.registerAdapter(GoalRepeatedDetailsModelAdapter());
 
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
       boxName: AppBoxes.dailyTransactionsBoxName);
@@ -67,6 +71,10 @@ Future<void> main() async {
   await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
   await HiveHelper()
       .openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
+  await HiveHelper()
+      .openBox<GoalModel>(boxName: AppBoxes.goalModel);
+  await HiveHelper()
+      .openBox<GoalRepeatedDetailsModel>(boxName: AppBoxes.goalRepeatedBox);
 
   BlocOverrides.runZoned(
     () async {
