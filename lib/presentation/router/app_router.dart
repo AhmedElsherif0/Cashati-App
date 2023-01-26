@@ -4,6 +4,7 @@ import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_typ
 import 'package:temp/presentation/screens/home/drawer_screens/income_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/notification_screen.dart';
 import 'package:temp/presentation/screens/test_screens/add_goal_test_screen.dart';
+import 'package:temp/presentation/screens/test_screens/fetch_goals_test.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
 import '../screens/home/nav_bottom_screens/control_screen.dart';
@@ -40,6 +41,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
       case AppRouterNames.rTestAddGoalScreen:
         return MaterialPageRoute(builder: (_) =>  AddGoalTestScreen());
+      case AppRouterNames.rFetchGoalScreen:
+        return MaterialPageRoute(builder: (_) =>  FetchGoalsTestScreen());
       default:
         return null;
     }

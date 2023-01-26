@@ -10,5 +10,6 @@ class AppRouterNames {
   static const rAddSubCategory = '/rAddSubCategory';
   static const rNotification = '/rNotification';
   static const rTestAddGoalScreen = '/rTestAddGoalScreen';
+  static const rFetchGoalScreen = '/rFetchGoalScreen';
 
 }

@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'goal_model.g.dart';
 
 @HiveType(typeId: 8)
-class GoalModel {
+class GoalModel extends HiveObject{
   GoalModel();
 
   GoalModel.copyWith({
@@ -17,6 +17,8 @@ class GoalModel {
     required this.goalSaveAmountRepeat,
     required this.goalTotalAmount,
     required this.goalStartSavingDate,
+    required this.goalCompletionDate,
+
   });
 
   @HiveField(0)
@@ -39,4 +41,6 @@ class GoalModel {
   late DateTime goalCreatedDay;
   @HiveField(9)
   late DateTime goalStartSavingDate;
+  @HiveField(10)
+  late DateTime goalCompletionDate;
 }
