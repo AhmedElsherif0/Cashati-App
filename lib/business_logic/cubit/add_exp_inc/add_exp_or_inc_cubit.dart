@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/constants/app_lists.dart';
@@ -50,7 +49,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       child: Text('Monthly'),
       value: 'Monthly',
     ),
-    DropdownMenuItem(child: Text('No Repeat'), value: 'No Repeat'),
+
   ];
 
   final TransactionsRepository _expensesRepository;
@@ -187,10 +186,10 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     // emit(ChoosedMainCategoryState());
   }
 
-  List<MaterialColor> fitRandomColors() {
+  List<MaterialColor> fitRandomColors(List<SubCategory> subcategoryList) {
     //TODO recode this method as there are 3 lists for expenses and 2 for income
-    if (homeSubCatsList.length > appList.colorsList.length) {
-      for (int i = appList.colorsList.length; i < homeSubCatsList.length; i++) {
+    if (subcategoryList.length > appList.colorsList.length) {
+      for (int i = appList.colorsList.length; i < subcategoryList.length; i++) {
         appList.colorsList.add(appList.colorsList[Random().nextInt(6)]);
       }
       lastColorList = appList.colorsList;
@@ -222,7 +221,13 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Kindly choose a subCategory ')));
     } else {
-      addExpense(repeat: choseRepeat, expenseModel: transactionModel);
+     if(transactionModel.repeatType.contains('Choose')){
+       addExpense(repeat: 'No Repeat', expenseModel: transactionModel);
+
+     }else{
+       addExpense(repeat: choseRepeat, expenseModel: transactionModel);
+
+     }
     }
   }
 

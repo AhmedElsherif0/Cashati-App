@@ -303,7 +303,6 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
           itemBuilder: (context, index) {
             //addExpOrIncCubit.fitRandomColors().shuffle();
 
-            bool isChoosed = false;
             return BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
 
               builder: (context, state) {
@@ -311,11 +310,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                   visible: index != subCatsList.length - 1,
                   child: InkWell(
                       onTap: () {
-                        // setState(() {
-                        //   //currentID=list.where((element) => element.subCategoryExpenseId==currentID).single.subCategoryExpenseId;
-                        //   currentID = list[index].id;
-                        //   subCatName = list[index].subCategoryExpenseName;
-                        // });
+
                         BlocProvider.of<AddSubcategoryCubit>(context)
                                 .currentMainCategory =
                             BlocProvider.of<AddExpOrIncCubit>(context)
@@ -327,7 +322,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                         addExpOrIncCubit.chooseCategory(subCatsList[index]);
                       },
                       child: SubCategoryChoice(
-                        color: addExpOrIncCubit.fitRandomColors()[index],
+                        color: addExpOrIncCubit.fitRandomColors(subCatsList)[index],
                         currentID: addExpOrIncCubit.currentID,
                         subCategory: subCatsList[index],
                       )),

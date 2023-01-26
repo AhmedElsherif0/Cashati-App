@@ -32,7 +32,10 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
         style: TextStyle(color: AppColor.primaryColor),
         elevation: 0,
         isExpanded: true,
-        dropdownColor: Theme.of(context).primaryColor,
+        dropdownColor: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        underline: Divider(color:Colors.blueGrey.withOpacity(.1) ,),
+
         hint: Text(
           widget.hint,
           style: Theme.of(context)
