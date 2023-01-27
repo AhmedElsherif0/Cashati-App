@@ -33,7 +33,7 @@ class TabCardView extends StatelessWidget {
     Widget widget;
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
-        widget = ImportantOrFixed(
+        widget = PriorityWidget(
             text: 'Heighset ${expenseRepeatList[0].transactionModel.name}',
             circleColor: AppColor.red);
         break;
@@ -120,7 +120,7 @@ class TabCardView extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     const Spacer(),
-                                    ImportantOrFixed(
+                                    PriorityWidget(
                                       text: priorityName,
                                       circleColor: priorityColor,
                                     ),
