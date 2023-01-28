@@ -52,7 +52,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   ];
 
-  final TransactionsRepository _expensesRepository;
+  final ExpenseRepository _expensesRepository;
   final IncomeRepository _incomeRepository;
 
   chooseMainCategory(String mainCategory) {

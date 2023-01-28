@@ -96,7 +96,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
-  final TransactionsRepository _expensesRepository = ExpensesRepositoryImpl();
+  final ExpenseRepository _expensesRepository = ExpensesRepositoryImpl();
   final IncomeRepository _incomeRepository = IncomeRepositoryImpl();
 
   @override

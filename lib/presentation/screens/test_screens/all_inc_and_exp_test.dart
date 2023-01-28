@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/business_logic/repository/expenses_repo/expenses_repo.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
+import 'package:temp/data/repository/expenses_repo_impl/expenses_repo_impl.dart';
 
 import '../../../data/models/transactions/transaction_details_model.dart';
 
@@ -19,6 +21,7 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
   List<TransactionRepeatDetailsModel> expenseDataDaily = [];
   List<TransactionModel> transactionsExpense = [];
   bool isExpense = true;
+  ExpenseRepository expenseRepository=ExpensesRepositoryImpl();
 
   @override
   void initState() {
@@ -36,9 +39,10 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
         .toList()
         .cast<ExpenseRepeatDetailsModel>();*/
     transactionsExpense =
-        HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
-        .values
-        .cast<TransactionModel>().where((element) => element.isExpense==true).toList();
+        expenseRepository.getExpensesFromTransactionBox();
+        // HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
+        // .values
+        // .cast<TransactionModel>().where((element) => element.isExpense==true).toList();
     incomeData=
         HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
             .values

@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 
 import '../../../business_logic/repository/expenses_repo/expenses_repo.dart';
@@ -9,7 +10,7 @@ import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
 class ExpensesRepositoryImpl with MixinTransaction
-    implements TransactionsRepository {
+    implements ExpenseRepository {
 
   ExpensesRepositoryImpl();
 
@@ -85,5 +86,12 @@ class ExpensesRepositoryImpl with MixinTransaction
     ];
 
     return expenseTypesList[currentIndex];
+  }
+
+  @override
+  List<TransactionModel> getExpensesFromTransactionBox() {
+   return HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
+        .values
+        .cast<TransactionModel>().where((element) => element.isExpense==true).toList();
   }
 }
