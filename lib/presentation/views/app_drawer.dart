@@ -82,7 +82,7 @@ class AppDrawer extends StatelessWidget {
             flex: 3,
             child: DrawerItem(
                 icon: AppIcons.notificationSetting,
-                text: 'Test Add Goal',
+                text: ' Add Goal',
                 onTap: () {
                   Navigator.push(
                     context,

@@ -49,4 +49,18 @@ class AppIcons {
   static const String expenseDrawer =
       'assets/icons/app_drawer/drawer_expense.svg';
   static const String goalsDrawer = 'assets/icons/app_drawer/drawer_goal.svg';
+
+  ///App bar icons
+  static const String medalAppBar = 'assets/icons/app_bar/medal.svg';
+  static const String moneyEmojiAppBar = 'assets/icons/app_bar/moneyEmoji.png';
+  static const String moneyAppBar = 'assets/icons/app_bar/emoji.svg';
+
+  ///Goal Images
+  static const String goalNote = 'assets/images/goalNote.png';
+  static const String savingMoney = 'assets/images/SavingMoney.png';
+  static const String medalStar = 'assets/icons/medalStar.svg';
+  static const String dollarCircle = 'assets/icons/dollar-circle.svg';
+  static const String cartAdd = 'assets/icons/cartAdd.svg';
+  static const String savingMoneyCute = 'assets/icons/saveMoneyCute.svg';
+
 }
