@@ -120,7 +120,12 @@ mixin AlertDialogMixin {
   }
 
   /// Goals Dialog ely taaalaaaa3 3eeein omy.
-  void showGoalsDialog(BuildContext context) {
+  Future<void> showGoalsDialog(
+      {required BuildContext context,
+        required Function onPressedYesFunction,
+        required Function onPressedNoFunction,
+      required String infoMessage
+      })async {
     showGeneralDialog(
         context: context,
         barrierDismissible: true,
@@ -150,28 +155,40 @@ mixin AlertDialogMixin {
                           child: SvgPicture.asset(
                               'assets/icons/Hello-rafiki.svg')),
                       Flexible(
-                        child: Text('You Will Achieve your Goal After 100 Week',
+                        child: Text(infoMessage,
                             style: textTheme.subtitle2),
                       ),
                       Flexible(
-                        child: Text('Are You Ready to Start Saving Your Money',
+                        child: Text('Are You Ready to Start Saving Your Money ?',
                             style: textTheme.headline6),
                       ),
-                      Expanded( flex: 2,
+                      Expanded(
+                        flex: 2,
                         child: Row(
                           children: [
                             const Spacer(),
                             CustomTextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  onPressedNoFunction();
+                                },
                                 text: 'No',
                                 isVisible: false,
                                 textStyle: textTheme.headline6
                                     ?.copyWith(color: AppColor.grey)),
-                            const Spacer(flex: 2,),
-                            Expanded(flex: 9, child: SvgPicture.asset('assets/icons/magnatic_icon.svg')),
-                            const Spacer(flex: 2,),
+                            const Spacer(
+                              flex: 2,
+                            ),
+                            Expanded(
+                                flex: 9,
+                                child: SvgPicture.asset(
+                                    'assets/icons/magnatic_icon.svg')),
+                            const Spacer(
+                              flex: 2,
+                            ),
                             CustomTextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  onPressedYesFunction();
+                                },
                                 text: 'Yes',
                                 isVisible: false),
                             const Spacer(),

@@ -9,11 +9,17 @@ class DropDownCustomWidget extends StatefulWidget {
       required this.dropDownList,
       required this.hint,
       this.value,
+      this.backgroundColor,
+      this.isExpanded,
+      this.icon,
       required this.onChangedFunc})
       : super(key: key);
   final List<DropdownMenuItem<String>> dropDownList;
   String? value;
-  String hint;
+  final String hint;
+  final String? icon;
+  final Color? backgroundColor;
+  final bool? isExpanded;
   final Function(String) onChangedFunc;
 
   @override
@@ -26,12 +32,12 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       decoration: BoxDecoration(
-          color: Colors.blueGrey.withOpacity(.2),
+          color: widget.backgroundColor??Colors.blueGrey.withOpacity(.2),
           borderRadius: BorderRadius.circular(20)),
       child: DropdownButton<String>(
         style: TextStyle(color: AppColor.primaryColor),
         elevation: 0,
-        isExpanded: true,
+        isExpanded:widget.isExpanded?? true,
         dropdownColor: Colors.white,
         borderRadius: BorderRadius.circular(20),
         underline: Divider(color:Colors.blueGrey.withOpacity(.1) ,),
@@ -49,7 +55,7 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
           widget.onChangedFunc(value!);
         },
         icon:
-            SvgPicture.asset(AppIcons.downArrow, color: AppColor.primaryColor),
+            SvgPicture.asset(widget.icon??AppIcons.downArrow, color: AppColor.primaryColor),
       ),
     );
   }
