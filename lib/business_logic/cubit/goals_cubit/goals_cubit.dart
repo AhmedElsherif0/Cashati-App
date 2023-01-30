@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/goals_repo/goals_repeated_repo.dart';
 import 'package:temp/business_logic/repository/goals_repo/goals_repo.dart';
-import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/data/repository/goals_repo_impl/goals_repeated_impl.dart';
@@ -75,7 +74,7 @@ class GoalsCubit extends Cubit<GoalsState> {
         return startSavingDate.add(Duration(days: remainingTime * 7));
       case 'Monthly':
         return startSavingDate
-            .add(Duration(days: remainingTime * DateTime.now().month));
+            .add(Duration(days: remainingTime * 30));
       default:
         return startSavingDate.add(Duration(days: remainingTime));
     }
@@ -96,17 +95,6 @@ class GoalsCubit extends Cubit<GoalsState> {
   }
 
   String dialogMessage(GoalModel goalModel) {
-    switch (goalModel.goalSaveAmountRepeat) {
-      case AppStrings.daily:
-        //  return 'You Will Achieve your Goal After ${goalModel.goalRemainingPeriod} Days';
-        // return 'You Will Achieve your Goal On ${DateTime.now().add(Duration(days: goalModel.goalRemainingPeriod))} Days';
-        return 'You Will Achieve your Goal On ${transferDateToString(goalModel)} ';
-      case AppStrings.weekly:
-        return 'You Will Achieve your Goal After ${goalModel.goalRemainingPeriod} Weeks';
-      case AppStrings.monthly:
-        return 'You Will Achieve your Goal After ${goalModel.goalRemainingPeriod} Months';
-      default:
-        return 'You Will Achieve your Goal After ${goalModel.goalRemainingPeriod} Days';
-    }
+    return 'You Will Achieve your Goal On ${transferDateToString(goalModel)} ';
   }
 }
