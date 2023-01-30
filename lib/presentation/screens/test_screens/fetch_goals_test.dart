@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
+import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/widgets/common_texts/green_text.dart';
 
 class FetchGoalsTestScreen extends StatefulWidget {
@@ -17,9 +18,10 @@ class _FetchGoalsTestScreenState extends State<FetchGoalsTestScreen> {
 
   @override
   void initState() {
-   BlocProvider.of<GoalsCubit>(context).fetchAllGoals();
-   BlocProvider.of<GoalsCubit>(context).fetchRepeatedGoals();
+    BlocProvider.of<GoalsCubit>(context).fetchAllGoals();
+    BlocProvider.of<GoalsCubit>(context).fetchRepeatedGoals();
   }
+
   @override
   Widget build(BuildContext context) {
     final goalCubit = BlocProvider.of<GoalsCubit>(context);
@@ -28,21 +30,28 @@ class _FetchGoalsTestScreenState extends State<FetchGoalsTestScreen> {
       body: BlocBuilder<GoalsCubit, GoalsState>(
         builder: (context, state) {
           return SingleChildScrollView(
-            child:  Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 60,
-              ),
-              GreenText(text: 'All Goals Box'),
-              goalsWidget(goalCubit.goals),
-              SizedBox(
-                height: 50,
-              ),
-              GreenText(text: 'All Repeated Goals Box'),
-              repeatedGoalsWidget(goalCubit.goalsRepeated)
-            ],
-          )
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 60,
+                  ),
+                  ElevatedButton(onPressed: () =>
+                      Navigator.pushReplacementNamed(
+                          context, AppRouterNames.rAddGoal),
+                      child: Text('Add Goal')),
+                  SizedBox(
+                    height: 60,
+                  ),
+                  GreenText(text: 'All Goals Box'),
+                  goalsWidget(goalCubit.goals),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  GreenText(text: 'All Repeated Goals Box'),
+                  repeatedGoalsWidget(goalCubit.goalsRepeated)
+                ],
+              )
           );
         },
       ),
@@ -90,7 +99,7 @@ class _FetchGoalsTestScreenState extends State<FetchGoalsTestScreen> {
             return Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(color: Colors.amber.shade200,
-              borderRadius: BorderRadius.circular(20)
+                  borderRadius: BorderRadius.circular(20)
               ),
               height: 150,
               width: 200,
