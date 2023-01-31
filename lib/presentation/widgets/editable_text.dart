@@ -10,12 +10,16 @@ class EditableInfoField extends StatefulWidget {
       required this.textEditingController,
       required this.hint,
       required this.IconName,
+       this.containerWidth,
+       this.trailing,
       this.keyboardType})
       : super(key: key);
   final TextEditingController textEditingController;
   final String hint;
   final String IconName;
   final TextInputType? keyboardType;
+  final double? containerWidth;
+  final Widget? trailing;
 
   @override
   _EditableInfoFieldState createState() => _EditableInfoFieldState();
@@ -25,7 +29,7 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 270,
+      width: widget.containerWidth??270,
       decoration: BoxDecoration(
           color: Colors.blueGrey.withOpacity(.2),
           borderRadius: BorderRadius.circular(20)),
@@ -55,10 +59,11 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
             decoration: InputDecoration(
                 hintText: widget.hint,
                 hintStyle: Theme.of(context).textTheme.bodyText2!
-                    .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
+                    .copyWith(fontWeight: FontWeight.w300, fontSize: 13,color: AppColor.grey),
                 border: InputBorder.none),
           ),
           leading: SvgPicture.asset(widget.IconName),
+          trailing: widget.trailing??SizedBox(),
         ),
       ),
     );

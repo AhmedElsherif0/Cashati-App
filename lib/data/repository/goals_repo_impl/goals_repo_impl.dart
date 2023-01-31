@@ -1,7 +1,9 @@
 import 'package:hive/hive.dart';
 import 'package:temp/business_logic/repository/goals_repo/goals_repo.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
+import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/data/repository/goals_repo_impl/mixin_goals.dart';
 
 class GoalsRepoImpl with MixinGoals implements GoalsRepository {
@@ -30,5 +32,15 @@ class GoalsRepoImpl with MixinGoals implements GoalsRepository {
   @override
   List<GoalModel> getGoals() {
     return getGoalsFromGoalsBox();
+  }
+
+  @override
+  Future<void> deleteGoalFromGoalsBox(GoalModel goalModel) async{
+   try{
+     await goalModel.delete();
+     await HiveHelper().getBoxName<GoalRepeatedDetailsModel>(boxName: AppBoxes.goalRepeatedBox).get(goalModel.id)?.delete();
+   }catch(e){
+     print('Error ${e.toString()}');
+   }
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:temp/presentation/goals/add_goal_screen.dart';
+import 'package:temp/presentation/goals/goals_screen.dart';
 import 'package:temp/presentation/screens/add_exp_inc_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/income_repeat_type_screen.dart';
@@ -43,6 +45,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) =>  AddGoalTestScreen());
       case AppRouterNames.rFetchGoalScreen:
         return MaterialPageRoute(builder: (_) =>  FetchGoalsTestScreen());
+      case AppRouterNames.rAddGoal:
+        return MaterialPageRoute(builder: (_) =>   AddGoalScreen());
+      case AppRouterNames.rGetGoals:
+        return MaterialPageRoute(builder: (_) =>   const GoalsScreen());
       default:
         return null;
     }

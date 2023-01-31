@@ -13,12 +13,13 @@ part 'goals_state.dart';
 class GoalsCubit extends Cubit<GoalsState> {
   GoalsCubit() : super(GoalsInitial());
   String choseRepeat = 'Choose Repeat';
+  String choseFilter = 'All';
   DateTime? chosenDate;
 
   GoalsRepeatedRepo _goalsRepeatedRepo = GoalsRepeatedImpl();
   GoalsRepository _goalsRepository = GoalsRepoImpl();
-  List<GoalModel>goals = [];
-  List<GoalRepeatedDetailsModel>goalsRepeated = [];
+  List<GoalModel> goals = [];
+  List<GoalRepeatedDetailsModel> goalsRepeated = [];
 
   List<DropdownMenuItem<String>> dropDownChannelItems = [
     DropdownMenuItem(child: Text('Daily'), value: 'Daily'),
@@ -28,10 +29,23 @@ class GoalsCubit extends Cubit<GoalsState> {
       value: 'Monthly',
     ),
   ];
+  List<DropdownMenuItem<String>> goalsFilterDropDown = [
+    DropdownMenuItem(child: Text('Completed'), value: 'Completed'),
+    DropdownMenuItem(child: Text('UnCompleted'), value: 'UnCompleted'),
+    DropdownMenuItem(
+      child: Text('All'),
+      value: 'All',
+    ),
+  ];
 
   chooseRepeat(String value) {
     choseRepeat = value;
     emit(ChoosedRepeatState());
+  }
+  chooseFilter(String value) {
+    choseFilter = value;
+    fetchAllGoals();
+    emit(ChoosedGoalFilterState());
   }
 
   Future addGoal({required GoalModel goalModel}) async {
@@ -39,15 +53,24 @@ class GoalsCubit extends Cubit<GoalsState> {
   }
 
   void fetchAllGoals() {
-    goals = _goalsRepository.getGoals();
-    emit(FetchedGoals());
 
+    switch(choseFilter){
+      case 'All':
+        goals = _goalsRepository.getGoals();
+        break;
+      case 'Completed':
+        goals = _goalsRepository.getGoals().where((element) => element.goalRemainingAmount==0).toList();
+        break;
+      case 'UnCompleted':
+        goals = _goalsRepository.getGoals().where((element) => element.goalRemainingAmount!=0).toList();
+        break;
+    }
+    emit(FetchedGoals());
   }
 
   void fetchRepeatedGoals() {
     goalsRepeated = _goalsRepeatedRepo.getRepeatedGoals();
     emit(FetchedRepeatedGoals());
-
   }
 
   int remainingTimes({
@@ -57,26 +80,26 @@ class GoalsCubit extends Cubit<GoalsState> {
     return (cost / dailySaving).toInt();
   }
 
-  DateTime getCompletionDate({required num cost,
-    required num dailySavings,
-    required String repeat,
-    required DateTime startSavingDate}) {
-    final remainingTime = remainingTimes(cost: cost, dailySaving: dailySavings)
-        .toInt();
+  DateTime getCompletionDate(
+      {required num cost,
+      required num dailySavings,
+      required String repeat,
+      required DateTime startSavingDate}) {
+    final remainingTime =
+        remainingTimes(cost: cost, dailySaving: dailySavings).toInt();
     return countCompletionDate(repeat, startSavingDate, remainingTime);
   }
 
-  DateTime countCompletionDate(String repeat, DateTime startSavingDate,
-      int remainingTime) {
+  DateTime countCompletionDate(
+      String repeat, DateTime startSavingDate, int remainingTime) {
     switch (repeat) {
       case 'Daily':
         return startSavingDate.add(Duration(days: remainingTime));
       case 'Weekly':
         return startSavingDate.add(Duration(days: remainingTime * 7));
       case 'Monthly':
-        return startSavingDate.add(Duration(days: remainingTime * DateTime
-            .now()
-            .month));
+        return startSavingDate
+            .add(Duration(days: remainingTime * 30));
       default:
         return startSavingDate.add(Duration(days: remainingTime));
     }
@@ -90,5 +113,17 @@ class GoalsCubit extends Cubit<GoalsState> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     emit(ChoseDateState());
+  }
+  String transferDateToString(GoalModel goalModel){
+    final completionDate=countCompletionDate(goalModel.goalSaveAmountRepeat, goalModel.goalStartSavingDate,goalModel.goalRemainingPeriod);
+    return '${completionDate.day}\\${completionDate.month}\\${completionDate.year}';
+  }
+
+  String dialogMessage(GoalModel goalModel) {
+    return 'You Will Achieve your Goal On ${transferDateToString(goalModel)} ';
+  }
+  Future<void> deleteGoal(GoalModel goalModel)async{
+    await _goalsRepository.deleteGoalFromGoalsBox(goalModel);
+    fetchAllGoals();
   }
 }

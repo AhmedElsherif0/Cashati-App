@@ -26,6 +26,7 @@ class HiveHelper {
     return await boxName.add(dataModel);
   }
 
+
   Future<void> putByIndexKey<E>(
       {required Box<E> boxName,
       required int indexKey,
