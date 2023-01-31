@@ -38,7 +38,7 @@ class ChartBar extends StatelessWidget {
 
           /// bar style
           child: SizedBox(
-            height: (height! <= 10) ? 2.h : height,
+            height: (height! <= 10) ? 3.h : height,
             width: 5.w,
             child: DecoratedBox(
               decoration: BoxDecoration(

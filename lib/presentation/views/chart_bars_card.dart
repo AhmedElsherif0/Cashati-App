@@ -49,9 +49,8 @@ class ChartBarsCard extends StatelessWidget {
     return ListView.builder(
         itemCount: transactionsValues.length,
         scrollDirection: Axis.horizontal,
-        itemExtent: transactionsValues.length == 4 ? 25.w : 14.w,
+        itemExtent: transactionsValues.length == 4 ? 25.w : 16.w,
         padding: EdgeInsets.zero,
-
         itemBuilder: (context, index) => ChartBar(
               index: index,
               height: _charHeight(index),
