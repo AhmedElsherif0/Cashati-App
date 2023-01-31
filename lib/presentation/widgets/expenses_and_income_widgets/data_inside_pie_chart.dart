@@ -8,7 +8,7 @@ class DataInsidePieChart extends StatelessWidget {
       required this.valueNotifier,
       required this.onPressToHome, required this.header})
       : super(key: key);
-  final double totalExpenses;
+  final num totalExpenses;
   final ValueNotifier<double> valueNotifier;
   final void Function() onPressToHome;
   final  String header;
