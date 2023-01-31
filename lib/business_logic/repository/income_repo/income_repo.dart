@@ -14,6 +14,8 @@ void addTransactions(
     {required TransactionModel incomeModel, required String choseRepeat});
 
 List<TransactionRepeatDetailsModel> getIncomeTypeList(int currentIndex);
+List<TransactionModel> getIncomeFromTransactionBox();
+
 
 }
 /*

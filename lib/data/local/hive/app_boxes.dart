@@ -14,6 +14,7 @@ class AppBoxes {
 
   static const String goalModel = 'GoalModel';
 
+  static const String goalRepeatedBox = 'goalRepeatedBox';
   static const String dailyGoalModel = 'DailyGoalModel';
   static const String weeklyGoalModel = 'WeeklyGoalModel';
   static const String monthlyGoalModel = 'MonthlyGoalModel';
