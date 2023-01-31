@@ -49,13 +49,21 @@ class AppDrawer extends StatelessWidget {
           Expanded(
             flex: 3,
             child: DrawerItem(
-                icon: AppIcons.goalsDrawer, text: 'Goals', onTap: () {
+                icon: AppIcons.goalsDrawer, text: 'Fetch Goals Test', onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => const FetchGoalsTestScreen(),
                 ),
               );
+
+            }),
+          ),
+          Expanded(
+            flex: 3,
+            child: DrawerItem(
+                icon: AppIcons.goalsDrawer, text: 'Goals', onTap: () {
+              Navigator.pushNamed(context, AppRouterNames.rGetGoals);
 
             }),
           ),

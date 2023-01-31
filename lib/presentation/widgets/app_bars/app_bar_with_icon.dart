@@ -13,6 +13,7 @@ class AppBarWithIcon extends StatelessWidget {
       this.onTapFirstIcon,
       this.firstIcon,
       this.onTapActionIcon,
+      this.actionIconFunction,
       required this.actionIcon})
       : super(key: key);
   final String titleIcon;
@@ -20,6 +21,7 @@ class AppBarWithIcon extends StatelessWidget {
   final TextStyle? textStyle;
   final void Function()? onTapFirstIcon;
   final void Function()? onTapActionIcon;
+  final void Function()? actionIconFunction;
   final IconData? firstIcon;
   final String actionIcon;
 
@@ -45,6 +47,7 @@ class AppBarWithIcon extends StatelessWidget {
                 height: 22.sp, width: 22.sp),
           ),
         ),
+        Spacer(),
         Center(
           child: Row(
             children: [
@@ -57,12 +60,15 @@ class AppBarWithIcon extends StatelessWidget {
 
             ],
           ),),
+        Spacer(),
         Expanded(
           flex: 1,
           child:  Visibility(
             visible: actionIcon.isNotEmpty,
             child: InkWell(
-              onTap: (){},
+              onTap: (){
+                actionIconFunction!();
+              },
                 child: SvgPicture.asset(actionIcon, height: 22.sp, width: 22.sp)),
             replacement: SizedBox(),
           ),

@@ -62,5 +62,8 @@ class AppIcons {
   static const String dollarCircle = 'assets/icons/dollar-circle.svg';
   static const String cartAdd = 'assets/icons/cartAdd.svg';
   static const String savingMoneyCute = 'assets/icons/saveMoneyCute.svg';
+  static const String filterGreen = 'assets/icons/filter_green.svg';
+  static const String goalCompleteDollar = 'assets/icons/goalCompleteDollar.svg';
+  static const String addIcon = 'assets/icons/addIcon.svg';
 
 }
