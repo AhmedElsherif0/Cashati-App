@@ -7,40 +7,45 @@ import '../../../business_logic/repository/income_repo/income_repo.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
-class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
+class IncomeRepositoryImpl implements IncomeRepository {
+  final MixinTransaction _mixinTransaction = MixinTransaction();
 
   IncomeRepositoryImpl();
 
   @override
-  Future<void> addIncomeToTransactionBox({
-    required TransactionModel transactionModel
-  }) async {
+  Future<void> addIncomeToTransactionBox(
+      {required TransactionModel transactionModel}) async {
     final incomeModel = TransactionModel.income(
         amount: transactionModel.amount,
-        comment:  transactionModel.comment,
+        comment: transactionModel.comment,
         id: GUIDGen.generate(),
-        name:  transactionModel.name,
-        repeatType:  transactionModel.repeatType,
-        mainCategory:  transactionModel.mainCategory,
+        name: transactionModel.name,
+        repeatType: transactionModel.repeatType,
+        mainCategory: transactionModel.mainCategory,
         isAddAuto: false,
-        subCategory:  transactionModel.subCategory,
+        subCategory: transactionModel.subCategory,
         isExpense: false,
-        isProcessing: isEqualToday(date:  transactionModel.paymentDate),
+        isProcessing:
+            _mixinTransaction.isEqualToday(date: transactionModel.paymentDate),
         createdDate: DateTime.now(),
-        paymentDate:  transactionModel.paymentDate);
+        paymentDate: transactionModel.paymentDate);
 
-   // final Box<TransactionModel> allExpensesModel = hiveDatabase.getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
-    final Box<TransactionModel> allIncomeBox = hiveDatabase.getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
-    if (isEqualToday(date: incomeModel.paymentDate)) {
-      print('is equal today in if ?${isEqualToday(date: incomeModel.paymentDate)}');
+    // final Box<TransactionModel> allExpensesModel = hiveDatabase.getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
+    final Box<TransactionModel> allIncomeBox = _mixinTransaction.hiveDatabase
+        .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
+    if (_mixinTransaction.isEqualToday(date: incomeModel.paymentDate)) {
+      print(
+          'is equal today in if ?${_mixinTransaction.isEqualToday(date: incomeModel.paymentDate)}');
       // await allExpensesModel.add(expenseModel);
-      await allIncomeBox.put(incomeModel.id,incomeModel);
-      print("name of the value added by  key is ${allIncomeBox.get(incomeModel.id)!.name} and key is ${allIncomeBox.get(incomeModel.id)!.id}");
+      await allIncomeBox.put(incomeModel.id, incomeModel);
+      print(
+          "name of the value added by  key is ${allIncomeBox.get(incomeModel.id)!.name} and key is ${allIncomeBox.get(incomeModel.id)!.id}");
 
       addTransactions(
           incomeModel: incomeModel, choseRepeat: incomeModel.repeatType);
     } else {
-      print('is  equal today in else  ?${isEqualToday(date: incomeModel.paymentDate)}');
+      print(
+          'is  equal today in else  ?${_mixinTransaction.isEqualToday(date: incomeModel.paymentDate)}');
 
       addTransactions(
           incomeModel: incomeModel, choseRepeat: incomeModel.repeatType);
