@@ -13,6 +13,7 @@ part 'goals_state.dart';
 class GoalsCubit extends Cubit<GoalsState> {
   GoalsCubit() : super(GoalsInitial());
   String choseRepeat = 'Choose Repeat';
+  String choseFilter = 'All';
   DateTime? chosenDate;
 
   GoalsRepeatedRepo _goalsRepeatedRepo = GoalsRepeatedImpl();
@@ -28,10 +29,23 @@ class GoalsCubit extends Cubit<GoalsState> {
       value: 'Monthly',
     ),
   ];
+  List<DropdownMenuItem<String>> goalsFilterDropDown = [
+    DropdownMenuItem(child: Text('Completed'), value: 'Completed'),
+    DropdownMenuItem(child: Text('UnCompleted'), value: 'UnCompleted'),
+    DropdownMenuItem(
+      child: Text('All'),
+      value: 'All',
+    ),
+  ];
 
   chooseRepeat(String value) {
     choseRepeat = value;
     emit(ChoosedRepeatState());
+  }
+  chooseFilter(String value) {
+    choseFilter = value;
+    fetchAllGoals();
+    emit(ChoosedGoalFilterState());
   }
 
   Future addGoal({required GoalModel goalModel}) async {
@@ -39,7 +53,18 @@ class GoalsCubit extends Cubit<GoalsState> {
   }
 
   void fetchAllGoals() {
-    goals = _goalsRepository.getGoals();
+
+    switch(choseFilter){
+      case 'All':
+        goals = _goalsRepository.getGoals();
+        break;
+      case 'Completed':
+        goals = _goalsRepository.getGoals().where((element) => element.goalRemainingAmount==0).toList();
+        break;
+      case 'UnCompleted':
+        goals = _goalsRepository.getGoals().where((element) => element.goalRemainingAmount!=0).toList();
+        break;
+    }
     emit(FetchedGoals());
   }
 
@@ -96,5 +121,9 @@ class GoalsCubit extends Cubit<GoalsState> {
 
   String dialogMessage(GoalModel goalModel) {
     return 'You Will Achieve your Goal On ${transferDateToString(goalModel)} ';
+  }
+  Future<void> deleteGoal(GoalModel goalModel)async{
+    await _goalsRepository.deleteGoalFromGoalsBox(goalModel);
+    fetchAllGoals();
   }
 }

@@ -7,6 +7,7 @@ abstract class GoalsRepository {
       {required GoalModel goalModel});
 
   List<GoalModel> getGoals();
+  Future<void> deleteGoalFromGoalsBox(GoalModel goalModel);
 
 
 }

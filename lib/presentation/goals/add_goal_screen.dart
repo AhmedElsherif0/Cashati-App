@@ -28,7 +28,7 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
     return Scaffold(
       body: Form(
         key: _addGoalKey,
-        autovalidateMode: AutovalidateMode.always,
+        autovalidateMode: AutovalidateMode.disabled,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
           child: Column(
@@ -77,7 +77,8 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
                       EditableInfoField(
                           textEditingController: goalNameCtrl,
                           hint: 'Buy New Mobile',
-                          containerWidth: double.infinity,
+
+                         // containerWidth: double.infinity,
                           IconName: AppIcons.medalStar),
                       SizedBox(
                         height: 2.0.h,
@@ -90,7 +91,7 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
                           textEditingController: goalCostCtrl,
                           keyboardType: TextInputType.number,
                           hint: '2000 LE',
-                          containerWidth: double.infinity,
+                         // containerWidth: double.infinity,
                           IconName: AppIcons.dollarCircle),
                       SizedBox(
                         height: 2.0.h,
@@ -105,9 +106,10 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
                             textEditingController: goalSaveRepeatAmount,
                             keyboardType: TextInputType.number,
                             hint: '15 LE',
-                            containerWidth: double.infinity,
+                           // containerWidth: double.infinity,
                             IconName: AppIcons.cartAdd,
                             trailing: DropDownCustomWidget(
+                              leadingIcon: '',
                               dropDownList: goalsCubit.dropDownChannelItems,
                               hint: goalsCubit.choseRepeat,
                               isExpanded: false,
@@ -192,13 +194,15 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
           goalCreatedDay: DateTime.now(),
           id: GUIDGen.generate(),
           goalName: goalNameCtrl.text,
-          goalRemainingAmount: num.tryParse(goalCostCtrl.text)!,
+          goalRemainingAmount: 0,
+          //num.tryParse(goalCostCtrl.text)!,
           goalRemainingPeriod: goalCubit.remainingTimes(
               cost: num.tryParse(goalCostCtrl.text)!,
               dailySaving: num.tryParse(goalSaveRepeatAmount.text)!),
           goalSaveAmount: num.tryParse(goalSaveRepeatAmount.text)!,
           goalSaveAmountRepeat: goalCubit.choseRepeat,
-          goalTotalAmount: num.tryParse(goalSaveRepeatAmount.text)!,
+          goalTotalAmount: 2050,
+          //num.tryParse(goalCostCtrl.text)!,
           goalStartSavingDate: goalCubit.chosenDate ?? DateTime.now(),
           goalCompletionDate: goalCubit.getCompletionDate(
               cost: num.tryParse(goalCostCtrl.text)!,
@@ -224,11 +228,13 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
     showSuccessfulDialog(
         context, 'Goal Added', 'You have successfully added goal');
     Future.delayed(
-      Duration(seconds: 5),
+      Duration(seconds: 1),
+
       () {
-        Navigator.pop(context);
+
+       // Navigator.pop(context);
         Navigator.pushReplacementNamed(
-            context, AppRouterNames.rFetchGoalScreen);
+            context, AppRouterNames.rGetGoals);
       },
     );
   }
