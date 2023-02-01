@@ -11,7 +11,7 @@ part 'expense_repeat_state.dart';
 class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
   ExpenseRepeatCubit(this._expensesRepository) : super(ExpenseRepeatInitial());
 
-  final TransactionsRepository _expensesRepository;
+  final ExpenseRepository _expensesRepository;
 
   List<String> noRepeats = ExpensesLists().noRepeats;
 

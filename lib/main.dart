@@ -9,8 +9,11 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
+import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
 import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
+import 'package:temp/data/models/goals/goal_model.dart';
+import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
 import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 import 'package:temp/notificationsApi.dart';
@@ -36,11 +39,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
 
-  final now = DateTime.now();
-  final local = DateTime.now().toLocal();
-  print('now time $now');
-  print('local time $local');
-
   await translator.init(
     localeType: LocalizationDefaultType.device,
     languagesList: <String>['ar', 'en'],
@@ -53,6 +51,8 @@ Future<void> main() async {
   Hive.registerAdapter(TransactionRepeatTypesAdapter());
   Hive.registerAdapter(TransactionRepeatDetailsModelAdapter());
   Hive.registerAdapter(SubCategoryAdapter());
+  Hive.registerAdapter(GoalModelAdapter());
+  Hive.registerAdapter(GoalRepeatedDetailsModelAdapter());
 
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
       boxName: AppBoxes.dailyTransactionsBoxName);
@@ -63,9 +63,13 @@ Future<void> main() async {
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
       boxName: AppBoxes.noRepeaTransactionsBoxName);
   await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
-  await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryIncome);
+  await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
   await HiveHelper()
       .openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
+  await HiveHelper()
+      .openBox<GoalModel>(boxName: AppBoxes.goalModel);
+  await HiveHelper()
+      .openBox<GoalRepeatedDetailsModel>(boxName: AppBoxes.goalRepeatedBox);
 
   BlocOverrides.runZoned(
     () async {
@@ -87,7 +91,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
-  final TransactionsRepository _expensesRepository = ExpensesRepositoryImpl();
+  final ExpenseRepository _expensesRepository = ExpensesRepositoryImpl();
   final IncomeRepository _incomeRepository = IncomeRepositoryImpl();
 
   @override
@@ -120,6 +124,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
         BlocProvider(
             create: ((context) => IncomeRepeatCubit(_incomeRepository))),
         BlocProvider(create: ((context) => AddSubcategoryCubit())),
+        BlocProvider(create: ((context) => GoalsCubit())),
       ],
       child: BlocConsumer<GlobalCubit, GlobalState>(
         listener: (context, state) {},

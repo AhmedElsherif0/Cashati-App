@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
@@ -83,6 +84,13 @@ class IncomeRepositoryImpl implements IncomeRepository {
     ];
 
     return expenseTypesList[currentIndex];
+  }
+
+  @override
+  List<TransactionModel> getIncomeFromTransactionBox() {
+    return HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
+        .values
+        .cast<TransactionModel>().where((element) => element.isExpense==false).toList();
   }
 }
 

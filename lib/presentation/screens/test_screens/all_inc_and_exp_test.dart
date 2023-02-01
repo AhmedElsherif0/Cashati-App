@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/business_logic/repository/expenses_repo/expenses_repo.dart';
+import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
+import 'package:temp/data/repository/expenses_repo_impl/expenses_repo_impl.dart';
+import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 
 import '../../../data/models/transactions/transaction_details_model.dart';
 
@@ -20,30 +23,17 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
   List<TransactionRepeatDetailsModel> expenseDataDaily = [];
   List<TransactionModel> transactionsExpense = [];
   bool isExpense = true;
+  ExpenseRepository expenseRepository=ExpensesRepositoryImpl();
+  IncomeRepository incomeRepository=IncomeRepositoryImpl();
 
   @override
   void initState() {
-  /*  // TODO: implement initState
-    print(
-        'Values at key between 0 and 0 Are : ${HiveHelper().getBox(boxName: AppBoxes.expenseRepeatTypes).valuesBetween(startKey: 0, endKey: 0)}');
-    incomeData = HiveHelper()
-        .getBox(boxName: AppBoxes.incomeModel)
-        .values
-        .toList()
-        .cast<IncomeModel>();
-    expenseDataDaily = HiveHelper()
-        .getBox(boxName: AppBoxes.expenseRepeatTypes)
-        .values
-        .toList()
-        .cast<ExpenseRepeatDetailsModel>();*/
+
     transactionsExpense =
-        HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
-        .values
-        .cast<TransactionModel>().where((element) => element.isExpense==true).toList();
+        expenseRepository.getExpensesFromTransactionBox();
+
     incomeData=
-        HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
-            .values
-            .cast<TransactionModel>().where((element) => element.isExpense==false).toList();
+        incomeRepository.getIncomeFromTransactionBox();
   }
 
   @override

@@ -9,9 +9,10 @@ class AppColor {
   static const Color veryLightGrey = Color(0xFFECECEC);
   static const Color pinkishGrey = Color(0xFFcfcfcf);
   static const Color subTitleColor = Color(0xFFA0A6A0);
-  static const Color grey = Color(0xFF9c9c9c);
+  static const Color grey = Color(0xff9c9c9c);
   static const Color brownishGrey = Color(0xFF696969);
   static const Color darkGrey = Color(0xFF353535);
+  static const Color middleGrey = Color(0xFF6D6D6D);
 
   /// Color Palette
   static const Color mintGreen = Color(0xFFa1f2ac);

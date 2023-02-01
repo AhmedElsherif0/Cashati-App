@@ -34,5 +34,5 @@ class IncomeSubcategoryImpl implements CategoryTransactionRepo {
   }
 
   Box<SubCategory> _getSubCategoryBox() =>
-      _hiveHelper.getBoxName(boxName: AppBoxes.subCategoryIncome);
+      _hiveHelper.getBoxName(boxName: AppBoxes.subCategoryExpense);
 }
