@@ -11,7 +11,7 @@ class AddExpensesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(),
+
       body: Center(
         child: Column(
           children: [
