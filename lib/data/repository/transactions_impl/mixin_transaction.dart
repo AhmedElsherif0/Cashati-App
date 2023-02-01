@@ -1,4 +1,6 @@
 import 'package:hive/hive.dart';
+import 'package:temp/constants/app_strings.dart';
+import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/models/transactions/transaction_types_model.dart';
 
 import '../../local/hive/hive_database.dart';
@@ -81,5 +83,20 @@ mixin MixinTransaction {
       print('new error ${error.toString()}');
     }
     return repeatedTransactions;
+  }
+ List<TransactionRepeatDetailsModel> getRepTransactionsByRep({required String repeat,required isExpense}){
+    switch(repeat){
+      case(AppStrings.daily):
+        return getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName).where((element) => element.transactionModel.isExpense==isExpense).toList();
+      case(AppStrings.weekly):
+        return getRepeatedTransByBoxName(AppBoxes.weeklyTransactionsBoxName).where((element) => element.transactionModel.isExpense==isExpense).toList();
+      case(AppStrings.monthly):
+        return getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName).where((element) => element.transactionModel.isExpense==isExpense).toList();
+      case(AppStrings.noRepeat):
+        return getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName).where((element) => element.transactionModel.isExpense==isExpense).toList();
+        default:
+          return getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName).where((element) => element.transactionModel.isExpense==isExpense).toList();
+
+    }
   }
 }

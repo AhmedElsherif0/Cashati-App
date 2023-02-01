@@ -100,6 +100,15 @@ class AppDrawer extends StatelessWidget {
                   );
                 }),
           ),
+          Expanded(
+            flex: 3,
+            child: DrawerItem(
+                icon: AppIcons.poundSterlingSign,
+                text: ' Confirm Today Payment',
+                onTap: () {
+                  Navigator.pushNamed(context, AppRouterNames.rConfirmToday);
+                }),
+          ),
           const Spacer(flex: 3),
         ],
       ),
