@@ -4,9 +4,8 @@ import 'package:temp/data/models/transactions/transaction_types_model.dart';
 import '../../local/hive/hive_database.dart';
 import '../../models/transactions/transaction_details_model.dart';
 
-class MixinTransaction  {
+mixin MixinTransaction  {
 
-  MixinTransaction();
 
   final TransactionRepeatTypes expenseRepeatTypes = TransactionRepeatTypes();
   final HiveHelper hiveDatabase = HiveHelper();

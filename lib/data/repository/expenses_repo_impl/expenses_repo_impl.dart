@@ -8,10 +8,9 @@ import '../../models/transactions/transaction_details_model.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
-class ExpensesRepositoryImpl implements ExpenseRepository {
+class ExpensesRepositoryImpl with MixinTransaction implements ExpenseRepository {
   ExpensesRepositoryImpl();
 
-  final MixinTransaction _mixinTransaction = MixinTransaction();
 
   @override
   Future<void> addExpenseToTransactionBox(
@@ -28,16 +27,15 @@ class ExpensesRepositoryImpl implements ExpenseRepository {
         subCategory: transactionModel.subCategory,
         isExpense: true,
         isProcessing:
-            _mixinTransaction.isEqualToday(date: transactionModel.paymentDate),
+           isEqualToday(date: transactionModel.paymentDate),
         createdDate: DateTime.now(),
         paymentDate: transactionModel.paymentDate);
 
-    final Box<TransactionModel> allExpensesModel = _mixinTransaction
-        .hiveDatabase
+    final Box<TransactionModel> allExpensesModel = hiveDatabase
         .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
-    if (_mixinTransaction.isEqualToday(date: expenseModel.paymentDate)) {
+    if (isEqualToday(date: expenseModel.paymentDate)) {
       print(
-          'is equal today in if ?${_mixinTransaction.isEqualToday(date: expenseModel.paymentDate)}');
+          'is equal today in if ?${isEqualToday(date: expenseModel.paymentDate)}');
       // await allExpensesModel.add(expenseModel);
       await allExpensesModel.put(expenseModel.id, expenseModel);
       print(
@@ -47,7 +45,7 @@ class ExpensesRepositoryImpl implements ExpenseRepository {
           expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
     } else {
       print(
-          'is  equal today in else  ?${_mixinTransaction.isEqualToday(date: expenseModel.paymentDate)}');
+          'is  equal today in else  ?${isEqualToday(date: expenseModel.paymentDate)}');
       addTransactions(
           expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
     }
