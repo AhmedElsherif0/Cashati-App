@@ -3,8 +3,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../styles/colors.dart';
 
-class ImportantOrFixed extends StatelessWidget {
-  const ImportantOrFixed({
+class PriorityWidget extends StatelessWidget {
+  const PriorityWidget({
     Key? key,
     this.circleColor = AppColor.secondColor,
     this.text = 'important',
@@ -18,7 +18,7 @@ class ImportantOrFixed extends StatelessWidget {
     return Row(
       children: [
         Icon(Icons.circle, color: circleColor, size: 10.sp),
-        SizedBox(width: 0.5.w,),
+        SizedBox(width: 0.5.w),
         Text(text,
             style: Theme.of(context).textTheme.caption,
             overflow: TextOverflow.ellipsis,

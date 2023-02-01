@@ -39,11 +39,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
 
-  final now = DateTime.now();
-  final local = DateTime.now().toLocal();
-  print('now time $now');
-  print('local time $local');
-
   await translator.init(
     localeType: LocalizationDefaultType.device,
     languagesList: <String>['ar', 'en'],

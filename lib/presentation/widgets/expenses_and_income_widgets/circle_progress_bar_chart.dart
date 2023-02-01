@@ -28,7 +28,6 @@ class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
 
   @override
   Widget build(BuildContext context) {
-    List list = [];
     return SingleChildScrollView(
       child: Center(
         child: DashedCircularProgressBar.aspectRatio(
@@ -50,14 +49,14 @@ class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
             child: SizedBox(
               height: 15.h,
               child: DataInsidePieChart(
-                header: widget.header,
-                valueNotifier: _valueNotifier,
-              totalExpenses: widget.totalExpenses,
-              onPressToHome: widget.onPressToHome),
+                  header: widget.header,
+                  valueNotifier: _valueNotifier,
+                  totalExpenses: widget.totalExpenses,
+                  onPressToHome: widget.onPressToHome),
             ),
           ),
-          ),
         ),
+      ),
     );
   }
 }

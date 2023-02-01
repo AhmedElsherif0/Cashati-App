@@ -8,6 +8,7 @@ import '../../../business_logic/repository/expenses_repo/confirm_expense_repo.da
 import '../../local/hive/id_generator.dart';
 
 class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
+  List<TransactionModel> todayList = [];
 
   @override
   Future<void> addExpenseToBoxFromRepeatedBox(
@@ -15,11 +16,11 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
     final TransactionModel expenseModel = currentExpense;
     expenseModel.amount = newAmount ?? currentExpense.amount;
     expenseModel.id = GUIDGen.generate();
-    expenseModel.paymentDate = today;
-    expenseModel.createdDate = today;
+    expenseModel.paymentDate = _mixinTransaction.today;
+    expenseModel.createdDate = _mixinTransaction.today;
 
-    final allExpensesModel =
-        hiveDatabase.getBoxName(boxName: AppBoxes.dailyTransactionsBoxName);
+    final allExpensesModel = _mixinTransaction.hiveDatabase
+        .getBoxName(boxName: AppBoxes.dailyTransactionsBoxName);
 
     await allExpensesModel.add(expenseModel);
 
@@ -35,11 +36,12 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
     // for showing the payment weekly if it is not the same expense date day
     if (
         //today.difference(expensePayment).inDays!=0&&
-        !checkSameDay(date: expensePayment) &&
-            today.difference(nextShownDate).inDays % 7 == 0
+        _mixinTransaction.checkSameDay(date: expensePayment) &&
+            _mixinTransaction.today.difference(nextShownDate).inDays % 7 == 0
             // &&today.difference(lastConfirmedDate).inDays!=0
             &&
             !checkSameDay(date: lastConfirmedDate)) {
+
       return true;
     } else {
       return false;
@@ -55,11 +57,11 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
     // for showing the payment weekly if he didn't take action
     if (
         //today.difference(expensePayment).inDays!=0&&
-        !checkSameDay(date: expensePayment) &&
-            today.difference(nextShownDate).inDays % 30 == 0
+        _mixinTransaction.checkSameDay(date: expensePayment) &&
+            _mixinTransaction.today.difference(nextShownDate).inDays % 30 == 0
             //&&today.difference(lastConfirmedDate).inDays!=0
             &&
-            !checkSameDay(date: lastConfirmedDate)
+            _mixinTransaction.checkSameDay(date: lastConfirmedDate)
         // &&expensePayment.isAfter(today)
         ) {
       return true;
@@ -77,6 +79,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
     todayList.addAll(_getTodayWeeklyExpenses(isExpense: isExpense));
     todayList.addAll(_getTodayMonthlyExpenses(isExpense: isExpense));
     todayList.addAll(_getTodayNoRepeatExpenses(isExpense: isExpense));
+
     return todayList;
   }
 
@@ -112,8 +115,8 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
     /// Monthly Expenses List.
     // List<TransactionRepeatDetailsModel> monthlyExpenses = expenseRepeatTypes.get(2);
     List<TransactionModel> todayMonthlyList=[];
-
-    List<TransactionRepeatDetailsModel> monthlyExpenses = getRepTransactionsByRep(repeat: AppStrings.monthly,isExpense: true);
+    List<TransactionRepeatDetailsModel> monthlyExpenses = 
+    getRepTransactionsByRep(repeat: AppStrings.monthly,isExpense: true);
     for (var item in monthlyExpenses) {
 
       if(monthlyShowChecking(item)){
@@ -318,6 +321,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
       if (addedExpense.repeatType == 'Daily') {
         TransactionRepeatDetailsModel theEditedDailyExpense =
             editDailyExpenseLastShown(addedExpense: addedExpense, today: today);
+
         await saveDailyExpenseAndAddToRepeatBox(theEditedDailyExpense);
         // print('After Edit Daily ${theMatchingDailyExpense.lastConfirmationDate}');
       }
@@ -325,18 +329,19 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
         TransactionRepeatDetailsModel theEditedWeeklyExpense =
             editWeeklyExpenseLastShown(
                 addedExpense: addedExpense, today: today);
+
         await saveWeeklyExpenseAndAddToRepeatBox(theEditedWeeklyExpense);
       }
       if (addedExpense.repeatType == 'Monthly') {
         TransactionRepeatDetailsModel theEditedMonthlyExpense =
             editMonthlyExpenseLastShown(
-                addedExpense: addedExpense, today: today);
+                addedExpense: addedExpense, today: _mixinTransaction.today);
         saveMonthlyExpenseAndAddToRepeatBox(theEditedMonthlyExpense);
       }
       if (addedExpense.repeatType == 'No Repeat') {
         TransactionRepeatDetailsModel theEditedNoRepeatedExpense =
             editNoRepeatExpenseLastShown(
-                addedExpense: addedExpense, today: today);
+                addedExpense: addedExpense, today: _mixinTransaction.today);
         await saveNoRepeatExpenseAndDeleteRepeatBox(theEditedNoRepeatedExpense);
       }
     } catch (error) {
@@ -351,6 +356,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
     if (addedExpense.repeatType == 'Daily') {
       TransactionRepeatDetailsModel theEditedDailyExpense =
           editDailyExpenseLastShown(addedExpense: addedExpense, today: today);
+
       await saveDailyExpenseNoConfirm(theEditedDailyExpense);
     }
     if (addedExpense.repeatType == 'Weekly') {
@@ -366,10 +372,8 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
     if (addedExpense.repeatType == 'No Repeat') {
       TransactionRepeatDetailsModel theEditedNoRepeatExpense =
           editNoRepeatExpenseLastShown(
-              addedExpense: addedExpense, today: today);
+              addedExpense: addedExpense, today: _mixinTransaction.today);
       await deleteNoRepeatExpense(theEditedNoRepeatExpense);
     }
   }
-
-
 }

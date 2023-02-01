@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
-import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/views/chart_bars_card.dart';
-import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
-import '../../../../data/models/transactions/expenses_lists.dart';
+import 'package:temp/presentation/views/flow_chart_view.dart';
+import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
+import '../../../../constants/enum_classes.dart';
+import '../../../../data/models/statistics/expenses_lists.dart';
+import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
-import '../../../widgets/expenses_and_income_widgets/circle_progress_bar_chart.dart';
-import '../../../widgets/expenses_and_income_widgets/data_inside_pie_chart.dart';
-import '../../../widgets/expenses_and_income_widgets/drop_down_button.dart';
 
 class ExpensesStatisticsScreen extends StatefulWidget {
   const ExpensesStatisticsScreen({Key? key}) : super(key: key);
@@ -21,33 +19,7 @@ class ExpensesStatisticsScreen extends StatefulWidget {
 
 class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
   final PageController _controller = PageController(initialPage: 0);
-  Importance importanceGroup = Importance.importantExpense;
-
-  Widget switchWidgets(int currentIndex) {
-    Widget widget = CircularProgressBarChart(
-      header: 'expense',
-      maxExpenses: 10000,
-      totalExpenses: 5000,
-      onPressToHome: () {},
-    );
-    switch (currentIndex) {
-      case 0:
-        widget = CircularProgressBarChart(
-          header: 'expense',
-          maxExpenses: 10000,
-          totalExpenses: 5000,
-          onPressToHome: () {},
-        );
-        break;
-      case 1:
-        widget = const ChartBarsCard();
-        break;
-      case 2:
-        widget = const ChartBarsCard();
-        break;
-    }
-    return widget;
-  }
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void dispose() {
@@ -55,7 +27,20 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     super.dispose();
   }
 
-  ExpenseRepeatCubit getStatisticsCubit() => BlocProvider.of<ExpenseRepeatCubit>(context);
+  ExpenseRepeatCubit getStatisticsCubit() =>
+      BlocProvider.of<ExpenseRepeatCubit>(context);
+
+  void showDatePick() async {
+    final datePicker = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+    if (datePicker == null) return;
+    _selectedDate =datePicker;
+    print(' selectedDate : $_selectedDate');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,71 +60,30 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Column(
                   children: [
-                    DefaultDropDownButton(
-                      selectedValue: list.chooseDate,
-                      defaultText: list.chooseDate,
-                      items: List.generate(12, (index) {
-                        index += 1;
-                        return '${(list.chooseInnerData)} $index';
-                      }),
+                    CustomElevatedButton(
+                      onPressed: () => showDatePick(),
+                      text: 'Choose Day',
+                      textStyle: Theme.of(context).textTheme.subtitle1,
+                      backgroundColor: AppColor.white,
+                      width: 40.w,
+                      borderRadius: 8.sp,
                     ),
                     const Spacer(),
-
-                    /// Flow Chart Widgets.
-                    Expanded(
-                      flex: 36,
-                      child: Column(
-                        children: [
-                          /// Chart widgets.
-                          if (index == 1)
-                            Expanded(
-                              child: DataInsidePieChart(
-                                  totalExpenses: 10000,
-                                  valueNotifier: ValueNotifier<double>(5000),
-                                  onPressToHome: () {},
-                                  header: 'Income'),
-                            ),
-
-                          /// Chart widgets
-                          Expanded(flex: 4, child: switchWidgets(index)),
-
-                          /// importance Radio button.
-                          if (index == 0)
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  const Spacer(flex: 11),
-                                  Expanded(
-                                    flex: 6,
-                                    child: Column(
-                                      children: [
-                                        const ImportantOrFixed(
-                                          text: 'Important',
-                                          circleColor: AppColor.secondColor,
-                                        ),
-                                        SizedBox(height: 0.3.h),
-                                        const ImportantOrFixed(
-                                          text: 'Not Important',
-                                          circleColor: AppColor.grey,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const Spacer()
-                                ],
-                              ),
-                            )
-                        ],
-                      ),
-                    ),
+                    FlowChartView(
+                        index: index,
+                        priorityType: PriorityType.Important,
+                        notPriority: PriorityType.NotImportant,
+                        expensesModel: list),
 
                     /// TabBarView Widgets.
                     Expanded(
                       flex: 40,
-                      child: BlocBuilder<ExpenseRepeatCubit, ExpenseRepeatState>(
+                      child:
+                          BlocBuilder<ExpenseRepeatCubit, ExpenseRepeatState>(
                         builder: (context, state) {
+                          // Todo:: taken a different list verses the ExpenseList.
                           return CustomTabBarView(
-                              priorityName: 'Important',
+                              priorityName: PriorityType.Important,
                               expenseDetailsList:
                               getStatisticsCubit().getExpenseTypeList(),
                               currentIndex: currentIndex,

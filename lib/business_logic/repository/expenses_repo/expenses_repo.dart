@@ -12,6 +12,7 @@ abstract class ExpenseRepository {
       {required TransactionModel expenseModel, required String choseRepeat});
 
  List<TransactionRepeatDetailsModel> getExpenseTypeList(int currentIndex);
+
  List<TransactionModel> getExpensesFromTransactionBox();
 
 }
