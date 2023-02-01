@@ -60,7 +60,7 @@ class CustomAppBar extends StatelessWidget {
               borderRadius: BorderRadius.zero,
               radius: 0.0,
               onTap: () =>
-                  Navigator.of(context).pushNamed(AppRouterNames.rNotification),
+                  onTapNotification??Navigator.of(context).pushNamed(AppRouterNames.rNotification),
               child: SvgPicture.asset('assets/images/notification.svg',
                   height: 22.sp, width: 22.sp),
             ),
