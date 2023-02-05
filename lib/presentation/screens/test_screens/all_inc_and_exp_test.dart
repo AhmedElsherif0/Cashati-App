@@ -50,8 +50,7 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
                   isExpense = !isExpense;
                 });
               },
-              child: Text('${isExpense ? 'Show Income' : 'Show Expenses'}')),
-        Text('${isExpense ? 'Expenses List ' : 'Income List '}'),
+              child: Text('${isExpense ? 'Expenses' : 'Income'}')),
           isExpense
               ? Expanded(
                   child: Padding(
@@ -68,13 +67,12 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
                               title: Text(
                                   '${transactionsExpense[index].name}'),
                               trailing: IconButton(
-                                  onPressed: () async{
-                                    await transactionsExpense[index].delete();
-                                    // HiveHelper()
-                                    //     .getBoxName(
-                                    //         boxName:
-                                    //             AppBoxes.dailyTransactionsBoxName)
-                                    //     .delete(transactionsExpense[index]);
+                                  onPressed: () {
+                                    HiveHelper()
+                                        .getBoxName(
+                                            boxName:
+                                                AppBoxes.dailyTransactionsBoxName)
+                                        .delete(transactionsExpense[index]);
                                    // expenseDataDaily[index].delete();
                                   },
                                   icon: const Icon(Icons.delete)),

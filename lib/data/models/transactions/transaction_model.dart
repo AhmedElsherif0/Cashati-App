@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'transaction_model.g.dart';
 
 @HiveType(typeId: 0)
-class TransactionModel extends HiveObject{
+class TransactionModel {
   TransactionModel();
 
   TransactionModel.expense({

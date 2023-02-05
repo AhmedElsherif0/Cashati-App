@@ -13,7 +13,7 @@ mixin MixinTransaction {
   /// should be convert to int...
   final DateTime _today = DateTime.now();
 
-  HiveHelper get  hiveDatabase => _hiveDatabase;
+  get hiveDatabase => _hiveDatabase;
 
   get expenseRepeatTypes => _expenseRepeatTypes;
 
