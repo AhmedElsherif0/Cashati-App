@@ -2,16 +2,17 @@ import 'package:hive/hive.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
+
 import '../../../business_logic/repository/expenses_repo/expenses_repo.dart';
 import '../../local/hive/id_generator.dart';
 import '../../models/transactions/transaction_details_model.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
-class ExpensesRepositoryImpl implements ExpenseRepository {
-  ExpensesRepositoryImpl();
+class ExpensesRepositoryImpl with MixinTransaction
+    implements ExpenseRepository {
 
-  final MixinTransaction _mixinTransaction = MixinTransaction();
+  ExpensesRepositoryImpl();
 
   @override
   Future<void> addExpenseToTransactionBox(
@@ -27,27 +28,28 @@ class ExpensesRepositoryImpl implements ExpenseRepository {
         isPriority: transactionModel.isPriority,
         subCategory: transactionModel.subCategory,
         isExpense: true,
-        isProcessing:
-            _mixinTransaction.isEqualToday(date: transactionModel.paymentDate),
+        isProcessing: isEqualToday(date: transactionModel.paymentDate),
         createdDate: DateTime.now(),
         paymentDate: transactionModel.paymentDate);
 
-    final Box<TransactionModel> allExpensesModel = _mixinTransaction
-        .hiveDatabase
+    final Box<TransactionModel> allExpensesModel = hiveDatabase
         .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
-    if (_mixinTransaction.isEqualToday(date: expenseModel.paymentDate)) {
+    if (isEqualToday(date: expenseModel.paymentDate)) {
       print(
-          'is equal today in if ?${_mixinTransaction.isEqualToday(date: expenseModel.paymentDate)}');
+          'is equal today in if ?${isEqualToday(date: expenseModel.paymentDate)}');
       // await allExpensesModel.add(expenseModel);
       await allExpensesModel.put(expenseModel.id, expenseModel);
       print(
-          "name of the value added by  key is ${allExpensesModel.get(expenseModel.id)!.name} and key is ${allExpensesModel.get(expenseModel.id)!.id}");
+          "name of the value added by  key is ${
+              allExpensesModel.get(expenseModel.id)!.name} and key is ${
+              allExpensesModel.get(expenseModel.id)!.id}");
 
       addTransactions(
           expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
     } else {
       print(
-          'is  equal today in else  ?${_mixinTransaction.isEqualToday(date: expenseModel.paymentDate)}');
+          'is  equal today in else  ?${
+              isEqualToday(date: expenseModel.paymentDate)}');
       addTransactions(
           expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
     }
@@ -88,11 +90,8 @@ class ExpensesRepositoryImpl implements ExpenseRepository {
 
   @override
   List<TransactionModel> getExpensesFromTransactionBox() {
-    return HiveHelper()
-        .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
+   return HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
         .values
-        .cast<TransactionModel>()
-        .where((element) => element.isExpense == true)
-        .toList();
+        .cast<TransactionModel>().where((element) => element.isExpense==true).toList();
   }
 }
