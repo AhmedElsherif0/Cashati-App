@@ -6,7 +6,7 @@ import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/tab_card_View.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 import '../../constants/enum_classes.dart';
-import '../../data/models/transactions/expenses_lists.dart';
+import '../../data/models/statistics/expenses_lists.dart';
 import '../widgets/common_texts/details_text.dart';
 
 class CustomTabBarView extends StatefulWidget {
@@ -20,9 +20,9 @@ class CustomTabBarView extends StatefulWidget {
   }) : super(key: key);
 
   final int currentIndex;
-  final String priorityName;
+  final PriorityType priorityName;
   final int index;
-  final  List<TransactionRepeatDetailsModel> expenseDetailsList;
+  final List<TransactionRepeatDetailsModel> expenseDetailsList;
   final PageController pageController;
 
   @override
@@ -102,7 +102,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                 children: List.generate(
                   expensesLists.noRepeats.length - 1,
                   (index) => TabCardView(
-                    priorityName: widget.priorityName,
+                    priorityName: widget.priorityName.name,
                     seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                     onPressSeeMore: () {},
                     isVisible: true,

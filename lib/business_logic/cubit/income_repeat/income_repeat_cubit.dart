@@ -2,10 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
-import 'package:temp/business_logic/repository/expenses_repo/expenses_repo.dart';
 import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
-import '../../../data/models/transactions/expenses_lists.dart';
+
+import '../../../data/models/statistics/expenses_lists.dart';
 
 part 'income_repeat_state.dart';
 
