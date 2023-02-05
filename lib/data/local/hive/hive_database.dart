@@ -34,6 +34,13 @@ class HiveHelper {
     return await boxName.put(indexKey, dataModel);
   }
 
+  Future<void> putByKey<E>(
+      {required Box<E> boxName,
+        required dynamic indexKey,
+        required E dataModel}) async {
+    return await boxName.put(indexKey, dataModel);
+  }
+
   /// for updates the value.
   Future<void> update<T>(
       {required Box boxName,

@@ -245,6 +245,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                         child: Container(
                           width: 270,
                           child: DropDownCustomWidget(
+                            leadingIcon: '',
                               dropDownList:
                                   addExpOrIncCubit.dropDownChannelItems,
                               hint: addExpOrIncCubit.choseRepeat,
