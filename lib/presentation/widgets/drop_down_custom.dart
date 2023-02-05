@@ -10,9 +10,9 @@ class DropDownCustomWidget extends StatefulWidget {
       required this.hint,
       this.value,
       this.backgroundColor,
-      this.isExpanded,
+      this.isExpanded=true,
       this.icon,
-      this.leadingIcon,
+      this.leadingIcon='',
       this.arrowIconColor,
       this.hintStyle,
       required this.onChangedFunc})

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:temp/business_logic/repository/expenses_repo/confirm_expense_repo.dart';
+import 'package:temp/constants/app_strings.dart';
+import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/expenses_repo_impl/confirm_expense_repo_impl.dart';
 
@@ -33,6 +36,9 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
     }catch(e){
       print('error is $e');
     }
+    setState(() {
+
+    });
   }
 
   Future<void> onNoConfirmed({
@@ -40,6 +46,9 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
     required TransactionModel theAddedExpense})async{
     print('No confirmed');
     await _transactionRep.onNoConfirmed(addedExpense:  theAddedExpense);
+    setState(() {
+
+    });
   }
 
 
@@ -53,6 +62,9 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
     }catch(e){
       print('error is $e');
     }
+    setState(() {
+
+    });
   }
 
   Future<void> onNoConfirmedIncome({
@@ -60,6 +72,9 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
     required TransactionModel theAddedIncome})async{
     print('No confirmed');
     await _transactionRep.onNoConfirmed(addedExpense: theAddedIncome,);
+    setState(() {
+
+    });
   }
 
 
@@ -67,7 +82,10 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
   @override
   void initState() {
     allTodayList=List.from(_transactionRep.getTodayPayments(isExpense: true));
+    print('all expenses are ${allTodayList}');
     allTodayListIncome=List.from(_transactionRep.getTodayPayments(isExpense: false));
+    print('all income are ${allTodayListIncome}');
+
     super.initState();
   }
   @override
@@ -122,7 +140,7 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('after28Days ${after28Days}')));
             },
           ),
-          allTodayList.isEmpty? Center(child: Text('No Data To confirm'),):allTodayList.isNotEmpty?
+          allTodayListIncome.isEmpty? Center(child: Text('No Data To confirm'),):allTodayListIncome.isNotEmpty?
           Expanded(
               child:ListView.builder(
                   itemCount:  allTodayListIncome.length,
@@ -136,6 +154,7 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
                         Text('Income Amount ${allTodayListIncome[index].amount}'),
                         Text('Income id ${allTodayListIncome[index].id}'),
                         Text('Income payment date ${allTodayListIncome[index].paymentDate}'),
+                        Text('Income created date ${allTodayListIncome[index].createdDate}'),
                         Text('Income Repeat ${allTodayListIncome[index].repeatType}'),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
@@ -192,6 +211,12 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
                         Text('Expense Amount ${allTodayList[index].amount}'),
                         Text('Expense id ${allTodayList[index].id}'),
                         Text('Expense payment date ${allTodayList[index].paymentDate}'),
+                        Text('Expense Created date ${allTodayList[index].createdDate}'),
+                       // Text('Expense last confirmed date ${getRepeatedModel(allTodayList[index]).lastConfirmationDate}'),
+                        //Text('try difere Created date ${allTodayList[index].createdDate.difference(DateTime.now()).inDays % 7 }'),
+                        Text('try  baqy qesma ${14 % 7 }'),
+                        //Text('Next Shown date ${getRepeatedModel(allTodayList[index]).nextShownDate}'),
+                        //Text('Next Shown date ${DateTime.now().difference(getRepeatedModel(allTodayList[index]).nextShownDate).inDays%7}'),
                         Text('Expense Repeat ${allTodayList[index].repeatType}'),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
@@ -215,6 +240,22 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
       ),
     );
   }
+  TransactionRepeatDetailsModel getRepeatedModel(TransactionModel model){
+    if(model.repeatType==AppStrings.daily){
+      var result=Hive.box<TransactionRepeatDetailsModel>(AppBoxes.dailyTransactionsBoxName).get(model.id);
+    return  result!;
+    }else if(model.repeatType==AppStrings.weekly){
+      var result=Hive.box<TransactionRepeatDetailsModel>(AppBoxes.weeklyTransactionsBoxName).get(model.id);
+      return  result!;
+    }else if(model.repeatType==AppStrings.monthly){
+      var result=Hive.box<TransactionRepeatDetailsModel>(AppBoxes.monthlyTransactionsBoxName).get(model.id);
+      return  result!;
+    }else{
+      var result=Hive.box<TransactionRepeatDetailsModel>(AppBoxes.noRepeaTransactionsBoxName).get(model.id);
+      return  result!;
+    }
+  }
+
 
   /// Goals confirm Body
 // Padding goalsConfirmBody(BuildContext context) {
