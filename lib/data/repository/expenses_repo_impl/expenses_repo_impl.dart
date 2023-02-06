@@ -2,16 +2,18 @@ import 'package:hive/hive.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
+
 import '../../../business_logic/repository/expenses_repo/expenses_repo.dart';
 import '../../local/hive/id_generator.dart';
 import '../../models/transactions/transaction_details_model.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
-class ExpensesRepositoryImpl with MixinTransaction implements ExpenseRepository {
+class ExpensesRepositoryImpl with MixinTransaction
+    implements ExpenseRepository {
+
   ExpensesRepositoryImpl();
-
-
+  
   @override
   Future<void> addExpenseToTransactionBox(
       {required TransactionModel transactionModel}) async {
@@ -26,8 +28,7 @@ class ExpensesRepositoryImpl with MixinTransaction implements ExpenseRepository 
         isPriority: transactionModel.isPriority,
         subCategory: transactionModel.subCategory,
         isExpense: true,
-        isProcessing:
-           isEqualToday(date: transactionModel.paymentDate),
+        isProcessing: isEqualToday(date: transactionModel.paymentDate),
         createdDate: DateTime.now(),
         paymentDate: transactionModel.paymentDate);
 
@@ -39,7 +40,9 @@ class ExpensesRepositoryImpl with MixinTransaction implements ExpenseRepository 
       // await allExpensesModel.add(expenseModel);
       await allExpensesModel.put(expenseModel.id, expenseModel);
       print(
-          "name of the value added by  key is ${allExpensesModel.get(expenseModel.id)!.name} and key is ${allExpensesModel.get(expenseModel.id)!.id}");
+          "name of the value added by  key is ${
+              allExpensesModel.get(expenseModel.id)!.name} and key is ${
+              allExpensesModel.get(expenseModel.id)!.id}");
 
       addTransactions(
           expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
@@ -86,11 +89,8 @@ class ExpensesRepositoryImpl with MixinTransaction implements ExpenseRepository 
 
   @override
   List<TransactionModel> getExpensesFromTransactionBox() {
-    return HiveHelper()
-        .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
+   return HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
         .values
-        .cast<TransactionModel>()
-        .where((element) => element.isExpense == true)
-        .toList();
+        .cast<TransactionModel>().where((element) => element.isExpense==true).toList();
   }
 }

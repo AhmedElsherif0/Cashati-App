@@ -5,7 +5,7 @@ import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 import '../../local/hive/app_boxes.dart';
 import '../../../business_logic/repository/transactions_repo/transactions_interface.dart';
 
-class DailyTransaction  extends ITransactions with MixinTransaction {
+class DailyTransaction extends ITransactions with MixinTransaction {
 
   @override
   Future<void> addTransactionToRepeatedBox(
@@ -22,18 +22,17 @@ class DailyTransaction  extends ITransactions with MixinTransaction {
     );
 
     final Box<TransactionRepeatDetailsModel> expenseRepeatDailyBox =
-       hiveDatabase
-            .getBoxName<TransactionRepeatDetailsModel>(
-                boxName: AppBoxes.dailyTransactionsBoxName);
+        hiveDatabase.getBoxName<TransactionRepeatDetailsModel>(
+            boxName: AppBoxes.dailyTransactionsBoxName);
 
-  expenseRepeatTypes.dailyExpense.add(dailyDetails);
+    expenseRepeatTypes.dailyExpense.add(dailyDetails);
+
     //TODO test putting they key ( as in repeated boxes the key of the repeated model will be the first id of transaction model added)
     await expenseRepeatDailyBox.put(transactionModel.id, dailyDetails);
     print("key is ${dailyDetails.key}");
 
     print('expense Daily List add ${expenseRepeatDailyBox.length}');
-    print(
-        'box add length ${expenseRepeatTypes.dailyExpense.length}');
+    print('box add length ${expenseRepeatTypes.dailyExpense.length}');
   }
 
   @override
@@ -47,15 +46,14 @@ class DailyTransaction  extends ITransactions with MixinTransaction {
         if (isExpense) {
           dailyTransactionList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
+              getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName)
 
-    getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName)
                   .where((element) => element.transactionModel.isExpense)
                   .toList();
         } else {
           dailyTransactionList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-
-                  getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName)
+              getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName)
                   .where((element) => !element.transactionModel.isExpense)
                   .toList();
         }
@@ -67,7 +65,7 @@ class DailyTransaction  extends ITransactions with MixinTransaction {
   }
 }
 
-class WeeklyTransaction extends ITransactions with  MixinTransaction {
+class WeeklyTransaction extends ITransactions with MixinTransaction {
 
   @override
   Future<void> addTransactionToRepeatedBox(
@@ -84,17 +82,16 @@ class WeeklyTransaction extends ITransactions with  MixinTransaction {
     );
 
     final Box<TransactionRepeatDetailsModel> expenseRepeatWeeklyBox =
-        hiveDatabase
-            .getBoxName<TransactionRepeatDetailsModel>(
-                boxName: AppBoxes.weeklyTransactionsBoxName);
+        hiveDatabase.getBoxName<TransactionRepeatDetailsModel>(
+            boxName: AppBoxes.weeklyTransactionsBoxName);
 
-expenseRepeatTypes.weeklyExpense.add(weeklyDetails);
+    expenseRepeatTypes.weeklyExpense.add(weeklyDetails);
+
     //TODO test putting they key ( as in repeated boxes the key of the repeated model will be the first id of transaction model added)
     await expenseRepeatWeeklyBox.put(transactionModel.id, weeklyDetails);
     // expenseRepeatWeeklyBox.add(weeklyDetails);
     print('expense Weekly List add ${expenseRepeatWeeklyBox.length}');
-    print(
-        'box add length ${expenseRepeatTypes.weeklyExpense.length}');
+    print('box add length ${expenseRepeatTypes.weeklyExpense.length}');
   }
 
   @override
@@ -114,7 +111,8 @@ expenseRepeatTypes.weeklyExpense.add(weeklyDetails);
         } else {
           weeklyTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-            getRepeatedTransByBoxName(AppBoxes.weeklyTransactionsBoxName)
+              getRepeatedTransByBoxName(AppBoxes.weeklyTransactionsBoxName)
+
                   .where((element) => !element.transactionModel.isExpense)
                   .toList();
         }
@@ -126,18 +124,18 @@ expenseRepeatTypes.weeklyExpense.add(weeklyDetails);
   }
 }
 
-class MonthlyTransaction extends ITransactions with MixinTransaction{
+class MonthlyTransaction extends ITransactions with MixinTransaction {
 
   @override
   Future<void> addTransactionToRepeatedBox(
       TransactionModel transactionModel) async {
     final Box<TransactionRepeatDetailsModel> expenseRepeatMonthlyBox =
-       hiveDatabase.getBoxName<TransactionRepeatDetailsModel>(
+        hiveDatabase.getBoxName<TransactionRepeatDetailsModel>(
             boxName: AppBoxes.monthlyTransactionsBoxName);
 
     final TransactionRepeatDetailsModel monthlyDetails =
         TransactionRepeatDetailsModel.copyWith(
-      lastConfirmationDate:today,
+      lastConfirmationDate: today,
       isLastConfirmed: false,
       creationDate: today,
       transactionModel: transactionModel,
@@ -150,8 +148,7 @@ class MonthlyTransaction extends ITransactions with MixinTransaction{
     //TODO test putting they key ( as in repeated boxes the key of the repeated model will be the first id of transaction model added)
     await expenseRepeatMonthlyBox.put(transactionModel.id, monthlyDetails);
     print('expense monthly List add ${expenseRepeatMonthlyBox.length}');
-    print('box add length ${
-        expenseRepeatTypes.monthlyExpense.length}');
+    print('box add length ${expenseRepeatTypes.monthlyExpense.length}');
   }
 
   @override
@@ -165,13 +162,15 @@ class MonthlyTransaction extends ITransactions with MixinTransaction{
         if (isExpense) {
           monthlyTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-            getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName)
+              getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName)
+
                   .where((element) => element.transactionModel.isExpense)
                   .toList();
         } else {
           monthlyTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-            getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName)
+              getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName)
+
                   .where((element) => !element.transactionModel.isExpense)
                   .toList();
         }
@@ -183,7 +182,7 @@ class MonthlyTransaction extends ITransactions with MixinTransaction{
   }
 }
 
-class NoRepeatTransaction extends ITransactions with MixinTransaction{
+class NoRepeatTransaction extends ITransactions with MixinTransaction {
 
   @override
   Future<void> addTransactionToRepeatedBox(
@@ -198,13 +197,13 @@ class NoRepeatTransaction extends ITransactions with MixinTransaction{
         TransactionRepeatDetailsModel.copyWith(
       lastConfirmationDate: today,
       isLastConfirmed: false,
-      creationDate:  today,
+      creationDate: today,
       transactionModel: transactionModel,
-      lastShownDate:putNextShownDate(
+      lastShownDate: putNextShownDate(
+
           paymentDate: transactionModel.paymentDate, repeatType: 'No Repeat'),
       nextShownDate: transactionModel.paymentDate,
     );
-
     expenseRepeatTypes.noRepeatExpense.add(noRepeatDetails);
 
     ///
@@ -213,7 +212,7 @@ class NoRepeatTransaction extends ITransactions with MixinTransaction{
     await expenseNoRepeatBox.put(transactionModel.id, noRepeatDetails);
 
     print('expense noRepeat List add ${expenseNoRepeatBox.length}');
-    print('box add length ${ expenseRepeatTypes.noRepeatExpense.length}');
+    print('box add length ${expenseRepeatTypes.noRepeatExpense.length}');
   }
 
   @override
@@ -227,13 +226,13 @@ class NoRepeatTransaction extends ITransactions with MixinTransaction{
         if (isExpense) {
           noRepeatTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-          getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
+              getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
                   .where((element) => element.transactionModel.isExpense)
                   .toList();
         } else {
           noRepeatTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-            getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
+              getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
                   .where((element) => !element.transactionModel.isExpense)
                   .toList();
         }
