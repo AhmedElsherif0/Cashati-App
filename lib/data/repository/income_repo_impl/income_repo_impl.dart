@@ -34,6 +34,7 @@ class IncomeRepositoryImpl with MixinTransaction implements IncomeRepository {
     final Box<TransactionModel> allIncomeBox = hiveDatabase.getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
     if (isEqualToday(date: incomeModel.paymentDate)) {
       print('is equal today in if ?${isEqualToday(date: incomeModel.paymentDate)}');
+
       // await allExpensesModel.add(expenseModel);
       await allIncomeBox.put(incomeModel.id,incomeModel);
       print("name of the value added by  key is ${allIncomeBox.get(incomeModel.id)!.name} and key is ${allIncomeBox.get(incomeModel.id)!.id}");
