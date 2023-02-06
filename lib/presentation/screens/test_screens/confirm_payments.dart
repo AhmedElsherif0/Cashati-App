@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:temp/business_logic/repository/expenses_repo/confirm_expense_repo.dart';
+import 'package:temp/business_logic/repository/goals_repo/goals_repo.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/expenses_repo_impl/confirm_expense_repo_impl.dart';
+import 'package:temp/data/repository/goals_repo_impl/goals_repo_impl.dart';
 
 
 class ConfirmPaymentsScreen extends StatefulWidget {
@@ -17,9 +20,11 @@ class ConfirmPaymentsScreen extends StatefulWidget {
 
 class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
   ConfirmExpenseRepo _transactionRep=ConfirmExpenseImpl();
+  GoalsRepository _goalsRepository=GoalsRepoImpl();
 
     List<TransactionModel> allTodayList=[];
     List<TransactionModel> allTodayListIncome=[];
+    List<GoalModel> allTodayGoals=[];
     num? newAmount;
     num? newAmountIncome;
     int currentIndex=0;
@@ -78,6 +83,32 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
   }
 
 
+  Future<void> onYesConfirmedGoal({
+
+    required GoalModel goalModel})async{
+    print('Yes confirmed');
+
+    try{
+      await _goalsRepository.yesConfirmGoal(goalModel: goalModel,newAmount: newAmount);
+    }catch(e){
+      print('error is $e');
+    }
+    setState(() {
+
+    });
+  }
+
+  Future<void> onNoConfirmedGoal({
+
+    required GoalModel goalModel})async{
+    print('No confirmed');
+    await _goalsRepository.noConfirmGoal(goalModel: goalModel,newAmount: newAmount);
+    setState(() {
+
+    });
+  }
+
+
 
   @override
   void initState() {
@@ -85,6 +116,8 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
     print('all expenses are ${allTodayList}');
     allTodayListIncome=List.from(_transactionRep.getTodayPayments(isExpense: false));
     print('all income are ${allTodayListIncome}');
+    allTodayGoals=List.from(_goalsRepository.getTodayGoals());
+    print('all Today Goals are ${allTodayGoals}');
 
     super.initState();
   }
@@ -114,7 +147,7 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
         children: [
           expenseConfirmBody(context),
         incomeConfirmBody(context),
-          expenseConfirmBody(context)
+          goalsConfirmBody(context)
         ],
         ),
       ),
@@ -257,62 +290,53 @@ class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
   }
 
 
-  /// Goals confirm Body
-// Padding goalsConfirmBody(BuildContext context) {
-//   return Padding(
-//           padding: const EdgeInsets.all(25.0),
-//           child: Column(
-//
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: <Widget>[
-//               TextButton(
-//                 child:Text('Show SnackBars'),
-//                 onPressed: (){
-//                   DateTime todayPlusDay=DateTime.now().add(Duration(days: 1));
-//                   DateTime nextWeek=DateTime.now().add(Duration(days: 7));
-//                   DateTime after28Days=DateTime.now().add(Duration(days: 28));
-//                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Tomorrow is ${todayPlusDay}')));
-//                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('nextWeek is ${nextWeek}')));
-//                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('after28Days ${after28Days}')));
-//                 },
-//               ),
-//               allTodayList.isEmpty? Center(child: Text('No Data To confirm'),):allTodayList.isNotEmpty?
-//               Expanded(
-//                   child:ListView.builder(
-//                       itemCount:  allTodayList.length,
-//                       itemBuilder: (context,index) {
-//                         // showDiff(context,allTodayList[index]);
-//                         return ExpansionTile(title: Text('${allTodayList[index].expenseName}'),
-//                           trailing: IconButton(onPressed: (){
-//
-//                           }, icon: Icon(Icons.delete,color: Colors.red,)),
-//                           children: [
-//                             Text('Expense Amount ${allTodayList[index].expenseAmount}'),
-//                             Text('Expense id ${allTodayList[index].expenseId}'),
-//                             Text('Expense payment date ${allTodayList[index].expensePaymentDate}'),
-//                             Text('Expense Repeat ${allTodayList[index].expenseRepeat}'),
-//                             Padding(
-//                               padding: const EdgeInsets.all(15.0),
-//                               child: Row(children: [
-//                                 Spacer(),
-//                                 ElevatedButton(onPressed: (){
-//                                   onYesConfirmed(theAddedExpense: allTodayList[index],currentRepeatType:  allTodayList[index].expenseRepeat);
-//                                 }, child: Text('Yes')),
-//
-//                                 ElevatedButton(onPressed: (){
-//                                   onNoConfirmed(theAddedExpense: allTodayList[index],currentRepeatType:  allTodayList[index].expenseRepeat);
-//                                 }, child: Text('No')),
-//                               ],),
-//                             )
-//                           ],
-//                         );
-//                       }
-//                   ) ):Center(child: CircularProgressIndicator(),)
-//
-//             ],
-//           ),
-//         );
-// }
+
+Padding goalsConfirmBody(BuildContext context) {
+  return Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+
+              allTodayGoals.isEmpty? Center(child: Text('No Data To confirm'),):allTodayGoals.isNotEmpty?
+              Expanded(
+                  child:ListView.builder(
+                      itemCount:  allTodayGoals.length,
+                      itemBuilder: (context,index) {
+                        // showDiff(context,allTodayList[index]);
+                        return ExpansionTile(title: Text('${allTodayGoals[index].goalName}'),
+                          trailing: IconButton(onPressed: (){
+
+                          }, icon: Icon(Icons.delete,color: Colors.red,)),
+                          children: [
+                            Text('Goal Amount ${allTodayGoals[index].goalSaveAmount}'),
+                            Text('Goal id ${allTodayGoals[index].id}'),
+                            Text('Goal StartSavingDate  ${allTodayGoals[index].goalStartSavingDate}'),
+                            Text('Goal Repeat ${allTodayGoals[index].goalSaveAmountRepeat}'),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Row(children: [
+                                Spacer(),
+                                ElevatedButton(onPressed: (){
+                                  onYesConfirmedGoal(goalModel: allTodayGoals[index]);
+                                }, child: Text('Yes')),
+
+                                ElevatedButton(onPressed: (){
+                                  onNoConfirmedGoal(goalModel: allTodayGoals[index]);
+                                }, child: Text('No')),
+                              ],),
+                            )
+                          ],
+                        );
+                      }
+                  ) ):Center(child: CircularProgressIndicator(),)
+
+            ],
+          ),
+        );
+}
+
 /// end of goals confirm body widget
 // showDiff(BuildContext context,ExpenseModel expenseModel){
   //   DateTime today=DateTime(2022,12,5);
