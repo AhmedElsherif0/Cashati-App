@@ -27,12 +27,12 @@ class _EditableSubCategFieldState extends State<EditableSubCategField> {
           title: TextFormField(
             controller:widget.subCategoryName,
             validator: (value){
-
               if(value!.isEmpty){
                 return 'This field can\'t be empty';
               }else{
                // widget.subCategoryName=value;
               }
+              return null;
             },
 
             cursorColor: AppColor.primaryColor,

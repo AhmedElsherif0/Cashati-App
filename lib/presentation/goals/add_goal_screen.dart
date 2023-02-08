@@ -79,7 +79,7 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
                           hint: 'Buy New Mobile',
 
                          // containerWidth: double.infinity,
-                          IconName: AppIcons.medalStar),
+                          iconName: AppIcons.medalStar),
                       SizedBox(
                         height: 2.0.h,
                       ),
@@ -92,7 +92,7 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
                           keyboardType: TextInputType.number,
                           hint: '2000 LE',
                          // containerWidth: double.infinity,
-                          IconName: AppIcons.dollarCircle),
+                          iconName: AppIcons.dollarCircle),
                       SizedBox(
                         height: 2.0.h,
                       ),
@@ -107,7 +107,7 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
                             keyboardType: TextInputType.number,
                             hint: '15 LE',
                            // containerWidth: double.infinity,
-                            IconName: AppIcons.cartAdd,
+                            iconName: AppIcons.cartAdd,
                             trailing: DropDownCustomWidget(
                               leadingIcon: '',
                               dropDownList: goalsCubit.dropDownChannelItems,
