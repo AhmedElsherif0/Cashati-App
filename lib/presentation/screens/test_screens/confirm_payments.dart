@@ -7,7 +7,7 @@ import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
-import 'package:temp/data/repository/expenses_repo_impl/confirm_expense_repo_impl.dart';
+import 'package:temp/data/repository/transactions_impl/confirm_transaction_repo_impl.dart';
 import 'package:temp/data/repository/goals_repo_impl/goals_repo_impl.dart';
 
 
@@ -19,7 +19,7 @@ class ConfirmPaymentsScreen extends StatefulWidget {
 }
 
 class _ConfirmPaymentsScreenState extends State<ConfirmPaymentsScreen> {
-  ConfirmExpenseRepo _transactionRep=ConfirmExpenseImpl();
+  ConfirmTransactionRepo _transactionRep=ConfirmTransactionImpl();
   GoalsRepository _goalsRepository=GoalsRepoImpl();
 
     List<TransactionModel> allTodayList=[];
