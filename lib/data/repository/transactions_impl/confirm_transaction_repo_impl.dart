@@ -7,7 +7,7 @@ import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 import '../../../business_logic/repository/expenses_repo/confirm_expense_repo.dart';
 import '../../local/hive/id_generator.dart';
 
-class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
+class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransactionRepo {
 
   List<TransactionModel> todayList = [];
 
@@ -295,7 +295,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
   }
 
   @override
-  Future deleteNoRepeatExpense(
+  Future deleteNoRepeatTransaction(
       TransactionRepeatDetailsModel theMatchingNoRepExpenseModel) async {
     await theMatchingNoRepExpenseModel.delete();
   }
@@ -357,7 +357,7 @@ class ConfirmExpenseImpl with MixinTransaction implements ConfirmExpenseRepo {
       TransactionRepeatDetailsModel theEditedNoRepeatExpense =
           editNoRepeatExpenseLastShown(
               addedExpense: addedExpense, today: today);
-      await deleteNoRepeatExpense(theEditedNoRepeatExpense);
+      await deleteNoRepeatTransaction(theEditedNoRepeatExpense);
     }
   }
 }

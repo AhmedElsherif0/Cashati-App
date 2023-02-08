@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
@@ -10,7 +9,7 @@ import 'package:temp/data/repository/subcategories_repo_impl/expense_subcategory
 import 'package:temp/data/repository/subcategories_repo_impl/income_subcategory_repo_impl.dart';
 
 import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
-import '../../repository/expenses_repo/expenses_repo.dart';
+import '../../repository/transactions_repo/transaction_repo.dart';
 
 part 'add_exp_or_inc_state.dart';
 
@@ -52,8 +51,8 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   ];
 
-  final ExpenseRepository _expensesRepository;
-  final IncomeRepository _incomeRepository;
+  final TransactionRepo _expensesRepository;
+  final TransactionRepo _incomeRepository;
 
   chooseMainCategory(String mainCategory) {
     currentMainCat = mainCategory;
@@ -247,7 +246,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   void addExpense(
       {required TransactionModel expenseModel, required String repeat}) {
     try {
-      _expensesRepository.addExpenseToTransactionBox(
+      _expensesRepository.addTransactionToTransactionBox(
           transactionModel: expenseModel);
       emit(AddExpOrIncSuccess());
     } catch (error) {
@@ -258,7 +257,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   void addIncome({required TransactionModel expenseModel}) {
     try {
-      _incomeRepository.addIncomeToTransactionBox(
+      _incomeRepository.addTransactionToTransactionBox(
           transactionModel: expenseModel);
       emit(AddExpOrIncSuccess());
     } catch (error) {

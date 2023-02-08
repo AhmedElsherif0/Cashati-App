@@ -3,79 +3,56 @@ import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 
-import '../../../business_logic/repository/expenses_repo/expenses_repo.dart';
-import '../../local/hive/id_generator.dart';
+import '../../../business_logic/repository/transactions_repo/transaction_repo.dart';
 import '../../models/transactions/transaction_details_model.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
-class ExpensesRepositoryImpl with MixinTransaction
-    implements ExpenseRepository {
-
+class ExpensesRepositoryImpl with MixinTransaction implements TransactionRepo {
   ExpensesRepositoryImpl();
-  
-  @override
-  Future<void> addExpenseToTransactionBox(
-      {required TransactionModel transactionModel}) async {
-    final expenseModel = TransactionModel.expense(
-        amount: transactionModel.amount,
-        comment: transactionModel.comment,
-        id: GUIDGen.generate(),
-        name: transactionModel.name,
-        repeatType: transactionModel.repeatType,
-        mainCategory: transactionModel.mainCategory,
-        isAddAuto: false,
-        isPriority: transactionModel.isPriority,
-        subCategory: transactionModel.subCategory,
-        isExpense: true,
-        isProcessing: isEqualToday(date: transactionModel.paymentDate),
-        createdDate: DateTime.now(),
-        paymentDate: transactionModel.paymentDate);
 
+  @override
+  Future<void> addTransactionToTransactionBox(
+      {required TransactionModel transactionModel}) async {
     final Box<TransactionModel> allExpensesModel = hiveDatabase
         .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
-    if (isEqualToday(date: expenseModel.paymentDate)) {
+    if (isEqualToday(date: transactionModel.paymentDate)) {
       print(
-          'is equal today in if ?${isEqualToday(date: expenseModel.paymentDate)}');
+          'is equal today in if ?${isEqualToday(date: transactionModel.paymentDate)}');
       // await allExpensesModel.add(expenseModel);
-      await allExpensesModel.put(expenseModel.id, expenseModel);
+      await allExpensesModel.put(transactionModel.id, transactionModel);
       print(
-          "name of the value added by  key is ${
-              allExpensesModel.get(expenseModel.id)!.name} and key is ${
-              allExpensesModel.get(expenseModel.id)!.id}");
+          "name of the value added by  key is ${allExpensesModel.get(transactionModel.id)!.name} and key is ${allExpensesModel.get(transactionModel.id)!.id}");
 
-      addTransactions(
-          expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
+      addTransactions(transaction: transactionModel);
     } else {
       print(
-          'is  equal today in else  ?${isEqualToday(date: expenseModel.paymentDate)}');
-      addTransactions(
-          expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
+          'is  equal today in else  ?${isEqualToday(date: transactionModel.paymentDate)}');
+      addTransactions(transaction: transactionModel);
     }
     print('Expenses values are ${allExpensesModel.values}');
   }
 
   @override
-  void addTransactions(
-      {required TransactionModel expenseModel, required String choseRepeat}) {
-    switch (choseRepeat) {
+  void addTransactions({required TransactionModel transaction}) {
+    switch (transaction.repeatType) {
       case 'Daily':
-        DailyTransaction().addTransactionToRepeatedBox(expenseModel);
+        DailyTransaction().addTransactionToRepeatedBox(transaction);
         break;
       case 'Weekly':
-        WeeklyTransaction().addTransactionToRepeatedBox(expenseModel);
+        WeeklyTransaction().addTransactionToRepeatedBox(transaction);
         break;
       case 'Monthly':
-        MonthlyTransaction().addTransactionToRepeatedBox(expenseModel);
+        MonthlyTransaction().addTransactionToRepeatedBox(transaction);
         break;
       case 'No Repeat':
-        NoRepeatTransaction().addTransactionToRepeatedBox(expenseModel);
+        NoRepeatTransaction().addTransactionToRepeatedBox(transaction);
         break;
     }
   }
 
   @override
-  List<TransactionRepeatDetailsModel> getExpenseTypeList(int currentIndex) {
+  List<TransactionRepeatDetailsModel> getTransactionTypeList(int currentIndex) {
     List<List<TransactionRepeatDetailsModel>> expenseTypesList = [];
     expenseTypesList = [
       DailyTransaction().getRepeatedTransactions(isExpense: true),
@@ -88,9 +65,12 @@ class ExpensesRepositoryImpl with MixinTransaction
   }
 
   @override
-  List<TransactionModel> getExpensesFromTransactionBox() {
-   return HiveHelper().getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
+  List<TransactionModel> getTransactionFromTransactionBox(bool isExpense) {
+    return HiveHelper()
+        .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
         .values
-        .cast<TransactionModel>().where((element) => element.isExpense==true).toList();
+        .cast<TransactionModel>()
+        .where((element) => element.isExpense == isExpense)
+        .toList();
   }
 }

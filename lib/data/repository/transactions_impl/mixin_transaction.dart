@@ -10,7 +10,6 @@ mixin MixinTransaction {
   final TransactionRepeatTypes _expenseRepeatTypes = TransactionRepeatTypes();
   final HiveHelper _hiveDatabase = HiveHelper();
 
-
   /// should be convert to int...
   final DateTime _today = DateTime.now();
 
