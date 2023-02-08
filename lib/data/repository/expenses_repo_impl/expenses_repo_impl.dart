@@ -13,7 +13,7 @@ class ExpensesRepositoryImpl with MixinTransaction
     implements ExpenseRepository {
 
   ExpensesRepositoryImpl();
-
+  
   @override
   Future<void> addExpenseToTransactionBox(
       {required TransactionModel transactionModel}) async {
@@ -48,8 +48,7 @@ class ExpensesRepositoryImpl with MixinTransaction
           expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
     } else {
       print(
-          'is  equal today in else  ?${
-              isEqualToday(date: expenseModel.paymentDate)}');
+          'is  equal today in else  ?${isEqualToday(date: expenseModel.paymentDate)}');
       addTransactions(
           expenseModel: expenseModel, choseRepeat: expenseModel.repeatType);
     }

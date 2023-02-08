@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:temp/constants/app_icons.dart';
@@ -101,7 +102,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                     child: EditableInfoField(
                       textEditingController: nameCtrl,
                       hint: 'Income Name',
-                      IconName: AppIcons.descriptionIcon,
+                      iconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
                   ),
@@ -117,7 +118,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                         child: EditableInfoField(
                           textEditingController: amountCtrl,
                           hint: 'Amount',
-                          IconName: AppIcons.amountIcon,
+                          iconName: AppIcons.amountIcon,
                           keyboardType: TextInputType.number,
                         ),
                       ),
@@ -145,7 +146,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> {
                     child: EditableInfoField(
                       textEditingController: descriptionCtrl,
                       hint: 'Write Description',
-                      IconName: AppIcons.descriptionIcon,
+                      iconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
                   ),

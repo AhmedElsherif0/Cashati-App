@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/expenses_repo/expenses_repo.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
 
@@ -18,7 +17,7 @@ class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
 
   int currentIndex = 0;
 
- List<TransactionRepeatDetailsModel> getExpenseTypeList() {
+  List<TransactionRepeatDetailsModel> getExpenseTypeList() {
     return _expensesRepository.getExpenseTypeList(currentIndex);
   }
 

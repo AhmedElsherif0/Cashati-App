@@ -9,5 +9,10 @@ abstract class GoalsRepository {
   List<GoalModel> getGoals();
   Future<void> deleteGoalFromGoalsBox(GoalModel goalModel);
 
+  List<GoalModel> getTodayGoals();
+
+  Future<void> yesConfirmGoal({required GoalModel goalModel,num? newAmount});
+  Future<void> noConfirmGoal({required GoalModel goalModel,num? newAmount});
+
 
 }

@@ -107,7 +107,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                     child: EditableInfoField(
                       textEditingController: nameCtrl,
                       hint: 'Expense Name',
-                      IconName: AppIcons.descriptionIcon,
+                      iconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
                   ),
@@ -123,7 +123,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                         child: EditableInfoField(
                           textEditingController: amountCtrl,
                           hint: 'Amount',
-                          IconName: AppIcons.amountIcon,
+                          iconName: AppIcons.amountIcon,
                           keyboardType: TextInputType.number,
                         ),
                       ),
@@ -151,7 +151,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                     child: EditableInfoField(
                       textEditingController: descriptionCtrl,
                       hint: 'Write Description',
-                      IconName: AppIcons.descriptionIcon,
+                      iconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
                   ),
@@ -245,6 +245,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                         child: Container(
                           width: 270,
                           child: DropDownCustomWidget(
+                            leadingIcon: '',
                               dropDownList:
                                   addExpOrIncCubit.dropDownChannelItems,
                               hint: addExpOrIncCubit.choseRepeat,

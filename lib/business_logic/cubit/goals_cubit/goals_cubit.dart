@@ -42,6 +42,7 @@ class GoalsCubit extends Cubit<GoalsState> {
     choseRepeat = value;
     emit(ChoosedRepeatState());
   }
+
   chooseFilter(String value) {
     choseFilter = value;
     fetchAllGoals();
@@ -53,16 +54,21 @@ class GoalsCubit extends Cubit<GoalsState> {
   }
 
   void fetchAllGoals() {
-
-    switch(choseFilter){
+    switch (choseFilter) {
       case 'All':
         goals = _goalsRepository.getGoals();
         break;
       case 'Completed':
-        goals = _goalsRepository.getGoals().where((element) => element.goalRemainingAmount==0).toList();
+        goals = _goalsRepository
+            .getGoals()
+            .where((element) => element.goalRemainingAmount == 0)
+            .toList();
         break;
       case 'UnCompleted':
-        goals = _goalsRepository.getGoals().where((element) => element.goalRemainingAmount!=0).toList();
+        goals = _goalsRepository
+            .getGoals()
+            .where((element) => element.goalRemainingAmount != 0)
+            .toList();
         break;
     }
     emit(FetchedGoals());
@@ -73,10 +79,7 @@ class GoalsCubit extends Cubit<GoalsState> {
     emit(FetchedRepeatedGoals());
   }
 
-  int remainingTimes({
-    required num cost,
-    required num dailySaving,
-  }) {
+  int remainingTimes({required num cost, required num dailySaving}) {
     return (cost / dailySaving).toInt();
   }
 
@@ -98,8 +101,7 @@ class GoalsCubit extends Cubit<GoalsState> {
       case 'Weekly':
         return startSavingDate.add(Duration(days: remainingTime * 7));
       case 'Monthly':
-        return startSavingDate
-            .add(Duration(days: remainingTime * 30));
+        return startSavingDate.add(Duration(days: remainingTime * 30));
       default:
         return startSavingDate.add(Duration(days: remainingTime));
     }
@@ -114,15 +116,18 @@ class GoalsCubit extends Cubit<GoalsState> {
     );
     emit(ChoseDateState());
   }
-  String transferDateToString(GoalModel goalModel){
-    final completionDate=countCompletionDate(goalModel.goalSaveAmountRepeat, goalModel.goalStartSavingDate,goalModel.goalRemainingPeriod);
+
+  String transferDateToString(GoalModel goalModel) {
+    final completionDate = countCompletionDate(goalModel.goalSaveAmountRepeat,
+        goalModel.goalStartSavingDate, goalModel.goalRemainingPeriod);
     return '${completionDate.day}\\${completionDate.month}\\${completionDate.year}';
   }
 
   String dialogMessage(GoalModel goalModel) {
     return 'You Will Achieve your Goal On ${transferDateToString(goalModel)} ';
   }
-  Future<void> deleteGoal(GoalModel goalModel)async{
+
+  Future<void> deleteGoal(GoalModel goalModel) async {
     await _goalsRepository.deleteGoalFromGoalsBox(goalModel);
     fetchAllGoals();
   }
