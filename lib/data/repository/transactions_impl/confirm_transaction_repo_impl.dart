@@ -9,6 +9,8 @@ import '../../local/hive/id_generator.dart';
 
 class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransactionRepo {
 
+  List<TransactionModel> todayList = [];
+
   Future<void> addExpenseToBoxFromRepeatedBox(
       {required TransactionModel currentExpense, num? newAmount}) async {
     final TransactionModel expenseModel = currentExpense;
@@ -16,13 +18,13 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
     expenseModel.id = GUIDGen.generate();
     expenseModel.paymentDate = today;
     expenseModel.createdDate = today;
-   try{
+  try{
      await  hiveDatabase.putByKey<TransactionModel>(indexKey: expenseModel.id,dataModel: expenseModel,boxName: Hive.box(AppBoxes.transactionBox));
 
    }catch(error){
      print('Error in adding transaction from repeated box to transaction box (confirm) is ${error.toString()}');
-   }
-  }
+ }
+}
 
   /// is it calling from any class less this ??
   bool checkNoConfirmedAndWeekly(
@@ -34,6 +36,7 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
         //today.difference(expensePayment).inDays!=0&&
         !checkSameDay(date: expensePayment) &&
             today.difference(nextShownDate).inDays % 7 == 0
+
             // &&today.difference(lastConfirmedDate).inDays!=0
             &&
             !checkSameDay(date: lastConfirmedDate)) {
@@ -56,6 +59,7 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
             //&&today.difference(lastConfirmedDate).inDays!=0
             &&
             !checkSameDay(date: lastConfirmedDate)
+
         // &&expensePayment.isAfter(today)
         ) {
       return true;
@@ -65,6 +69,7 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
   }
 
   @override
+
   List<TransactionModel> getTodayPayments({required bool isExpense}) {
 
     List<TransactionModel> todayList = [];
@@ -125,6 +130,7 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
     List<TransactionRepeatDetailsModel> noRepeatExpenses =
     getRepTransactionsByRep(repeat: AppStrings.monthly,isExpense: isExpense);
     for (var item in noRepeatExpenses) {
+
       if(noRepeatShowChecking(item)) {
         todayNoRepeatList.add(item.transactionModel);
       }
@@ -354,6 +360,4 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
       await deleteNoRepeatTransaction(theEditedNoRepeatExpense);
     }
   }
-
-
 }

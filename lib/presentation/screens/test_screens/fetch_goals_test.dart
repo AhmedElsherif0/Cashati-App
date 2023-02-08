@@ -20,6 +20,7 @@ class _FetchGoalsTestScreenState extends State<FetchGoalsTestScreen> {
   void initState() {
     BlocProvider.of<GoalsCubit>(context).fetchAllGoals();
     BlocProvider.of<GoalsCubit>(context).fetchRepeatedGoals();
+    super.initState();
   }
 
   @override
