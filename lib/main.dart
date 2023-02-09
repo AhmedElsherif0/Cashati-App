@@ -11,7 +11,6 @@ import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
-import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
@@ -25,7 +24,7 @@ import 'business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'business_logic/cubit/bloc_observer.dart';
 import 'business_logic/cubit/global_cubit/global_cubit.dart';
 import 'business_logic/cubit/home_cubit/home_cubit.dart';
-import 'business_logic/repository/expenses_repo/expenses_repo.dart';
+import 'business_logic/repository/transactions_repo/transaction_repo.dart';
 import 'data/local/cache_helper.dart';
 import 'data/local/hive/app_boxes.dart';
 import 'data/local/hive/hive_database.dart';
@@ -91,8 +90,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
-  final ExpenseRepository _expensesRepository = ExpensesRepositoryImpl();
-  final IncomeRepository _incomeRepository = IncomeRepositoryImpl();
+  final TransactionRepo _expensesRepository = ExpensesRepositoryImpl();
+  final TransactionRepo _incomeRepository = IncomeRepositoryImpl();
 
   @override
   void initState() {

@@ -6,15 +6,22 @@ import 'package:temp/data/models/transactions/transaction_types_model.dart';
 import '../../local/hive/hive_database.dart';
 import '../../models/transactions/transaction_details_model.dart';
 
-mixin MixinTransaction  {
+mixin MixinTransaction {
+  final TransactionRepeatTypes _expenseRepeatTypes = TransactionRepeatTypes();
+  final HiveHelper _hiveDatabase = HiveHelper();
 
-
-  final TransactionRepeatTypes expenseRepeatTypes = TransactionRepeatTypes();
-  final HiveHelper hiveDatabase = HiveHelper();
   /// should be convert to int...
-  final DateTime today = DateTime.now();
+  final DateTime _today = DateTime.now();
 
-  DateTime putNextShownDate(
+  HiveHelper get  hiveDatabase => _hiveDatabase;
+
+  get expenseRepeatTypes => _expenseRepeatTypes;
+
+  get today => _today;
+
+  get putNextShownDate => _putNextShownDate;
+
+  DateTime _putNextShownDate(
       {required DateTime paymentDate, required String repeatType}) {
     switch (repeatType) {
       case 'Daily':
@@ -44,7 +51,7 @@ mixin MixinTransaction  {
         return paymentDate;
 
       default:
-        return today;
+        return _today;
     }
   }
 
@@ -66,7 +73,7 @@ mixin MixinTransaction  {
     List<TransactionRepeatDetailsModel> repeatedTransactions = [];
     try {
       ///get box name first
-      Box<TransactionRepeatDetailsModel> expenseBox = hiveDatabase
+      Box<TransactionRepeatDetailsModel> expenseBox = _hiveDatabase
           .getBoxName<TransactionRepeatDetailsModel>(boxName: boxName);
 
       /// get data from box and assign it to dailyExpense List.

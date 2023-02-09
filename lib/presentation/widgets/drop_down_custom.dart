@@ -4,27 +4,27 @@ import 'package:temp/constants/app_icons.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
 class DropDownCustomWidget extends StatefulWidget {
-  const DropDownCustomWidget(
+  DropDownCustomWidget(
       {Key? key,
       required this.dropDownList,
       required this.hint,
       this.value,
       this.backgroundColor,
-      this.isExpanded =true,
+      this.isExpanded=true,
       this.icon,
-      this.leadingIcon ='',
+      this.leadingIcon='',
       this.arrowIconColor,
       this.hintStyle,
       required this.onChangedFunc})
       : super(key: key);
   final List<DropdownMenuItem<String>> dropDownList;
-  final String? value;
+  String? value;
   final String hint;
   final String? icon;
-  final String? leadingIcon;
+   String? leadingIcon='';
   final Color? backgroundColor;
   final Color? arrowIconColor;
-  final bool isExpanded;
+  final bool? isExpanded;
   final TextStyle? hintStyle;
   final Function(String) onChangedFunc;
 
@@ -43,13 +43,13 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
       child: DropdownButton<String>(
         style: TextStyle(color: AppColor.primaryColor),
         elevation: 0,
-        isExpanded:widget.isExpanded,
+        isExpanded:widget.isExpanded?? true,
         dropdownColor: Colors.white,
         borderRadius: BorderRadius.circular(20),
         underline: Divider(color:Colors.blueGrey.withOpacity(.1) ,),
 
         hint: Visibility(
-          visible:false,
+          visible: widget.leadingIcon!.isEmpty,
           child: Text(
           widget.hint,
           style:widget.hintStyle?? Theme.of(context)
@@ -77,7 +77,7 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
           widget.onChangedFunc(value!);
         },
         icon:
-           widget.isExpanded? SvgPicture.asset(widget.icon??AppIcons.downArrow, color: AppColor.primaryColor):
+           widget.isExpanded!? SvgPicture.asset(widget.icon??AppIcons.downArrow, color: AppColor.primaryColor):
            Padding(
              padding: const EdgeInsets.symmetric(horizontal: 10),
              child: SvgPicture.asset(widget.icon??AppIcons.downArrow, color: widget.arrowIconColor??AppColor.primaryColor),

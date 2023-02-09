@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/business_logic/repository/expenses_repo/expenses_repo.dart';
-import 'package:temp/business_logic/repository/income_repo/income_repo.dart';
+import 'package:temp/business_logic/repository/transactions_repo/transaction_repo.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/expenses_repo_impl/expenses_repo_impl.dart';
-import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 
 import '../../../data/models/transactions/transaction_details_model.dart';
 
@@ -23,17 +21,17 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
   List<TransactionRepeatDetailsModel> expenseDataDaily = [];
   List<TransactionModel> transactionsExpense = [];
   bool isExpense = true;
-  ExpenseRepository expenseRepository=ExpensesRepositoryImpl();
-  IncomeRepository incomeRepository=IncomeRepositoryImpl();
+  TransactionRepo expenseRepository=ExpensesRepositoryImpl();
+  TransactionRepo incomeRepository=ExpensesRepositoryImpl();
 
   @override
   void initState() {
 
     transactionsExpense =
-        expenseRepository.getExpensesFromTransactionBox();
+        expenseRepository.getTransactionFromTransactionBox(true);
 
     incomeData=
-        incomeRepository.getIncomeFromTransactionBox();
+        expenseRepository.getTransactionFromTransactionBox(false);
   }
 
   @override
@@ -50,7 +48,8 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
                   isExpense = !isExpense;
                 });
               },
-              child: Text('${isExpense ? 'Expenses' : 'Income'}')),
+              child: Text('${isExpense ? 'Show Income' : 'Show Expenses'}')),
+        Text('${isExpense ? 'Expenses List ' : 'Income List '}'),
           isExpense
               ? Expanded(
                   child: Padding(
@@ -67,12 +66,13 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
                               title: Text(
                                   '${transactionsExpense[index].name}'),
                               trailing: IconButton(
-                                  onPressed: () {
-                                    HiveHelper()
-                                        .getBoxName(
-                                            boxName:
-                                                AppBoxes.dailyTransactionsBoxName)
-                                        .delete(transactionsExpense[index]);
+                                  onPressed: () async{
+                                    await transactionsExpense[index].delete();
+                                    // HiveHelper()
+                                    //     .getBoxName(
+                                    //         boxName:
+                                    //             AppBoxes.dailyTransactionsBoxName)
+                                    //     .delete(transactionsExpense[index]);
                                    // expenseDataDaily[index].delete();
                                   },
                                   icon: const Icon(Icons.delete)),
