@@ -6,10 +6,11 @@ import 'package:timezone/timezone.dart' as tz;
 class NotificationsApi {
   static final _notificationPlugins = FlutterLocalNotificationsPlugin();
   static const _detailsIOS = DarwinNotificationDetails();
-  static StreamController rxDart = StreamController.broadcast();
+  static StreamController streamController = StreamController.broadcast();
 
   static initialize() async {
-    const initAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const initAndroid =
+    AndroidInitializationSettings('@drawable/success_confirmation');
     const initIOS = DarwinInitializationSettings();
     const initSettings =
         InitializationSettings(android: initAndroid, iOS: initIOS);
@@ -23,7 +24,7 @@ class NotificationsApi {
       const NotificationResponse(
           notificationResponseType:
               NotificationResponseType.selectedNotification);
-      rxDart.add(notificationResponse.payload);
+      streamController.add(notificationResponse.payload);
     }
   }
 
@@ -32,10 +33,14 @@ class NotificationsApi {
           channelDescription: 'channelSubTitle', importance: Importance.max),
       iOS: _detailsIOS);
 
-  Future showNotification({required NotificationsModel notifyModel}) async =>
-      await _notificationPlugins.show(notifyModel.id, notifyModel.title,
-          notifyModel.subTitle, await _notificationDetails(),
-          payload: notifyModel.payLoad);
+  Future showNotification({required NotificationsModel notifyModel}) async {
+    await _notificationPlugins.show(notifyModel.id, notifyModel.title,
+        notifyModel.subTitle, await _notificationDetails(),
+        payload: notifyModel.payLoad);
+  }
+
+  Future<void> cancelAllNotifications() async =>
+      await _notificationPlugins.cancelAll();
 
   Future showSpecificScheduledNotification(
           {required NotificationsModel notifyModel}) async {
@@ -64,7 +69,6 @@ class NotificationsApi {
         uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
-
   }
 
   tz.TZDateTime _scheduleDaily(DateTime time) {
@@ -74,7 +78,7 @@ class NotificationsApi {
 
     /// this condistion to check if the time not in the past.
     return scheduledDate.isBefore(now)
-        ? scheduledDate.add(const Duration(days: 1))
+        ? scheduledDate.add(const Duration(seconds: 10))
         : scheduledDate;
   }
 
@@ -85,7 +89,7 @@ class NotificationsApi {
 
     /// this condistion to check if the time not in the past.
     return scheduledDate.isBefore(now)
-        ? scheduledDate.add(const Duration(days: 1))
+        ? scheduledDate.add(const Duration(days: 7))
         : scheduledDate;
   }
 
@@ -100,6 +104,4 @@ class NotificationsApi {
   }
 */
 
-  Future<void> cancelAllNotifications() async =>
-      await _notificationPlugins.cancelAll();
 }
