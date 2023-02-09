@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(microseconds: 3), () {
+    /* Timer(const Duration(microseconds: 3), () {
       bool? onBoardingData =
           CacheHelper.getDataFromSharedPreference(key: 'onBoardDone');
       debugPrint('onBoarding is = $onBoardingData');
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
       }
-    });
+    });*/
   }
 
   @override
@@ -80,15 +80,18 @@ class _SplashScreenState extends State<SplashScreen> {
                               text: 'specific',
                               onPressed: () async {
                                 /// here we can add specific time
-                                await notifyApi.showSpecificScheduledNotification(
-                                    notifyModel: NotificationsModel(
-                                        id: 2,
-                                        title: 'saied',
-                                        subTitle:
-                                            'income Result from notification',
-                                        dateTime: DateTime.now()
-                                            .add(Duration(seconds: 10)),
-                                        payLoad: 'hello.0'));
+                                await notifyApi
+                                    .showSpecificScheduledNotification(
+                                  notifyModel: NotificationsModel(
+                                      id: 2,
+                                      title: 'saied',
+                                      subTitle:
+                                          'income Result from notification',
+                                      dateTime: DateTime.now().add(
+                                        Duration(seconds: 10),
+                                      ),
+                                      payLoad: 'hello.0'),
+                                );
                               }),
                         ),
                         Expanded(
@@ -102,7 +105,8 @@ class _SplashScreenState extends State<SplashScreen> {
                                           title: 'ashraf',
                                           subTitle:
                                               'Expense Result from notification',
-                                          dateTime: DateTime.now().toLocal(),
+                                          dateTime: DateTime.now()
+                                              .add(const Duration(seconds: 10)),
                                           payLoad: 'hello.0'));
                                   print('hello');
                                 })),

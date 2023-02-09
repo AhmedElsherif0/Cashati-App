@@ -7,6 +7,7 @@ import 'package:temp/presentation/styles/styles.dart';
 class AppTheme {
   static final AppStyle _appStyle = AppStyle();
   static ThemeData lightThemeMode = ThemeData(
+      pageTransitionsTheme: _pageTransitionsTheme(),
       colorScheme: const ColorScheme.light(
         primary: AppColor.primaryColor,
         onSurface: AppColor.pineGreen,
@@ -41,7 +42,6 @@ class AppTheme {
           textStyle: const TextStyle(color: AppColor.white),
         ),
       )
-
       // inputDecorationTheme: const InputDecorationTheme(
       //   enabledBorder: UnderlineInputBorder(
       //     borderSide: BorderSide(color: Colors.white),
@@ -51,4 +51,13 @@ class AppTheme {
       //   ),
       // ),
       );
+
+  static PageTransitionsTheme _pageTransitionsTheme() {
+    return const PageTransitionsTheme(
+      builders: <TargetPlatform, PageTransitionsBuilder>{
+        TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
+    );
+  }
 }

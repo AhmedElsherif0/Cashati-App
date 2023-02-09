@@ -99,7 +99,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
     super.initState();
   }
 
-  StreamSubscription _onClickNotify() => NotificationsApi.rxDart.stream.listen(
+  StreamSubscription _onClickNotify() => NotificationsApi.streamController.stream.listen(
       (event) => Navigator.pushReplacementNamed(
           context, AppRouterNames.rNotification));
 
