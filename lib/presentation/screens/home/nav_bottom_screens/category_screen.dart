@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
 import '../../../views/confirm_paying_goals.dart';
+import '../../../views/confirm_payment_tab_bar.dart';
 
-class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({Key? key}) : super(key: key);
+class ConfirmPayingScreen extends StatelessWidget {
+  const ConfirmPayingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +17,7 @@ class CategoryScreen extends StatelessWidget {
             flex: 3,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.sp),
-              child: ExpensesAndIncomeHeader(
-                onPressedIncome: () {},
-                onPressedExpense: () {},
-                incomeOrGoals: 'Goals',
-                isCategory: true,
-                alignmentExpense: Alignment.center,
-                alignmentIncomeOrGoals: Alignment.center,
+              child: ConfirmPaymentTabBar(
               ),
             ),
           ),
