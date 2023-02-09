@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    /* Timer(const Duration(microseconds: 3), () {
+     Timer(const Duration(microseconds: 3), () {
       bool? onBoardingData =
           CacheHelper.getDataFromSharedPreference(key: 'onBoardDone');
       debugPrint('onBoarding is = $onBoardingData');
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
       }
-    });*/
+    });
   }
 
   @override

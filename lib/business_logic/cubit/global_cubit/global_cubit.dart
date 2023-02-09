@@ -25,7 +25,7 @@ class GlobalCubit extends Cubit<GlobalState> {
 
   List<Widget> nextPage = [
     const HomeScreen(),
-    const CategoryScreen(),
+    const ConfirmPayingScreen(),
     const ExpensesStatisticsScreen(),
     const IncomeStatisticsScreen(),
     const SettingsScreen()

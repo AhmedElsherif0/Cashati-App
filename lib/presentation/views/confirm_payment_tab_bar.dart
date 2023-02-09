@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/presentation/widgets/tab_bar_icon_text.dart';
 import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
@@ -21,34 +22,22 @@ class _ConfirmPaymentTabBarState extends State<ConfirmPaymentTabBar>
     super.dispose();
   }
 
-  List<Widget> _widgets(index) {
-    return [
-      TabBarIconText(
-          svgIcon: AppIcons.expense,
-          name: 'Expense',
-          isClicked: _controller.index == index),
-      TabBarIconText(
-          svgIcon: AppIcons.incomeDrawer,
-          name: 'Income',
-          isClicked: _controller.index == index),
-      TabBarIconText(
-          svgIcon: AppIcons.goals,
-          name: 'Goals',
-          isClicked: _controller.index == index),
-    ];
-  }
+  List<String> _iconList(index) =>
+      [AppIcons.expense, AppIcons.incomeDrawer, AppIcons.goals];
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return TabBar(
-      tabs:
-          List.generate(3, (index) => _widgets(index)[index], growable: false),
-      onTap: (index) {
-        setState(() {
-          _controller.index == index;
-        });
-      },
+      tabs: List.generate(
+        3,
+        (index) => TabBarIconText(
+            svgIcon: _iconList(index)[index],
+            transactionType: TransactionType.values[index],
+            isClicked: _controller.index == index),
+        growable: false,
+      ),
+      onTap: (index) => setState(() => _controller.index == index),
       indicatorWeight: 2.sp,
       controller: _controller,
       labelStyle: textTheme.headline6,

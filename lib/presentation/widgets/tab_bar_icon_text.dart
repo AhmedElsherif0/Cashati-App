@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/constants/enum_classes.dart';
 
 import '../styles/colors.dart';
 
@@ -8,12 +9,12 @@ class TabBarIconText extends StatelessWidget {
   const TabBarIconText(
       {Key? key,
       required this.svgIcon,
-      required this.name,
+      required this.transactionType,
       required this.isClicked})
       : super(key: key);
 
   final String svgIcon;
-  final String name;
+  final TransactionType transactionType;
   final bool isClicked;
 
   @override
@@ -27,7 +28,7 @@ class TabBarIconText extends StatelessWidget {
             height: 40.sp,
             width: 40.sp,
             color: isClicked ? AppColor.primaryColor : AppColor.pinkishGrey),
-        Text(name,
+        Text(transactionType.name,
             style: isClicked
                 ? textTheme.headline6
                 : textTheme.headline6?.copyWith(color: AppColor.pinkishGrey))
