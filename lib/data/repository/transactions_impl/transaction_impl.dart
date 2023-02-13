@@ -16,7 +16,8 @@ class DailyTransaction extends ITransactions with MixinTransaction {
       creationDate: today,
       transactionModel: transactionModel,
       lastShownDate: putNextShownDate(
-          paymentDate: transactionModel.paymentDate, repeatType: 'Daily'),
+          paymentDate: transactionModel.paymentDate,
+          repeatType: transactionModel.repeatType),
       nextShownDate: transactionModel.paymentDate,
     );
 
@@ -73,7 +74,8 @@ class WeeklyTransaction extends ITransactions with MixinTransaction {
       creationDate: today,
       transactionModel: transactionModel,
       lastShownDate: putNextShownDate(
-          paymentDate: transactionModel.paymentDate, repeatType: 'Weekly'),
+          paymentDate: transactionModel.paymentDate,
+          repeatType: transactionModel.repeatType),
       nextShownDate: transactionModel.paymentDate,
     );
 
@@ -133,7 +135,8 @@ class MonthlyTransaction extends ITransactions with MixinTransaction {
       creationDate: today,
       transactionModel: transactionModel,
       lastShownDate: putNextShownDate(
-          paymentDate: transactionModel.paymentDate, repeatType: 'Monthly'),
+          paymentDate: transactionModel.paymentDate,
+          repeatType: transactionModel.repeatType),
       nextShownDate: transactionModel.paymentDate,
     );
 
@@ -190,7 +193,8 @@ class NoRepeatTransaction extends ITransactions with MixinTransaction {
       creationDate: today,
       transactionModel: transactionModel,
       lastShownDate: putNextShownDate(
-          paymentDate: transactionModel.paymentDate, repeatType: 'No Repeat'),
+          paymentDate: transactionModel.paymentDate,
+          repeatType: transactionModel.repeatType),
       nextShownDate: transactionModel.paymentDate,
     );
 

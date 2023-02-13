@@ -3,7 +3,7 @@ class AppStrings {
   static const String daily = 'Daily';
   static const String weekly = 'Weekly';
   static const String monthly = 'Monthly';
-  static const String noRepeat = 'NoRepeat';
+  static const String noRepeat = 'No Repeat';
   static const String settings = 'Settings';
   static const String categoriesSetting = 'Categories';
   static const String remindersSetting = 'Reminders';

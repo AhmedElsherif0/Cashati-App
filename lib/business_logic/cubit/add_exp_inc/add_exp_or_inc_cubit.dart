@@ -35,7 +35,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   final AppConstantList appList = AppConstantList();
 
 //  List<SubCategoryExpense> dataList=[] ;
-  String choseRepeat = 'Choose Repeat';
+  String choseRepeat = 'No Repeat';
   bool isRepeat = false;
   bool isImportant = false;
   CategoryTransactionRepo subCategoryRepo = ExpenseSubCategoryImpl();
@@ -44,11 +44,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   List<DropdownMenuItem<String>> dropDownChannelItems = [
     DropdownMenuItem(child: Text('Daily'), value: 'Daily'),
     DropdownMenuItem(child: Text('Weekly'), value: 'Weekly'),
-    DropdownMenuItem(
-      child: Text('Monthly'),
-      value: 'Monthly',
-    ),
-
+    DropdownMenuItem(child: Text('Monthly'), value: 'Monthly')
   ];
 
   final TransactionRepo _expensesRepository;
@@ -220,13 +216,11 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Kindly choose a subCategory ')));
     } else {
-     if(transactionModel.repeatType.contains('Choose')){
-       addExpense(repeat: 'No Repeat', expenseModel: transactionModel);
-
-     }else{
-       addExpense(repeat: choseRepeat, expenseModel: transactionModel);
-
-     }
+      if (transactionModel.repeatType.contains('No Repeat')) {
+        addExpense(repeat: 'No Repeat', expenseModel: transactionModel);
+      } else {
+        addExpense(repeat: choseRepeat, expenseModel: transactionModel);
+      }
     }
   }
 
@@ -246,8 +240,8 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   void addExpense(
       {required TransactionModel expenseModel, required String repeat}) {
     try {
-      _expensesRepository.addTransactionToTransactionBox(
-          transactionModel: expenseModel);
+      _expensesRepository.
+      addTransactionToTransactionBox( transactionModel: expenseModel);
       emit(AddExpOrIncSuccess());
     } catch (error) {
       print('${error.toString()}');
