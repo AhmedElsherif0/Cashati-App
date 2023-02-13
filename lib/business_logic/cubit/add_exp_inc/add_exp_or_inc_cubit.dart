@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
@@ -216,11 +215,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Kindly choose a subCategory ')));
     } else {
-      if (transactionModel.repeatType.contains('No Repeat')) {
-        addExpense(repeat: 'No Repeat', expenseModel: transactionModel);
-      } else {
-        addExpense(repeat: choseRepeat, expenseModel: transactionModel);
-      }
+      addExpense( expenseModel: transactionModel);
     }
   }
 
@@ -238,7 +233,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   }
 
   void addExpense(
-      {required TransactionModel expenseModel, required String repeat}) {
+      {required TransactionModel expenseModel}) {
     try {
       _expensesRepository.
       addTransactionToTransactionBox( transactionModel: expenseModel);
