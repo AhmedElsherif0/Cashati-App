@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
+import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
+import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import '../../../../constants/enum_classes.dart';
@@ -19,7 +21,6 @@ class ExpensesStatisticsScreen extends StatefulWidget {
 
 class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
   final PageController _controller = PageController(initialPage: 0);
-  DateTime _selectedDate = DateTime.now();
 
   @override
   void dispose() {
@@ -27,8 +28,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     super.dispose();
   }
 
-  ExpenseRepeatCubit getStatisticsCubit() =>
-      BlocProvider.of<ExpenseRepeatCubit>(context);
+  StatisticsCubit getStatisticsCubit() =>
+      BlocProvider.of<StatisticsCubit>(context);
 
   void showDatePick() async {
     final datePicker = await showDatePicker(
@@ -38,8 +39,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
       lastDate: DateTime(2100),
     );
     if (datePicker == null) return;
-    _selectedDate =datePicker;
-    print(' selectedDate : $_selectedDate');
+   // getStatisticsCubit().choosenDay = datePicker;
+    getStatisticsCubit().getExpensesByDay(datePicker);
   }
 
   @override
@@ -47,57 +48,71 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     ExpensesLists expensesLists = ExpensesLists();
     int currentIndex = 0;
     return Scaffold(
-      body: Directionality(
-        textDirection: TextDirection.ltr,
-        child: PageView.builder(
-          controller: _controller,
-          onPageChanged: (index) => setState(() => currentIndex = index),
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            final list = expensesLists.expensesData[index];
-            return Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4.w),
-                child: Column(
-                  children: [
-                    CustomElevatedButton(
-                      onPressed: () => showDatePick(),
-                      text: 'Choose Day',
-                      textStyle: Theme.of(context).textTheme.subtitle1,
-                      backgroundColor: AppColor.white,
-                      width: 40.w,
-                      borderRadius: 8.sp,
-                    ),
-                    const Spacer(),
-                    FlowChartView(
-                        index: index,
-                        priorityType: PriorityType.Important,
-                        notPriority: PriorityType.NotImportant,
-                        expensesModel: list),
+      body: BlocBuilder<StatisticsCubit, StatisticsState>(
+        builder: (context, state) {
+          return Directionality(
+            textDirection: TextDirection.ltr,
+            child: PageView.builder(
+              controller: _controller,
+              onPageChanged: (index) => setState(() => currentIndex = index),
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                final list = expensesLists.expensesData[index];
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                    child: Column(
+                      children: [
+                        CustomElevatedButton(
+                          onPressed: () => showDatePick(),
+                          text: '${getStatisticsCubit().choosenDay.day} \\ ${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}',
+                          textStyle: Theme.of(context).textTheme.subtitle1,
+                          backgroundColor: AppColor.white,
+                          width: 40.w,
+                          borderRadius: 8.sp,
+                        ),
+                        const Spacer(),
+                        FlowChartView(
+                            index: index,
+                            priorityType: PriorityType.Important,
+                            notPriority: PriorityType.NotImportant,
+                            expensesModel: list),
 
-                    /// TabBarView Widgets.
-                    Expanded(
-                      flex: 40,
-                      child:
-                          BlocBuilder<ExpenseRepeatCubit, ExpenseRepeatState>(
-                        builder: (context, state) {
-                          // Todo:: taken a different list verses the ExpenseList.
-                          return CustomTabBarView(
-                              priorityName: PriorityType.Important,
-                              expenseDetailsList:
-                              getStatisticsCubit().getExpenseTypeList(),
-                              currentIndex: currentIndex,
-                              index: index,
-                              pageController: _controller);
-                        },
-                      ),
+                        /// TabBarView Widgets.
+                        Expanded(
+                            flex: 40,
+                            child:
+                                ListView.builder(
+                                    itemCount: getStatisticsCubit().byDayList.length,
+                                    itemBuilder: (context, index) {
+                                      TransactionModel item =getStatisticsCubit().byDayList[index];
+                              return ExpansionTile(
+                                title: Text(item.name),
+                                children: [
+                                  Text('${item.paymentDate}'),
+                                ]
+
+                              );
+                            })
+
+                            // Todo:: taken a different list verses the ExpenseList.
+                            // return CustomTabBarView(
+                            //     priorityName: PriorityType.Important,
+                            //     expenseDetailsList:
+                            //     getStatisticsCubit().getExpensesByDay(),
+                            //     currentIndex: currentIndex,
+                            //     index: index,
+                            //     pageController: _controller);
+
+                            ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }

@@ -11,6 +11,7 @@ import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
+import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
@@ -124,6 +125,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
             create: ((context) => IncomeRepeatCubit(_incomeRepository))),
         BlocProvider(create: ((context) => AddSubcategoryCubit())),
         BlocProvider(create: ((context) => GoalsCubit())),
+        BlocProvider(create: ((context) => StatisticsCubit(_expensesRepository))),
       ],
       child: BlocConsumer<GlobalCubit, GlobalState>(
         listener: (context, state) {},
