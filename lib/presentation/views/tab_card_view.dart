@@ -103,7 +103,7 @@ class TabCardView extends StatelessWidget {
                                         SizedBox(height: 2.h),
                                         Align(
                                           alignment: Alignment.centerLeft,
-                                          child: Text('No Repeat',
+                                          child: Text(expenseModel.repeatType,
                                               style: textTheme.subtitle1),
                                         ),
                                       ],

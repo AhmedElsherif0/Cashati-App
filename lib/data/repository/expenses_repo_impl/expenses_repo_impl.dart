@@ -18,13 +18,18 @@ class ExpensesRepositoryImpl with MixinTransaction implements TransactionRepo {
         .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
     if (isEqualToday(date: transactionModel.paymentDate)) {
       print(
-          'is equal today in if ?${isEqualToday(date: transactionModel.paymentDate)}');
+          'is equal today in if ?'
+              '${isEqualToday(date: transactionModel.paymentDate)}');
       // await allExpensesModel.add(expenseModel);
-      await allExpensesModel.put(transactionModel.id, transactionModel);
-      print(
-          "name of the value added by  key is ${allExpensesModel.get(transactionModel.id)!.name} and key is ${allExpensesModel.get(transactionModel.id)!.id}");
 
       addTransactions(transaction: transactionModel);
+
+      await allExpensesModel.put(transactionModel.id, transactionModel);
+      print(
+          "name of the value added by  key is "
+              "${allExpensesModel.get(transactionModel.id)!.name} "
+              "and key is ${allExpensesModel.get(transactionModel.id)!.id}");
+
     } else {
       print(
           'is  equal today in else  ?${isEqualToday(date: transactionModel.paymentDate)}');
@@ -60,7 +65,6 @@ class ExpensesRepositoryImpl with MixinTransaction implements TransactionRepo {
       MonthlyTransaction().getRepeatedTransactions(isExpense: true),
       NoRepeatTransaction().getRepeatedTransactions(isExpense: true),
     ];
-
     return expenseTypesList[currentIndex];
   }
 

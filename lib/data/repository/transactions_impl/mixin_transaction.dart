@@ -13,7 +13,7 @@ mixin MixinTransaction {
   /// should be convert to int...
   final DateTime _today = DateTime.now();
 
-  HiveHelper get  hiveDatabase => _hiveDatabase;
+  HiveHelper get hiveDatabase => _hiveDatabase;
 
   get expenseRepeatTypes => _expenseRepeatTypes;
 
@@ -57,8 +57,8 @@ mixin MixinTransaction {
 
   bool isEqualToday({required DateTime date}) {
     return (today.day == date.day &&
-        today.month == date.month &&
-        today.year == date.year)
+            today.month == date.month &&
+            today.year == date.year)
         ? true
         : false;
   }
@@ -69,7 +69,8 @@ mixin MixinTransaction {
   }
 
   /// box is already opened..now you can handle the data as you can.
-  List<TransactionRepeatDetailsModel> getRepeatedTransByBoxName(String boxName) {
+  List<TransactionRepeatDetailsModel> getRepeatedTransByBoxName(
+      String boxName) {
     List<TransactionRepeatDetailsModel> repeatedTransactions = [];
     try {
       ///get box name first
@@ -84,19 +85,26 @@ mixin MixinTransaction {
     }
     return repeatedTransactions;
   }
- List<TransactionRepeatDetailsModel> getRepTransactionsByRep({required String repeat,required isExpense}){
-    switch(repeat){
-      case(AppStrings.daily):
-        return getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName).where((element) => element.transactionModel.isExpense==isExpense).toList();
-      case(AppStrings.weekly):
-        return getRepeatedTransByBoxName(AppBoxes.weeklyTransactionsBoxName).where((element) => element.transactionModel.isExpense==isExpense).toList();
-      case(AppStrings.monthly):
-        return getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName).where((element) => element.transactionModel.isExpense==isExpense).toList();
-      case(AppStrings.noRepeat):
-        return getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName).where((element) => element.transactionModel.isExpense==isExpense).toList();
-        default:
-          return getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName).where((element) => element.transactionModel.isExpense==isExpense).toList();
 
+  List<TransactionRepeatDetailsModel> getRepTransactionsByRep(
+      {required String repeat, required isExpense}) {
+    switch (repeat) {
+      case (AppStrings.daily):
+        return getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName)
+            .where((element) => element.transactionModel.isExpense == isExpense)
+            .toList();
+      case (AppStrings.weekly):
+        return getRepeatedTransByBoxName(AppBoxes.weeklyTransactionsBoxName)
+            .where((element) => element.transactionModel.isExpense == isExpense)
+            .toList();
+      case (AppStrings.monthly):
+        return getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName)
+            .where((element) => element.transactionModel.isExpense == isExpense)
+            .toList();
+      default:
+        return  getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
+            .where((element) => element.transactionModel.isExpense == isExpense)
+            .toList();
     }
   }
 }
