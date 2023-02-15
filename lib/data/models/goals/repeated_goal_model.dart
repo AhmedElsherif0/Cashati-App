@@ -3,7 +3,7 @@ import 'goal_model.dart';
 
 part 'repeated_goal_model.g.dart';
 
-@HiveType(typeId: 10)
+@HiveType(typeId: 4)
 class GoalRepeatedDetailsModel extends HiveObject{
   GoalRepeatedDetailsModel();
 

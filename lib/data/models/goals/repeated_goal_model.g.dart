@@ -6,9 +6,10 @@ part of 'repeated_goal_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class GoalRepeatedDetailsModelAdapter extends TypeAdapter<GoalRepeatedDetailsModel> {
+class GoalRepeatedDetailsModelAdapter
+    extends TypeAdapter<GoalRepeatedDetailsModel> {
   @override
-  final int typeId = 10;
+  final int typeId = 4;
 
   @override
   GoalRepeatedDetailsModel read(BinaryReader reader) {

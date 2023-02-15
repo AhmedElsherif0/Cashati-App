@@ -20,4 +20,5 @@ class AppStrings {
   static const String currencyEgp = 'EGP - Egyptian Pound';
   static const String moreInfoSetting = 'More Settings';
   static const String appInfoSetting = 'App Info';
+  static const String theOnlyGeneralStatsModelID = 'OnlyID';
 }
