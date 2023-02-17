@@ -21,4 +21,5 @@ class AppStrings {
   static const String moreInfoSetting = 'More Settings';
   static const String appInfoSetting = 'App Info';
   static const String theOnlyGeneralStatsModelID = 'OnlyID';
+  static const String generalStatisticsBox = 'generalStatisticsBox';
 }

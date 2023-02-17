@@ -16,15 +16,14 @@ class GeneralStatsModelAdapter extends TypeAdapter<GeneralStatsModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return GeneralStatsModel(
-      balance: fields[0] as num,
-      topIncome: fields[1] as String,
-      topIncomeAmount: fields[2] as num,
-      topExpense: fields[3] as String,
-      topExpenseAmount: fields[4] as num,
-      latestCheck: fields[5] as DateTime,
-      notificationList: (fields[6] as List).cast<NotificationModel>(),
-    );
+    return GeneralStatsModel()
+      ..balance = fields[0] as num
+      ..topIncome = fields[1] as String
+      ..topIncomeAmount = fields[2] as num
+      ..topExpense = fields[3] as String
+      ..topExpenseAmount = fields[4] as num
+      ..latestCheck = fields[5] as DateTime
+      ..notificationList = (fields[6] as List).cast<NotificationModel>();
   }
 
   @override

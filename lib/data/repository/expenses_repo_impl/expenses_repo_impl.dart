@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
+import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 
 import '../../../business_logic/repository/transactions_repo/transaction_repo.dart';
@@ -8,8 +9,10 @@ import '../../models/transactions/transaction_details_model.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
-class ExpensesRepositoryImpl with MixinTransaction implements TransactionRepo {
+class ExpensesRepositoryImpl extends GeneralStatsRepoImpl with MixinTransaction implements TransactionRepo {
   ExpensesRepositoryImpl();
+
+
 
   @override
   Future<void> addTransactionToTransactionBox(
@@ -24,7 +27,12 @@ class ExpensesRepositoryImpl with MixinTransaction implements TransactionRepo {
 
       addTransactions(transaction: transactionModel);
 
-      await allExpensesModel.put(transactionModel.id, transactionModel);
+      await allExpensesModel.put(transactionModel.id, transactionModel).then(
+              (_) {
+                if(transactionModel.amount==allExpensesModel.get(transactionModel.id)?.amount){
+                  super.minusBalance(amount:transactionModel.amount!);
+                }
+              });
       print(
           "name of the value added by  key is "
               "${allExpensesModel.get(transactionModel.id)!.name} "

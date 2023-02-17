@@ -4,7 +4,8 @@ part 'general_stats_model.g.dart';
 
 @HiveType(typeId: 7)
 class GeneralStatsModel extends HiveObject {
-  GeneralStatsModel(
+  GeneralStatsModel();
+  GeneralStatsModel.copyWith(
       {required this.balance,
       required this.topIncome,
       required this.topIncomeAmount,
