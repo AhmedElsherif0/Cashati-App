@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'goal_model.g.dart';
 
-@HiveType(typeId: 8)
+@HiveType(typeId: 3)
 class GoalModel extends HiveObject{
   GoalModel();
 

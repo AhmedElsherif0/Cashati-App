@@ -11,9 +11,13 @@ import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
+import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
+import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
+import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
+import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 import 'package:temp/notificationsApi.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
@@ -52,6 +56,7 @@ Future<void> main() async {
   Hive.registerAdapter(SubCategoryAdapter());
   Hive.registerAdapter(GoalModelAdapter());
   Hive.registerAdapter(GoalRepeatedDetailsModelAdapter());
+  Hive.registerAdapter(GeneralStatsModelAdapter());
 
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
       boxName: AppBoxes.dailyTransactionsBoxName);
@@ -69,6 +74,9 @@ Future<void> main() async {
       .openBox<GoalModel>(boxName: AppBoxes.goalModel);
   await HiveHelper()
       .openBox<GoalRepeatedDetailsModel>(boxName: AppBoxes.goalRepeatedBox);
+  await HiveHelper()
+      .openBox<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsModel);
+
 
   BlocOverrides.runZoned(
     () async {
@@ -92,6 +100,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
   final TransactionRepo _expensesRepository = ExpensesRepositoryImpl();
   final TransactionRepo _incomeRepository = IncomeRepositoryImpl();
+  final GeneralStatsRepo _generalStatsModel=GeneralStatsRepoImpl();
 
   @override
   void initState() {
@@ -114,7 +123,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: ((context) => GlobalCubit())),
-        BlocProvider(create: ((context) => HomeCubit())),
+        BlocProvider(create: ((context) => HomeCubit(_generalStatsModel)..addTheGeneralStatsModel())),
         BlocProvider(
             create: ((context) =>
                 AddExpOrIncCubit(_expensesRepository, _incomeRepository))),
@@ -124,6 +133,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
             create: ((context) => IncomeRepeatCubit(_incomeRepository))),
         BlocProvider(create: ((context) => AddSubcategoryCubit())),
         BlocProvider(create: ((context) => GoalsCubit())),
+        BlocProvider(create: ((context) => StatisticsCubit(_expensesRepository))),
       ],
       child: BlocConsumer<GlobalCubit, GlobalState>(
         listener: (context, state) {},
