@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
+import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
@@ -277,6 +278,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                               createdDate: DateTime.now(),
                               paymentDate: addExpOrIncCubit.chosenDate ?? DateTime.now()),
                       );
+                      BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
                     },
                     child: const Text('Add'),
                   ),

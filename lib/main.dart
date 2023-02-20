@@ -15,6 +15,7 @@ import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart
 import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
+import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
@@ -29,6 +30,7 @@ import 'business_logic/cubit/bloc_observer.dart';
 import 'business_logic/cubit/global_cubit/global_cubit.dart';
 import 'business_logic/cubit/home_cubit/home_cubit.dart';
 import 'business_logic/repository/transactions_repo/transaction_repo.dart';
+import 'constants/app_strings.dart';
 import 'data/local/cache_helper.dart';
 import 'data/local/hive/app_boxes.dart';
 import 'data/local/hive/hive_database.dart';
@@ -49,33 +51,36 @@ Future<void> main() async {
   );
 
   await Hive.initFlutter();
-
-  Hive.registerAdapter(TransactionModelAdapter());
-  Hive.registerAdapter(TransactionRepeatTypesAdapter());
-  Hive.registerAdapter(TransactionRepeatDetailsModelAdapter());
-  Hive.registerAdapter(SubCategoryAdapter());
-  Hive.registerAdapter(GoalModelAdapter());
-  Hive.registerAdapter(GoalRepeatedDetailsModelAdapter());
   Hive.registerAdapter(GeneralStatsModelAdapter());
 
+   Hive.registerAdapter(TransactionModelAdapter());
+   Hive.registerAdapter(TransactionRepeatTypesAdapter());
+   Hive.registerAdapter(TransactionRepeatDetailsModelAdapter());
+   Hive.registerAdapter(SubCategoryAdapter());
+   Hive.registerAdapter(GoalModelAdapter());
+   Hive.registerAdapter(GoalRepeatedDetailsModelAdapter());
+  Hive.registerAdapter(NotificationModelAdapter());
+
+
+  await Hive.openBox<GeneralStatsModel>(AppStrings.generalStatisticsBox);
+
   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-      boxName: AppBoxes.dailyTransactionsBoxName);
-  await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-      boxName: AppBoxes.weeklyTransactionsBoxName);
-  await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-      boxName: AppBoxes.monthlyTransactionsBoxName);
-  await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-      boxName: AppBoxes.noRepeaTransactionsBoxName);
-  await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
-  await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
-  await HiveHelper()
-      .openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
-  await HiveHelper()
-      .openBox<GoalModel>(boxName: AppBoxes.goalModel);
-  await HiveHelper()
-      .openBox<GoalRepeatedDetailsModel>(boxName: AppBoxes.goalRepeatedBox);
-  await HiveHelper()
-      .openBox<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsModel);
+       boxName: AppBoxes.dailyTransactionsBoxName);
+   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
+       boxName: AppBoxes.weeklyTransactionsBoxName);
+   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
+       boxName: AppBoxes.monthlyTransactionsBoxName);
+   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
+       boxName: AppBoxes.noRepeaTransactionsBoxName);
+   await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
+   await HiveHelper()
+       .openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
+   await HiveHelper()
+       .openBox<GoalModel>(boxName: AppBoxes.goalModel);
+   await HiveHelper()
+       .openBox<GoalRepeatedDetailsModel>(boxName: AppBoxes.goalRepeatedBox);
+
+
 
 
   BlocOverrides.runZoned(
@@ -104,6 +109,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
 
   @override
   void initState() {
+   // HiveHelper().openBox<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsModel);
     _onClickNotify();
     super.initState();
   }
@@ -123,7 +129,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: ((context) => GlobalCubit())),
-        BlocProvider(create: ((context) => HomeCubit(_generalStatsModel)..addTheGeneralStatsModel())),
+        BlocProvider(create: ((context) => HomeCubit(_generalStatsModel)..getTheGeneralStatsModel())),
         BlocProvider(
             create: ((context) =>
                 AddExpOrIncCubit(_expensesRepository, _incomeRepository))),
@@ -144,6 +150,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
                 print(constraints.maxWidth);
                 statusBarConfig();
                 return MaterialApp(
+                  title: 'Cashati',
                   theme: AppTheme.lightThemeMode,
                   debugShowCheckedModeBanner: false,
                   localizationsDelegates: translator.delegates,

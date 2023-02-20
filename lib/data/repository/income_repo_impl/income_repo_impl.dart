@@ -3,12 +3,13 @@ import 'package:temp/business_logic/repository/transactions_repo/transaction_rep
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
+import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
-class IncomeRepositoryImpl with MixinTransaction implements TransactionRepo {
+class IncomeRepositoryImpl extends GeneralStatsRepoImpl with MixinTransaction  implements TransactionRepo {
 
   IncomeRepositoryImpl();
 
@@ -43,7 +44,12 @@ class IncomeRepositoryImpl with MixinTransaction implements TransactionRepo {
     if (isEqualToday(date: transactionModel.paymentDate)) {
       print('is equal today in if ?${isEqualToday(date: transactionModel.paymentDate)}');
       // await allExpensesModel.add(expenseModel);
-      await allIncomeBox.put(transactionModel.id,transactionModel);
+      await allIncomeBox.put(transactionModel.id,transactionModel).then(
+              (_) {
+            if(transactionModel.amount==allIncomeBox.get(transactionModel.id)?.amount){
+              super.plusBalance(amount:transactionModel.amount!);
+            }
+          });
       print("name of the value added by  key is ${allIncomeBox.get(transactionModel.id)!.name} and key is ${allIncomeBox.get(transactionModel.id)!.id}");
 
       addTransactions(
