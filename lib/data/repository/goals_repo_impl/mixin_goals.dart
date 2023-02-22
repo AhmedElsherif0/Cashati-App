@@ -338,4 +338,5 @@ mixin MixinGoals {
     await addGoalToBoxFromRepeatedBox(
         currentGoal: theMatchingMonthlyExpenseModel.goal, newAmount: NewAmount);
   }
+
 }

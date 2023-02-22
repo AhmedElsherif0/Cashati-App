@@ -51,6 +51,53 @@ mixin AlertDialogMixin {
       ],
     );
   }
+  void showSuccessfulDialogNoOptions(
+      BuildContext context, String title, String message) {
+
+    _customAlertDialog(
+      context: context,
+      title: title,
+      actionButton: [
+        DecoratedBox(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.sp)),
+          child: AnimatedContainer(
+          //  transform: Matrix4.rotationY(30),
+            duration: Duration(milliseconds: 400),
+            curve: Curves.easeInToLinear,
+            height: 30.h,
+            width: 70.w,
+            child: Center(
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child:
+                    SvgPicture.asset('assets/icons/successfully_added.svg'),
+                  ),
+                  const Spacer(flex: 2),
+                  Expanded(
+                    flex: 3,
+                    child: Wrap(
+                      children: [
+                        Text(message,
+                            style: Theme.of(context).textTheme.headline4)
+                      ],
+                    ),
+                  ),
+                  // CustomTextButton(
+                  //   alignment: Alignment.bottomRight,
+                  //   icon: Icons.arrow_back_ios,
+                  //   onPressed: () => Navigator.of(context).pop(),
+                  //   text: 'Back',
+                  // ),
+                ],
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
 
   void showLoadingDialog(BuildContext context) {
     showGeneralDialog(
@@ -64,8 +111,8 @@ mixin AlertDialogMixin {
             Animation secondaryAnimation) {
           return Center(
             child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+            //  width: MediaQuery.of(context).size.width/2,
+              //height: MediaQuery.of(context).size.height,
               color: Colors.white,
               child: Center(
                 child: Column(
@@ -203,6 +250,13 @@ mixin AlertDialogMixin {
           );
         });
   }
+
+  errorSnackBar({required BuildContext context,required String message}){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message,
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColor.white),
+    ),duration: Duration(seconds: 2),
+      backgroundColor: Colors.red,padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),));
+  }
 }
 
 /// This uses a platform-appropriate mechanism to show users multiple choices.
@@ -265,4 +319,7 @@ void _customAlertDialog(
     default:
       assert(false, 'Unexpected platform $defaultTargetPlatform');
   }
+
+
+
 }

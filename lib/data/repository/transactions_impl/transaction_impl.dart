@@ -5,7 +5,7 @@ import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 import '../../local/hive/app_boxes.dart';
 import '../../../business_logic/repository/transactions_repo/transactions_interface.dart';
 
-class DailyTransaction extends ITransactions with MixinTransaction {
+class DailyTransaction  with MixinTransaction implements ITransactions {
   @override
   Future<void> addTransactionToRepeatedBox(
       TransactionModel transactionModel) async {

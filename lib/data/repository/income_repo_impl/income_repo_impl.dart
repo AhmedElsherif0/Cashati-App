@@ -9,7 +9,7 @@ import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
-class IncomeRepositoryImpl extends GeneralStatsRepoImpl with MixinTransaction  implements TransactionRepo {
+class IncomeRepositoryImpl with GeneralStatsRepoImpl , MixinTransaction  implements TransactionRepo {
 
   IncomeRepositoryImpl();
 

@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
-import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/subcategory_choice.dart';
+import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
 import 'package:temp/presentation/widgets/editable_text.dart';
+import 'package:temp/presentation/widgets/show_dialog.dart';
 import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import '../../router/app_router_names.dart';
 import 'choose_container.dart';
@@ -23,7 +24,8 @@ class AddExpenseWidget extends StatefulWidget {
   _AddExpenseWidgetState createState() => _AddExpenseWidgetState();
 }
 
-class _AddExpenseWidgetState extends State<AddExpenseWidget> {
+class _AddExpenseWidgetState extends State<AddExpenseWidget>
+    with AlertDialogMixin {
   DateTime? choosedDate;
 
   TextEditingController amountCtrl = TextEditingController();
@@ -38,7 +40,6 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
     print(
         'Icon Add Code Point ${Icons.add.codePoint}, Color ${Colors.indigo.value}');
   }
-
 
   @override
   void dispose() {
@@ -87,7 +88,16 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
             mainCategoryName: mainCategoryName,
           ),
         ),
-        BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
+        BlocConsumer<AddExpOrIncCubit, AddExpOrIncState>(
+          listener: (context,state){
+            if (state is AddExpOrIncSuccess) {
+              showSuccAndNavigate(context);
+            } else if(state is AddExpOrIncError){
+              errorSnackBar(context: context,message: 'Kindly Try again , and contact us !');
+
+
+            }
+          },
           builder: (context, state) {
             return Visibility(
               visible: addExpOrIncCubit.currentMainCat == mainCategoryName,
@@ -143,7 +153,9 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                   ),
                   Container(
                       width: 270,
-                      child: DateChooseContainer(dateTime: addExpOrIncCubit.chosenDate)),
+                      child: DateChooseContainer(
+                        dateTime: addExpOrIncCubit.chosenDate,
+                      )),
                   SizedBox(
                     height: 10,
                   ),
@@ -163,25 +175,21 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                     width: 250,
                     child: Row(
                       children: [
-                        BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
-                          builder: (context, state) {
-                            return SizedBox(
-                              height: 30,
-                              width: 40,
-                              child: Checkbox(
-                                value: addExpOrIncCubit.isImportant,
-                                onChanged: addExpOrIncCubit.isImportantOrNo,
-                                hoverColor: AppColor.primaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                activeColor: AppColor.white,
-                                checkColor: AppColor.white,
-                                fillColor: MaterialStateProperty.all(
-                                    AppColor.primaryColor),
-                              ),
-                            );
-                          },
+                        SizedBox(
+                          height: 30,
+                          width: 40,
+                          child: Checkbox(
+                            value: addExpOrIncCubit.isImportant,
+                            onChanged: addExpOrIncCubit.isImportantOrNo,
+                            hoverColor: AppColor.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            activeColor: AppColor.white,
+                            checkColor: AppColor.white,
+                            fillColor: MaterialStateProperty.all(
+                                AppColor.primaryColor),
+                          ),
                         ),
                         SizedBox(
                           width: 10,
@@ -203,25 +211,21 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                     width: 250,
                     child: Row(
                       children: [
-                        BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
-                          builder: (context, state) {
-                            return SizedBox(
-                              height: 30,
-                              width: 40,
-                              child: Checkbox(
-                                value: addExpOrIncCubit.isRepeat,
-                                onChanged: addExpOrIncCubit.isRepeatOrNo,
-                                hoverColor: AppColor.primaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                activeColor: AppColor.white,
-                                checkColor: AppColor.white,
-                                fillColor: MaterialStateProperty.all(
-                                    AppColor.primaryColor),
-                              ),
-                            );
-                          },
+                        SizedBox(
+                          height: 30,
+                          width: 40,
+                          child: Checkbox(
+                            value: addExpOrIncCubit.isRepeat,
+                            onChanged: addExpOrIncCubit.isRepeatOrNo,
+                            hoverColor: AppColor.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            activeColor: AppColor.white,
+                            checkColor: AppColor.white,
+                            fillColor: MaterialStateProperty.all(
+                                AppColor.primaryColor),
+                          ),
                         ),
                         SizedBox(
                           width: 10,
@@ -239,48 +243,47 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
                   SizedBox(
                     height: 10,
                   ),
-                  BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
-                    builder: (context, state) {
-                      return Visibility(
-                        visible: addExpOrIncCubit.isRepeat,
-                        child: Container(
-                          width: 270,
-                          child: DropDownCustomWidget(
-                            leadingIcon: '',
-                              dropDownList:
-                                  addExpOrIncCubit.dropDownChannelItems,
-                              hint: addExpOrIncCubit.choseRepeat,
-                              onChangedFunc: addExpOrIncCubit.chooseRepeat),
-                        ),
-                        replacement: SizedBox(),
-                      );
-                    },
+                  Visibility(
+                    visible: addExpOrIncCubit.isRepeat,
+                    child: Container(
+                      width: 270,
+                      child: DropDownCustomWidget(
+                          leadingIcon: '',
+                          dropDownList: addExpOrIncCubit.dropDownChannelItems,
+                          hint: addExpOrIncCubit.choseRepeat,
+                          onChangedFunc: addExpOrIncCubit.chooseRepeat),
+                    ),
+                    replacement: SizedBox(),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  ElevatedButton(
+                  CustomElevatedButton(
                     onPressed: () {
-                      addExpOrIncCubit.validateExpenseFields(context,amountCtrl.text,
-                          TransactionModel.expense(
-                              id: GUIDGen.generate(),
-                              name: nameCtrl.text,
-                              amount: amountCtrl.text.isNotEmpty?num.parse(amountCtrl.text):0,
-                              comment: amountCtrl.text,
-                              repeatType: addExpOrIncCubit.choseRepeat,
-                              mainCategory:addExpOrIncCubit.currentMainCat,
-                              isAddAuto: false,
-                              isPriority: addExpOrIncCubit.isImportant,
-                              subCategory: addExpOrIncCubit.subCatName,
-                              isExpense: true,
-                              //isPaid: choosedDate!.day==DateTime.now()?true:false,
-                              isProcessing: false,
-                              createdDate: DateTime.now(),
-                              paymentDate: addExpOrIncCubit.chosenDate ?? DateTime.now()),
+                      addExpOrIncCubit.validateExpenseFields(
+                        context,
+                         TransactionModel.expense(
+                            id: GUIDGen.generate(),
+                            name: nameCtrl.text,
+                            amount: amountCtrl.text.isNotEmpty
+                                ? num.parse(amountCtrl.text)
+                                : 0,
+                            comment: amountCtrl.text,
+                            repeatType: addExpOrIncCubit.choseRepeat,
+                            mainCategory: addExpOrIncCubit.currentMainCat,
+                            isAddAuto: false,
+                            isPriority: addExpOrIncCubit.isImportant,
+                            subCategory: addExpOrIncCubit.subCatName,
+                            isExpense: true,
+                            //isPaid: choosedDate!.day==DateTime.now()?true:false,
+                            isProcessing: false,
+                            createdDate: DateTime.now(),
+                            paymentDate:
+                                addExpOrIncCubit.chosenDate ?? DateTime.now()),
+
                       );
-                      BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
                     },
-                    child: const Text('Add'),
+                    text: 'Add',
                   ),
                 ],
               ),
@@ -301,53 +304,62 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
           itemCount: subCatsList.length,
           scrollDirection: Axis.horizontal,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-
               crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
           itemBuilder: (context, index) {
             //addExpOrIncCubit.fitRandomColors().shuffle();
 
-            return BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
+            return Visibility(
+              visible: index != subCatsList.length - 1,
+              child: InkWell(
+                  onTap: () {
+                    BlocProvider.of<AddSubcategoryCubit>(context)
+                            .currentMainCategory =
+                        BlocProvider.of<AddExpOrIncCubit>(context)
+                            .currentMainCat;
+                    //TODO assign transaction type , if it is expense or income
+                    BlocProvider.of<AddSubcategoryCubit>(context)
+                            .transactionType =
+                        addExpOrIncCubit.isExpense ? 'Expense' : 'Income';
+                    addExpOrIncCubit.chooseCategory(subCatsList[index]);
+                  },
+                  child: SubCategoryChoice(
+                    color: addExpOrIncCubit.fitRandomColors(subCatsList)[index],
+                    currentID: addExpOrIncCubit.currentID,
+                    subCategory: subCatsList[index],
+                  )),
+              replacement: InkWell(
+                  onTap: () {
+                    BlocProvider.of<AddSubcategoryCubit>(context)
+                            .currentMainCategory =
+                        BlocProvider.of<AddExpOrIncCubit>(context)
+                            .currentMainCat;
 
-              builder: (context, state) {
-                return Visibility(
-                  visible: index != subCatsList.length - 1,
-                  child: InkWell(
-                      onTap: () {
-
-                        BlocProvider.of<AddSubcategoryCubit>(context)
-                                .currentMainCategory =
-                            BlocProvider.of<AddExpOrIncCubit>(context)
-                                .currentMainCat;
-                        //TODO assign transaction type , if it is expense or income
-                        BlocProvider.of<AddSubcategoryCubit>(context)
-                                .transactionType =
-                            addExpOrIncCubit.isExpense ? 'Expense' : 'Income';
-                        addExpOrIncCubit.chooseCategory(subCatsList[index]);
-                      },
-                      child: SubCategoryChoice(
-                        color: addExpOrIncCubit.fitRandomColors(subCatsList)[index],
-                        currentID: addExpOrIncCubit.currentID,
-                        subCategory: subCatsList[index],
-                      )),
-                  replacement: InkWell(
-                      onTap: () {
-                        BlocProvider.of<AddSubcategoryCubit>(context)
-                                .currentMainCategory =
-                            BlocProvider.of<AddExpOrIncCubit>(context)
-                                .currentMainCat;
-
-                        Navigator.pushNamed(
-                            context, AppRouterNames.rAddSubCategory);
-                      },
-                      child: SubCategoryChoice(
-                        color: AppColor.green,
-                        currentID: 'feverrrr',
-                         subCategory:AppConstantList().addMoreOption,
-                      )),
-                );
-              },
+                    Navigator.pushNamed(
+                        context, AppRouterNames.rAddSubCategory);
+                  },
+                  child: SubCategoryChoice(
+                    color: AppColor.green,
+                    currentID: 'feverrrr',
+                    subCategory: AppConstantList().addMoreOption,
+                  )),
             );
           }),
+    );
+  }
+
+
+  showSuccAndNavigate(BuildContext context){
+    //showLoadingDialog(context);
+    //Navigator.pop(context);
+    showSuccessfulDialogNoOptions(
+        context, 'Added Successfully', '');
+
+    Future.delayed(
+      Duration(seconds: 2),
+          () {
+            Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
+      },
     );
   }
 }

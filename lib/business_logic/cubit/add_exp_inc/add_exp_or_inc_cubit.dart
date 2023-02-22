@@ -40,7 +40,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   bool isImportant = false;
   CategoryTransactionRepo subCategoryRepo = ExpenseSubCategoryImpl();
   CategoryTransactionRepo incomeSubCategoryRepo = IncomeSubcategoryImpl();
-  List<DropdownMenuItem<String>> dropDownChannelItems = [
+  List<DropdownMenuItem<String>> dropDownChannelItems =const [
     DropdownMenuItem(child: Text('Daily'), value: 'Daily'),
     DropdownMenuItem(child: Text('Weekly'), value: 'Weekly'),
     DropdownMenuItem(child: Text('Monthly'), value: 'Monthly')
@@ -206,16 +206,16 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     emit(ChoosedSubCategoryState());
   }
 
-  validateExpenseFields(
-      BuildContext context, String amount, TransactionModel transactionModel) {
-    if (amount.isEmpty) {
+  Future<void> validateExpenseFields(
+      BuildContext context,  TransactionModel transactionModel)async {
+    if (transactionModel.amount==null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
     } else if (subCatName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Kindly choose a subCategory ')));
     } else {
-      addExpense( expenseModel: transactionModel);
+      await addExpense( expenseModel: transactionModel);
     }
   }
 
@@ -228,14 +228,14 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Kindly choose a subCategory ')));
     } else {
-      addIncome(expenseModel: transactionModel);
+      addIncome(incomeModel: transactionModel);
     }
   }
 
-  void addExpense(
-      {required TransactionModel expenseModel}) {
+  Future<void> addExpense(
+       {required TransactionModel expenseModel})async {
     try {
-      _expensesRepository.
+    await  _expensesRepository.
       addTransactionToTransactionBox( transactionModel: expenseModel);
       emit(AddExpOrIncSuccess());
     } catch (error) {
@@ -244,10 +244,10 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     }
   }
 
-  void addIncome({required TransactionModel expenseModel}) {
+  Future<void> addIncome({required TransactionModel incomeModel})async {
     try {
-      _incomeRepository.addTransactionToTransactionBox(
-          transactionModel: expenseModel);
+     await _incomeRepository.addTransactionToTransactionBox(
+          transactionModel: incomeModel);
       emit(AddExpOrIncSuccess());
     } catch (error) {
       print('${error.toString()}');
@@ -262,6 +262,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
+    print('Choosed Date in cubit is ${chosenDate}');
     emit(ChoosedDateState());
   }
+
+
 }

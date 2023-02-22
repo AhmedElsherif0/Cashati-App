@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:temp/business_logic/repository/goals_repo/goals_repeated_repo.dart';
 import 'package:temp/business_logic/repository/goals_repo/goals_repo.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
-import 'package:temp/data/repository/goals_repo_impl/goals_repeated_impl.dart';
 import 'package:temp/data/repository/goals_repo_impl/goals_repo_impl.dart';
 
 part 'goals_state.dart';
@@ -16,7 +14,7 @@ class GoalsCubit extends Cubit<GoalsState> {
   String choseFilter = 'All';
   DateTime? chosenDate;
 
-  GoalsRepeatedRepo _goalsRepeatedRepo = GoalsRepeatedImpl();
+  //GoalsRepeatedRepo _goalsRepeatedRepo = GoalsRepeatedImpl();
   GoalsRepository _goalsRepository = GoalsRepoImpl();
   List<GoalModel> goals = [];
   List<GoalRepeatedDetailsModel> goalsRepeated = [];
@@ -75,7 +73,7 @@ class GoalsCubit extends Cubit<GoalsState> {
   }
 
   void fetchRepeatedGoals() {
-    goalsRepeated = _goalsRepeatedRepo.getRepeatedGoals();
+    goalsRepeated = _goalsRepository.fetchRepeatedGoals();
     emit(FetchedRepeatedGoals());
   }
 

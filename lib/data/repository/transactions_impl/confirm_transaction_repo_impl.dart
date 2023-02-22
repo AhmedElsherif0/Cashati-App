@@ -3,12 +3,14 @@ import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
+import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 import '../../../business_logic/repository/expenses_repo/confirm_expense_repo.dart';
 import '../../local/hive/id_generator.dart';
 
-class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransactionRepo {
-
+class ConfirmTransactionImpl with GeneralStatsRepoImpl
+    , MixinTransaction
+    implements ConfirmTransactionRepo {
   List<TransactionModel> todayList = [];
 
   Future<void> addExpenseToBoxFromRepeatedBox(
@@ -18,13 +20,24 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
     expenseModel.id = GUIDGen.generate();
     expenseModel.paymentDate = today;
     expenseModel.createdDate = today;
-  try{
-     await  hiveDatabase.putByKey<TransactionModel>(indexKey: expenseModel.id,dataModel: expenseModel,boxName: Hive.box(AppBoxes.transactionBox));
-
-   }catch(error){
-     print('Error in adding transaction from repeated box to transaction box (confirm) is ${error.toString()}');
- }
-}
+    Box<TransactionModel>allExpenseModel =Hive.box(AppBoxes.transactionBox);
+    try {
+      await hiveDatabase
+          .putByKey<TransactionModel>(
+              indexKey: expenseModel.id,
+              dataModel: expenseModel,
+              boxName:allExpenseModel )
+          .then(
+              (_) {
+            if(expenseModel.amount==allExpenseModel.get(expenseModel.id)?.amount){
+              super.minusBalance(amount:expenseModel.amount!);
+            }
+          });
+    } catch (error) {
+      print(
+          'Error in adding transaction from repeated box to transaction box (confirm) is ${error.toString()}');
+    }
+  }
 
   /// is it calling from any class less this ??
   bool checkNoConfirmedAndWeekly(
@@ -69,9 +82,7 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
   }
 
   @override
-
   List<TransactionModel> getTodayPayments({required bool isExpense}) {
-
     List<TransactionModel> todayList = [];
 
     todayList.addAll(_getTodayDailyExpenses(isExpense: isExpense));
@@ -82,13 +93,14 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
   }
 
   List<TransactionModel> _getTodayDailyExpenses({required bool isExpense}) {
-    List<TransactionModel> todaDailyList=[];
+    List<TransactionModel> todaDailyList = [];
+
     /// Daily Expenses List.
     List<TransactionRepeatDetailsModel> dailyExpenses =
-    getRepTransactionsByRep(repeat: AppStrings.daily,isExpense: isExpense);
+        getRepTransactionsByRep(repeat: AppStrings.daily, isExpense: isExpense);
     for (var item in dailyExpenses) {
       // here we check confirmation date  Slide number 12
-     if(dailyShowChecking(item)){
+      if (dailyShowChecking(item)) {
         todaDailyList.add(item.transactionModel);
       }
     }
@@ -97,9 +109,10 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
 
   List<TransactionModel> _getTodayWeeklyExpenses({required bool isExpense}) {
     /// Weekly Expenses List.
-    List<TransactionModel> todayWeeklyList=[];
+    List<TransactionModel> todayWeeklyList = [];
     List<TransactionRepeatDetailsModel> weeklyExpenses =
-    getRepTransactionsByRep(repeat: AppStrings.weekly,isExpense: isExpense);
+        getRepTransactionsByRep(
+            repeat: AppStrings.weekly, isExpense: isExpense);
     for (var item in weeklyExpenses) {
       // here we check confirmation date  Slide number 12
       if (weeklyShowChecking(item)) {
@@ -112,31 +125,33 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
   List<TransactionModel> _getTodayMonthlyExpenses({required bool isExpense}) {
     /// Monthly Expenses List.
     // List<TransactionRepeatDetailsModel> monthlyExpenses = expenseRepeatTypes.get(2);
-    List<TransactionModel> todayMonthlyList=[];
+    List<TransactionModel> todayMonthlyList = [];
 
-    List<TransactionRepeatDetailsModel> monthlyExpenses = getRepTransactionsByRep(repeat: AppStrings.monthly,isExpense: isExpense);
+    List<TransactionRepeatDetailsModel> monthlyExpenses =
+        getRepTransactionsByRep(
+            repeat: AppStrings.monthly, isExpense: isExpense);
     for (var item in monthlyExpenses) {
-
-      if(monthlyShowChecking(item)){
+      if (monthlyShowChecking(item)) {
         todayMonthlyList.add(item.transactionModel);
-      }else{}
+      } else {}
     }
     return todayMonthlyList;
   }
 
   List<TransactionModel> _getTodayNoRepeatExpenses({required bool isExpense}) {
     /// NoRepeat Expenses List.
-    List<TransactionModel> todayNoRepeatList=[];
+    List<TransactionModel> todayNoRepeatList = [];
     List<TransactionRepeatDetailsModel> noRepeatExpenses =
-    getRepTransactionsByRep(repeat: AppStrings.monthly,isExpense: isExpense);
+        getRepTransactionsByRep(
+            repeat: AppStrings.monthly, isExpense: isExpense);
     for (var item in noRepeatExpenses) {
-
-      if(noRepeatShowChecking(item)) {
+      if (noRepeatShowChecking(item)) {
         todayNoRepeatList.add(item.transactionModel);
       }
     }
     return todayNoRepeatList;
   }
+
   bool dailyShowChecking(TransactionRepeatDetailsModel dailyTransacion) {
     if (!checkSameDay(date: dailyTransacion.lastConfirmationDate)) {
       return true;
@@ -160,7 +175,7 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
 
   bool monthlyShowChecking(TransactionRepeatDetailsModel monthlyTransaction) {
     if (checkSameDay(date: monthlyTransaction.nextShownDate) &&
-        !checkSameDay(date: monthlyTransaction.lastConfirmationDate) ||
+            !checkSameDay(date: monthlyTransaction.lastConfirmationDate) ||
         checkNoConfirmedAndMonthly(
             nextShownDate: monthlyTransaction.nextShownDate,
             lastConfirmedDate: monthlyTransaction.lastConfirmationDate,
@@ -180,7 +195,6 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
     }
   }
 
-
 // when Yes
 
   TransactionRepeatDetailsModel editDailyExpenseLastShown(
@@ -189,11 +203,13 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
     /// this transaction model is fetched from the repeated model So its key is always the same one
     /// with its repeated model as both have same key and id (when adding transaction at first time)
     TransactionRepeatDetailsModel theMatchingDailyExpense =
-    Hive.box<TransactionRepeatDetailsModel>(AppBoxes.dailyTransactionsBoxName).get(addedExpense.id)!;
-        // Hive.box<TransactionRepeatDetailsModel>(AppBoxes.dailyTransactionsBoxName)
-        //     .values
-        //     .where((element) => element.transactionModel.id == addedExpense.id)
-        //     .single;
+        Hive.box<TransactionRepeatDetailsModel>(
+                AppBoxes.dailyTransactionsBoxName)
+            .get(addedExpense.id)!;
+    // Hive.box<TransactionRepeatDetailsModel>(AppBoxes.dailyTransactionsBoxName)
+    //     .values
+    //     .where((element) => element.transactionModel.id == addedExpense.id)
+    //     .single;
     print('Before Edit Daily ${theMatchingDailyExpense.lastConfirmationDate}');
     theMatchingDailyExpense.lastConfirmationDate = today;
     theMatchingDailyExpense.nextShownDate = today.add(const Duration(days: 1));
@@ -226,12 +242,14 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
   TransactionRepeatDetailsModel editWeeklyExpenseLastShown(
       {required TransactionModel addedExpense, required DateTime today}) {
     TransactionRepeatDetailsModel theMatchingWeeklyExpenseModel =
-    Hive.box<TransactionRepeatDetailsModel>(AppBoxes.weeklyTransactionsBoxName).get(addedExpense.id)!;
+        Hive.box<TransactionRepeatDetailsModel>(
+                AppBoxes.weeklyTransactionsBoxName)
+            .get(addedExpense.id)!;
 
     // Hive.box<TransactionRepeatDetailsModel>('ExpenseRepeatDetailsModel')
-        //     .values
-        //     .where((element) => element.transactionModel.id == addedExpense.id)
-        //     .single;
+    //     .values
+    //     .where((element) => element.transactionModel.id == addedExpense.id)
+    //     .single;
 
     // the right last confirmation date is below
     theMatchingWeeklyExpenseModel.lastConfirmationDate = today;
@@ -251,12 +269,14 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
   TransactionRepeatDetailsModel editMonthlyExpenseLastShown(
       {required TransactionModel addedExpense, required DateTime today}) {
     TransactionRepeatDetailsModel theMatchingMonthlyExpenseModel =
-    Hive.box<TransactionRepeatDetailsModel>(AppBoxes.monthlyTransactionsBoxName).get(addedExpense.id)!;
+        Hive.box<TransactionRepeatDetailsModel>(
+                AppBoxes.monthlyTransactionsBoxName)
+            .get(addedExpense.id)!;
 
     // Hive.box<TransactionRepeatDetailsModel>('ExpenseRepeatDetailsModel')
-        //     .values
-        //     .where((element) => element.transactionModel.id == addedExpense.id)
-        //     .single;
+    //     .values
+    //     .where((element) => element.transactionModel.id == addedExpense.id)
+    //     .single;
 
     theMatchingMonthlyExpenseModel.lastConfirmationDate = today;
     theMatchingMonthlyExpenseModel.nextShownDate =
@@ -268,12 +288,14 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
   TransactionRepeatDetailsModel editNoRepeatExpenseLastShown(
       {required TransactionModel addedExpense, required DateTime today}) {
     TransactionRepeatDetailsModel theMatchingNoRepExpenseModel =
-    Hive.box<TransactionRepeatDetailsModel>(AppBoxes.noRepeaTransactionsBoxName).get(addedExpense.id)!;
+        Hive.box<TransactionRepeatDetailsModel>(
+                AppBoxes.noRepeaTransactionsBoxName)
+            .get(addedExpense.id)!;
 
     // Hive.box<TransactionRepeatDetailsModel>(AppBoxes.noRepeaTransactionsBoxName)
-        //     .values
-        //     .where((element) => element.transactionModel.id == addedExpense.id)
-        //     .single;
+    //     .values
+    //     .where((element) => element.transactionModel.id == addedExpense.id)
+    //     .single;
     theMatchingNoRepExpenseModel.lastConfirmationDate = today;
     theMatchingNoRepExpenseModel.lastShownDate = today;
     theMatchingNoRepExpenseModel.nextShownDate = today;
@@ -301,8 +323,7 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
   }
 
   @override
-  Future<void> onYesConfirmed(
-      {required TransactionModel addedExpense}) async {
+  Future<void> onYesConfirmed({required TransactionModel addedExpense}) async {
     print('working yes ..');
     try {
       if (addedExpense.repeatType == 'Daily') {
@@ -335,9 +356,7 @@ class ConfirmTransactionImpl with MixinTransaction implements ConfirmTransaction
   }
 
   @override
-  Future<void> onNoConfirmed(
-      {
-      required TransactionModel addedExpense}) async {
+  Future<void> onNoConfirmed({required TransactionModel addedExpense}) async {
     if (addedExpense.repeatType == 'Daily') {
       TransactionRepeatDetailsModel theEditedDailyExpense =
           editDailyExpenseLastShown(addedExpense: addedExpense, today: today);
