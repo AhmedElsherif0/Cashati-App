@@ -8,6 +8,9 @@ abstract class GeneralStatsRepo {
   List<NotificationModel> getNotifications();
   Future<void> addNotification(NotificationModel notificationModel);
   Future<void> deleteNotification(NotificationModel notificationModel);
-  GeneralStatsModel getTheGeneralStatsModel();
+  bool isGeneralModelExists();
+  Future<GeneralStatsModel> getTheGeneralStatsModel();
+  Future<void> openGeneralModelBox();
+  bool isGeneralModelBoxOpen();
 
 }

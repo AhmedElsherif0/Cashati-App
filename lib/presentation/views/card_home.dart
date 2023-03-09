@@ -1,7 +1,7 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/presentation/widgets/buttons/dotted_button.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
@@ -13,10 +13,12 @@ class CardHome extends StatelessWidget {
       required this.title,
       required this.onPressedShow,
       required this.onPressedAdd,
+      required this.generalStatsModel,
       required this.onPressedTop})
       : super(key: key);
 
   final String title;
+  final GeneralStatsModel generalStatsModel;
   final Function() onPressedShow;
   final Function() onPressedAdd;
   final Function() onPressedTop;
@@ -79,7 +81,7 @@ class CardHome extends StatelessWidget {
                     SvgPicture.asset('assets/icons/download.svg',
                         height: 20.sp, width: 20.sp),
                     SizedBox(height: 2.h),
-                    Text('Balance', style: textTheme.headline6),
+                    Text('Balance : ${generalStatsModel.balance}', style: textTheme.headline6),
                   ],
                 ),
               ),

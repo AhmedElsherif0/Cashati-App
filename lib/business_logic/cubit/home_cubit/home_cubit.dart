@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
+import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 
 import 'home_state.dart';
@@ -8,15 +11,46 @@ import 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this.generalStatsRepo) : super(HomeInitial());
   final GeneralStatsRepo generalStatsRepo;
+   GeneralStatsModel? generalStatsModel;
   bool isExpense = true;
 
+
+  checkItemInBox()async{
+    if(await generalStatsRepo.isGeneralModelExists()){
+      emit(ModelExistsSuccState());
+    }else{
+      emit(ModelExistsFailState());
+    }
+  }
+
+
+
   Future addTheGeneralStatsModel()async{
-    if(generalStatsRepo.getTheGeneralStatsModel().isInBox){
+   // await HiveHelper().openBox<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsModel);
+
+    if(Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsModel).isNotEmpty){
       print('General stats model is in box already ${generalStatsRepo.getTheGeneralStatsModel()}');
+      emit(FetchedGeneralModelSuccState());
       return;
     }else{
-      await generalStatsRepo.addTheGeneralStateModel();
+      await generalStatsRepo.addTheGeneralStateModel().then((value)async {
+      //  generalStatsModel=await getTheGeneralStatsModel();
+        print('General stats model in cubit is ${generalStatsModel}');
+      });
+      emit(AddedGeneralModelSuccState());
+
     }
+
+  }
+ Future getTheGeneralStatsModel()async{
+    generalStatsModel=await generalStatsRepo.getTheGeneralStatsModel();
+    if(generalStatsModel==null){
+      emit(ModelExistsFailState());
+
+    }else{
+      emit(ModelExistsSuccState());
+    }
+
   }
 
   void isItExpense() {
