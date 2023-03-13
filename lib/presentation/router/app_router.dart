@@ -52,14 +52,17 @@ class AppRouter {
     }
     return null;
   }
+
   PageRouteBuilder _pageBuilder({required Widget child}) {
     return PageRouteBuilder(
+      transitionDuration: const Duration(milliseconds: 500),
+      reverseTransitionDuration: const Duration(milliseconds: 500),
       pageBuilder: (context, animation, secondaryAnimation) => child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: animation.drive(
             Tween(begin: const Offset(1, 0.0), end: Offset.zero).chain(
-              CurveTween(curve: Curves.easeInOut),
+              CurveTween(curve: Curves.easeInOutBack),
             ),
           ),
           child: child,
@@ -68,5 +71,3 @@ class AppRouter {
     );
   }
 }
-
-
