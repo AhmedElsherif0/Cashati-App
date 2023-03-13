@@ -52,8 +52,11 @@ class AppRouter {
     }
     return null;
   }
+
   PageRouteBuilder _pageBuilder({required Widget child}) {
     return PageRouteBuilder(
+      transitionDuration: const Duration(milliseconds: 500),
+      reverseTransitionDuration: const Duration(milliseconds: 500),
       pageBuilder: (context, animation, secondaryAnimation) => child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
@@ -68,5 +71,3 @@ class AppRouter {
     );
   }
 }
-
-
