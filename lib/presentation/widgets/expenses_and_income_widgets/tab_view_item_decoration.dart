@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-
 import '../../styles/colors.dart';
+import '../../styles/decorations.dart';
 
 class TabBarItem extends StatelessWidget {
   const TabBarItem({
@@ -21,18 +20,15 @@ class TabBarItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: backGroundColor,
-          borderRadius: BorderRadius.circular(12.sp),
-          border: Border.all(width: 1.sp, color: AppColor.primaryColor),
-        ),
+        decoration:
+            AppDecorations.defBoxDecoration.copyWith(color: backGroundColor),
         child: Align(
           alignment: Alignment.center,
           child: Text(text,
               style: Theme.of(context)
                   .textTheme
                   .headline6
-                  ?.copyWith(color: textColor??AppColor.primaryColor)),
+                  ?.copyWith(color: textColor ?? AppColor.primaryColor),),
         ),
       ),
     );
