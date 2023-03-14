@@ -19,6 +19,8 @@ class HomeScreen extends StatelessWidget {
       listener: (context,state){
         if(state is HomeInitial){
           cubit(context).getTheGeneralStatsModel();
+        }else if(state is FetchedGeneralModelSuccState||state is ModelExistsSuccState){
+          cubit(context).getNotificationList();
         }
       },
       builder: (context, state) {

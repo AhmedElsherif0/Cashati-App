@@ -20,4 +20,6 @@ class AppBoxes {
   static const String monthlyGoalModel = 'MonthlyGoalModel';
 
   static const String generalStatisticsModel = 'GeneralStatisticsModel';
+
+  static const String notificationBox = 'notificationBox';
 }
