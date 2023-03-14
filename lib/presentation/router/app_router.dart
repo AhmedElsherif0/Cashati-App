@@ -20,43 +20,55 @@ class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRouterNames.rSplashScreen:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
+        return _pageBuilder(child: const SplashScreen());
       case AppRouterNames.rHomeRoute:
-        return MaterialPageRoute(builder: (_) => const ControlScreen());
+        return _pageBuilder(child: const ControlScreen());
       case AppRouterNames.rOnBoardingRoute:
-        return MaterialPageRoute(builder: (_) => const OnBoardScreens());
+        return _pageBuilder(child: const OnBoardScreens());
       case AppRouterNames.rSettingsRoute:
-        return MaterialPageRoute(builder: (_) => const SettingsScreen());
+        return _pageBuilder(child: const SettingsScreen());
       case AppRouterNames.rExpenseRepeatType:
-        return MaterialPageRoute(
-            builder: (_) => const ExpenseRepeatTypeScreen());
+        return _pageBuilder(child: const ExpenseRepeatTypeScreen());
       case AppRouterNames.rIncomeRepeatType:
-        return MaterialPageRoute(
-            builder: (_) => const IncomeRepeatTypeScreen());
+        return _pageBuilder(child: const IncomeRepeatTypeScreen());
       case AppRouterNames.rExpenseRepeatDetails:
-        return MaterialPageRoute(
-            builder: (_) => const AddExpenseOrIncomeScreen());
+        return _pageBuilder(child: const AddExpenseOrIncomeScreen());
       case AppRouterNames.rAddExpenseOrIncomeScreen:
-        return MaterialPageRoute(
-            builder: (_) => const AddExpenseOrIncomeScreen());
+        return _pageBuilder(child: const AddExpenseOrIncomeScreen());
       case AppRouterNames.rAddSubCategory:
-        return MaterialPageRoute(builder: (_) => const AddSubCategoryScreen());
-      case AppRouterNames.rNotification:
-        return MaterialPageRoute(builder: (_) => const NotificationScreen());
-      case AppRouterNames.rNotificationTest:
-        return MaterialPageRoute(builder: (_) => const NotificationTestScreen());
+        return _pageBuilder(child: const AddSubCategoryScreen());
+     case AppRouterNames.rNotification:
+        return _pageBuilder(child: const NotificationScreen());
       case AppRouterNames.rTestAddGoalScreen:
-        return MaterialPageRoute(builder: (_) =>  AddGoalTestScreen());
+        return _pageBuilder(child: AddGoalTestScreen());
       case AppRouterNames.rFetchGoalScreen:
-        return MaterialPageRoute(builder: (_) =>  FetchGoalsTestScreen());
+        return _pageBuilder(child: FetchGoalsTestScreen());
       case AppRouterNames.rAddGoal:
-        return MaterialPageRoute(builder: (_) =>   AddGoalScreen());
+        return _pageBuilder(child: AddGoalScreen());
       case AppRouterNames.rGetGoals:
-        return MaterialPageRoute(builder: (_) =>   const GoalsScreen());
+        return _pageBuilder(child: const GoalsScreen());
       case AppRouterNames.rConfirmToday:
-        return MaterialPageRoute(builder: (_) =>   const ConfirmPaymentsScreen());
+        return _pageBuilder(child: const ConfirmPaymentsScreen());
       default:
-        return null;
     }
+    return null;
+  }
+
+  PageRouteBuilder _pageBuilder({required Widget child}) {
+    return PageRouteBuilder(
+      transitionDuration: const Duration(milliseconds: 500),
+      reverseTransitionDuration: const Duration(milliseconds: 500),
+      pageBuilder: (context, animation, secondaryAnimation) => child,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1, 0.0), end: Offset.zero).chain(
+              CurveTween(curve: Curves.easeInOutBack),
+            ),
+          ),
+          child: child,
+        );
+      },
+    );
   }
 }

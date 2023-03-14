@@ -7,6 +7,7 @@ import 'package:temp/presentation/views/tab_card_View.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 import '../../constants/enum_classes.dart';
 import '../../data/models/statistics/expenses_lists.dart';
+import '../styles/decorations.dart';
 import '../widgets/common_texts/details_text.dart';
 
 class CustomTabBarView extends StatefulWidget {
@@ -68,11 +69,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             onTap: (value) => setState(() => onSwapByIndex(index: value)),
             indicatorWeight: 0,
             controller: tabController,
-            indicator: BoxDecoration(
-              color: AppColor.primaryColor,
-              borderRadius: BorderRadius.circular(12.sp),
-              border: Border.all(width: 1.sp, color: AppColor.primaryColor),
-            ),
+            indicator: AppDecorations.defBoxDecoration,
             unselectedLabelColor: AppColor.primaryColor,
             labelStyle: Theme.of(context).textTheme.headline6,
             tabs: List.generate(3, (index) {

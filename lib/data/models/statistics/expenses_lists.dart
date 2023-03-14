@@ -2,12 +2,8 @@ import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/models/statistics/expenses_model.dart';
 
 class ExpensesLists {
-  int daysDate = DateTime.now().day;
-  int weekDate = DateTime.now().weekday;
-  int monthDate = DateTime.now().month;
-
-  List<String> noRepeats =['Day','Weekly','Monthly','No Repeat'];
-  List<String> statisticsList =['By Day','By Month','By Year'];
+  List<String> noRepeats = ['Day', 'Weekly', 'Monthly', 'No Repeat'];
+  List<String> statisticsList = ['By Day', 'By Month', 'By Year'];
   List<ExpensesModel> expensesData = [
     ExpensesModel(
         name: Header.daily,
