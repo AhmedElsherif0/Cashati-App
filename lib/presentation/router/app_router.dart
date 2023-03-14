@@ -8,6 +8,7 @@ import 'package:temp/presentation/screens/shared/notification_screen.dart';
 import 'package:temp/presentation/screens/test_screens/add_goal_test_screen.dart';
 import 'package:temp/presentation/screens/test_screens/confirm_payments.dart';
 import 'package:temp/presentation/screens/test_screens/fetch_goals_test.dart';
+import 'package:temp/presentation/screens/test_screens/notifications_test.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
 import '../screens/home/nav_bottom_screens/control_screen.dart';
@@ -42,6 +43,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const AddSubCategoryScreen());
       case AppRouterNames.rNotification:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
+      case AppRouterNames.rNotificationTest:
+        return MaterialPageRoute(builder: (_) => const NotificationTestScreen());
       case AppRouterNames.rTestAddGoalScreen:
         return MaterialPageRoute(builder: (_) =>  AddGoalTestScreen());
       case AppRouterNames.rFetchGoalScreen:

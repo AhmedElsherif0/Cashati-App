@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/views/app_drawer.dart';
 import '../../../../business_logic/cubit/global_cubit/global_cubit.dart';
 import '../../../views/bottom_nav_bar.dart';
@@ -27,7 +28,10 @@ class ControlScreen extends StatelessWidget {
                     title: _cubit(context)
                         .appBarTitle[_cubit(context).currentIndex],
                     onTapFirstIcon: () => _cubit(context).emitDrawer(context),
-                    onTapNotification: () {},
+                    onTapNotification: () {
+                      print('notification tapped');
+                      Navigator.pushNamed(context, AppRouterNames.rNotificationTest);
+                    },
                     isEndIconVisible:
                         _cubit(context).currentIndex == 4 ? false : true,
                     firstIcon: Icons.menu,
