@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/data/local/cache_helper.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
@@ -11,6 +12,7 @@ import 'package:temp/data/models/transactions/transaction_details_model.dart';
 
 class GeneralStatsRepoImpl implements GeneralStatsRepo {
   late GeneralStatsModel _generalStatsModel;
+  final DateTime todayDate = DateTime.now();
    bool isGotNotifications = false;
 
   final HiveHelper hiveHelper = HiveHelper();
@@ -226,6 +228,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
   Future<List<NotificationModel>> fetchedNotifications() async {
    // final notificationBox =hiveHelper.getBoxName<NotificationModel>(
        // boxName: AppBoxes.notificationBox);
+    final todayNotificationList =CacheHelper.getDataFromSharedPreference(key: "lastNotificationSavedDay")??["0"];
+    final List<String> savedNotificationDate=List.from(todayNotificationList);
     final dailyBox = hiveHelper.getBoxName<TransactionRepeatDetailsModel>(
         boxName: AppBoxes.dailyTransactionsBoxName);
     final weeklyBox = hiveHelper.getBoxName<TransactionRepeatDetailsModel>(
@@ -236,196 +240,202 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         boxName: AppBoxes.noRepeaTransactionsBoxName);
     final goalRepBox = hiveHelper.getBoxName<GoalRepeatedDetailsModel>(
         boxName: AppBoxes.goalRepeatedBox);
-    dailyBox.values.forEach((element)async {
-      if (element.nextShownDate.isBefore(DateTime(DateTime
-          .now()
-          .year, DateTime
-          .now()
-          .month, DateTime
-          .now()
-          .day)) && DateTime
-          .now()
-          .difference(element.nextShownDate)
-          .inDays < 7) {
-        //TODO check which icon to add
-        _generalStatsModel.notificationList.add(NotificationModel(
-          id: element.transactionModel.id,
-          amount: element.transactionModel.amount!,
-          checkedDate: element.nextShownDate,
-          actionDate: DateTime.now(),
-          didTakeAction: false,
-          icon: AppIcons.dollarCircle,
-          modelName: element.transactionModel.name,
-          payLoad: 'ss',
-          typeName: 'Transaction',
+    if(savedNotificationDate[0]!=todayDate.day.toString()||savedNotificationDate[1]!=todayDate.month.toString()||savedNotificationDate[2]!=todayDate.year.toString()){
+      dailyBox.values.forEach((element)async {
+        if (element.nextShownDate.isBefore(DateTime(DateTime
+            .now()
+            .year, DateTime
+            .now()
+            .month, DateTime
+            .now()
+            .day)) && DateTime
+            .now()
+            .difference(element.nextShownDate)
+            .inDays < 7) {
+          //TODO check which icon to add
+          _generalStatsModel.notificationList.add(NotificationModel(
+            id: element.transactionModel.id,
+            amount: element.transactionModel.amount!,
+            checkedDate: element.nextShownDate,
+            actionDate: DateTime.now(),
+            didTakeAction: false,
+            icon: AppIcons.dollarCircle,
+            modelName: element.transactionModel.name,
+            payLoad: 'ss',
+            typeName: 'Transaction',
 
-        ));
-       // await notificationBox.put(element.key,NotificationModel(
-       //    id: element.transactionModel.id,
-       //    amount: element.transactionModel.amount!,
-       //    checkedDate: element.nextShownDate,
-       //    actionDate: DateTime.now(),
-       //    didTakeAction: false,
-       //    icon: AppIcons.dollarCircle,
-       //    modelName: element.transactionModel.name,
-       //    payLoad: 'ss',
-       //    typeName: 'Transaction',
-       //
-       //  ));
-      }
-    });
-    weeklyBox.values.forEach((element) async{
-      if (element.nextShownDate.isBefore(DateTime(DateTime
-          .now()
-          .year, DateTime
-          .now()
-          .month, DateTime
-          .now()
-          .day)) && DateTime
-          .now()
-          .difference(element.nextShownDate)
-          .inDays < 7) {
-        //TODO check which icon to add
-        _generalStatsModel.notificationList.add(NotificationModel(
-          id: element.transactionModel.id,
-          amount: element.transactionModel.amount!,
-          checkedDate: element.nextShownDate,
-          actionDate: DateTime.now(),
-          didTakeAction: false,
-          icon:AppIcons.dollarCircle,
-          modelName: element.transactionModel.name,
-          payLoad: 'ss',
-          typeName: 'Transaction',
+          ));
+          // await notificationBox.put(element.key,NotificationModel(
+          //    id: element.transactionModel.id,
+          //    amount: element.transactionModel.amount!,
+          //    checkedDate: element.nextShownDate,
+          //    actionDate: DateTime.now(),
+          //    didTakeAction: false,
+          //    icon: AppIcons.dollarCircle,
+          //    modelName: element.transactionModel.name,
+          //    payLoad: 'ss',
+          //    typeName: 'Transaction',
+          //
+          //  ));
+        }
+      });
+      weeklyBox.values.forEach((element) async{
+        if (element.nextShownDate.isBefore(DateTime(DateTime
+            .now()
+            .year, DateTime
+            .now()
+            .month, DateTime
+            .now()
+            .day)) && DateTime
+            .now()
+            .difference(element.nextShownDate)
+            .inDays < 7) {
+          //TODO check which icon to add
+          _generalStatsModel.notificationList.add(NotificationModel(
+            id: element.transactionModel.id,
+            amount: element.transactionModel.amount!,
+            checkedDate: element.nextShownDate,
+            actionDate: DateTime.now(),
+            didTakeAction: false,
+            icon:AppIcons.dollarCircle,
+            modelName: element.transactionModel.name,
+            payLoad: 'ss',
+            typeName: 'Transaction',
 
-        ));
-        // await notificationBox.put(element.key,NotificationModel(
-        //   id: element.transactionModel.id,
-        //   amount: element.transactionModel.amount!,
-        //   checkedDate: element.nextShownDate,
-        //   actionDate: DateTime.now(),
-        //   didTakeAction: false,
-        //   icon:AppIcons.dollarCircle,
-        //   modelName: element.transactionModel.name,
-        //   payLoad: 'ss',
-        //   typeName: 'Transaction',
-        //
-        // ));
-      }
-    });
-    monthlyBox.values.forEach((element) async{
-      if (element.nextShownDate.isBefore(DateTime(DateTime
-          .now()
-          .year, DateTime
-          .now()
-          .month, DateTime
-          .now()
-          .day)) && DateTime
-          .now()
-          .difference(element.nextShownDate)
-          .inDays < 7) {
-        //TODO check which icon to add
-        _generalStatsModel.notificationList.add(NotificationModel(
-          id: element.transactionModel.id,
-          amount: element.transactionModel.amount!,
-          checkedDate: element.nextShownDate,
-          actionDate: DateTime.now(),
-          didTakeAction: false,
-          icon: AppIcons.dollarCircle,
-          modelName: element.transactionModel.name,
-          payLoad: 'ss',
-          typeName: 'Transaction',
+          ));
+          // await notificationBox.put(element.key,NotificationModel(
+          //   id: element.transactionModel.id,
+          //   amount: element.transactionModel.amount!,
+          //   checkedDate: element.nextShownDate,
+          //   actionDate: DateTime.now(),
+          //   didTakeAction: false,
+          //   icon:AppIcons.dollarCircle,
+          //   modelName: element.transactionModel.name,
+          //   payLoad: 'ss',
+          //   typeName: 'Transaction',
+          //
+          // ));
+        }
+      });
+      monthlyBox.values.forEach((element) async{
+        if (element.nextShownDate.isBefore(DateTime(DateTime
+            .now()
+            .year, DateTime
+            .now()
+            .month, DateTime
+            .now()
+            .day)) && DateTime
+            .now()
+            .difference(element.nextShownDate)
+            .inDays < 7) {
+          //TODO check which icon to add
+          _generalStatsModel.notificationList.add(NotificationModel(
+            id: element.transactionModel.id,
+            amount: element.transactionModel.amount!,
+            checkedDate: element.nextShownDate,
+            actionDate: DateTime.now(),
+            didTakeAction: false,
+            icon: AppIcons.dollarCircle,
+            modelName: element.transactionModel.name,
+            payLoad: 'ss',
+            typeName: 'Transaction',
 
-        ));
-        // await notificationBox.put(element.key,NotificationModel(
-        //   id: element.transactionModel.id,
-        //   amount: element.transactionModel.amount!,
-        //   checkedDate: element.nextShownDate,
-        //   actionDate: DateTime.now(),
-        //   didTakeAction: false,
-        //   icon: AppIcons.dollarCircle,
-        //   modelName: element.transactionModel.name,
-        //   payLoad: 'ss',
-        //   typeName: 'Transaction',
-        //
-        // ));
-      }
-    });
-    noRepBox.values.forEach((element) async{
-      if (element.nextShownDate.isBefore(DateTime(DateTime
-          .now()
-          .year, DateTime
-          .now()
-          .month, DateTime
-          .now()
-          .day)) && DateTime
-          .now()
-          .difference(element.nextShownDate)
-          .inDays < 7) {
-        //TODO check which icon to add
-        _generalStatsModel.notificationList.add(NotificationModel(
-          id: element.transactionModel.id,
-          amount: element.transactionModel.amount!,
-          checkedDate: element.nextShownDate,
-          actionDate: DateTime.now(),
-          didTakeAction: false,
-          icon:  AppIcons.dollarCircle,
-          modelName: element.transactionModel.name,
-          payLoad: 'ss',
-          typeName: 'Transaction',
+          ));
+          // await notificationBox.put(element.key,NotificationModel(
+          //   id: element.transactionModel.id,
+          //   amount: element.transactionModel.amount!,
+          //   checkedDate: element.nextShownDate,
+          //   actionDate: DateTime.now(),
+          //   didTakeAction: false,
+          //   icon: AppIcons.dollarCircle,
+          //   modelName: element.transactionModel.name,
+          //   payLoad: 'ss',
+          //   typeName: 'Transaction',
+          //
+          // ));
+        }
+      });
+      noRepBox.values.forEach((element) async{
+        if (element.nextShownDate.isBefore(DateTime(DateTime
+            .now()
+            .year, DateTime
+            .now()
+            .month, DateTime
+            .now()
+            .day)) && DateTime
+            .now()
+            .difference(element.nextShownDate)
+            .inDays < 7) {
+          //TODO check which icon to add
+          _generalStatsModel.notificationList.add(NotificationModel(
+            id: element.transactionModel.id,
+            amount: element.transactionModel.amount!,
+            checkedDate: element.nextShownDate,
+            actionDate: DateTime.now(),
+            didTakeAction: false,
+            icon:  AppIcons.dollarCircle,
+            modelName: element.transactionModel.name,
+            payLoad: 'ss',
+            typeName: 'Transaction',
 
-        ));
-        // await  notificationBox.put(element.key,NotificationModel(
-        //   id: element.transactionModel.id,
-        //   amount: element.transactionModel.amount!,
-        //   checkedDate: element.nextShownDate,
-        //   actionDate: DateTime.now(),
-        //   didTakeAction: false,
-        //   icon:  AppIcons.dollarCircle,
-        //   modelName: element.transactionModel.name,
-        //   payLoad: 'ss',
-        //   typeName: 'Transaction',
-        //
-        // ));
-      }
-    });
-    goalRepBox.values.forEach((element)async {
-      if (element.nextShownDate.isBefore(DateTime(DateTime
-          .now()
-          .year, DateTime
-          .now()
-          .month, DateTime
-          .now()
-          .day)) && DateTime
-          .now()
-          .difference(element.nextShownDate)
-          .inDays < 7) {
-        //TODO check which icon to add
-        _generalStatsModel.notificationList.add(NotificationModel(
-          id: element.goal.id,
-          amount: element.goal.goalSaveAmount,
-          checkedDate: element.nextShownDate,
-          actionDate: DateTime.now(),
-          didTakeAction: false,
-          icon: AppIcons.goals,
-          modelName: element.goal.goalName,
-          payLoad: 'ss',
-          typeName: 'Goals',
+          ));
+          // await  notificationBox.put(element.key,NotificationModel(
+          //   id: element.transactionModel.id,
+          //   amount: element.transactionModel.amount!,
+          //   checkedDate: element.nextShownDate,
+          //   actionDate: DateTime.now(),
+          //   didTakeAction: false,
+          //   icon:  AppIcons.dollarCircle,
+          //   modelName: element.transactionModel.name,
+          //   payLoad: 'ss',
+          //   typeName: 'Transaction',
+          //
+          // ));
+        }
+      });
+      goalRepBox.values.forEach((element)async {
+        if (element.nextShownDate.isBefore(DateTime(DateTime
+            .now()
+            .year, DateTime
+            .now()
+            .month, DateTime
+            .now()
+            .day)) && DateTime
+            .now()
+            .difference(element.nextShownDate)
+            .inDays < 7) {
+          //TODO check which icon to add
+          _generalStatsModel.notificationList.add(NotificationModel(
+            id: element.goal.id,
+            amount: element.goal.goalSaveAmount,
+            checkedDate: element.nextShownDate,
+            actionDate: DateTime.now(),
+            didTakeAction: false,
+            icon: AppIcons.goals,
+            modelName: element.goal.goalName,
+            payLoad: 'ss',
+            typeName: 'Goals',
 
-        ));
-        // await notificationBox.put(element.key,NotificationModel(
-        //   id: element.goal.id,
-        //   amount: element.goal.goalSaveAmount,
-        //   checkedDate: element.nextShownDate,
-        //   actionDate: DateTime.now(),
-        //   didTakeAction: false,
-        //   icon: AppIcons.goals,
-        //   modelName: element.goal.goalName,
-        //   payLoad: 'ss',
-        //   typeName: 'Goals',
-        //
-        // ));
-      }
-    });
+          ));
+          // await notificationBox.put(element.key,NotificationModel(
+          //   id: element.goal.id,
+          //   amount: element.goal.goalSaveAmount,
+          //   checkedDate: element.nextShownDate,
+          //   actionDate: DateTime.now(),
+          //   didTakeAction: false,
+          //   icon: AppIcons.goals,
+          //   modelName: element.goal.goalName,
+          //   payLoad: 'ss',
+          //   typeName: 'Goals',
+          //
+          // ));
+        }
+      });
+     await CacheHelper.saveDataSharedPreference(key: "lastNotificationSavedDay", value: [todayDate.day.toString(),todayDate.month.toString(),todayDate.year.toString()]);
+     print('Fetching for the first time today');
+    }else{
+      print('Already Fetched before');
+    }
    // print('Notification list in box ${notificationBox.values.toList()}');
    // _generalStatsModel.notificationList.addAll(notificationBox.values.toList());
     print('Notification list in general stats model is ${_generalStatsModel.notificationList}');
