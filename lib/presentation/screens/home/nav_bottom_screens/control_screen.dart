@@ -28,6 +28,10 @@ class ControlScreen extends StatelessWidget {
                     title: _cubit(context)
                         .appBarTitle[_cubit(context).currentIndex],
                     onTapFirstIcon: () => _cubit(context).emitDrawer(context),
+                    // onTapNotification: () {
+                    //   print('notification tapped');
+                    //   Navigator.pushNamed(context, AppRouterNames.rNotificationTest);
+                    // },
                     isEndIconVisible:
                         _cubit(context).currentIndex == 4 ? false : true,
                     firstIcon: Icons.menu,
