@@ -39,6 +39,8 @@ class AppRouter {
         return _pageBuilder(child: const AddSubCategoryScreen());
      case AppRouterNames.rNotification:
         return _pageBuilder(child: const NotificationScreen());
+      case AppRouterNames.rNotificationTest:
+        return _pageBuilder(child: const NotificationTestScreen());
       case AppRouterNames.rTestAddGoalScreen:
         return _pageBuilder(child: AddGoalTestScreen());
       case AppRouterNames.rFetchGoalScreen:

@@ -241,6 +241,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     final goalRepBox = hiveHelper.getBoxName<GoalRepeatedDetailsModel>(
         boxName: AppBoxes.goalRepeatedBox);
     if(savedNotificationDate[0]!=todayDate.day.toString()||savedNotificationDate[1]!=todayDate.month.toString()||savedNotificationDate[2]!=todayDate.year.toString()){
+      _generalStatsModel.notificationList.clear();
+
       dailyBox.values.forEach((element)async {
         if (element.nextShownDate.isBefore(DateTime(DateTime
             .now()
