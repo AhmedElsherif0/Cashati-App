@@ -22,4 +22,5 @@ class AppStrings {
   static const String appInfoSetting = 'App Info';
   static const String theOnlyGeneralStatsModelID = 'OnlyID';
   static const String generalStatisticsBox = 'generalStatisticsBox';
+  static const String repeat = 'Repeat';
 }
