@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_lists.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -77,7 +79,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 35,
+          height: 3.5.h,
         ),
         InkWell(
           onTap: () {
@@ -106,15 +108,15 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 45,
+                    height: 4.5.h,
                   ),
                   subCategoriesListContainer(
                       subCategoriesList, addExpOrIncCubit),
                   SizedBox(
-                    height: 10,
+                    height: 1.2.h,
                   ),
                   Container(
-                    width: 270,
+                    width: 65.w,
                     child: EditableInfoField(
                       textEditingController: nameCtrl,
                       hint: 'Expense Name',
@@ -123,14 +125,14 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.5.h,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 270,
+                        width: 65.w,
                         child: EditableInfoField(
                           textEditingController: amountCtrl,
                           hint: 'Amount',
@@ -145,22 +147,22 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                             color: AppColor.primaryColor,
                             fontWeight: FontWeight.bold),
                       )),
-                      SizedBox(width: 4),
+                      SizedBox(width: .4.w),
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.5.h,
                   ),
                   Container(
-                      width: 270,
+                      width: 65.w,
                       child: DateChooseContainer(
                         dateTime: addExpOrIncCubit.chosenDate,
                       )),
                   SizedBox(
-                    height: 10,
+                    height: 1.5.h,
                   ),
                   Container(
-                    width: 270,
+                    width: 65.w,
                     child: EditableInfoField(
                       textEditingController: descriptionCtrl,
                       hint: 'Write Description',
@@ -169,84 +171,78 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.5.h,
                   ),
-                  Container(
-                    width: 250,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                          width: 40,
-                          child: Checkbox(
-                            value: addExpOrIncCubit.isImportant,
-                            onChanged: addExpOrIncCubit.isImportantOrNo,
-                            hoverColor: AppColor.primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            activeColor: AppColor.white,
-                            checkColor: AppColor.white,
-                            fillColor: MaterialStateProperty.all(
-                                AppColor.primaryColor),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 3.h,
+                        width: 4.w,
+                        child: Checkbox(
+                          value: addExpOrIncCubit.isImportant,
+                          onChanged: addExpOrIncCubit.isImportantOrNo,
+                          hoverColor: AppColor.primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
                           ),
+                          activeColor: AppColor.white,
+                          checkColor: AppColor.white,
+                          fillColor: MaterialStateProperty.all(
+                              AppColor.primaryColor),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Important',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(color: AppColor.primaryColor),
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        width: 2.5.w,
+                      ),
+                      Text(
+                        'Important',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: AppColor.primaryColor),
+                      )
+                    ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.5.h,
                   ),
-                  Container(
-                    width: 250,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                          width: 40,
-                          child: Checkbox(
-                            value: addExpOrIncCubit.isRepeat,
-                            onChanged: addExpOrIncCubit.isRepeatOrNo,
-                            hoverColor: AppColor.primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            activeColor: AppColor.white,
-                            checkColor: AppColor.white,
-                            fillColor: MaterialStateProperty.all(
-                                AppColor.primaryColor),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 3.h,
+                        width: 4.w,
+                        child: Checkbox(
+                          value: addExpOrIncCubit.isRepeat,
+                          onChanged: addExpOrIncCubit.isRepeatOrNo,
+                          hoverColor: AppColor.primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
                           ),
+                          activeColor: AppColor.white,
+                          checkColor: AppColor.white,
+                          fillColor: MaterialStateProperty.all(
+                              AppColor.primaryColor),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Repeat',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(color: AppColor.primaryColor),
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        width: 2.5.w,
+                      ),
+                      Text(
+                        AppStrings.repeat,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: AppColor.primaryColor),
+                      )
+                    ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.2.h,
                   ),
                   Visibility(
                     visible: addExpOrIncCubit.isRepeat,
                     child: Container(
-                      width: 270,
+                      width: 65.w,
                       child: DropDownCustomWidget(
                           leadingIcon: '',
                           dropDownList: addExpOrIncCubit.dropDownChannelItems,
@@ -256,15 +252,16 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                     replacement: SizedBox(),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.2.h,
                   ),
                   CustomElevatedButton(
                     onPressed: () {
-                      addExpOrIncCubit.validateExpenseFields(
+                      addExpOrIncCubit.validateields(
+                        true,
                         context,
                          TransactionModel.expense(
                             id: GUIDGen.generate(),
-                            name: nameCtrl.text,
+                            name: nameCtrl.text.trimLeft(),
                             amount: amountCtrl.text.isNotEmpty
                                 ? num.parse(amountCtrl.text)
                                 : 0,
@@ -299,7 +296,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
   Container subCategoriesListContainer(
       List<SubCategory> subCatsList, AddExpOrIncCubit addExpOrIncCubit) {
     return Container(
-      height: 250,
+      height: 28.h,
       child: GridView.builder(
           itemCount: subCatsList.length,
           scrollDirection: Axis.horizontal,
@@ -357,7 +354,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
     Future.delayed(
       Duration(seconds: 2),
           () {
-            Navigator.pop(context);
+            //Navigator.pop(context);
         Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
       },
     );

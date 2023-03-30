@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/constants/app_lists.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/subcategories_repo_impl/expense_subcategory_repo_impl.dart';
 import 'package:temp/data/repository/subcategories_repo_impl/income_subcategory_repo_impl.dart';
@@ -41,9 +42,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   CategoryTransactionRepo subCategoryRepo = ExpenseSubCategoryImpl();
   CategoryTransactionRepo incomeSubCategoryRepo = IncomeSubcategoryImpl();
   List<DropdownMenuItem<String>> dropDownChannelItems =const [
-    DropdownMenuItem(child: Text('Daily'), value: 'Daily'),
-    DropdownMenuItem(child: Text('Weekly'), value: 'Weekly'),
-    DropdownMenuItem(child: Text('Monthly'), value: 'Monthly')
+    DropdownMenuItem(child: Text(AppStrings.daily), value: AppStrings.daily),
+    DropdownMenuItem(child: Text(AppStrings.weekly), value: AppStrings.weekly),
+    DropdownMenuItem(child: Text(AppStrings.monthly), value: AppStrings.monthly)
   ];
 
   final TransactionRepo _expensesRepository;
@@ -208,7 +209,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   Future<void> validateExpenseFields(
       BuildContext context,  TransactionModel transactionModel)async {
-    if (transactionModel.amount==null) {
+    if (transactionModel.amount==null||transactionModel.amount==0) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
     } else if (subCatName.isEmpty) {
@@ -265,6 +266,21 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     print('Choosed Date in cubit is ${chosenDate}');
     emit(ChoosedDateState());
   }
-
+  Future<void> validateields(
+      bool isExpense,
+      BuildContext context,  TransactionModel transactionModel)async {
+    if (transactionModel.amount==null||transactionModel.amount==0) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
+    } else if (subCatName.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Kindly choose a subCategory ')));
+    } else if (transactionModel.name.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Kindly , write the name ')));
+    }else {
+      isExpense? await addExpense(expenseModel: transactionModel): await addIncome(incomeModel: transactionModel);
+    }
+  }
 
 }
