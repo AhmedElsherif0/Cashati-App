@@ -63,6 +63,7 @@ mixin MixinTransaction {
         : false;
   }
 
+  //TODO check if the function Below is used correctly to compare only days? if not use isEqualTodayAbove
   bool checkSameDay({required DateTime date}) {
     int currentTime = DateTime.now().day;
     return date.day == currentTime ? true : false;

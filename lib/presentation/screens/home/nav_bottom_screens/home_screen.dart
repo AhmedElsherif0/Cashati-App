@@ -21,6 +21,8 @@ class HomeScreen extends StatelessWidget {
           cubit(context).getTheGeneralStatsModel();
         }else if(state is FetchedGeneralModelSuccState||state is ModelExistsSuccState){
           cubit(context).getNotificationList();
+          cubit(context).fetchTopExpAndTopInc();
+
         }
       },
       builder: (context, state) {
@@ -30,11 +32,11 @@ class HomeScreen extends StatelessWidget {
          return Scaffold(
            body: Column(
              children: [
-               const Spacer(flex: 3),
+               const Spacer(flex: 2),
 
                /// switch between expense and income.
                Expanded(
-                 flex: 2,
+                 flex: 3,
                  child: Padding(
                    padding: EdgeInsets.symmetric(horizontal: 14.0.sp),
                    child: ExpensesAndIncomeHeader(
@@ -48,8 +50,10 @@ class HomeScreen extends StatelessWidget {
                  ),
                ),
                Expanded(
-                 flex: 14,
+                 flex: 12,
                  child: CardHome(
+                   isExpense: cubit(context).isExpense,
+
                    generalStatsModel: cubit(context).generalStatsModel?? GeneralStatsModel
                      (
                      id: AppStrings.theOnlyGeneralStatsModelID,

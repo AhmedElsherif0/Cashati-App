@@ -12,7 +12,7 @@ class DailyTransaction  with MixinTransaction implements ITransactions {
     TransactionRepeatDetailsModel dailyDetails =
         TransactionRepeatDetailsModel.copyWith(
       lastConfirmationDate: today,
-      isLastConfirmed: false,
+      isLastConfirmed: isEqualToday(date: transactionModel.paymentDate),
       creationDate: today,
       transactionModel: transactionModel,
       lastShownDate: putNextShownDate(
@@ -70,7 +70,11 @@ class WeeklyTransaction extends ITransactions with MixinTransaction {
     final TransactionRepeatDetailsModel weeklyDetails =
         TransactionRepeatDetailsModel.copyWith(
       lastConfirmationDate: today,
-      isLastConfirmed: false,
+      /// is last confirmed if same payment day , it means already added to transaction box (already paid)
+          /// so we use it to check if it is true then we will check if it is more than top exp or
+          /// more than top income , but if is last confirmed = false , then we don't need to
+          /// check if it is more than top inc or more than top exp as it is (Not Paid yet )
+      isLastConfirmed: isEqualToday(date: transactionModel.paymentDate),
       creationDate: today,
       transactionModel: transactionModel,
       lastShownDate: putNextShownDate(
@@ -131,7 +135,7 @@ class MonthlyTransaction extends ITransactions with MixinTransaction {
     final TransactionRepeatDetailsModel monthlyDetails =
         TransactionRepeatDetailsModel.copyWith(
       lastConfirmationDate: today,
-      isLastConfirmed: false,
+      isLastConfirmed: isEqualToday(date: transactionModel.paymentDate),
       creationDate: today,
       transactionModel: transactionModel,
       lastShownDate: putNextShownDate(
@@ -189,7 +193,7 @@ class NoRepeatTransaction extends ITransactions with MixinTransaction {
     final TransactionRepeatDetailsModel noRepeatDetails =
         TransactionRepeatDetailsModel.copyWith(
       lastConfirmationDate: today,
-      isLastConfirmed: false,
+      isLastConfirmed: isEqualToday(date: transactionModel.paymentDate),
       creationDate: today,
       transactionModel: transactionModel,
       lastShownDate: putNextShownDate(
