@@ -18,6 +18,7 @@ class AppBoxes {
   static const String dailyGoalModel = 'DailyGoalModel';
   static const String weeklyGoalModel = 'WeeklyGoalModel';
   static const String monthlyGoalModel = 'MonthlyGoalModel';
+  static const String generalStatisticsBox = 'generalStatisticsBox';
 
   static const String generalStatisticsModel = 'GeneralStatisticsModel';
 

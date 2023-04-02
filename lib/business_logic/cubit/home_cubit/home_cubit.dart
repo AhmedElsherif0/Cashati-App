@@ -25,6 +25,9 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  Future fetchTopExpAndTopInc()async{
+    await generalStatsRepo.fetchTopExpenseAndTopIncome();
+  }
 
 
   Future addTheGeneralStatsModel()async{
