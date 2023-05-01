@@ -20,8 +20,10 @@ import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
-import 'package:temp/notificationsApi.dart';
+import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
+import 'package:temp/presentation/screens/add_transactions/add_expenses_screen.dart';
+import 'package:temp/presentation/screens/home/statistics_details_screen.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'package:temp/presentation/widgets/status_bar_configuration.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -39,6 +41,9 @@ import 'data/models/transactions/transaction_model.dart';
 import 'data/models/transactions/transaction_types_model.dart';
 import 'data/repository/expenses_repo_impl/expenses_repo_impl.dart';
 import 'presentation/router/app_router.dart';
+import 'package:timezone/timezone.dart' as tz;
+
+import 'presentation/screens/home/part_time_details.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,36 +57,28 @@ Future<void> main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(GeneralStatsModelAdapter());
-
-   Hive.registerAdapter(TransactionModelAdapter());
-   Hive.registerAdapter(TransactionRepeatTypesAdapter());
-   Hive.registerAdapter(TransactionRepeatDetailsModelAdapter());
-   Hive.registerAdapter(SubCategoryAdapter());
-   Hive.registerAdapter(GoalModelAdapter());
-   Hive.registerAdapter(GoalRepeatedDetailsModelAdapter());
+  Hive.registerAdapter(TransactionModelAdapter());
+  Hive.registerAdapter(TransactionRepeatTypesAdapter());
+  Hive.registerAdapter(TransactionRepeatDetailsModelAdapter());
+  Hive.registerAdapter(SubCategoryAdapter());
+  Hive.registerAdapter(GoalModelAdapter());
+  Hive.registerAdapter(GoalRepeatedDetailsModelAdapter());
   Hive.registerAdapter(NotificationModelAdapter());
-
 
   await Hive.openBox<GeneralStatsModel>(AppStrings.generalStatisticsBox);
 
-  await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-       boxName: AppBoxes.dailyTransactionsBoxName);
-   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-       boxName: AppBoxes.weeklyTransactionsBoxName);
-   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-       boxName: AppBoxes.monthlyTransactionsBoxName);
-   await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-       boxName: AppBoxes.noRepeaTransactionsBoxName);
-   await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
-   await HiveHelper()
-       .openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
-   await HiveHelper()
-       .openBox<GoalModel>(boxName: AppBoxes.goalModel);
-   await HiveHelper()
-       .openBox<GoalRepeatedDetailsModel>(boxName: AppBoxes.goalRepeatedBox);
-
-
-
+  await HiveHelper()
+      .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.dailyTransactionsBoxName);
+  await HiveHelper()
+      .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.weeklyTransactionsBoxName);
+  await HiveHelper()
+      .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.monthlyTransactionsBoxName);
+  await HiveHelper()
+      .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.noRepeaTransactionsBoxName);
+  await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
+  await HiveHelper().openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
+  await HiveHelper().openBox<GoalModel>(boxName: AppBoxes.goalModel);
+  await HiveHelper().openBox<GoalRepeatedDetailsModel>(boxName: AppBoxes.goalRepeatedBox);
 
   BlocOverrides.runZoned(
     () async {
@@ -105,40 +102,21 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
   final TransactionRepo _expensesRepository = ExpensesRepositoryImpl();
   final TransactionRepo _incomeRepository = IncomeRepositoryImpl();
-  final GeneralStatsRepo _generalStatsModel=GeneralStatsRepoImpl();
-
-  @override
-  void initState() {
-   // HiveHelper().openBox<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsModel);
-    _onClickNotify();
-    super.initState();
-  }
-
-  StreamSubscription _onClickNotify() {
-   return NotificationsApi.streamController.stream.listen(
-            (event) => Navigator.pushReplacementNamed(
-            context, AppRouterNames.rNotification));
-  }
-
-  @override
-  void dispose() {
-    _onClickNotify().cancel();
-    super.dispose();
-  }
+  final GeneralStatsRepo _generalStatsModel = GeneralStatsRepoImpl();
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: ((context) => GlobalCubit())),
-        BlocProvider(create: ((context) => HomeCubit(_generalStatsModel)..getTheGeneralStatsModel())),
+        BlocProvider(
+            create: ((context) =>
+                HomeCubit(_generalStatsModel)..getTheGeneralStatsModel())),
         BlocProvider(
             create: ((context) =>
                 AddExpOrIncCubit(_expensesRepository, _incomeRepository))),
-        BlocProvider(
-            create: ((context) => ExpenseRepeatCubit(_expensesRepository))),
-        BlocProvider(
-            create: ((context) => IncomeRepeatCubit(_incomeRepository))),
+        BlocProvider(create: ((context) => ExpenseRepeatCubit(_expensesRepository))),
+        BlocProvider(create: ((context) => IncomeRepeatCubit(_incomeRepository))),
         BlocProvider(create: ((context) => AddSubcategoryCubit())),
         BlocProvider(create: ((context) => GoalsCubit())),
         BlocProvider(create: ((context) => StatisticsCubit(_expensesRepository))),
@@ -160,9 +138,9 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
                   locale: translator.activeLocale,
                   // Active locale
                   supportedLocales: translator.locals(),
-                  //    home: SplashScreen()// Locals list
-                  initialRoute: AppRouterNames.rSplashScreen,
-                  onGenerateRoute: widget.appRouter.onGenerateRoute,
+                  home: PartTimeDetails(), // Locals list
+                   /*  initialRoute: AppRouterNames.rSplashScreen,
+                  onGenerateRoute: widget.appRouter.onGenerateRoute,*/
                 );
               });
             },

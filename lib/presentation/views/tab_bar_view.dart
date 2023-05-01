@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
+import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/tab_card_View.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
@@ -98,13 +99,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                 controller: tabController,
                 children: List.generate(
                   expensesLists.noRepeats.length - 1,
-                  (index) => TabCardView(
-                    priorityName: widget.priorityName.name,
-                    seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
-                    onPressSeeMore: () {},
-                    isVisible: true,
-                    expenseRepeatList: widget.expenseDetailsList,
-                  ),
+                  (index) => SizedBox()
                 ),
               ),
             ),

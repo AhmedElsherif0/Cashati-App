@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:temp/data/models/notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class NotificationsApi {
   static final _notificationPlugins = FlutterLocalNotificationsPlugin();
@@ -10,10 +11,9 @@ class NotificationsApi {
 
   static initialize() async {
     const initAndroid =
-    AndroidInitializationSettings('@drawable/success_confirmation');
+        AndroidInitializationSettings('@drawable/success_confirmation');
     const initIOS = DarwinInitializationSettings();
-    const initSettings =
-        InitializationSettings(android: initAndroid, iOS: initIOS);
+    const initSettings = InitializationSettings(android: initAndroid, iOS: initIOS);
     await _notificationPlugins.initialize(initSettings,
         onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse);
   }
@@ -22,8 +22,7 @@ class NotificationsApi {
       NotificationResponse notificationResponse) async {
     if (notificationResponse.payload != null) {
       const NotificationResponse(
-          notificationResponseType:
-              NotificationResponseType.selectedNotification);
+          notificationResponseType: NotificationResponseType.selectedNotification);
       streamController.add(notificationResponse.payload);
     }
   }
@@ -43,7 +42,7 @@ class NotificationsApi {
       await _notificationPlugins.cancelAll();
 
   Future showSpecificScheduledNotification(
-          {required NotificationsModel notifyModel}) async {
+      {required NotificationsModel notifyModel}) async {
     await _notificationPlugins.zonedSchedule(
         notifyModel.id,
         notifyModel.title,
@@ -53,11 +52,11 @@ class NotificationsApi {
         payload: notifyModel.payLoad,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime);
+            UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  Future showRepeatScheduledNotification(
-          {required NotificationsModel notifyModel}) async {
+  Future showDailyNotification({required NotificationsModel notifyModel}) async {
+    tz.initializeTimeZones();
     await _notificationPlugins.zonedSchedule(
         notifyModel.id,
         notifyModel.title,
@@ -65,27 +64,25 @@ class NotificationsApi {
         _scheduleDaily(notifyModel.dateTime),
         await _notificationDetails(),
         payload: notifyModel.payLoad,
-        androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
+            UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true,
         matchDateTimeComponents: DateTimeComponents.time);
   }
 
-  tz.TZDateTime _scheduleDaily(DateTime time) {
-    final now = DateTime.now().toLocal();
-    final scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, now.day,
-        time.hour, time.minute, time.second);
+  tz.TZDateTime _scheduleDaily(DateTime currentDate) {
+    final scheduledDate = tz.TZDateTime.from(currentDate, tz.local);
 
     /// this condistion to check if the time not in the past.
-    return scheduledDate.isBefore(now)
-        ? scheduledDate.add(const Duration(seconds: 10))
+    return scheduledDate.isBefore(currentDate)
+        ? scheduledDate.add(const Duration(days: 1))
         : scheduledDate;
   }
 
   tz.TZDateTime _scheduleWeekly(DateTime time) {
     final now = DateTime.now().toLocal();
-    final scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, now.day,
-        time.hour, time.minute, time.second);
+    final scheduledDate = tz.TZDateTime(
+        tz.local, now.year, now.month, now.day, time.hour, time.minute, time.second);
 
     /// this condistion to check if the time not in the past.
     return scheduledDate.isBefore(now)
@@ -103,5 +100,4 @@ class NotificationsApi {
         : scheduledDate;
   }
 */
-
 }
