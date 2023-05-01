@@ -156,6 +156,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
                   theme: AppTheme.lightThemeMode,
                   debugShowCheckedModeBanner: false,
                   localizationsDelegates: translator.delegates,
+
                   // Android + iOS Delegates
                   locale: translator.activeLocale,
                   // Active locale

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
@@ -27,20 +28,53 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     _controller.dispose();
     super.dispose();
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getStatisticsCubit().getExpenses() ;
+    getStatisticsCubit().getExpenseByMonth() ;
+  }
 
   StatisticsCubit getStatisticsCubit() =>
       BlocProvider.of<StatisticsCubit>(context);
 
   void showDatePick() async {
+
     final datePicker = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: getStatisticsCubit().choosenDay,
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
+      // initialDatePickerMode: DatePickerMode.year,
+      // initialEntryMode: DatePickerEntryMode.calendarOnly,
+
     );
-    if (datePicker == null) return;
-   // getStatisticsCubit().choosenDay = datePicker;
-    getStatisticsCubit().getExpensesByDay(datePicker);
+    if (datePicker == null){
+      return;
+    }else{
+      getStatisticsCubit().getExpensesByDay(datePicker);
+
+    }
+    // getStatisticsCubit().choosenDay = datePicker;
+  }
+  void showDatePickMonth() async {
+
+    final datePicker = await showMonthPicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime(2100),
+      //initialMonthYearPickerMode: MonthYearPickerMode.year
+    );
+    if (datePicker == null){
+      return;
+    }else{
+      getStatisticsCubit().getExpensesByDay(datePicker);
+
+    }
+    // getStatisticsCubit().choosenDay = datePicker;
   }
 
   @override
@@ -64,8 +98,15 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                     child: Column(
                       children: [
                         CustomElevatedButton(
-                          onPressed: () => showDatePick(),
-                          text: '${getStatisticsCubit().choosenDay.day} \\ ${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}',
+                          onPressed: () {
+                            if(index==0){
+                              showDatePick();
+                            }else{
+                              showDatePickMonth();
+                            }
+                          },
+                          text:
+                          index==0? '${getStatisticsCubit().choosenDay.day} \\ ${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}':"${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}",
                           textStyle: Theme.of(context).textTheme.subtitle1,
                           backgroundColor: AppColor.white,
                           width: 40.w,
@@ -79,32 +120,50 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                             expensesModel: list),
 
                         /// TabBarView Widgets.
+                        ///Todo:: taken a different list verses the ExpenseList.
                         Expanded(
-                            flex: 40,
-                            child:
-                                ListView.builder(
-                                    itemCount: getStatisticsCubit().byDayList.length,
-                                    itemBuilder: (context, index) {
-                                      TransactionModel item =getStatisticsCubit().byDayList[index];
-                              return ExpansionTile(
-                                title: Text(item.name),
-                                children: [
-                                  Text('${item.paymentDate}'),
-                                ]
-
-                              );
-                            })
-
-                            // Todo:: taken a different list verses the ExpenseList.
-                            // return CustomTabBarView(
-                            //     priorityName: PriorityType.Important,
-                            //     expenseDetailsList:
-                            //     getStatisticsCubit().getExpensesByDay(),
-                            //     currentIndex: currentIndex,
-                            //     index: index,
-                            //     pageController: _controller);
-
-                            ),
+                          flex: 40,
+                          child: CustomTabBarViewEdited(
+                              priorityName: PriorityType.Important,
+                              expenseList: getStatisticsCubit().byDayList,
+                              monthWidget: ListView.builder(
+                                  itemCount: 4,
+                                  itemBuilder: (ctx,ind){
+                                return ExpansionTile(
+                                  title: Text("Week ${ind + 1}"),
+                                  subtitle:
+                                  Text("${getStatisticsCubit().totals[ind]}"),
+                                );
+                              }),
+                              currentIndex: currentIndex,
+                              index: index,
+                              pageController: _controller),
+                        ),
+                        // Expanded(
+                        //     flex: 40,
+                        //     child:
+                        //         ListView.builder(
+                        //             itemCount: getStatisticsCubit().currentIndex==0?getStatisticsCubit().byDayList.length:3,
+                        //             itemBuilder: (context, index) {
+                        //               TransactionModel item =getStatisticsCubit().byDayList[index];
+                        //       return Visibility(
+                        //         visible: getStatisticsCubit().currentIndex==0,
+                        //           child: ExpansionTile(
+                        //               title: Text(item.name),
+                        //               children: [
+                        //                 Text('${item.paymentDate}'),
+                        //               ]
+                        //
+                        //           ),
+                        //       replacement: ExpansionTile(title: Text("Week ${index+1}"),
+                        //       subtitle: Text("${getStatisticsCubit().totals[index]}"),
+                        //       ),
+                        //       );
+                        //     })
+                        //
+                        //
+                        //
+                        //     ),
                       ],
                     ),
                   ),
