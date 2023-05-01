@@ -3,6 +3,8 @@ import 'package:sizer/sizer.dart';
 import 'colors.dart';
 
 class AppDecorations {
+ static const duration600ms = Duration(milliseconds: 600);
+
 
   static BoxDecoration defBoxDecoration = BoxDecoration(
     color: AppColor.primaryColor,
