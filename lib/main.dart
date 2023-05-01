@@ -65,7 +65,8 @@ Future<void> main() async {
   Hive.registerAdapter(GoalRepeatedDetailsModelAdapter());
   Hive.registerAdapter(NotificationModelAdapter());
 
-  await Hive.openBox<GeneralStatsModel>(AppStrings.generalStatisticsBox);
+
+  await Hive.openBox<GeneralStatsModel>(AppBoxes.generalStatisticsBox);
 
   await HiveHelper()
       .openBox<TransactionRepeatDetailsModel>(boxName: AppBoxes.dailyTransactionsBoxName);
@@ -104,14 +105,19 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
   final TransactionRepo _incomeRepository = IncomeRepositoryImpl();
   final GeneralStatsRepo _generalStatsModel = GeneralStatsRepoImpl();
 
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: ((context) => GlobalCubit())),
+
+        BlocProvider(create: ((context) => HomeCubit(_generalStatsRepository)..getTheGeneralStatsModel())),
         BlocProvider(
             create: ((context) =>
-                HomeCubit(_generalStatsModel)..getTheGeneralStatsModel())),
+                AddExpOrIncCubit(_expensesRepository, _incomeRepository,_generalStatsRepository))),
+        BlocProvider(
+            create: ((context) => ExpenseRepeatCubit(_expensesRepository))),
         BlocProvider(
             create: ((context) =>
                 AddExpOrIncCubit(_expensesRepository, _incomeRepository))),

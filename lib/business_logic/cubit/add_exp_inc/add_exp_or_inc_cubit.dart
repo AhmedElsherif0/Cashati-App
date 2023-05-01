@@ -2,8 +2,13 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/constants/app_lists.dart';
+import 'package:temp/constants/app_strings.dart';
+import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/local/hive/hive_database.dart';
+import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/subcategories_repo_impl/expense_subcategory_repo_impl.dart';
 import 'package:temp/data/repository/subcategories_repo_impl/income_subcategory_repo_impl.dart';
@@ -14,13 +19,15 @@ import '../../repository/transactions_repo/transaction_repo.dart';
 part 'add_exp_or_inc_state.dart';
 
 class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
-  AddExpOrIncCubit(this._expensesRepository, this._incomeRepository)
+  AddExpOrIncCubit(this._expensesRepository, this._incomeRepository,
+      this._generalStatsRepo)
       : super(AddExpOrIncInitial());
   String currentID = '';
   String subCatName = '';
   bool isSubChoosed = false;
   DateTime? chosenDate;
   String currentMainCat = '';
+  num currentAmount = 0;
 
   List<MaterialColor> lastColorList = [];
   bool isExpense = true;
@@ -40,14 +47,15 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   bool isImportant = false;
   CategoryTransactionRepo subCategoryRepo = ExpenseSubCategoryImpl();
   CategoryTransactionRepo incomeSubCategoryRepo = IncomeSubcategoryImpl();
-  List<DropdownMenuItem<String>> dropDownChannelItems =const [
-    DropdownMenuItem(child: Text('Daily'), value: 'Daily'),
-    DropdownMenuItem(child: Text('Weekly'), value: 'Weekly'),
-    DropdownMenuItem(child: Text('Monthly'), value: 'Monthly')
+  List<DropdownMenuItem<String>> dropDownChannelItems = const [
+    DropdownMenuItem(child: Text(AppStrings.daily), value: AppStrings.daily),
+    DropdownMenuItem(child: Text(AppStrings.weekly), value: AppStrings.weekly),
+    DropdownMenuItem(child: Text(AppStrings.monthly), value: AppStrings.monthly)
   ];
 
   final TransactionRepo _expensesRepository;
   final TransactionRepo _incomeRepository;
+  final GeneralStatsRepo _generalStatsRepo;
 
   chooseMainCategory(String mainCategory) {
     currentMainCat = mainCategory;
@@ -206,21 +214,21 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     emit(ChoosedSubCategoryState());
   }
 
-  Future<void> validateExpenseFields(
-      BuildContext context,  TransactionModel transactionModel)async {
-    if (transactionModel.amount==null) {
+  Future<void> validateExpenseFields(BuildContext context,
+      TransactionModel transactionModel) async {
+    if (transactionModel.amount == null || transactionModel.amount == 0) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
     } else if (subCatName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Kindly choose a subCategory ')));
     } else {
-      await addExpense( expenseModel: transactionModel);
+      await addExpense(expenseModel: transactionModel);
     }
   }
 
-  validateIncomeFields(
-      BuildContext context, String amount, TransactionModel transactionModel) {
+  validateIncomeFields(BuildContext context, String amount,
+      TransactionModel transactionModel) {
     if (amount.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
@@ -232,11 +240,10 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     }
   }
 
-  Future<void> addExpense(
-       {required TransactionModel expenseModel})async {
+  Future<void> addExpense({required TransactionModel expenseModel}) async {
     try {
-    await  _expensesRepository.
-      addTransactionToTransactionBox( transactionModel: expenseModel);
+      await _expensesRepository.
+      addTransactionToTransactionBox(transactionModel: expenseModel);
       emit(AddExpOrIncSuccess());
     } catch (error) {
       print('${error.toString()}');
@@ -244,9 +251,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     }
   }
 
-  Future<void> addIncome({required TransactionModel incomeModel})async {
+  Future<void> addIncome({required TransactionModel incomeModel}) async {
     try {
-     await _incomeRepository.addTransactionToTransactionBox(
+      await _incomeRepository.addTransactionToTransactionBox(
           transactionModel: incomeModel);
       emit(AddExpOrIncSuccess());
     } catch (error) {
@@ -266,5 +273,46 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     emit(ChoosedDateState());
   }
 
+  Future<void> validateields(bool isExpense,
+      BuildContext context, TransactionModel transactionModel) async {
+    currentAmount = transactionModel.amount ?? 0;
+    if (transactionModel.amount == null || transactionModel.amount == 0) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
+    } else if (subCatName.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Kindly choose a subCategory ')));
+    } else if (transactionModel.name
+        .trim()
+        .isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Kindly , write the name ')));
+    } else {
+      isExpense
+          ? await addExpense(expenseModel: transactionModel)
+          : await addIncome(incomeModel: transactionModel);
+    }
+  }
 
+  Future checkIfTopExpOrInc() async {
+    final generalModel = HiveHelper().getBoxName<GeneralStatsModel>(
+        boxName: AppBoxes.generalStatisticsBox).get(
+        AppStrings.theOnlyGeneralStatsModelID)!;
+    final todayDate = DateTime.now();
+  if(chosenDate?.day == todayDate.day && chosenDate?.month == todayDate.month &&chosenDate?.year == todayDate.year ){
+    if (isExpense && currentAmount > generalModel.topExpenseAmount) {
+      await _generalStatsRepo.fetchTopExpenseAndTopIncome();
+    }
+    else if (!isExpense && currentAmount > generalModel.topIncomeAmount) {
+      await _generalStatsRepo.fetchTopExpenseAndTopIncome();
+    } else {
+      print(
+          'Is Expense ${isExpense} And current amount is $currentAmount and top amount in transaction exp is ${generalModel
+              .topExpenseAmount} and top amount in transaction Inc is ${generalModel
+              .topIncomeAmount}');
+    }
+  }else{
+    print('Payment was not added today to check .');
+  }
+  }
 }

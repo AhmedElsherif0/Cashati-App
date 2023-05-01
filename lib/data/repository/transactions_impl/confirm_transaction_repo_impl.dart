@@ -211,6 +211,7 @@ class ConfirmTransactionImpl with GeneralStatsRepoImpl
     //     .where((element) => element.transactionModel.id == addedExpense.id)
     //     .single;
     print('Before Edit Daily ${theMatchingDailyExpense.lastConfirmationDate}');
+    theMatchingDailyExpense.isLastConfirmed = isEqualToday(date: addedExpense.paymentDate);
     theMatchingDailyExpense.lastConfirmationDate = today;
     theMatchingDailyExpense.nextShownDate = today.add(const Duration(days: 1));
     theMatchingDailyExpense.lastShownDate = today;
@@ -252,6 +253,8 @@ class ConfirmTransactionImpl with GeneralStatsRepoImpl
     //     .single;
 
     // the right last confirmation date is below
+    theMatchingWeeklyExpenseModel.isLastConfirmed = isEqualToday(date: addedExpense.paymentDate);
+
     theMatchingWeeklyExpenseModel.lastConfirmationDate = today;
     theMatchingWeeklyExpenseModel.nextShownDate =
         today.add(const Duration(days: 7));
@@ -277,6 +280,7 @@ class ConfirmTransactionImpl with GeneralStatsRepoImpl
     //     .values
     //     .where((element) => element.transactionModel.id == addedExpense.id)
     //     .single;
+    theMatchingMonthlyExpenseModel.isLastConfirmed = isEqualToday(date: addedExpense.paymentDate);
 
     theMatchingMonthlyExpenseModel.lastConfirmationDate = today;
     theMatchingMonthlyExpenseModel.nextShownDate =
@@ -296,6 +300,7 @@ class ConfirmTransactionImpl with GeneralStatsRepoImpl
     //     .values
     //     .where((element) => element.transactionModel.id == addedExpense.id)
     //     .single;
+    theMatchingNoRepExpenseModel.isLastConfirmed = isEqualToday(date: addedExpense.paymentDate);
     theMatchingNoRepExpenseModel.lastConfirmationDate = today;
     theMatchingNoRepExpenseModel.lastShownDate = today;
     theMatchingNoRepExpenseModel.nextShownDate = today;

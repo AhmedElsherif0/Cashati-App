@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
@@ -70,7 +71,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 35,
+          height: 3.5.h,
         ),
         InkWell(
           onTap: () {
@@ -98,15 +99,15 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 45,
+                    height: 4.5.h,
                   ),
                   subCategoriesListContainer(
                       subCategoriesList, addExpOrIncCubit),
                   SizedBox(
-                    height: 10,
+                    height: 1.2.h,
                   ),
                   Container(
-                    width: 270,
+                    width: 65.w,
                     child: EditableInfoField(
                       textEditingController: nameCtrl,
                       hint: 'Income Name',
@@ -115,14 +116,14 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.5.h,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 270,
+                        width: 65.w,
                         child: EditableInfoField(
                           textEditingController: amountCtrl,
                           hint: 'Amount',
@@ -137,20 +138,20 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                                 color: AppColor.primaryColor,
                                 fontWeight: FontWeight.bold),
                           )),
-                      SizedBox(width: 4),
+                      SizedBox(width: .4.w),
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.5.h,
                   ),
                   Container(
-                      width: 270,
+                      width: 65.w,
                       child: DateChooseContainer(dateTime: addExpOrIncCubit.chosenDate)),
                   SizedBox(
-                    height: 10,
+                    height: 1.5.h,
                   ),
                   Container(
-                    width: 270,
+                    width: 65.w,
                     child: EditableInfoField(
                       textEditingController: descriptionCtrl,
                       hint: 'Write Description',
@@ -159,48 +160,45 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.5.h,
                   ),
-                  Container(
-                    width: 250,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                          width: 40,
-                          child: Checkbox(
-                            value: addExpOrIncCubit.isRepeat,
-                            onChanged: addExpOrIncCubit.isRepeatOrNo,
-                            hoverColor: AppColor.primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            activeColor: AppColor.white,
-                            checkColor: AppColor.white,
-                            fillColor: MaterialStateProperty.all(
-                                AppColor.primaryColor),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 3.h,
+                        width: 4.w,
+                        child: Checkbox(
+                          value: addExpOrIncCubit.isRepeat,
+                          onChanged: addExpOrIncCubit.isRepeatOrNo,
+                          hoverColor: AppColor.primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
                           ),
+                          activeColor: AppColor.white,
+                          checkColor: AppColor.white,
+                          fillColor: MaterialStateProperty.all(
+                              AppColor.primaryColor),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Repeat',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(color: AppColor.primaryColor),
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        width: 2.5.w,
+                      ),
+                      Text(
+                        'Repeat',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: AppColor.primaryColor),
+                      )
+                    ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.2.h,
                   ),
                   Visibility(
                     visible: addExpOrIncCubit.isRepeat,
                     child: Container(
-                      width: 270,
+                      width: 65.w,
                       child: DropDownCustomWidget(
                           dropDownList:
                           addExpOrIncCubit.dropDownChannelItems,
@@ -210,13 +208,13 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                     replacement: SizedBox(),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 1.2.h,
                   ),
                   CustomElevatedButton(
                     onPressed: (){
                       print('Choosed Date before Adding in income widget is ${addExpOrIncCubit.chosenDate}');
 
-                      addExpOrIncCubit.validateIncomeFields(context,amountCtrl.text,
+                      addExpOrIncCubit.validateields(false,context,
                         TransactionModel.income(
                             id: GUIDGen.generate(),
                             name: nameCtrl.text,
@@ -251,7 +249,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
   Container subCategoriesListContainer(
       List<SubCategory> subCatsList, AddExpOrIncCubit addExpOrIncCubit) {
     return Container(
-      height: 250,
+      height: 28.h,
       child: GridView.builder(
           itemCount: subCatsList.length,
           scrollDirection: Axis.horizontal,
@@ -308,7 +306,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
     Future.delayed(
       Duration(seconds: 2),
           () {
-        Navigator.pop(context);
+       // Navigator.pop(context);
         Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
       },
     );

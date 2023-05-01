@@ -19,13 +19,19 @@ class CacheHelper {
       return await sharedPreferences.setString(key, value);
     } else if (value is int) {
       return await sharedPreferences.setInt(key, value);
-    } else {
+    } else if (value is List<String>) {
+      return await sharedPreferences.setStringList(key, value);
+    }else {
       return await sharedPreferences.setDouble(key, value);
     }
   }
 
   static Future<bool> removeData({required String key}) async {
     return await sharedPreferences.remove(key);
+  }
+
+  static Future<bool> saveToday(String key,List<String> dateList)async{
+    return await sharedPreferences.setStringList(key,dateList);
   }
 
   static Future clearData(){
