@@ -99,13 +99,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                 controller: tabController,
                 children: List.generate(
                   expensesLists.noRepeats.length - 1,
-                  (index) => TabCardView(
-                    priorityName: widget.priorityName.name,
-                    seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
-                    onPressSeeMore: () {},
-                    isVisible: true,
-                    expenseRepeatList: widget.expenseDetailsList,
-                  ),
+                  (index) => SizedBox()
                 ),
               ),
             ),

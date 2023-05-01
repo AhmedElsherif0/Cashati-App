@@ -10,7 +10,7 @@ class EditableInfoField extends StatefulWidget {
       required this.iconName,
       this.containerWidth,
       this.trailing,
-      this.keyboardType})
+      this.keyboardType, this.maxLines = 1})
       : super(key: key);
   final TextEditingController textEditingController;
   final String hint;
@@ -18,6 +18,7 @@ class EditableInfoField extends StatefulWidget {
   final TextInputType? keyboardType;
   final double? containerWidth;
   final Widget? trailing;
+  final int maxLines;
 
   @override
   _EditableInfoFieldState createState() => _EditableInfoFieldState();
@@ -27,9 +28,9 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.containerWidth ?? 270,
+      width: widget.containerWidth,
       decoration: BoxDecoration(
-          color: Colors.blueGrey.withOpacity(.2),
+          color: AppColor.primaryColor.withOpacity(0.3),
           borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(1.0),
@@ -37,27 +38,25 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
           title: TextFormField(
             keyboardType: widget.keyboardType ?? TextInputType.text,
             controller: widget.textEditingController,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'This field can\'t be empty';
-              } else {
+            validator: (value) => value!.isEmpty
+                ? 'This field can\'t be empty'
+                :
                 // widget.subCategoryName=value;
-              }
-              return null;
-            },
-
+                null,
             // },
             onChanged: (value) {},
             cursorColor: AppColor.primaryColor,
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                  fontWeight: FontWeight.w300,
-                ),
+            style: Theme.of(context)
+                .textTheme
+                .bodyText2!
+                .copyWith(fontWeight: FontWeight.w300),
+            maxLines: widget.maxLines,
             decoration: InputDecoration(
                 hintText: widget.hint,
                 hintStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
                       fontWeight: FontWeight.w300,
-                      fontSize: 13,
-                      color: AppColor.grey,
+                      fontSize: 15,
+                      color: AppColor.primaryColor,
                     ),
                 border: InputBorder.none),
           ),
