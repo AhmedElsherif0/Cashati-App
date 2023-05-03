@@ -52,11 +52,9 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
                         Expanded(
                           child: TabCardView(
                             priorityName: 'Important',
-                            expenseRepeatList:
-                                _repeatCubit(context).getExpenseTypeList(),
+                            expenseRepeatList: _repeatCubit(context).getExpenseTypeList(),
                             onPressSeeMore: () => Navigator.of(context)
-                                .pushNamed(
-                                    AppRouterNames.rExpenseRepeatDetails),
+                                .pushNamed(AppRouterNames.rExpenseRepeatDetails),
                             isVisible: true,
                             isRepeated: true,
                             seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
@@ -74,6 +72,5 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
     );
   }
 
-  ExpenseRepeatCubit _repeatCubit(context) =>
-      BlocProvider.of<ExpenseRepeatCubit>(context);
+  ExpenseRepeatCubit _repeatCubit(context) => BlocProvider.of<ExpenseRepeatCubit>(context);
 }

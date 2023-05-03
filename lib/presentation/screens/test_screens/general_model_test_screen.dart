@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
 
 class GeneralModelTestScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _GeneralModelTestScreenState extends State<GeneralModelTestScreen> {
         child: Center(
           child: ValueListenableBuilder<Box<GeneralStatsModel>>(
               valueListenable:
-                  Hive.box<GeneralStatsModel>(AppStrings.generalStatisticsBox).listenable(),
+                  Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsBox).listenable(),
               builder: (context, box, widget) {
                 return ListView.builder(
                   itemCount: box.values.length,

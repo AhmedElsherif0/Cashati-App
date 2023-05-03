@@ -80,31 +80,48 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
 
                         /// TabBarView Widgets.
                         Expanded(
-                            flex: 40,
-                            child:
-                                ListView.builder(
-                                    itemCount: getStatisticsCubit().byDayList.length,
-                                    itemBuilder: (context, index) {
-                                      TransactionModel item =getStatisticsCubit().byDayList[index];
-                              return ExpansionTile(
-                                title: Text(item.name),
-                                children: [
-                                  Text('${item.paymentDate}'),
-                                ]
-
-                              );
-                            })
-
-                            // Todo:: taken a different list verses the ExpenseList.
-                            // return CustomTabBarView(
-                            //     priorityName: PriorityType.Important,
-                            //     expenseDetailsList:
-                            //     getStatisticsCubit().getExpensesByDay(),
-                            //     currentIndex: currentIndex,
-                            //     index: index,
-                            //     pageController: _controller);
-
-                            ),
+                          flex: 40,
+                          child: CustomTabBarViewEdited(
+                              priorityName: PriorityType.Important,
+                              expenseList: getStatisticsCubit().byDayList,
+                              monthWidget: ListView.builder(
+                                  itemCount: 4,
+                                  itemBuilder: (ctx,ind){
+                                return ExpansionTile(
+                                  title: Text("Week ${ind + 1}"),
+                                  subtitle:
+                                  Text("${getStatisticsCubit().totals[ind]}"),
+                                );
+                              }),
+                              currentIndex: currentIndex,
+                              index: index,
+                              pageController: _controller),
+                        ),
+                        // Expanded(
+                        //     flex: 40,
+                        //     child:
+                        //         ListView.builder(
+                        //             itemCount: getStatisticsCubit().currentIndex==0?getStatisticsCubit().byDayList.length:3,
+                        //             itemBuilder: (context, index) {
+                        //               TransactionModel item =getStatisticsCubit().byDayList[index];
+                        //       return Visibility(
+                        //         visible: getStatisticsCubit().currentIndex==0,
+                        //           child: ExpansionTile(
+                        //               title: Text(item.name),
+                        //               children: [
+                        //                 Text('${item.paymentDate}'),
+                        //               ]
+                        //
+                        //           ),
+                        //       replacement: ExpansionTile(title: Text("Week ${index+1}"),
+                        //       subtitle: Text("${getStatisticsCubit().totals[index]}"),
+                        //       ),
+                        //       );
+                        //     })
+                        //
+                        //
+                        //
+                        //     ),
                       ],
                     ),
                   ),

@@ -27,7 +27,6 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
 
       length: 2,
       initialIndex: currentIndex,
-
       child: Scaffold(
           body:  Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.0),
