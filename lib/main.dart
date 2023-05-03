@@ -103,7 +103,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
   final TransactionRepo _expensesRepository = ExpensesRepositoryImpl();
   final TransactionRepo _incomeRepository = IncomeRepositoryImpl();
-  final GeneralStatsRepo _generalStatsModel = GeneralStatsRepoImpl();
+  final GeneralStatsRepo _generalStatsRepository = GeneralStatsRepoImpl();
 
 
   @override
@@ -120,7 +120,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
             create: ((context) => ExpenseRepeatCubit(_expensesRepository))),
         BlocProvider(
             create: ((context) =>
-                AddExpOrIncCubit(_expensesRepository, _incomeRepository))),
+                AddExpOrIncCubit(_expensesRepository, _incomeRepository,_generalStatsRepository))),
         BlocProvider(create: ((context) => ExpenseRepeatCubit(_expensesRepository))),
         BlocProvider(create: ((context) => IncomeRepeatCubit(_incomeRepository))),
         BlocProvider(create: ((context) => AddSubcategoryCubit())),
