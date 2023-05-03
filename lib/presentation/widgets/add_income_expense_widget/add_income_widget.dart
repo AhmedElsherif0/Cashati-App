@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
@@ -86,6 +87,8 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
           listener: (context,state){
             if(state is AddExpOrIncSuccess){
               showSuccAndNavigate(context);
+              BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
+
             }else if (state is AddExpOrIncError){
               errorSnackBar(context: context,message: 'Kindly Try again , and contact us !');
 
