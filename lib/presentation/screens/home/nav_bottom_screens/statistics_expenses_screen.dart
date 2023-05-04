@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
+import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/models/statistics/expenses_lists.dart';
@@ -27,11 +29,21 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     _controller.dispose();
     super.dispose();
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    getStatisticsCubit().getExpenses();
+    getStatisticsCubit().getExpenseByMonth(true);
+    getStatisticsCubit().getTodaysExpenses(true);
+    super.initState();
+  }
 
   StatisticsCubit getStatisticsCubit() =>
       BlocProvider.of<StatisticsCubit>(context);
 
   void showDatePick() async {
+
     final datePicker = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -40,7 +52,20 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     );
     if (datePicker == null) return;
    // getStatisticsCubit().choosenDay = datePicker;
-    getStatisticsCubit().getExpensesByDay(datePicker);
+    getStatisticsCubit().getExpensesByDay(datePicker,true);
+  }
+  void showDatePickMonth() async {
+
+    final datePicker = await showMonthPicker(
+
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+    if (datePicker == null) return;
+    getStatisticsCubit().chooseMonth(datePicker);
+    getStatisticsCubit().getExpenseByMonth(true);
   }
 
   @override
@@ -48,7 +73,11 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     ExpensesLists expensesLists = ExpensesLists();
     int currentIndex = 0;
     return Scaffold(
-      body: BlocBuilder<StatisticsCubit, StatisticsState>(
+      body: BlocConsumer<StatisticsCubit, StatisticsState>(
+        listener: (context,state){
+          if(state is StatisticsInitial){
+          }
+        },
         builder: (context, state) {
           return Directionality(
             textDirection: TextDirection.ltr,
@@ -64,8 +93,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                     child: Column(
                       children: [
                         CustomElevatedButton(
-                          onPressed: () => showDatePick(),
-                          text: '${getStatisticsCubit().choosenDay.day} \\ ${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}',
+                          onPressed: () => index==0?showDatePick():showDatePickMonth(),
+                          text: index ==0?'${getStatisticsCubit().choosenDay.day} \\ ${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}':'${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}',
                           textStyle: Theme.of(context).textTheme.subtitle1,
                           backgroundColor: AppColor.white,
                           width: 40.w,
@@ -84,15 +113,12 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                           child: CustomTabBarViewEdited(
                               priorityName: PriorityType.Important,
                               expenseList: getStatisticsCubit().byDayList,
-                              monthWidget: ListView.builder(
-                                  itemCount: 4,
-                                  itemBuilder: (ctx,ind){
-                                return ExpansionTile(
-                                  title: Text("Week ${ind + 1}"),
-                                  subtitle:
-                                  Text("${getStatisticsCubit().totals[ind]}"),
-                                );
-                              }),
+                              monthWidget: WeekCardViewEdited(
+                                chosenDay: getStatisticsCubit().choosenDay,
+                                onPressSeeMore: (){},
+                                weeksTotals: getStatisticsCubit().totals,
+                                seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
+                              ),
                               currentIndex: currentIndex,
                               index: index,
                               pageController: _controller),

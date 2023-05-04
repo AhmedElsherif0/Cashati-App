@@ -5,3 +5,5 @@ abstract class StatisticsState {}
 
 class StatisticsInitial extends StatisticsState {}
 class StatisticsByDayList extends StatisticsState {}
+class ChoseDateSucc extends StatisticsState {}
+class FetchedMonthData extends StatisticsState {}

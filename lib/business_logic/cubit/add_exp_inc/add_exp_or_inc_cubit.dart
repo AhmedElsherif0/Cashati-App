@@ -81,8 +81,12 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   void isImportantOrNo(bool? value) {
     isImportant = value ?? false;
-    if (isImportant) emit(ChoosedPriorityYesState());
-    if (!isImportant) emit(ChoosedPriorityNoState());
+
+    if (isImportant){
+      emit(ChoosedPriorityYesState());
+    } else{
+      emit(ChoosedPriorityNoState());
+    }
   }
 
   List<SubCategory> fetchExpensesSubCategories() {
