@@ -33,7 +33,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
     // TODO: implement initState
 
     getStatisticsCubit().getIncome();
-    getStatisticsCubit().getExpenseByMonth(false);
+    getStatisticsCubit().getTransactionsByMonth(false);
     getStatisticsCubit().getTodaysExpenses(false);
     super.initState();
   }
@@ -64,7 +64,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
     );
     if (datePicker == null) return;
     getStatisticsCubit().chooseMonth(datePicker);
-    getStatisticsCubit().getExpenseByMonth(false);
+    getStatisticsCubit().getTransactionsByMonth(false);
   }
 
   @override
@@ -113,6 +113,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                               priorityName: PriorityType.Fixed,
                               expenseList: getStatisticsCubit().byDayList,
                               monthWidget: WeekCardViewEdited(
+                                weekRanges: getStatisticsCubit().weekRangeText(),
                                 chosenDay: getStatisticsCubit().choosenDay,
                                 onPressSeeMore: (){},
                                 weeksTotals: getStatisticsCubit().totals,
