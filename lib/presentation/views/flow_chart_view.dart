@@ -49,7 +49,7 @@ class FlowChartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 25,
+      flex: 22,
       child: Column(
         children: [
           /// Chart widgets

@@ -173,17 +173,19 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
             indicatorWeight: 0,
             controller: tabController,
             indicator: AppDecorations.defBoxDecoration,
-            unselectedLabelColor: AppColor.primaryColor,
+            unselectedLabelColor: AppColor.grey,
+
             labelStyle: Theme.of(context).textTheme.headline6,
             tabs: List.generate(3, (index) {
               return Tab(
                 height: 6.h,
                 child: TabBarItem(
+                  backGroundColor: tabController.index == index ?AppColor.primaryColor:AppColor.primaryColor.withOpacity(.7),
                   text: expensesLists.statisticsList[index],
                   onTap: () => setState(() => onSwapByIndex(index: index)),
                   textColor: tabController.index == index
                       ? AppColor.white
-                      : AppColor.primaryColor,
+                      : AppColor.white,
                 ),
               );
             }),

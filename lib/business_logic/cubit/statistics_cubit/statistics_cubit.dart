@@ -1,6 +1,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/business_logic/repository/transactions_repo/transaction_repo.dart';
 import 'package:temp/data/models/statistics/expenses_lists.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
@@ -9,6 +10,7 @@ part 'statistics_state.dart';
 
 class StatisticsCubit extends Cubit<StatisticsState> {
   StatisticsCubit(this._expensesRepository) : super(StatisticsInitial());
+  List<TransactionModel> dataList = [];
   List<TransactionModel> allExpensesList = [];
   List<TransactionModel> allIncomeList = [];
   List<TransactionModel> byDayList=[];
@@ -42,19 +44,26 @@ class StatisticsCubit extends Cubit<StatisticsState> {
     allIncomeList = _expensesRepository.getTransactionFromTransactionBox(false);
     return allIncomeList;
   }
-   getExpensesByDay(DateTime date){
+   getExpensesByDay(DateTime date,bool isExpense){
     choosenDay=date;
     List<TransactionModel> dayList=[];
-    dayList.addAll(getExpenses().where((element) =>checkSameDay(element)).toList());
+    dayList.addAll(isExpense?getExpenses().where((element) =>checkSameDay(element)).toList():getIncome().where((element) =>checkSameDay(element)).toList());
+    byDayList.clear();
+    byDayList=List.from(dayList);
+    byDayList.map((e) => print(" priorityyyyy ${e.isPriority}"));
+    emit(StatisticsByDayList());
+  }
+  getTodaysExpenses(bool isExpense){
+    List<TransactionModel> dayList=[];
+    dayList.addAll(isExpense?getExpenses().where((element) =>checkSameDay(element)).toList():getIncome().where((element) =>checkSameDay(element)).toList());
     byDayList.clear();
     byDayList=List.from(dayList);
     emit(StatisticsByDayList());
-
   }
 
   //TODO Get Date Format logic to get Day's name
 
-  getExpenseByMonth(){
+  getExpenseByMonth(bool isExpense){
     /// to prevent duplicate data
     monthList.clear();
     totalWeek1=0;
@@ -63,10 +72,12 @@ class StatisticsCubit extends Cubit<StatisticsState> {
     totalWeek4=0;
 
     totals.clear();
-
-    final month=  4;
+    final month=  choosenDay.month;
+    print("current month is $month");
   print("expensesssss ${allExpensesList}");
-    allExpensesList.forEach((element) {
+    dataList.clear();
+    dataList= isExpense?allExpensesList:allIncomeList;
+    dataList.forEach((element) {
       if(element.paymentDate.month== month && element.paymentDate.day < 8){
         /// To add day in the first week to monthlist[0] index number 0
         // monthList[0].add(element);
@@ -110,7 +121,7 @@ class StatisticsCubit extends Cubit<StatisticsState> {
 
     print("totalsssssssssss2 $totals");
 
-
+    emit(FetchedMonthData());
     // monthList[0].addAll(allExpensesList.where((element) =>element.paymentDate.month== month && element.paymentDate.day < 8
     // ) );
     // monthList[1].addAll(allExpensesList.where((element) => 7> element.paymentDate.month== month && element.paymentDate.day  < 15
@@ -127,5 +138,10 @@ class StatisticsCubit extends Cubit<StatisticsState> {
     }else{
       return false;
     }
+  }
+
+  chooseMonth(DateTime dateTime){
+    choosenDay= dateTime;
+    emit(ChoseDateSucc());
   }
 }

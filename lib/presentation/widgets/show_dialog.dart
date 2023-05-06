@@ -293,7 +293,7 @@ void _customAlertDialog(
         ),
         barrierDismissible: true,
         barrierLabel: 'data',
-        barrierColor: AppColor.black.withOpacity(0.7),
+        barrierColor: AppColor.black.withOpacity(0.3),
       );
       return;
     case TargetPlatform.iOS:
