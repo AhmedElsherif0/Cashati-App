@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/constants/app_icons.dart';
-import 'package:temp/constants/app_lists.dart';
 import 'package:temp/constants/enum_classes.dart';
-import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
@@ -15,11 +12,13 @@ class WeekCardViewEdited extends StatelessWidget {
         required this.onPressSeeMore,
         this.priceColor = AppColor.red,
         this.seeMoreOrDetailsOrHighest,
+        required this.weekRanges,
         required this.chosenDay ,
         this.priorityColor = AppColor.secondColor})
       : super(key: key);
 
   final List<num> weeksTotals;
+  final List<String> weekRanges;
   final DateTime chosenDay;
   final Color priceColor;
   final Color priorityColor;
@@ -74,7 +73,7 @@ class WeekCardViewEdited extends StatelessWidget {
                               style: textTheme.headline5),
                           const Spacer(),
                           Text(
-                            '${weeksTotals[index] ?? 200} LE',
+                            '${weeksTotals[index]} LE',
                             style: textTheme.headline5
                                 ?.copyWith(color: priceColor),
                           ),
@@ -84,7 +83,7 @@ class WeekCardViewEdited extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          AppConstantList.getWeekRange(chosenDay: chosenDay,)[index],
+                          weekRanges[index],
                           style: textTheme.subtitle1,
                         ),
                       ),

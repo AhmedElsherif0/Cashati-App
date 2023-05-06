@@ -1,18 +1,17 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/business_logic/repository/transactions_repo/transaction_repo.dart';
 import 'package:temp/data/models/statistics/expenses_lists.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
+import 'package:temp/data/repository/helper_class.dart';
 
 part 'statistics_state.dart';
 
-class StatisticsCubit extends Cubit<StatisticsState> {
+class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   StatisticsCubit(this._expensesRepository) : super(StatisticsInitial());
-  List<TransactionModel> dataList = [];
-  List<TransactionModel> allExpensesList = [];
-  List<TransactionModel> allIncomeList = [];
+  List<TransactionModel> monthTransactions = [];
+
   List<TransactionModel> byDayList=[];
   List<TransactionModel> week1=[];
   List<TransactionModel> week2=[];
@@ -24,10 +23,7 @@ class StatisticsCubit extends Cubit<StatisticsState> {
   num totalWeek3 = 0;
   num totalWeek4 = 0;
   List<List<TransactionModel>> monthList=[];
-
-
   final TransactionRepo _expensesRepository;
-
   List<String> noRepeats = ExpensesLists().noRepeats;
   DateTime choosenDay=DateTime.now();
 
@@ -37,12 +33,11 @@ class StatisticsCubit extends Cubit<StatisticsState> {
 
 
   List<TransactionModel> getExpenses() {
-    allExpensesList = _expensesRepository.getTransactionFromTransactionBox(true);
-    return allExpensesList;
+    return _expensesRepository.getTransactionFromTransactionBox(true);
+
   }
   List<TransactionModel> getIncome() {
-    allIncomeList = _expensesRepository.getTransactionFromTransactionBox(false);
-    return allIncomeList;
+     return _expensesRepository.getTransactionFromTransactionBox(false);
   }
    getExpensesByDay(DateTime date,bool isExpense){
     choosenDay=date;
@@ -63,7 +58,7 @@ class StatisticsCubit extends Cubit<StatisticsState> {
 
   //TODO Get Date Format logic to get Day's name
 
-  getExpenseByMonth(bool isExpense){
+  getTransactionsByMonth(bool isExpense){
     /// to prevent duplicate data
     monthList.clear();
     totalWeek1=0;
@@ -74,10 +69,9 @@ class StatisticsCubit extends Cubit<StatisticsState> {
     totals.clear();
     final month=  choosenDay.month;
     print("current month is $month");
-  print("expensesssss ${allExpensesList}");
-    dataList.clear();
-    dataList= isExpense?allExpensesList:allIncomeList;
-    dataList.forEach((element) {
+    monthTransactions.clear();
+    monthTransactions= isExpense?getExpenses():getIncome();
+    monthTransactions.forEach((element) {
       if(element.paymentDate.month== month && element.paymentDate.day < 8){
         /// To add day in the first week to monthlist[0] index number 0
         // monthList[0].add(element);
@@ -144,4 +138,6 @@ class StatisticsCubit extends Cubit<StatisticsState> {
     choosenDay= dateTime;
     emit(ChoseDateSucc());
   }
+  List<String> weekRangeText() => getWeekRange(chosenDay: choosenDay);
+
 }
