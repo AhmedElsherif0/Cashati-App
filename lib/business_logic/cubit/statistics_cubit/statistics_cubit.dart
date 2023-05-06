@@ -22,6 +22,11 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   num totalWeek2 = 0;
   num totalWeek3 = 0;
   num totalWeek4 = 0;
+
+  num totalImport = 0;
+  num totalNotImport = 0;
+  num chosenDayTotal = 0;
+
   List<List<TransactionModel>> monthList=[];
   final TransactionRepo _expensesRepository;
   List<String> noRepeats = ExpensesLists().noRepeats;
@@ -46,6 +51,20 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
     byDayList.clear();
     byDayList=List.from(dayList);
     byDayList.map((e) => print(" priorityyyyy ${e.isPriority}"));
+    totalImport=0;
+    totalNotImport=0;
+    chosenDayTotal=0;
+    byDayList.forEach((element) {
+      if(element.isPriority){
+        /// Green space
+        totalImport = totalImport + element.amount!;
+      }else{
+        /// Grey space
+        totalNotImport = totalNotImport + element.amount!;
+      }
+      chosenDayTotal = chosenDayTotal + element.amount!;
+
+    });
     emit(StatisticsByDayList());
   }
   getTodaysExpenses(bool isExpense){
