@@ -267,8 +267,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             didTakeAction: false,
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
-            payLoad: 'ss',
-            typeName: 'Transaction',
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense?"Expense":"Income",
 
           ));
           // await notificationBox.put(element.key,NotificationModel(
@@ -305,8 +305,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             didTakeAction: false,
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
-            payLoad: 'ss',
-            typeName: 'Transaction',
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense?"Expense":"Income",
 
           ));
           // await notificationBox.put(element.key,NotificationModel(
@@ -343,8 +343,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             didTakeAction: false,
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
-            payLoad: 'ss',
-            typeName: 'Transaction',
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense?"Expense":"Income",
 
           ));
           // await notificationBox.put(element.key,NotificationModel(
@@ -381,8 +381,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             didTakeAction: false,
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
-            payLoad: 'ss',
-            typeName: 'Transaction',
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense?"Expense":"Income",
 
           ));
           // await  notificationBox.put(element.key,NotificationModel(
@@ -419,8 +419,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             didTakeAction: false,
             icon: AppIcons.goals,
             modelName: element.goal.goalName,
-            payLoad: 'ss',
-            typeName: 'Goals',
+            payLoad: element.goal.goalSaveAmountRepeat,
+            typeName: 'Goal',
 
           ));
           // await notificationBox.put(element.key,NotificationModel(
@@ -596,6 +596,14 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
 
     print("New top topIncome Amount is ${ generalStatsModel.topIncome}");
     print("New top topIncome Name is ${ generalStatsModel.topIncomeAmount}");
+    await generalStatsModel.save();
+  }
+
+  @override
+  Future<void> ChangeStatusOfNotification(NotificationModel notificationModel)async {
+    NotificationModel notificationInBox =  generalStatsModel.notificationList.where((element) => notificationModel.id==element.id).single;
+    notificationInBox.didTakeAction = true;
+    notificationInBox.actionDate = DateTime.now();
     await generalStatsModel.save();
   }
 
