@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
@@ -384,4 +385,43 @@ class ConfirmTransactionImpl with GeneralStatsRepoImpl
       await deleteNoRepeatTransaction(theEditedNoRepeatExpense);
     }
   }
+  @override
+  Future<void> onYesConfirmedFromNotifications({ required NotificationModel notificationModel})async{
+    print('working yes ..');
+    try {
+
+      TransactionModel theMatchingExpense =
+          Hive.box<TransactionRepeatDetailsModel>(
+              getBoxNameAccordingToRepeat(repeatType: notificationModel.payLoad!))
+              .get(notificationModel.id)!.transactionModel;
+      theMatchingExpense.id =GUIDGen.generate();
+      theMatchingExpense.amount =notificationModel.amount;
+      theMatchingExpense.paymentDate =notificationModel.checkedDate;
+      theMatchingExpense.createdDate =notificationModel.checkedDate;
+      final box = Hive.box<TransactionModel>(AppBoxes.transactionBox);
+
+      await box.put(theMatchingExpense.id, theMatchingExpense).whenComplete(()async {
+        switch(notificationModel.typeName) {
+          case "Expense":
+           await minusBalance(amount: notificationModel.amount);
+            print("Minus balance Notification Confirm Expense");
+            break;
+          case "Income":
+            print("Plus balance Notification Confirm Expense");
+            await  plusBalance(amount: notificationModel.amount);
+        }
+      } );
+
+
+    } catch (error) {
+      print('error on yes is $error');
+    }
+  }
+  @override
+  Future<void> onNoConfirmedFromNotifications ({required NotificationModel notificationModel})async{
+    // TODO: implement onNoConfirmedFromNotifications
+    throw UnimplementedError();
+  }
+
+
 }
