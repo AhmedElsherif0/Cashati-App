@@ -248,16 +248,9 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
 
 
       dailyBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(DateTime(DateTime
-            .now()
-            .year, DateTime
-            .now()
-            .month, DateTime
-            .now()
-            .day)) && DateTime
-            .now()
+        if (element.nextShownDate.isBefore(todayDate) && todayDate
             .difference(element.nextShownDate)
-            .inDays < 7) {
+            .inDays > 7) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -286,16 +279,9 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       weeklyBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(DateTime(DateTime
-            .now()
-            .year, DateTime
-            .now()
-            .month, DateTime
-            .now()
-            .day)) && DateTime
-            .now()
+        if (element.nextShownDate.isBefore(todayDate) && todayDate
             .difference(element.nextShownDate)
-            .inDays < 7) {
+            .inDays > 7){
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -324,16 +310,9 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       monthlyBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(DateTime(DateTime
-            .now()
-            .year, DateTime
-            .now()
-            .month, DateTime
-            .now()
-            .day)) && DateTime
-            .now()
+        if (element.nextShownDate.isBefore(todayDate) && todayDate
             .difference(element.nextShownDate)
-            .inDays < 7) {
+            .inDays > 7) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -362,16 +341,9 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       noRepBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(DateTime(DateTime
-            .now()
-            .year, DateTime
-            .now()
-            .month, DateTime
-            .now()
-            .day)) && DateTime
-            .now()
+        if (element.nextShownDate.isBefore(todayDate) && todayDate
             .difference(element.nextShownDate)
-            .inDays < 7) {
+            .inDays > 7){
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -400,16 +372,9 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       goalRepBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(DateTime(DateTime
-            .now()
-            .year, DateTime
-            .now()
-            .month, DateTime
-            .now()
-            .day)) && DateTime
-            .now()
+        if (element.nextShownDate.isBefore(todayDate) && todayDate
             .difference(element.nextShownDate)
-            .inDays < 7) {
+            .inDays > 7) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.goal.id,
