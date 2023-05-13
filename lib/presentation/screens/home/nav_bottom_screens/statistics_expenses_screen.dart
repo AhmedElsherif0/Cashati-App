@@ -15,8 +15,7 @@ class ExpensesStatisticsScreen extends StatefulWidget {
   const ExpensesStatisticsScreen({Key? key}) : super(key: key);
 
   @override
-  State<ExpensesStatisticsScreen> createState() =>
-      _ExpensesStatisticsScreenState();
+  State<ExpensesStatisticsScreen> createState() => _ExpensesStatisticsScreenState();
 }
 
 class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
@@ -28,18 +27,16 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     super.dispose();
   }
 
-  StatisticsCubit getStatisticsCubit() =>
-      BlocProvider.of<StatisticsCubit>(context);
+  StatisticsCubit getStatisticsCubit() => BlocProvider.of<StatisticsCubit>(context);
 
   void showDatePick() async {
-    final datePicker = await showDatePicker(
+     final datePicker = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
     );
     if (datePicker == null) return;
-   // getStatisticsCubit().choosenDay = datePicker;
     getStatisticsCubit().getExpensesByDay(datePicker);
   }
 
@@ -57,6 +54,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
               onPageChanged: (index) => setState(() => currentIndex = index),
               itemCount: 3,
               itemBuilder: (context, index) {
+                final chosenDay = getStatisticsCubit().choosenDay;
+                print(chosenDay);
                 final list = expensesLists.expensesData[index];
                 return Center(
                   child: Padding(
@@ -65,7 +64,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                       children: [
                         CustomElevatedButton(
                           onPressed: () => showDatePick(),
-                          text: '${getStatisticsCubit().choosenDay.day} \\ ${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}',
+                          text:
+                              '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}',
                           textStyle: Theme.of(context).textTheme.subtitle1,
                           backgroundColor: AppColor.white,
                           width: 40.w,
@@ -73,6 +73,12 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                         ),
                         const Spacer(),
                         FlowChartView(
+                            maxExpenses: context
+                                .read<StatisticsCubit>()
+                                .totalExpenses(isPriority: true),
+                            totalExpenses: context
+                                .read<StatisticsCubit>()
+                                .totalExpenses(isPriority: false),
                             index: index,
                             priorityType: PriorityType.Important,
                             notPriority: PriorityType.NotImportant,
@@ -86,13 +92,13 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                               expenseList: getStatisticsCubit().byDayList,
                               monthWidget: ListView.builder(
                                   itemCount: 4,
-                                  itemBuilder: (ctx,ind){
-                                return ExpansionTile(
-                                  title: Text("Week ${ind + 1}"),
-                                  subtitle:
-                                  Text("${getStatisticsCubit().totals[ind]}"),
-                                );
-                              }),
+                                  itemBuilder: (ctx, ind) {
+                                    return ExpansionTile(
+                                      title: Text("Week ${ind + 1}"),
+                                      subtitle:
+                                          Text("${getStatisticsCubit().totals[ind]}"),
+                                    );
+                                  }),
                               currentIndex: currentIndex,
                               index: index,
                               pageController: _controller),

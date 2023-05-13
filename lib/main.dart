@@ -145,9 +145,9 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
                   locale: translator.activeLocale,
                   // Active locale
                   supportedLocales: translator.locals(),
-                  home: PartTimeDetails(), // Locals list
-                   /*  initialRoute: AppRouterNames.rSplashScreen,
-                  onGenerateRoute: widget.appRouter.onGenerateRoute,*/
+                 // home: PartTimeDetails(), // Locals list
+                     initialRoute: AppRouterNames.rSplashScreen,
+                  onGenerateRoute: widget.appRouter.onGenerateRoute,
                 );
               });
             },

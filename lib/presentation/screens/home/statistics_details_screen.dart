@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
@@ -24,7 +25,10 @@ class StatisticsDetailsScreen extends StatelessWidget {
     return Scaffold(
       body: Column(children: [
         SizedBox(height: 10.sp),
-        const CustomAppBar(title: 'Day Expense',isEndIconVisible: false,),
+        const CustomAppBar(
+          title: 'Day Expense',
+          isEndIconVisible: false,
+        ),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -33,13 +37,10 @@ class StatisticsDetailsScreen extends StatelessWidget {
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [PriorityWidget()]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  PriorityWidget(
-                      text: 'Not Important', circleColor: AppColor.pinkishGrey)
-                ]
-              )
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+                PriorityWidget(
+                    text: 'Not Important', circleColor: AppColor.pinkishGrey)
+              ])
             ],
           ),
         ),
@@ -71,4 +72,16 @@ class StatisticsDetailsScreen extends StatelessWidget {
   }
 
   void onPressed() {}
+
+  Color priorityColor(PriorityType priorityType) {
+    switch (priorityType) {
+      case PriorityType.NotImportant:
+        return AppColor.pinkishGrey;
+      case PriorityType.NotFixed:
+        return AppColor.pinkishGrey;
+      default:
+        AppColor.secondColor;
+    }
+    return AppColor.secondColor;
+  }
 }

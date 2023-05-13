@@ -14,7 +14,7 @@ class TabCardView extends StatelessWidget {
       {Key? key,
       required this.expenseRepeatList,
       required this.onPressSeeMore,
-      this.priorityName = 'Important',
+      this.priorityName = PriorityType.Important,
       this.priceColor = AppColor.red,
       required this.isVisible,
       this.seeMoreOrDetailsOrHighest,
@@ -25,7 +25,7 @@ class TabCardView extends StatelessWidget {
   final bool isVisible;
   final bool isRepeated;
   final List<TransactionRepeatDetailsModel> expenseRepeatList;
-  final String priorityName;
+  final PriorityType priorityName;
   final Color priceColor;
   final Color priorityColor;
   final void Function() onPressSeeMore;
@@ -48,7 +48,7 @@ class TabCardView extends StatelessWidget {
                 onPressSeeMore: onPressSeeMore,
                 isRepeated: isRepeated,
                 priorityColor: priorityColor,
-                priorityName: priorityName,
+                priorityName: priorityName.name,
               );
             });
   }

@@ -29,7 +29,7 @@ class AddExpensesScreen extends StatelessWidget {
                   Expanded(
                     flex: 32,
                     child: TabCardView(
-                      priorityName: 'Important',
+                      priorityName: PriorityType.Important,
                       expenseRepeatList: [],
                       onPressSeeMore: () {},
                       seeMoreOrDetailsOrHighest: SwitchWidgets.higherExpenses,

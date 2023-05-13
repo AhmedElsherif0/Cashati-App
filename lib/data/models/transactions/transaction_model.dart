@@ -42,7 +42,7 @@ class TransactionModel extends HiveObject{
   @HiveField(1)
   String name ='daily';
   @HiveField(2)
-  num? amount = 0;
+  num amount = 0.0;
   @HiveField(3)
   late String mainCategory;
   @HiveField(4)

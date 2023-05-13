@@ -9,7 +9,6 @@ class AddExpOrIncSuccess extends AddExpOrIncState {}
 class AddExpOrIncError extends AddExpOrIncState {}
 class ChoosedSubCategoryState extends AddExpOrIncState {}
 class ChoosedRepeatState extends AddExpOrIncState {}
-class ChoosedPriorityYesState extends AddExpOrIncState {}
-class ChoosedPriorityNoState extends AddExpOrIncState {}
+class ChoosedPriorityState extends AddExpOrIncState {}
 class ChoosedMainCategoryState extends AddExpOrIncState {}
 class ChoosedDateState extends AddExpOrIncState {}
