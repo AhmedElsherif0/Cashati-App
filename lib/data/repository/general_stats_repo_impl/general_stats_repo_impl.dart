@@ -235,9 +235,9 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
       generalStatsModel.notificationList.clear();
 
       dailyBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(DateTime(
-                DateTime.now().year, DateTime.now().month, DateTime.now().day)) &&
-            DateTime.now().difference(element.nextShownDate).inDays < 7) {
+        if (element.nextShownDate.isBefore(todayDate) && todayDate
+            .difference(element.nextShownDate)
+            .inDays > 7) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -247,8 +247,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             didTakeAction: false,
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
-            payLoad: 'ss',
-            typeName: 'Transaction',
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense?"Expense":"Income",
           ));
           // await notificationBox.put(element.key,NotificationModel(
           //    id: element.transactionModel.id,
@@ -265,9 +265,9 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       weeklyBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(DateTime(
-                DateTime.now().year, DateTime.now().month, DateTime.now().day)) &&
-            DateTime.now().difference(element.nextShownDate).inDays < 7) {
+        if (element.nextShownDate.isBefore(todayDate) && todayDate
+            .difference(element.nextShownDate)
+            .inDays > 7){
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -277,8 +277,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             didTakeAction: false,
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
-            payLoad: 'ss',
-            typeName: 'Transaction',
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense?"Expense":"Income",
           ));
           // await notificationBox.put(element.key,NotificationModel(
           //   id: element.transactionModel.id,
@@ -295,9 +295,9 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       monthlyBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(DateTime(
-                DateTime.now().year, DateTime.now().month, DateTime.now().day)) &&
-            DateTime.now().difference(element.nextShownDate).inDays < 7) {
+        if (element.nextShownDate.isBefore(todayDate) && todayDate
+            .difference(element.nextShownDate)
+            .inDays > 7) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -307,8 +307,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             didTakeAction: false,
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
-            payLoad: 'ss',
-            typeName: 'Transaction',
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense?"Expense":"Income",
           ));
           // await notificationBox.put(element.key,NotificationModel(
           //   id: element.transactionModel.id,
@@ -325,9 +325,9 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       noRepBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(DateTime(
-                DateTime.now().year, DateTime.now().month, DateTime.now().day)) &&
-            DateTime.now().difference(element.nextShownDate).inDays < 7) {
+        if (element.nextShownDate.isBefore(todayDate) && todayDate
+            .difference(element.nextShownDate)
+            .inDays > 7){
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -337,8 +337,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             didTakeAction: false,
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
-            payLoad: 'ss',
-            typeName: 'Transaction',
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense?"Expense":"Income",
           ));
           // await  notificationBox.put(element.key,NotificationModel(
           //   id: element.transactionModel.id,
@@ -355,9 +355,9 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       goalRepBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(DateTime(
-                DateTime.now().year, DateTime.now().month, DateTime.now().day)) &&
-            DateTime.now().difference(element.nextShownDate).inDays < 7) {
+if (element.nextShownDate.isBefore(todayDate) && todayDate
+            .difference(element.nextShownDate)
+            .inDays > 7) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.goal.id,
@@ -367,8 +367,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             didTakeAction: false,
             icon: AppIcons.goals,
             modelName: element.goal.goalName,
-            payLoad: 'ss',
-            typeName: 'Goals',
+            payLoad: element.goal.goalSaveAmountRepeat,
+            typeName: 'Goal',
           ));
           // await notificationBox.put(element.key,NotificationModel(
           //   id: element.goal.id,
@@ -535,6 +535,14 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
 
     print("New top topIncome Amount is ${generalStatsModel.topIncome}");
     print("New top topIncome Name is ${generalStatsModel.topIncomeAmount}");
+    await generalStatsModel.save();
+  }
+
+  @override
+  Future<void> ChangeStatusOfNotification(NotificationModel notificationModel)async {
+    NotificationModel notificationInBox =  generalStatsModel.notificationList.where((element) => notificationModel.id==element.id).single;
+    notificationInBox.didTakeAction = true;
+    notificationInBox.actionDate = DateTime.now();
     await generalStatsModel.save();
   }
 }

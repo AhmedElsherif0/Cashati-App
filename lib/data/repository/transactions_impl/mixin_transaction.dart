@@ -109,4 +109,25 @@ mixin MixinTransaction {
             .toList();
     }
   }
+ String getBoxNameAccordingToRepeat({required String repeatType}){
+    switch(repeatType) {
+      case AppStrings.daily:
+        return AppBoxes.dailyTransactionsBoxName;
+      case AppStrings.weekly:
+        return AppBoxes.weeklyTransactionsBoxName;
+      case AppStrings.monthly:
+        return AppBoxes.monthlyTransactionsBoxName;
+      case AppStrings.noRepeat:
+        return AppBoxes.noRepeaTransactionsBoxName;
+        default:
+          return AppBoxes.noRepeaTransactionsBoxName;
+    }
+  }
+  minusOrAddBalanceByTransactionType( String transactionType){
+    switch(transactionType) {
+      case "Expense":
+        return AppBoxes.dailyTransactionsBoxName;
+      case "Income":
+    }
+  }
 }

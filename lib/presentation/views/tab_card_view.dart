@@ -120,10 +120,16 @@ class TabCardViewEdited extends StatelessWidget {
                   child: Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${expenseModel.name} ${index + 1}',
-                              style: textTheme.headline5),
-                          const Spacer(),
+                          Flexible(
+                            flex:5,
+                            child: Text(expenseModel.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: textTheme.headline5),
+                          ),
+                         // const Spacer(),
+
                           Text(
                             '${expenseModel.amount ?? 200} LE',
                             style: textTheme.headline5
@@ -168,7 +174,9 @@ class TabCardViewEdited extends StatelessWidget {
                             child: Row(
                               children: [
                                 const Spacer(),
+
                                 PriorityWidget(
+                                  isPriority: expenseModel.isPriority,
                                   text: priorityName,
                                   circleColor: priorityColor,
                                 ),

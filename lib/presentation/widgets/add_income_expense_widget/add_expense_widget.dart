@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
+import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/constants/app_strings.dart';
@@ -103,9 +104,9 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> with AlertDialogMix
           listener: (context, state) {
             if (state is AddExpOrIncSuccess) {
               showSuccAndNavigate(context);
-            } else if (state is AddExpOrIncError) {
-              errorSnackBar(
-                  context: context, message: 'Kindly Try again , and contact us !');
+              BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
+            } else if(state is AddExpOrIncError){
+              errorSnackBar(context: context,message: 'Kindly Try again , and contact us !');
             }
           },
           builder: (context, state) {

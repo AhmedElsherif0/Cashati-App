@@ -12,3 +12,4 @@ class AddedGeneralModelSuccState extends HomeState{}
 class FetchedNotificationListSuccState extends HomeState{}
 class FetchedNotificationListFailedState extends HomeState{}
 class SuccessState extends HomeState{}
+class NotificationYesActionTakenSucc extends HomeState{}

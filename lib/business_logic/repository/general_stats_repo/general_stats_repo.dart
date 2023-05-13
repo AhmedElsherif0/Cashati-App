@@ -16,5 +16,6 @@ abstract class GeneralStatsRepo {
   bool areRepeatedBoxesOpen();
   bool didGetNotificationsToday(bool didOpenAppToday);
   Future<void> fetchTopExpenseAndTopIncome();
+  Future<void> ChangeStatusOfNotification(NotificationModel notificationModel);
 
 }
