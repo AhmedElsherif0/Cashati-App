@@ -9,15 +9,13 @@ part 'statistics_state.dart';
 
 class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   StatisticsCubit(this._expensesRepository) : super(StatisticsInitial());
-
   List<TransactionModel> monthTransactions = [];
-
-  List<TransactionModel> byDayList=[];
-  List<TransactionModel> week1=[];
-  List<TransactionModel> week2=[];
-  List<TransactionModel> week3=[];
-  List<TransactionModel> week4=[];
-  List<num> totals=[];
+  List<TransactionModel> byDayList = [];
+  List<TransactionModel> week1 = [];
+  List<TransactionModel> week2 = [];
+  List<TransactionModel> week3 = [];
+  List<TransactionModel> week4 = [];
+  List<num> totals = [];
   num totalWeek1 = 0;
   num totalWeek2 = 0;
   num totalWeek3 = 0;
@@ -25,7 +23,7 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   num totalImport = 0;
   num totalNotImport = 0;
   num chosenDayTotal = 0;
-  List<List<TransactionModel>> monthList=[];
+  List<List<TransactionModel>> monthList = [];
   final TransactionRepo _expensesRepository;
   List<String> noRepeats = ExpensesLists().noRepeats;
   DateTime choosenDay = DateTime.now();
@@ -35,8 +33,8 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   /// filter the amount based on the important and notImportant...
   double totalExpenses({required bool isPriority}) {
     final List<TransactionModel> importantExpense = getExpenses()
-        .where((element) => checkSameDay(element) &&
-        element.isPriority == isPriority).toList();
+        .where((element) => checkSameDay(element) && element.isPriority == isPriority)
+        .toList();
     final double totalSalary =
         importantExpense.fold(0, (value, element) => value += element.amount);
     print('statistics total Expense is $totalSalary');
@@ -45,50 +43,50 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
 
   List<TransactionModel> getExpenses() {
     return _expensesRepository.getTransactionFromTransactionBox(true);
-
   }
 
   List<TransactionModel> getIncome() {
-     return _expensesRepository.getTransactionFromTransactionBox(false);
+    return _expensesRepository.getTransactionFromTransactionBox(false);
   }
 
-   getExpensesByDay(DateTime date,bool isExpense){
-    choosenDay=date;
-    List<TransactionModel> dayList=[];
-    dayList.addAll(isExpense?getExpenses().where((element) =>checkSameDay(element)).toList():
-                             getIncome().where((element) =>checkSameDay(element)).toList());
+  getExpensesByDay(DateTime date, bool isExpense) {
+    choosenDay = date;
+    List<TransactionModel> dayList = [];
+    dayList.addAll(isExpense
+        ? getExpenses().where((element) => checkSameDay(element)).toList()
+        : getIncome().where((element) => checkSameDay(element)).toList());
     byDayList.clear();
-    byDayList=List.from(dayList);
+    byDayList = List.from(dayList);
     byDayList.map((e) => print(" priorityyyyy ${e.isPriority}"));
-    totalImport=0;
-    totalNotImport=0;
-    chosenDayTotal=0;
+    totalImport = 0;
+    totalNotImport = 0;
+    chosenDayTotal = 0;
     byDayList.forEach((element) {
-      if(element.isPriority){
+      if (element.isPriority) {
         /// Green space
         totalImport = totalImport + element.amount!;
-      }else{
+      } else {
         /// Grey space
         totalNotImport = totalNotImport + element.amount!;
       }
       chosenDayTotal = chosenDayTotal + element.amount!;
-
     });
     emit(StatisticsByDayList());
   }
-  
-  getTodaysExpenses(bool isExpense){
-    List<TransactionModel> dayList=[];
-    dayList.addAll(isExpense?getExpenses().where((element) =>checkSameDay(element)).toList():getIncome().where((element) =>checkSameDay(element)).toList());
+
+  getTodaysExpenses(bool isExpense) {
+    List<TransactionModel> dayList = [];
+    dayList.addAll(isExpense
+        ? getExpenses().where((element) => checkSameDay(element)).toList()
+        : getIncome().where((element) => checkSameDay(element)).toList());
     byDayList.clear();
-    byDayList=List.from(dayList);
+    byDayList = List.from(dayList);
     emit(StatisticsByDayList());
   }
 
   //TODO Get Date Format logic to get Day's name
 
-
-  getTransactionsByMonth(bool isExpense){
+  getTransactionsByMonth(bool isExpense) {
     /// to prevent duplicate data
     monthList.clear();
     totalWeek1 = 0;
@@ -96,12 +94,12 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
     totalWeek3 = 0;
     totalWeek4 = 0;
     totals.clear();
-    final month=  choosenDay.month;
+    final month = choosenDay.month;
     print("current month is $month");
     monthTransactions.clear();
-    monthTransactions= isExpense?getExpenses():getIncome();
+    monthTransactions = isExpense ? getExpenses() : getIncome();
     monthTransactions.forEach((element) {
-      if(element.paymentDate.month== month && element.paymentDate.day < 8){
+      if (element.paymentDate.month == month && element.paymentDate.day < 8) {
         /// To add day in the first week to monthlist[0] index number 0
         // monthList[0].add(element);
         // /// To equalize monthList[0] with week1 variable above
@@ -147,7 +145,6 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
 
     print("totalsssssssssss2 $totals");
 
-
     emit(FetchedMonthData());
     // monthList[0].addAll(allExpensesList.where((element) =>element.paymentDate.month== month && element.paymentDate.day < 8
     // ) );
@@ -169,10 +166,10 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
     }
   }
 
-  chooseMonth(DateTime dateTime){
-    choosenDay= dateTime;
+  chooseMonth(DateTime dateTime) {
+    choosenDay = dateTime;
     emit(ChoseDateSucc());
   }
-  List<String> weekRangeText() => getWeekRange(chosenDay: choosenDay);
 
+  List<String> weekRangeText() => getWeekRange(chosenDay: choosenDay);
 }

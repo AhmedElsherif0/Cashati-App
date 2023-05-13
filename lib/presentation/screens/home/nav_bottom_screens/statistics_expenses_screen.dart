@@ -92,8 +92,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                       children: [
                         CustomElevatedButton(
                           onPressed: () => index==0?showDatePick():showDatePickMonth(),
-                          text:index ==0?
-                              '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}: ${chosenDay.month} \\ ${chosenDay.year}',
+                          text: index ==0?
+                              '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}': '${chosenDay.month} \\ ${chosenDay.year}',
                           textStyle: Theme.of(context).textTheme.subtitle1,
                           backgroundColor: AppColor.white,
                           width: 40.w,

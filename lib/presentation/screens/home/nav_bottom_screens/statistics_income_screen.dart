@@ -29,6 +29,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
     _controller.dispose();
     super.dispose();
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -37,33 +38,6 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
     getStatisticsCubit().getTransactionsByMonth(false);
     getStatisticsCubit().getTodaysExpenses(false);
     super.initState();
-  }
-
-  StatisticsCubit getStatisticsCubit() =>
-      BlocProvider.of<StatisticsCubit>(context);
-
-  void showDatePick() async {
-    final datePicker = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-    );
-    if (datePicker == null) return;
-    // getStatisticsCubit().choosenDay = datePicker;
-    getStatisticsCubit().getExpensesByDay(datePicker,false);
-  }
-  
-  void showDatePickMonth() async {
-    final datePicker = await showMonthPicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-    );
-    if (datePicker == null) return;
-    getStatisticsCubit().chooseMonth(datePicker);
-    getStatisticsCubit().getTransactionsByMonth(false);
   }
 
   StatisticsCubit getStatisticsCubit() => BlocProvider.of<StatisticsCubit>(context);
@@ -77,22 +51,42 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
     );
     if (datePicker == null) return;
     // getStatisticsCubit().choosenDay = datePicker;
-    getStatisticsCubit().getExpensesByDay(datePicker);
+    getStatisticsCubit().getExpensesByDay(datePicker, false);
   }
 
+  void showDatePickMonth() async {
+    final datePicker = await showMonthPicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+    if (datePicker == null) return;
+    getStatisticsCubit().chooseMonth(datePicker);
+    getStatisticsCubit().getTransactionsByMonth(false);
+  }
+
+/*
+  void showDatePick() async {
+    final datePicker = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+    if (datePicker == null) return;
+    // getStatisticsCubit().choosenDay = datePicker;
+    getStatisticsCubit().getExpensesByDay(datePicker);
+  }*/
 
   @override
   Widget build(BuildContext context) {
     ExpensesLists expensesLists = ExpensesLists();
     int currentIndex = 0;
-    return return BlocConsumer<StatisticsCubit, StatisticsState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+    return BlocConsumer<StatisticsCubit, StatisticsState>(
+      listener: (context, state) {},
       builder: (context, state) {
-        final expenses = expensesLists.expensesData[index];
-                final chosenDay = getStatisticsCubit().choosenDay;
-                final list = expensesLists.expensesData[index];
+        final chosenDay = getStatisticsCubit().choosenDay;
         return Scaffold(
           body: Directionality(
             textDirection: TextDirection.ltr,
@@ -109,7 +103,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                         CustomElevatedButton(
                           onPressed: () => showDatePick(),
                           text:
-                          '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}',
+                              '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}',
                           textStyle: Theme.of(context).textTheme.subtitle1,
                           backgroundColor: AppColor.white,
                           width: 40.w,
@@ -126,7 +120,8 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                             index: index,
                             priorityType: PriorityType.Important,
                             notPriority: PriorityType.NotImportant,
-                            expensesModel: list),
+                            expensesModel: expensesLists.expensesData[index]),
+
                         /// TabBarView Widgets.
                         Expanded(
                           flex: 40,
@@ -136,7 +131,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                               monthWidget: WeekCardViewEdited(
                                 weekRanges: getStatisticsCubit().weekRangeText(),
                                 chosenDay: getStatisticsCubit().choosenDay,
-                                onPressSeeMore: (){},
+                                onPressSeeMore: () {},
                                 weeksTotals: getStatisticsCubit().totals,
                                 seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                               ),
