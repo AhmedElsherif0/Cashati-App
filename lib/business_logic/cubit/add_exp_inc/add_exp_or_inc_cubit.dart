@@ -6,6 +6,7 @@ import 'package:temp/business_logic/repository/general_stats_repo/general_stats_
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
@@ -19,13 +20,13 @@ import '../../repository/transactions_repo/transaction_repo.dart';
 part 'add_exp_or_inc_state.dart';
 
 class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
-  AddExpOrIncCubit(this._expensesRepository, this._incomeRepository,
-      this._generalStatsRepo)
+  AddExpOrIncCubit(
+      this._expensesRepository, this._incomeRepository, this._generalStatsRepo)
       : super(AddExpOrIncInitial());
   String currentID = '';
   String subCatName = '';
   bool isSubChoosed = false;
-  DateTime? chosenDate;
+  DateTime? chosenDate = DateTime.now();
   String currentMainCat = '';
   num currentAmount = 0;
 
@@ -81,12 +82,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   void isImportantOrNo(bool? value) {
     isImportant = value ?? false;
-
-    if (isImportant){
-      emit(ChoosedPriorityYesState());
-    } else{
-      emit(ChoosedPriorityNoState());
-    }
+     emit(ChoosedPriorityState());
   }
 
   List<SubCategory> fetchExpensesSubCategories() {
@@ -174,8 +170,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     fixedSubCatsList.clear();
     filterIncomeSubCategoriesList();
     fixedSubCatsList.insert(fixedSubCatsList.length, appList.addMoreOption);
-    variableSubCatsList.insert(
-        variableSubCatsList.length, appList.addMoreOption);
+    variableSubCatsList.insert(variableSubCatsList.length, appList.addMoreOption);
     emit(ChoosedMainCategoryState());
   }
 
@@ -184,11 +179,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     homeSubCatsList.clear();
     businessSubCatsList.clear();
     filterExpenseSubCategoriesList();
-    personalSubCatsList.insert(
-        personalSubCatsList.length, appList.addMoreOption);
+    personalSubCatsList.insert(personalSubCatsList.length, appList.addMoreOption);
     homeSubCatsList.insert(homeSubCatsList.length, appList.addMoreOption);
-    businessSubCatsList.insert(
-        businessSubCatsList.length, appList.addMoreOption);
+    businessSubCatsList.insert(businessSubCatsList.length, appList.addMoreOption);
     // emit(ChoosedMainCategoryState());
   }
 
@@ -218,27 +211,27 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     emit(ChoosedSubCategoryState());
   }
 
-  Future<void> validateExpenseFields(BuildContext context,
-      TransactionModel transactionModel) async {
+  Future<void> validateExpenseFields(
+      BuildContext context, TransactionModel transactionModel) async {
     if (transactionModel.amount == null || transactionModel.amount == 0) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
     } else if (subCatName.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Kindly choose a subCategory ')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Kindly choose a subCategory ')));
     } else {
       await addExpense(expenseModel: transactionModel);
     }
   }
 
-  validateIncomeFields(BuildContext context, String amount,
-      TransactionModel transactionModel) {
+  validateIncomeFields(
+      BuildContext context, String amount, TransactionModel transactionModel) {
     if (amount.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
     } else if (subCatName.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Kindly choose a subCategory ')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Kindly choose a subCategory ')));
     } else {
       addIncome(incomeModel: transactionModel);
     }
@@ -246,8 +239,8 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   Future<void> addExpense({required TransactionModel expenseModel}) async {
     try {
-      await _expensesRepository.
-      addTransactionToTransactionBox(transactionModel: expenseModel);
+      await _expensesRepository.addTransactionToTransactionBox(
+          transactionModel: expenseModel);
       emit(AddExpOrIncSuccess());
     } catch (error) {
       print('${error.toString()}');
@@ -266,31 +259,25 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     }
   }
 
-  Future<void> changeDate(BuildContext context) async {
-    chosenDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
+  Future<DateTime?> changeDate(DateTime? datePicker) async {
+    chosenDate = datePicker ;
     print('Choosed Date in cubit is ${chosenDate}');
     emit(ChoosedDateState());
+    return  chosenDate;
   }
 
-  Future<void> validateields(bool isExpense,
-      BuildContext context, TransactionModel transactionModel) async {
+  Future<void> validateields(
+      bool isExpense, BuildContext context, TransactionModel transactionModel) async {
     currentAmount = transactionModel.amount ?? 0;
     if (transactionModel.amount == null || transactionModel.amount == 0) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
     } else if (subCatName.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Kindly choose a subCategory ')));
-    } else if (transactionModel.name
-        .trim()
-        .isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Kindly , write the name ')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Kindly choose a subCategory ')));
+    } else if (transactionModel.name.trim().isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Kindly , write the name ')));
     } else {
       isExpense
           ? await addExpense(expenseModel: transactionModel)
@@ -299,24 +286,23 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   }
 
   Future checkIfTopExpOrInc() async {
-    final generalModel = HiveHelper().getBoxName<GeneralStatsModel>(
-        boxName: AppBoxes.generalStatisticsBox).get(
-        AppStrings.theOnlyGeneralStatsModelID)!;
+    final generalModel = HiveHelper()
+        .getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsBox)
+        .get(AppStrings.theOnlyGeneralStatsModelID)!;
     final todayDate = DateTime.now();
-  if(chosenDate?.day == todayDate.day && chosenDate?.month == todayDate.month &&chosenDate?.year == todayDate.year ){
-    if (isExpense && currentAmount > generalModel.topExpenseAmount) {
-      await _generalStatsRepo.fetchTopExpenseAndTopIncome();
-    }
-    else if (!isExpense && currentAmount > generalModel.topIncomeAmount) {
-      await _generalStatsRepo.fetchTopExpenseAndTopIncome();
+    if (chosenDate?.day == todayDate.day &&
+        chosenDate?.month == todayDate.month &&
+        chosenDate?.year == todayDate.year) {
+      if (isExpense && currentAmount > generalModel.topExpenseAmount) {
+        await _generalStatsRepo.fetchTopExpenseAndTopIncome();
+      } else if (!isExpense && currentAmount > generalModel.topIncomeAmount) {
+        await _generalStatsRepo.fetchTopExpenseAndTopIncome();
+      } else {
+        print(
+            'Is Expense ${isExpense} And current amount is $currentAmount and top amount in transaction exp is ${generalModel.topExpenseAmount} and top amount in transaction Inc is ${generalModel.topIncomeAmount}');
+      }
     } else {
-      print(
-          'Is Expense ${isExpense} And current amount is $currentAmount and top amount in transaction exp is ${generalModel
-              .topExpenseAmount} and top amount in transaction Inc is ${generalModel
-              .topIncomeAmount}');
+      print('Payment was not added today to check .');
     }
-  }else{
-    print('Payment was not added today to check .');
-  }
   }
 }

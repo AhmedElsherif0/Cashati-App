@@ -18,7 +18,7 @@ class DailyTransaction  with MixinTransaction implements ITransactions {
       lastShownDate: putNextShownDate(
           paymentDate: transactionModel.paymentDate,
           repeatType: transactionModel.repeatType),
-      nextShownDate: transactionModel.paymentDate,
+      nextShownDate: transactionModel.paymentDate ,
     );
 
     final Box<TransactionRepeatDetailsModel> expenseRepeatDailyBox =
@@ -80,7 +80,7 @@ class WeeklyTransaction extends ITransactions with MixinTransaction {
       lastShownDate: putNextShownDate(
           paymentDate: transactionModel.paymentDate,
           repeatType: transactionModel.repeatType),
-      nextShownDate: transactionModel.paymentDate,
+      nextShownDate: transactionModel.paymentDate as DateTime,
     );
 
     final Box<TransactionRepeatDetailsModel> expenseRepeatWeeklyBox =
@@ -141,7 +141,7 @@ class MonthlyTransaction extends ITransactions with MixinTransaction {
       lastShownDate: putNextShownDate(
           paymentDate: transactionModel.paymentDate,
           repeatType: transactionModel.repeatType),
-      nextShownDate: transactionModel.paymentDate,
+      nextShownDate: transactionModel.paymentDate ,
     );
 
     expenseRepeatTypes.monthlyExpense.add(monthlyDetails);

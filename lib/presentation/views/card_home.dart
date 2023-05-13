@@ -4,13 +4,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
-import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/presentation/widgets/buttons/dotted_button.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
-import '../../data/local/hive/app_boxes.dart';
 import '../styles/colors.dart';
 
 class CardHome extends StatelessWidget {

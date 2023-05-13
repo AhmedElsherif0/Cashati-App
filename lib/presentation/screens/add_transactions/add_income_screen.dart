@@ -30,7 +30,7 @@ class AddIncomeScreen extends StatelessWidget {
                     Expanded(
                       flex: 32,
                       child: TabCardView(
-                        priorityName: 'Important',
+                        priorityName: PriorityType.Fixed,
                         expenseRepeatList: [],
                         onPressSeeMore: () {},
                         priceColor: AppColor.secondColor,

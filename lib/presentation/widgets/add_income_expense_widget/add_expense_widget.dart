@@ -7,6 +7,7 @@ import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -27,8 +28,7 @@ class AddExpenseWidget extends StatefulWidget {
   _AddExpenseWidgetState createState() => _AddExpenseWidgetState();
 }
 
-class _AddExpenseWidgetState extends State<AddExpenseWidget>
-    with AlertDialogMixin {
+class _AddExpenseWidgetState extends State<AddExpenseWidget> with AlertDialogMixin {
   DateTime? choosedDate;
 
   TextEditingController amountCtrl = TextEditingController();
@@ -40,8 +40,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
     // TODO: implement initState
     super.initState();
     BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList();
-    print(
-        'Icon Add Code Point ${Icons.add.codePoint}, Color ${Colors.indigo.value}');
+    print('Icon Add Code Point ${Icons.add.codePoint}, Color ${Colors.indigo.value}');
   }
 
   @override
@@ -52,10 +51,23 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
     super.dispose();
   }
 
+  void showDatePick() async {
+    final datePicker = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+    if (datePicker == null) return;
+     getAddExpOrIncCubit().changeDate(datePicker);
+  }
+
+  AddExpOrIncCubit getAddExpOrIncCubit() =>
+      BlocProvider.of<AddExpOrIncCubit>(context);
+
   @override
   Widget build(BuildContext context) {
-    AddExpOrIncCubit addExpOrIncCubit =
-        BlocProvider.of<AddExpOrIncCubit>(context);
+    AddExpOrIncCubit addExpOrIncCubit = BlocProvider.of<AddExpOrIncCubit>(context);
     BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList();
     print('Built Exp');
 
@@ -71,11 +83,8 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
         });
   }
 
-  Column oneMainCategoryFields(
-      AddExpOrIncCubit addExpOrIncCubit,
-      BuildContext context,
-      String mainCategoryName,
-      List<SubCategory> subCategoriesList) {
+  Column oneMainCategoryFields(AddExpOrIncCubit addExpOrIncCubit, BuildContext context,
+      String mainCategoryName, List<SubCategory> subCategoriesList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -92,19 +101,18 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
           ),
         ),
         BlocConsumer<AddExpOrIncCubit, AddExpOrIncState>(
-          listener: (context,state){
+          listener: (context, state) {
             if (state is AddExpOrIncSuccess) {
               showSuccAndNavigate(context);
               BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
             } else if(state is AddExpOrIncError){
               errorSnackBar(context: context,message: 'Kindly Try again , and contact us !');
-
-
             }
           },
           builder: (context, state) {
             return Visibility(
               visible: addExpOrIncCubit.currentMainCat == mainCategoryName,
+              replacement: SizedBox(),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,8 +120,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                   SizedBox(
                     height: 4.5.h,
                   ),
-                  subCategoriesListContainer(
-                      subCategoriesList, addExpOrIncCubit),
+                  subCategoriesListContainer(subCategoriesList, addExpOrIncCubit),
                   SizedBox(
                     height: 1.2.h,
                   ),
@@ -146,8 +153,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                           child: Text(
                         'EGP',
                         style: Theme.of(context).textTheme.headline5!.copyWith(
-                            color: AppColor.primaryColor,
-                            fontWeight: FontWeight.bold),
+                            color: AppColor.primaryColor, fontWeight: FontWeight.bold),
                       )),
                       SizedBox(width: .4.w),
                     ],
@@ -158,6 +164,9 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                   Container(
                       width: 65.w,
                       child: DateChooseContainer(
+                        onTap: () async {
+                          showDatePick();
+                        },
                         dateTime: addExpOrIncCubit.chosenDate,
                       )),
                   SizedBox(
@@ -189,8 +198,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                           ),
                           activeColor: AppColor.white,
                           checkColor: AppColor.white,
-                          fillColor: MaterialStateProperty.all(
-                              AppColor.primaryColor),
+                          fillColor: MaterialStateProperty.all(AppColor.primaryColor),
                         ),
                       ),
                       SizedBox(
@@ -222,8 +230,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                           ),
                           activeColor: AppColor.white,
                           checkColor: AppColor.white,
-                          fillColor: MaterialStateProperty.all(
-                              AppColor.primaryColor),
+                          fillColor: MaterialStateProperty.all(AppColor.primaryColor),
                         ),
                       ),
                       SizedBox(
@@ -261,11 +268,11 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                       addExpOrIncCubit.validateields(
                         true,
                         context,
-                         TransactionModel.expense(
+                        TransactionModel.expense(
                             id: GUIDGen.generate(),
                             name: nameCtrl.text.trimLeft(),
                             amount: amountCtrl.text.isNotEmpty
-                                ? num.parse(amountCtrl.text)
+                                ? double.parse(amountCtrl.text)
                                 : 0,
                             comment: amountCtrl.text,
                             repeatType: addExpOrIncCubit.choseRepeat,
@@ -276,17 +283,15 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                             isExpense: true,
                             //isPaid: choosedDate!.day==DateTime.now()?true:false,
                             isProcessing: false,
-                            createdDate: DateTime.now(),
+                            createdDate: getAddExpOrIncCubit().chosenDate as DateTime,
                             paymentDate:
-                                addExpOrIncCubit.chosenDate ?? DateTime.now()),
-
+                                addExpOrIncCubit.chosenDate as DateTime),
                       );
                     },
                     text: 'Add',
                   ),
                 ],
               ),
-              replacement: SizedBox(),
             );
           },
         )
@@ -311,13 +316,10 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
               visible: index != subCatsList.length - 1,
               child: InkWell(
                   onTap: () {
-                    BlocProvider.of<AddSubcategoryCubit>(context)
-                            .currentMainCategory =
-                        BlocProvider.of<AddExpOrIncCubit>(context)
-                            .currentMainCat;
+                    BlocProvider.of<AddSubcategoryCubit>(context).currentMainCategory =
+                        BlocProvider.of<AddExpOrIncCubit>(context).currentMainCat;
                     //TODO assign transaction type , if it is expense or income
-                    BlocProvider.of<AddSubcategoryCubit>(context)
-                            .transactionType =
+                    BlocProvider.of<AddSubcategoryCubit>(context).transactionType =
                         addExpOrIncCubit.isExpense ? 'Expense' : 'Income';
                     addExpOrIncCubit.chooseCategory(subCatsList[index]);
                   },
@@ -328,13 +330,10 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
                   )),
               replacement: InkWell(
                   onTap: () {
-                    BlocProvider.of<AddSubcategoryCubit>(context)
-                            .currentMainCategory =
-                        BlocProvider.of<AddExpOrIncCubit>(context)
-                            .currentMainCat;
+                    BlocProvider.of<AddSubcategoryCubit>(context).currentMainCategory =
+                        BlocProvider.of<AddExpOrIncCubit>(context).currentMainCat;
 
-                    Navigator.pushNamed(
-                        context, AppRouterNames.rAddSubCategory);
+                    Navigator.pushNamed(context, AppRouterNames.rAddSubCategory);
                   },
                   child: SubCategoryChoice(
                     color: AppColor.green,
@@ -346,19 +345,12 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget>
     );
   }
 
-
-  showSuccAndNavigate(BuildContext context){
+  showSuccAndNavigate(BuildContext context) {
     //showLoadingDialog(context);
-    //Navigator.pop(context);
-    showSuccessfulDialogNoOptions(
-        context, 'Added Successfully', '');
+    showSuccessfulDialogNoOptions(context, 'Added Successfully', '');
 
-    Future.delayed(
-      Duration(seconds: 2),
-          () {
-            //Navigator.pop(context);
-        Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
-      },
-    );
+    Future.delayed(const Duration(seconds: 2), () => Navigator.pop(context)
+        // Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute)
+        );
   }
 }

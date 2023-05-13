@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/transactions_repo/transaction_repo.dart';
@@ -10,6 +9,7 @@ part 'statistics_state.dart';
 
 class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   StatisticsCubit(this._expensesRepository) : super(StatisticsInitial());
+
   List<TransactionModel> monthTransactions = [];
 
   List<TransactionModel> byDayList=[];
@@ -22,32 +22,41 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   num totalWeek2 = 0;
   num totalWeek3 = 0;
   num totalWeek4 = 0;
-
   num totalImport = 0;
   num totalNotImport = 0;
   num chosenDayTotal = 0;
-
   List<List<TransactionModel>> monthList=[];
   final TransactionRepo _expensesRepository;
   List<String> noRepeats = ExpensesLists().noRepeats;
-  DateTime choosenDay=DateTime.now();
-
+  DateTime choosenDay = DateTime.now();
 
   int currentIndex = 0;
 
-
+  /// filter the amount based on the important and notImportant...
+  double totalExpenses({required bool isPriority}) {
+    final List<TransactionModel> importantExpense = getExpenses()
+        .where((element) => checkSameDay(element) &&
+        element.isPriority == isPriority).toList();
+    final double totalSalary =
+        importantExpense.fold(0, (value, element) => value += element.amount);
+    print('statistics total Expense is $totalSalary');
+    return totalSalary;
+  }
 
   List<TransactionModel> getExpenses() {
     return _expensesRepository.getTransactionFromTransactionBox(true);
 
   }
+
   List<TransactionModel> getIncome() {
      return _expensesRepository.getTransactionFromTransactionBox(false);
   }
+
    getExpensesByDay(DateTime date,bool isExpense){
     choosenDay=date;
     List<TransactionModel> dayList=[];
-    dayList.addAll(isExpense?getExpenses().where((element) =>checkSameDay(element)).toList():getIncome().where((element) =>checkSameDay(element)).toList());
+    dayList.addAll(isExpense?getExpenses().where((element) =>checkSameDay(element)).toList():
+                             getIncome().where((element) =>checkSameDay(element)).toList());
     byDayList.clear();
     byDayList=List.from(dayList);
     byDayList.map((e) => print(" priorityyyyy ${e.isPriority}"));
@@ -67,6 +76,7 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
     });
     emit(StatisticsByDayList());
   }
+  
   getTodaysExpenses(bool isExpense){
     List<TransactionModel> dayList=[];
     dayList.addAll(isExpense?getExpenses().where((element) =>checkSameDay(element)).toList():getIncome().where((element) =>checkSameDay(element)).toList());
@@ -77,14 +87,14 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
 
   //TODO Get Date Format logic to get Day's name
 
+
   getTransactionsByMonth(bool isExpense){
     /// to prevent duplicate data
     monthList.clear();
-    totalWeek1=0;
-    totalWeek2=0;
-    totalWeek3=0;
-    totalWeek4=0;
-
+    totalWeek1 = 0;
+    totalWeek2 = 0;
+    totalWeek3 = 0;
+    totalWeek4 = 0;
     totals.clear();
     final month=  choosenDay.month;
     print("current month is $month");
@@ -99,40 +109,44 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
         week1.add(element);
 
         /// to add amount of the element to the week total amount
-        totalWeek1 = element.amount! + totalWeek1 ;
-
-      } else if ( element.paymentDate.month== month && 7<element.paymentDate.day&& element.paymentDate.day  < 15){
+        totalWeek1 = element.amount + totalWeek1;
+      } else if (element.paymentDate.month == month &&
+          7 < element.paymentDate.day &&
+          element.paymentDate.day < 15) {
         // monthList[1].add(element);
         // week2 = monthList[1];
         week2.add(element);
 
-        totalWeek2 = element.amount! + totalWeek2 ;
-      }else if ( element.paymentDate.month== month && 14<element.paymentDate.day&& element.paymentDate.day < 24){
+        totalWeek2 = element.amount + totalWeek2;
+      } else if (element.paymentDate.month == month &&
+          14 < element.paymentDate.day &&
+          element.paymentDate.day < 24) {
         // monthList[2].add(element);
         // week3 = monthList[2];
         week3.add(element);
-        totalWeek3 = element.amount! + totalWeek3 ;
-      }else if ( element.paymentDate.month== month && element.paymentDate.day  > 23){
+        totalWeek3 = element.amount + totalWeek3;
+      } else if (element.paymentDate.month == month && element.paymentDate.day > 23) {
         // monthList[3].add(element);
         // week4 = monthList[3];
         week4.add(element);
 
-        totalWeek4 = element.amount! + totalWeek4 ;
+        totalWeek4 = element.amount + totalWeek4;
       }
     });
-  print("totalsssssssssss $totals");
-  print("month $monthList");
-  print("totalsssssssssss $totals");
-  monthList.insert(0, week1);
-  monthList.insert(1, week2);
-  monthList.insert(2, week3);
-  monthList.insert(3, week4);
-  totals.insert(0,totalWeek1);
-  totals.insert(1,totalWeek2);
-  totals.insert(2,totalWeek3);
-  totals.insert(3,totalWeek4);
+    print("totalsssssssssss $totals");
+    print("month $monthList");
+    print("totalsssssssssss $totals");
+    monthList.insert(0, week1);
+    monthList.insert(1, week2);
+    monthList.insert(2, week3);
+    monthList.insert(3, week4);
+    totals.insert(0, totalWeek1);
+    totals.insert(1, totalWeek2);
+    totals.insert(2, totalWeek3);
+    totals.insert(3, totalWeek4);
 
     print("totalsssssssssss2 $totals");
+
 
     emit(FetchedMonthData());
     // monthList[0].addAll(allExpensesList.where((element) =>element.paymentDate.month== month && element.paymentDate.day < 8
@@ -143,12 +157,14 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
     // ) );
     // monthList[3].addAll(allExpensesList.where((element) =>  element.paymentDate.month== month && element.paymentDate.day  > 21
     // ) );
-
   }
-  bool checkSameDay(TransactionModel model){
-    if(model.paymentDate.day==choosenDay.day &&model.paymentDate.month==choosenDay.month&&model.paymentDate.year==choosenDay.year){
+
+  bool checkSameDay(TransactionModel model) {
+    if (model.paymentDate.day == choosenDay.day &&
+        model.paymentDate.month == choosenDay.month &&
+        model.paymentDate.year == choosenDay.year) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }

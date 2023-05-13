@@ -17,8 +17,7 @@ class ExpensesStatisticsScreen extends StatefulWidget {
   const ExpensesStatisticsScreen({Key? key}) : super(key: key);
 
   @override
-  State<ExpensesStatisticsScreen> createState() =>
-      _ExpensesStatisticsScreenState();
+  State<ExpensesStatisticsScreen> createState() => _ExpensesStatisticsScreenState();
 }
 
 class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
@@ -39,11 +38,9 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     super.initState();
   }
 
-  StatisticsCubit getStatisticsCubit() =>
-      BlocProvider.of<StatisticsCubit>(context);
+  StatisticsCubit getStatisticsCubit() => BlocProvider.of<StatisticsCubit>(context);
 
   void showDatePick() async {
-
     final datePicker = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -54,10 +51,9 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
    // getStatisticsCubit().choosenDay = datePicker;
     getStatisticsCubit().getExpensesByDay(datePicker,true);
   }
+  
   void showDatePickMonth() async {
-
     final datePicker = await showMonthPicker(
-
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
@@ -86,6 +82,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
               onPageChanged: (index) => setState(() => currentIndex = index),
               itemCount: 3,
               itemBuilder: (context, index) {
+                final chosenDay = getStatisticsCubit().choosenDay;
+                print(chosenDay);
                 final list = expensesLists.expensesData[index];
                 return Center(
                   child: Padding(
@@ -94,7 +92,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                       children: [
                         CustomElevatedButton(
                           onPressed: () => index==0?showDatePick():showDatePickMonth(),
-                          text: index ==0?'${getStatisticsCubit().choosenDay.day} \\ ${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}':'${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}',
+                          text:index ==0?
+                              '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}: ${chosenDay.month} \\ ${chosenDay.year}',
                           textStyle: Theme.of(context).textTheme.subtitle1,
                           backgroundColor: AppColor.white,
                           width: 40.w,
@@ -102,6 +101,12 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                         ),
                         const Spacer(),
                         FlowChartView(
+                            maxExpenses: context
+                                .read<StatisticsCubit>()
+                                .totalExpenses(isPriority: true),
+                            totalExpenses: context
+                                .read<StatisticsCubit>()
+                                .totalExpenses(isPriority: false),
                             index: index,
                             priorityType: PriorityType.Important,
                             notPriority: PriorityType.NotImportant,

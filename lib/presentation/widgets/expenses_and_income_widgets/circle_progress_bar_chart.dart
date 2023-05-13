@@ -14,8 +14,8 @@ class CircularProgressBarChart extends StatefulWidget {
   }) : super(key: key);
 
   final double maxExpenses;
-  final void Function() onPressToHome;
   final double totalExpenses;
+  final void Function() onPressToHome;
   final String header;
 
   @override

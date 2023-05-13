@@ -17,12 +17,19 @@ class _PartTimeDetailsState extends State<PartTimeDetails> {
   final TextEditingController nameController = TextEditingController();
 
   @override
+  void dispose() {
+    nameController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 10.sp),
+          SizedBox(height: 15.sp),
           const CustomAppBar(title: 'Food Expense Details', isEndIconVisible: false),
           SizedBox(height: 40.sp),
           Padding(
@@ -66,9 +73,10 @@ class _PartTimeDetailsState extends State<PartTimeDetails> {
                 SizedBox(height: 15.sp),
                 EditableInfoField(
                   textEditingController: nameController,
+                  header: 'Description',
                   hint:
                       'There are many variations of... There are many variations of...',
-                  iconName: AppIcons.descriptionIcon,
+                  iconName: '',
                   keyboardType: TextInputType.multiline,
                 ),
                 SizedBox(height: 30.sp),

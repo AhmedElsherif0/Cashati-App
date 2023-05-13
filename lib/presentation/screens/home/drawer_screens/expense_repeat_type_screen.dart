@@ -51,7 +51,7 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
                         SizedBox(height: 2.h),
                         Expanded(
                           child: TabCardView(
-                            priorityName: 'Important',
+                            priorityName: PriorityType.Important,
                             expenseRepeatList: _repeatCubit(context).getExpenseTypeList(),
                             onPressSeeMore: () => Navigator.of(context)
                                 .pushNamed(AppRouterNames.rExpenseRepeatDetails),

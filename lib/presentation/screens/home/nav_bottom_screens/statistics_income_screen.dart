@@ -10,8 +10,9 @@ import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/models/statistics/expenses_lists.dart';
+import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
-import '../../../widgets/expenses_and_income_widgets/drop_down_button.dart';
+import '../../../widgets/buttons/elevated_button.dart';
 
 class IncomeStatisticsScreen extends StatefulWidget {
   const IncomeStatisticsScreen({Key? key}) : super(key: key);
@@ -42,7 +43,6 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
       BlocProvider.of<StatisticsCubit>(context);
 
   void showDatePick() async {
-
     final datePicker = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -53,10 +53,9 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
     // getStatisticsCubit().choosenDay = datePicker;
     getStatisticsCubit().getExpensesByDay(datePicker,false);
   }
+  
   void showDatePickMonth() async {
-
     final datePicker = await showMonthPicker(
-
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
@@ -67,15 +66,33 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
     getStatisticsCubit().getTransactionsByMonth(false);
   }
 
+  StatisticsCubit getStatisticsCubit() => BlocProvider.of<StatisticsCubit>(context);
+
+  void showDatePick() async {
+    final datePicker = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+    if (datePicker == null) return;
+    // getStatisticsCubit().choosenDay = datePicker;
+    getStatisticsCubit().getExpensesByDay(datePicker);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     ExpensesLists expensesLists = ExpensesLists();
     int currentIndex = 0;
-    return BlocConsumer<StatisticsCubit, StatisticsState>(
+    return return BlocConsumer<StatisticsCubit, StatisticsState>(
       listener: (context, state) {
         // TODO: implement listener
       },
       builder: (context, state) {
+        final expenses = expensesLists.expensesData[index];
+                final chosenDay = getStatisticsCubit().choosenDay;
+                final list = expensesLists.expensesData[index];
         return Scaffold(
           body: Directionality(
             textDirection: TextDirection.ltr,
@@ -84,15 +101,15 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
               onPageChanged: (value) => setState(() => currentIndex = value),
               itemCount: 3,
               itemBuilder: (context, index) {
-                final expenses = expensesLists.expensesData[index];
                 return Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 4.w),
                     child: Column(
                       children: [
                         CustomElevatedButton(
-                          onPressed: () => index==0?showDatePick():showDatePickMonth(),
-                          text: index ==0?'${getStatisticsCubit().choosenDay.day} \\ ${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}':'${getStatisticsCubit().choosenDay.month} \\ ${getStatisticsCubit().choosenDay.year}',
+                          onPressed: () => showDatePick(),
+                          text:
+                          '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}',
                           textStyle: Theme.of(context).textTheme.subtitle1,
                           backgroundColor: AppColor.white,
                           width: 40.w,
@@ -100,12 +117,16 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                         ),
                         const Spacer(),
                         FlowChartView(
+                            maxExpenses: context
+                                .read<StatisticsCubit>()
+                                .totalExpenses(isPriority: true),
+                            totalExpenses: context
+                                .read<StatisticsCubit>()
+                                .totalExpenses(isPriority: false),
                             index: index,
-                            transactionType: TransactionType.Income,
-                            priorityType: PriorityType.Fixed,
-                            notPriority: PriorityType.NotFixed,
-                            expensesModel: expenses),
-
+                            priorityType: PriorityType.Important,
+                            notPriority: PriorityType.NotImportant,
+                            expensesModel: list),
                         /// TabBarView Widgets.
                         Expanded(
                           flex: 40,

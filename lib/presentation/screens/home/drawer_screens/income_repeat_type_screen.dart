@@ -53,7 +53,7 @@ class IncomeRepeatTypeScreen extends StatelessWidget {
                         SizedBox(height: 2.h),
                         Expanded(
                           child: TabCardView(
-                            priorityName: 'Important',
+                            priorityName: PriorityType.Fixed,
                             expenseRepeatList:
                                 _repeatCubit(context).getIncomeTypeList(),
                             onPressSeeMore: () => Navigator.of(context)
