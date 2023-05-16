@@ -9,14 +9,14 @@ import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
+import 'package:temp/data/repository/helper_class.dart';
 
-class GeneralStatsRepoImpl implements GeneralStatsRepo {
+class GeneralStatsRepoImpl  implements GeneralStatsRepo {
   late GeneralStatsModel generalStatsModel;
   final DateTime todayDate = DateTime.now();
   bool isGotNotifications = false;
 
   final HiveHelper hiveHelper = HiveHelper();
-
   // var hiveBox=Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsModel);
 
   @override
@@ -235,9 +235,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
       generalStatsModel.notificationList.clear();
 
       dailyBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(todayDate) && todayDate
-            .difference(element.nextShownDate)
-            .inDays > 7) {
+        if (shouldAddNotification(element)) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -265,9 +263,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       weeklyBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(todayDate) && todayDate
-            .difference(element.nextShownDate)
-            .inDays > 7){
+        if (shouldAddNotification(element)){
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -295,9 +291,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       monthlyBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(todayDate) && todayDate
-            .difference(element.nextShownDate)
-            .inDays > 7) {
+        if (shouldAddNotification(element)) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -325,13 +319,11 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         }
       });
       noRepBox.values.forEach((element) async {
-        if (element.nextShownDate.isBefore(todayDate) && todayDate
-            .difference(element.nextShownDate)
-            .inDays > 7){
+        if (shouldAddNotification(element)){
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
-            amount: element.transactionModel.amount!,
+            amount: element.transactionModel.amount,
             checkedDate: element.nextShownDate,
             actionDate: DateTime.now(),
             didTakeAction: false,
@@ -357,7 +349,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
       goalRepBox.values.forEach((element) async {
 if (element.nextShownDate.isBefore(todayDate) && todayDate
             .difference(element.nextShownDate)
-            .inDays > 7) {
+            .inDays > 7&& element.goalLastConfirmationDate.isBefore(element.nextShownDate)) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.goal.id,
@@ -513,7 +505,7 @@ if (element.nextShownDate.isBefore(todayDate) && todayDate
         await element.save().whenComplete(() => print(
             '${element.transactionModel.name} after saving is ${element.isLastConfirmed}'));
       } else if (element.isLastConfirmed &&
-          element.transactionModel.paymentDate!.month == todayDate.month &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
           !element.transactionModel.isExpense &&
           element.transactionModel.amount > topIncome) {
         topIncome = element.transactionModel.amount;
@@ -544,5 +536,17 @@ if (element.nextShownDate.isBefore(todayDate) && todayDate
     notificationInBox.didTakeAction = true;
     notificationInBox.actionDate = DateTime.now();
     await generalStatsModel.save();
+  }
+
+  bool shouldAddNotification(TransactionRepeatDetailsModel element){
+    if(
+    element.nextShownDate.isBefore(todayDate) && todayDate
+        .difference(element.nextShownDate)
+        .inDays > 7 &&element.lastConfirmationDate.isBefore(element.nextShownDate)
+    ){
+      return true;
+    }else{
+      return false;
+    }
   }
 }
