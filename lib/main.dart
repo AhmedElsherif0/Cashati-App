@@ -8,6 +8,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
+import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
@@ -125,6 +126,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
         BlocProvider(create: ((context) => IncomeRepeatCubit(_incomeRepository))),
         BlocProvider(create: ((context) => AddSubcategoryCubit())),
         BlocProvider(create: ((context) => GoalsCubit())),
+        BlocProvider(create: ((context) => ConfirmPaymentCubit())),
         BlocProvider(create: ((context) => StatisticsCubit(_expensesRepository))),
       ],
       child: BlocConsumer<GlobalCubit, GlobalState>(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
+import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
@@ -20,11 +21,13 @@ class ConfirmPayingExpense extends StatelessWidget {
     required this.onDelete,
     required this.onCancel,
     required this.onConfirm,
+    required this.transactionModel,
   }) : super(key: key);
 
   final int index;
   final double amount;
   final String date;
+  final TransactionModel transactionModel;
   final void Function() onEditAmount;
   final void Function() onDetails;
   final void Function() onDelete;
@@ -47,14 +50,16 @@ class ConfirmPayingExpense extends StatelessWidget {
               children: [
                 Expanded(
                   child: ConfirmPayingTitleCard(
-                      cardTitle: 'Expense', index: index),
+                      cardTitle: '${transactionModel.isExpense?"Expense":"Income"}', index: index),
                 ),
-                const Expanded(
+                 Expanded(
                   child: RowIconWithTitle(
-                      startIcon: AppIcons.categories, title: 'Family'),
+                    toolTipMessage: "Transaction Category and Subcategory",
+                      startIcon: AppIcons.categories, title: "${transactionModel.mainCategory} , ${transactionModel.subCategory}"),
                 ),
                 Expanded(
                   child: RowIconWithTitle(
+                    toolTipMessage: "Transaction Category and Subcategory",
                     startIcon: AppIcons.poundSterlingSign,
                     title: '${amount.toStringAsFixed(0)} LE',
                     endIcon: InkWell(
@@ -66,6 +71,8 @@ class ConfirmPayingExpense extends StatelessWidget {
                 ),
                  Expanded(
                   child: RowIconWithTitle(
+                      toolTipMessage: "Transaction Confirm Date",
+
                       startIcon: AppIcons.calender, title: date),
                 ),
                 Expanded(
@@ -109,8 +116,8 @@ class ConfirmPayingExpense extends StatelessWidget {
                       ),
                       const Spacer(flex: 2),
                       CancelConfirmTextButton(
-                        onCancel: () {},
-                        onConfirm: () {},
+                        onCancel: onCancel,
+                        onConfirm: onConfirm,
                       ),
                       const Spacer(),
                     ],
