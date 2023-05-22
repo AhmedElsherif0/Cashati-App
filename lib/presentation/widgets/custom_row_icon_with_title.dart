@@ -6,12 +6,14 @@ class RowIconWithTitle extends StatelessWidget {
   const RowIconWithTitle({
     required this.title,
     required this.startIcon,
+    required this.toolTipMessage,
     Key? key,
     this.endIcon,
   }) : super(key: key);
 
   final String title;
   final String startIcon;
+  final String toolTipMessage;
   final Widget? endIcon;
 
   @override
@@ -27,7 +29,9 @@ class RowIconWithTitle extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child:
-                    SvgPicture.asset(startIcon, color: AppColor.primaryColor),
+                    Tooltip(
+                        message: toolTipMessage,
+                        child: SvgPicture.asset(startIcon, color: AppColor.primaryColor)),
               ),
               const Spacer(),
               Expanded(

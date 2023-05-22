@@ -4,6 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
+import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/app_bars/app_bar_with_icon.dart';
@@ -69,12 +70,12 @@ class _GoalsScreenState extends State<GoalsScreen> {
             filterDropDown(goalsCubit),
             Expanded(
               child: ListView.builder(
-                itemCount: goalsCubit.goals.length,
+                itemCount: goalsCubit.registeredGoals.length,
                   itemBuilder: (context,index){
-                  GoalModel goal=goalsCubit.goals[index];
-                return GoalCard(goal: goal,
+                  GoalRepeatedDetailsModel goal=goalsCubit.registeredGoals[index];
+                return GoalCard(goal: goal.goal,
                 deleteFunction:(){
-                  goalsCubit.deleteGoal(goal);
+                  goalsCubit.deleteGoal(goal.goal);
                 },
                   editFunction: (){},
                 );
