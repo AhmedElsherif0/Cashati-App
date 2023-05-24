@@ -68,9 +68,10 @@ class _ConfirmPayingScreenState extends State<ConfirmPayingScreen> with AlertDia
                   child: Visibility(
                     visible: context.read<ConfirmPaymentCubit>().currentIndex!=2,
                     child: TransactionConfirmCard(
+
                       changedAmount: changedAmount,
                     ),
-                    replacement: GoalConfirmCard(),
+                    replacement: GoalConfirmCard(changedAmount: changedAmount,),
                   ),
                 ),
               ),

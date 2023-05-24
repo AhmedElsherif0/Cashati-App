@@ -80,6 +80,9 @@ class GoalsRepoImpl with  GeneralStatsRepoImpl,MixinGoals  implements GoalsRepos
         GoalRepeatedDetailsModel theEditedDailyGoal =
         editDailyGoalLastShown(goalModel: goalModel);
         await saveDailyGoalAndAddToRepeatBox(theMatchingGoalinRep:  theEditedDailyGoal,newAmount: newAmount).then((_){
+          print("goal id ${goalModel.id}");
+          print("the matching goal  id ${theEditedDailyGoal.goal.id}");
+          //TODO remove that condition as save amount can be changed according to user payment
           if(goalModel.goalSaveAmount==goalBox.get(goalModel.id)?.goalSaveAmount) {
             super.minusBalance(amount: goalModel.goalSaveAmount);
           }});

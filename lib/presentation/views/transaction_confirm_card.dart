@@ -10,6 +10,7 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
   const TransactionConfirmCard({Key? key, required this.changedAmount}) : super(key: key);
   final TextEditingController changedAmount;
 
+
   @override
   Widget build(BuildContext context) {
     var w;
@@ -43,8 +44,13 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
                       },context: ctx,changedAmountCtrl: changedAmount));
                     },
                     index: index,
-                    onCancel: () {},
-                    onConfirm: () {},
+                    onCancel: (){
+                      context.read<ConfirmPaymentCubit>().onNoConfirmed(theAddedExpense: curentExpense);
+                    },
+                    onConfirm: (){
+                      context.read<ConfirmPaymentCubit>().onYesConfirmed(theAddedExpense:curentExpense );
+
+                    },
                     // changedAmount: 10000,
                     // blockedAmount: 20000,
                     // onEditBlockedAmount: () {},
@@ -87,8 +93,13 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
                       },context: ctx,changedAmountCtrl: changedAmount));
                     },
                     index: index,
-                    onCancel: () {},
-                    onConfirm: () {},
+                    onCancel: (){
+                      context.read<ConfirmPaymentCubit>().onNoConfirmed(theAddedExpense: curentIncome);
+                    },
+                    onConfirm: (){
+                      context.read<ConfirmPaymentCubit>().onYesConfirmed(theAddedExpense:curentIncome );
+
+                    },
                     // changedAmount: 10000,
                     // blockedAmount: 20000,
                     // onEditBlockedAmount: () {},

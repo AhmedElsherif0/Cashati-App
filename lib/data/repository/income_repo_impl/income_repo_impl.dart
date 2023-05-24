@@ -46,9 +46,7 @@ class IncomeRepositoryImpl with GeneralStatsRepoImpl , MixinTransaction  impleme
       // await allExpensesModel.add(expenseModel);
       await allIncomeBox.put(transactionModel.id,transactionModel).then(
               (_) {
-            if(transactionModel.amount==allIncomeBox.get(transactionModel.id)?.amount){
-              super.plusBalance(amount:transactionModel.amount!);
-            }
+                super.plusBalance(amount:transactionModel.amount);
           });
       print("name of the value added by  key is ${allIncomeBox.get(transactionModel.id)!.name} and key is ${allIncomeBox.get(transactionModel.id)!.id}");
 
