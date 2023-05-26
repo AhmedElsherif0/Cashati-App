@@ -4,6 +4,7 @@ import 'package:temp/presentation/goals/goals_screen.dart';
 import 'package:temp/presentation/screens/add_exp_inc_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/income_repeat_type_screen.dart';
+import 'package:temp/presentation/screens/home/statistics_details_screen.dart';
 import 'package:temp/presentation/screens/shared/notification_screen.dart';
 import 'package:temp/presentation/screens/test_screens/add_goal_test_screen.dart';
 import 'package:temp/presentation/screens/test_screens/confirm_payments.dart';
@@ -51,6 +52,8 @@ class AppRouter {
         return _pageBuilder(child: const GoalsScreen());
       case AppRouterNames.rConfirmToday:
         return _pageBuilder(child: const ConfirmPaymentsScreen());
+      case AppRouterNames.rStatisticsDetailsScreen:
+        return _pageBuilder(child: const StatisticsDetailsScreen());
       default:
     }
     return null;

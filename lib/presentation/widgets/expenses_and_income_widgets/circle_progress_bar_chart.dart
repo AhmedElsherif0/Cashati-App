@@ -19,8 +19,7 @@ class CircularProgressBarChart extends StatefulWidget {
   final String header;
 
   @override
-  State<CircularProgressBarChart> createState() =>
-      _CircularProgressBarChartState();
+  State<CircularProgressBarChart> createState() => _CircularProgressBarChartState();
 }
 
 class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
@@ -49,10 +48,11 @@ class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
             child: SizedBox(
               height: 15.h,
               child: DataInsidePieChart(
-                  header: widget.header,
-                  valueNotifier: _valueNotifier,
-                  totalExpenses: widget.totalExpenses,
-                  onPressToHome: widget.onPressToHome),
+                header: widget.header,
+                valueNotifier: _valueNotifier,
+                totalExpenses: widget.totalExpenses,
+                onPressToHome: widget.onPressToHome,
+              ),
             ),
           ),
         ),

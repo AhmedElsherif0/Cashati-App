@@ -32,7 +32,7 @@ class DataInsidePieChart extends StatelessWidget {
               child: ValueListenableBuilder(
                 valueListenable: valueNotifier,
                 builder: (_, double value, __) => Text(
-                  '${value.toInt()} LE',
+                  '${value.toInt()}LE',
                   style: Theme.of(context).textTheme.headline5,
                 ),
               ),
