@@ -14,6 +14,6 @@ class AppRouterNames {
   static const rFetchGoalScreen = '/rFetchGoalScreen';
   static const rGetGoals = '/rGetGoals';
   static const rAddGoal = '/rAddGoal';
-  static const rConfirmToday = '/rConfirmToday';
-
+  static const rConfirmToday = '/rConfirmTodayScreen';
+  static const rStatisticsDetailsScreen = '/rStatisticsDetailsScreen';
 }

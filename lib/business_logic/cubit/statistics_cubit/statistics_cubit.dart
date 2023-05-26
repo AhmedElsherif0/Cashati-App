@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/transactions_repo/transaction_repo.dart';
 import 'package:temp/data/models/statistics/expenses_lists.dart';
@@ -26,11 +28,22 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   List<List<TransactionModel>> monthList = [];
   final TransactionRepo _expensesRepository;
   List<String> noRepeats = ExpensesLists().noRepeats;
+
   DateTime choosenDay = DateTime.now();
 
   int currentIndex = 0;
 
-  /// filter the amount based on the important and notImportant...
+  /// 1- count the total.\
+
+  num getTotalExpense() {
+    num totalExpense = 0.0;
+    getExpenses().forEach((element) {
+      if (checkSameDay(element)) totalExpense += element.amount;});
+    print('here is the Total Expense $totalExpense');
+    return totalExpense;
+  }
+
+  /// 2- filter the amount based on the important.
   double totalExpenses({required bool isPriority}) {
     final List<TransactionModel> importantExpense = getExpenses()
         .where((element) => checkSameDay(element) && element.isPriority == isPriority)
@@ -57,6 +70,7 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
         : getIncome().where((element) => checkSameDay(element)).toList());
     byDayList.clear();
     byDayList = List.from(dayList);
+
     byDayList.map((e) => print(" priorityyyyy ${e.isPriority}"));
     totalImport = 0;
     totalNotImport = 0;
@@ -64,12 +78,12 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
     byDayList.forEach((element) {
       if (element.isPriority) {
         /// Green space
-        totalImport = totalImport + element.amount!;
+        totalImport = totalImport + element.amount;
       } else {
         /// Grey space
-        totalNotImport = totalNotImport + element.amount!;
+        totalNotImport = totalNotImport + element.amount;
       }
-      chosenDayTotal = chosenDayTotal + element.amount!;
+      chosenDayTotal = chosenDayTotal + element.amount;
     });
     emit(StatisticsByDayList());
   }

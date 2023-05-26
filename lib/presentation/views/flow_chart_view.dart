@@ -26,14 +26,14 @@ class FlowChartView extends StatelessWidget {
   final PriorityType notPriority;
   final TransactionType transactionType;
   final ExpensesModel expensesModel;
-  final double maxExpenses;
+  final num maxExpenses;
   final double totalExpenses;
 
   Widget switchWidgets(int currentIndex) {
     final expList = ExpensesLists();
     Widget widget = CircularProgressBarChart(
         header: transactionType.name,
-        maxExpenses: maxExpenses,
+        maxExpenses: maxExpenses.toDouble(),
         totalExpenses: totalExpenses,
         onPressToHome: () {});
     switch (currentIndex) {
