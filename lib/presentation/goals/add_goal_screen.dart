@@ -194,21 +194,24 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
           goalCreatedDay: DateTime.now(),
           id: GUIDGen.generate(),
           goalName: goalNameCtrl.text,
-          goalRemainingAmount: 0,
+          goalRemainingAmount:goalCubit.countRemainingAmount(
+              num.tryParse(goalCostCtrl.text)!,
+              num.tryParse(goalSaveRepeatAmount.text)!
+          ),
           //num.tryParse(goalCostCtrl.text)!,
           goalRemainingPeriod: goalCubit.remainingTimes(
               cost: num.tryParse(goalCostCtrl.text)!,
               dailySaving: num.tryParse(goalSaveRepeatAmount.text)!),
           goalSaveAmount: num.tryParse(goalSaveRepeatAmount.text)!,
           goalSaveAmountRepeat: goalCubit.choseRepeat,
-          goalTotalAmount: 2050,
+          goalTotalAmount: num.parse(goalCostCtrl.text),
           //num.tryParse(goalCostCtrl.text)!,
-          goalStartSavingDate: goalCubit.chosenDate ?? DateTime.now(),
+          goalStartSavingDate: goalCubit.chosenDate ?? goalCubit.today ,
           goalCompletionDate: goalCubit.getCompletionDate(
               cost: num.tryParse(goalCostCtrl.text)!,
               dailySavings: num.tryParse(goalSaveRepeatAmount.text)!,
               repeat: goalCubit.choseRepeat,
-              startSavingDate: goalCubit.chosenDate ?? DateTime.now()));
+              startSavingDate: goalCubit.chosenDate ?? goalCubit.today));
       await showGoalsDialog(
           context: context,
           onPressedYesFunction: () async {
@@ -238,4 +241,5 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
       },
     );
   }
+
 }

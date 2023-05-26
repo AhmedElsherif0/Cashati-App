@@ -1,3 +1,5 @@
+import 'package:temp/data/models/transactions/transaction_details_model.dart';
+
 mixin HelperClass {
   List<String> getWeekRange({required DateTime chosenDay}) {
     int lastDay =
@@ -13,3 +15,4 @@ mixin HelperClass {
     ];
   }
 }
+

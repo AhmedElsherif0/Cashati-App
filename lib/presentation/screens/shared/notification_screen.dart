@@ -21,6 +21,8 @@ class NotificationScreen extends StatelessWidget {
             child: ListView.builder(
               itemCount: 8,
               itemBuilder: (_, index) => CustomNotificationTile(
+                  isActionTaken:false ,
+
                   dateTime: '3h',
                   firstIcon: const Icon(Icons.check_circle_outline),
                   onPressedNotification: () {},

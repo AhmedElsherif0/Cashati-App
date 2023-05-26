@@ -19,7 +19,7 @@ class TransactionModelAdapter extends TypeAdapter<TransactionModel> {
     return TransactionModel()
       ..id = fields[0] as String
       ..name = fields[1] as String
-      ..amount = fields[2] as double
+      ..amount = fields[2] as num
       ..mainCategory = fields[3] as String
       ..subCategory = fields[4] as String
       ..isPriority = fields[5] as bool

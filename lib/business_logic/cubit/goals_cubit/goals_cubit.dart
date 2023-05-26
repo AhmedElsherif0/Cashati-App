@@ -13,11 +13,13 @@ class GoalsCubit extends Cubit<GoalsState> {
   String choseRepeat = 'Choose Repeat';
   String choseFilter = 'All';
   DateTime? chosenDate;
+  final DateTime today=DateTime.now();
 
   //GoalsRepeatedRepo _goalsRepeatedRepo = GoalsRepeatedImpl();
   GoalsRepository _goalsRepository = GoalsRepoImpl();
   List<GoalModel> goals = [];
   List<GoalRepeatedDetailsModel> goalsRepeated = [];
+  List<GoalRepeatedDetailsModel> registeredGoals = [];
 
   List<DropdownMenuItem<String>> dropDownChannelItems = [
     DropdownMenuItem(child: Text('Daily'), value: 'Daily'),
@@ -52,20 +54,27 @@ class GoalsCubit extends Cubit<GoalsState> {
   }
 
   void fetchAllGoals() {
+    //TODO remove normal goals from the function as screen depends on repeated goals and check after confirm
     switch (choseFilter) {
       case 'All':
         goals = _goalsRepository.getGoals();
+        registeredGoals = _goalsRepository.fetchRepeatedGoals();
         break;
       case 'Completed':
         goals = _goalsRepository
             .getGoals()
             .where((element) => element.goalRemainingAmount == 0)
             .toList();
+        registeredGoals = _goalsRepository.fetchRepeatedGoals().where((element) => element.goal.goalRemainingAmount == 0)
+            .toList();
+
         break;
       case 'UnCompleted':
         goals = _goalsRepository
             .getGoals()
             .where((element) => element.goalRemainingAmount != 0)
+            .toList();
+        registeredGoals = _goalsRepository.fetchRepeatedGoals().where((element) => element.goal.goalRemainingAmount != 0)
             .toList();
         break;
     }
@@ -128,5 +137,13 @@ class GoalsCubit extends Cubit<GoalsState> {
   Future<void> deleteGoal(GoalModel goalModel) async {
     await _goalsRepository.deleteGoalFromGoalsBox(goalModel);
     fetchAllGoals();
+  }
+  num countRemainingAmount(num totalCost , num saveAmount){
+    if(chosenDate!.day==today.day&&chosenDate!.month==today.month&&chosenDate!.year==today.year){
+      return totalCost - saveAmount;
+    }else{
+      return totalCost;
+
+    }
   }
 }

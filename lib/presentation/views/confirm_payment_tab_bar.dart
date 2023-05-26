@@ -6,7 +6,9 @@ import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
 
 class ConfirmPaymentTabBar extends StatefulWidget {
-  const ConfirmPaymentTabBar({Key? key}) : super(key: key);
+   ConfirmPaymentTabBar({Key? key, required this.tabBarIndex, required this.onChangeIndex}) : super(key: key);
+   late int tabBarIndex ;
+   final Function(int index) onChangeIndex;
 
   @override
   State<ConfirmPaymentTabBar> createState() => _ConfirmPaymentTabBarState();
@@ -16,11 +18,20 @@ class _ConfirmPaymentTabBarState extends State<ConfirmPaymentTabBar>
     with SingleTickerProviderStateMixin {
   late final TabController _controller = TabController(length: 3, vsync: this);
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _controller.index=widget.tabBarIndex;
+    super.initState();
+  }
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
+
 
   List<String> _iconList(index) =>
       [AppIcons.expense, AppIcons.incomeDrawer, AppIcons.goals];
@@ -37,7 +48,11 @@ class _ConfirmPaymentTabBarState extends State<ConfirmPaymentTabBar>
             isClicked: _controller.index == index),
         growable: false,
       ),
-      onTap: (index) => setState(() => _controller.index == index),
+      onTap: (index) {
+        widget.onChangeIndex(index);
+        // setState(() => _controller.index == index);
+        // widget.tabBarIndex = index;
+      },
       indicatorWeight: 2.sp,
       controller: _controller,
       labelStyle: textTheme.headline6,

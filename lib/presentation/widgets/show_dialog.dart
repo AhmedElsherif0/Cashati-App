@@ -3,11 +3,36 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import '../styles/colors.dart';
 import 'custom_painter_dialog.dart';
 import 'buttons/custom_text_button.dart';
 
 mixin AlertDialogMixin {
+  AlertDialog newAmountDialog({required double amount,required Function onUpdate,required BuildContext context,required TextEditingController changedAmountCtrl}){
+    return AlertDialog(
+      title: Text("Update Paid Amount"),
+      content:TextFormField(
+        keyboardType: TextInputType.number,
+        controller: changedAmountCtrl,
+        decoration: InputDecoration(
+            hintText: "$amount",
+            labelText: "Paid Amount"
+        ),
+      ),
+      actions: [
+        CustomElevatedButton(onPressed: (){
+          Navigator.of(context).pop();
+
+        }, text: "Cancel"),
+        CustomElevatedButton(onPressed: (){
+          onUpdate();
+          Navigator.of(context).pop();
+        }, text: "Update"),
+      ],
+    );
+  }
+
   void showSuccessfulDialog(
       BuildContext context, String title, String message) {
     _customAlertDialog(
