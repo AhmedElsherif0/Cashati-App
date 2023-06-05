@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
+import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
@@ -28,6 +29,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     _controller.dispose();
     super.dispose();
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -48,10 +50,10 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
       lastDate: DateTime(2100),
     );
     if (datePicker == null) return;
-   // getStatisticsCubit().choosenDay = datePicker;
-    getStatisticsCubit().getExpensesByDay(datePicker,true);
+    // getStatisticsCubit().choosenDay = datePicker;
+    getStatisticsCubit().getExpensesByDay(datePicker, true);
   }
-  
+
   void showDatePickMonth() async {
     final datePicker = await showMonthPicker(
       context: context,
@@ -70,9 +72,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
     int currentIndex = 0;
     return Scaffold(
       body: BlocConsumer<StatisticsCubit, StatisticsState>(
-        listener: (context,state){
-          if(state is StatisticsInitial){
-          }
+        listener: (context, state) {
+          if (state is StatisticsInitial) {}
         },
         builder: (context, state) {
           return Directionality(
@@ -91,9 +92,11 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                     child: Column(
                       children: [
                         CustomElevatedButton(
-                          onPressed: () => index==0?showDatePick():showDatePickMonth(),
-                          text: index ==0?
-                              '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}': '${chosenDay.month} \\ ${chosenDay.year}',
+                          onPressed: () =>
+                              index == 0 ? showDatePick() : showDatePickMonth(),
+                          text: index == 0
+                              ? '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}'
+                              : '${chosenDay.month} \\ ${chosenDay.year}',
                           textStyle: Theme.of(context).textTheme.subtitle1,
                           backgroundColor: AppColor.white,
                           width: 40.w,
@@ -101,20 +104,20 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                         ),
                         const Spacer(),
                         FlowChartView(
-                            maxExpenses: context
-                                .read<StatisticsCubit>()
-                                .totalExpenses(isPriority: true),
-                            totalExpenses: context
-                                .read<StatisticsCubit>()
-                                .totalExpenses(isPriority: false),
-                            index: index,
-                            priorityType: PriorityType.Important,
-                            notPriority: PriorityType.NotImportant,
-                            expensesModel: list),
+                          maxExpenses:
+                              context.read<StatisticsCubit>().getTotalExpense(),
+                          totalExpenses: context
+                              .read<StatisticsCubit>()
+                              .totalExpenses(isPriority: true),
+                          index: index,
+                          priorityType: PriorityType.Important,
+                          notPriority: PriorityType.NotImportant,
+                          expensesModel: list,
+                        ),
 
                         /// TabBarView Widgets.
                         Expanded(
-                          flex: 40,
+                          flex: 32,
                           child: CustomTabBarViewEdited(
                               priorityName: PriorityType.Important,
                               expenseList: getStatisticsCubit().byDayList,
@@ -165,4 +168,5 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
       ),
     );
   }
+
 }

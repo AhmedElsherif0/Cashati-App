@@ -10,6 +10,7 @@ import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/models/statistics/expenses_lists.dart';
+import '../../../router/app_router_names.dart';
 import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/buttons/elevated_button.dart';
@@ -111,9 +112,8 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                         ),
                         const Spacer(),
                         FlowChartView(
-                            maxExpenses: context
-                                .read<StatisticsCubit>()
-                                .totalExpenses(isPriority: true),
+                            maxExpenses:
+                                context.read<StatisticsCubit>().getTotalExpense(),
                             totalExpenses: context
                                 .read<StatisticsCubit>()
                                 .totalExpenses(isPriority: false),
@@ -131,9 +131,13 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                               monthWidget: WeekCardViewEdited(
                                 weekRanges: getStatisticsCubit().weekRangeText(),
                                 chosenDay: getStatisticsCubit().choosenDay,
-                                onPressSeeMore: () {},
                                 weeksTotals: getStatisticsCubit().totals,
                                 seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
+                                onPressSeeMore: () {
+                                  Navigator.of(context).pushNamed(
+                                      AppRouterNames.rStatisticsDetailsScreen);
+                                  setState(() {});
+                                },
                               ),
                               currentIndex: currentIndex,
                               index: index,
