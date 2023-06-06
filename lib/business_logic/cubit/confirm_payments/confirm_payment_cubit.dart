@@ -32,12 +32,11 @@ class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
 
     try{
       await transactionRep.onYesConfirmed(addedExpense: theAddedExpense);
+      theAddedExpense.isExpense?allTodayList.remove(theAddedExpense):allTodayListIncome.remove(theAddedExpense);
     }catch(e){
       print('error is $e');
     }
-    // setState(() {
-    //
-    // });
+    emit(YesConfirmedState());
   }
 
   Future<void> onNoConfirmed({
@@ -45,36 +44,14 @@ class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
     required TransactionModel theAddedExpense})async{
     print('No confirmed');
     await transactionRep.onNoConfirmed(addedExpense:  theAddedExpense);
-    // setState(() {
-    //
-    // });
+    theAddedExpense.isExpense?allTodayList.remove(theAddedExpense):allTodayListIncome.remove(theAddedExpense);
+
+    emit(NoConfirmedState());
+
   }
 
 
-  Future<void> onYesConfirmedIncome({
 
-    required TransactionModel theAddedIncome})async{
-    print('Yes confirmed');
-
-    try{
-      await transactionRep.onYesConfirmed(addedExpense: theAddedIncome);
-    }catch(e){
-      print('error is $e');
-    }
-    // setState(() {
-    //
-    // });
-  }
-
-  Future<void> onNoConfirmedIncome({
-
-    required TransactionModel theAddedIncome})async{
-    print('No confirmed');
-    await transactionRep.onNoConfirmed(addedExpense: theAddedIncome,);
-    // setState(() {
-    //
-    // });
-  }
 
 
   Future<void> onYesConfirmedGoal({
@@ -83,23 +60,26 @@ class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
     print('Yes confirmed');
 
     try{
-      await goalsRepository.yesConfirmGoal(goalModel: goalModel,newAmount: newAmount);
+      await goalsRepository.yesConfirmGoal(goalModel: goalModel,newAmount: goalModel.goalSaveAmount);
+      goalsRepository.getTodayGoals();
+      allTodayGoals.remove(goalModel);
+
     }catch(e){
       print('error is $e');
     }
-    // setState(() {
-    //
-    // });
+
+    emit(YesConfirmedState());
+
   }
 
   Future<void> onNoConfirmedGoal({
 
     required GoalModel goalModel})async{
     print('No confirmed');
-    await goalsRepository.noConfirmGoal(goalModel: goalModel,newAmount: newAmount);
-    // setState(() {
-    //
-    // });
+    await goalsRepository.noConfirmGoal(goalModel: goalModel,newAmount: goalModel.goalSaveAmount);
+    allTodayGoals.remove(goalModel);
+    emit(NoConfirmedState());
+
   }
 
   onChangeIndex(int index){

@@ -72,16 +72,22 @@ class _FetchGoalsTestScreenState extends State<FetchGoalsTestScreen> {
               decoration: BoxDecoration(color: Colors.amber.shade200,
                   borderRadius: BorderRadius.circular(20)
               ),
-              height: 100,
-              width: 150,
+              height: 200,
+              width: 200,
               child: ExpansionTile(
                 title: Text(goals[index].goalName),
                 children: [
-                  Text('${goals[index].goalRemainingPeriod}'),
-                  Text('${goals[index].goalRemainingPeriod}'),
-                  Text('${goals[index].goalRemainingPeriod}'),
-                  Text('${goals[index].goalRemainingPeriod}'),
-                  Text('${goals[index].goalRemainingPeriod}'),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text('${goals[index].goalRemainingPeriod}'),
+                        Text('${goals[index].goalSaveAmount}'),
+                        Text('${goals[index].goalTotalAmount}'),
+                        Text('${goals[index].goalRemainingAmount}'),
+                        Text('${goals[index].goalCreatedDay}'),
+                      ],
+                    ),
+                  )
                 ],
               ),
             );
@@ -91,7 +97,7 @@ class _FetchGoalsTestScreenState extends State<FetchGoalsTestScreen> {
 
   Widget repeatedGoalsWidget(List<GoalRepeatedDetailsModel> goalsRepeated) {
     return Container(
-      height: 250,
+      height: 300,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: goalsRepeated.length,
@@ -102,20 +108,26 @@ class _FetchGoalsTestScreenState extends State<FetchGoalsTestScreen> {
               decoration: BoxDecoration(color: Colors.amber.shade200,
                   borderRadius: BorderRadius.circular(20)
               ),
-              height: 150,
+              height: 250,
               width: 200,
 
               child: ExpansionTile(
                 title: Text(goalsRepeated[index].goal.goalName),
                 children: [
-                  Text('${goalsRepeated[index].goalLastShownDate}'),
-                  Text(goalsRepeated[index].nextShownDate.toString()),
-                  Text(
-                      '${goalsRepeated[index].goal.goalRemainingAmount}'),
-                  Text(
-                      '${goalsRepeated[index].goal.goalRemainingPeriod}'),
-                  Text(
-                      '${goalsRepeated[index].goal.goalSaveAmountRepeat}'),
+               SingleChildScrollView(
+                 child: Column(
+                   children: [
+                     Text('${goalsRepeated[index].goalLastShownDate}'),
+                     Text(goalsRepeated[index].nextShownDate.toString()),
+                     Text(
+                         '${goalsRepeated[index].goal.goalRemainingAmount}'),
+                     Text(
+                         '${goalsRepeated[index].goal.goalSaveAmount}'),
+                     Text(
+                         '${goalsRepeated[index].goal.goalSaveAmountRepeat}'),
+                   ],
+                 ),
+               )
                 ],
               ),
             );

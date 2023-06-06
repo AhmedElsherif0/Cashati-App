@@ -21,7 +21,7 @@ class ExpensesRepositoryImpl with GeneralStatsRepoImpl , MixinTransaction implem
         .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
     if (isEqualToday(date: transactionModel.paymentDate)) {
       print(
-          'is equal today in if ?'
+          'is equal today in if ? in exp repo '
               '${isEqualToday(date: transactionModel.paymentDate)}');
       // await allExpensesModel.add(expenseModel);
 
@@ -29,9 +29,8 @@ class ExpensesRepositoryImpl with GeneralStatsRepoImpl , MixinTransaction implem
 
       await allExpensesModel.put(transactionModel.id, transactionModel).then(
               (_) {
-                if(transactionModel.amount==allExpensesModel.get(transactionModel.id)?.amount){
-                  super.minusBalance(amount:transactionModel.amount!);
-                }
+                super.minusBalance(amount:transactionModel.amount);
+
               });
       print(
           "name of the value added by  key is "

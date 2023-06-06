@@ -14,23 +14,26 @@ class ConfirmTransactionImpl
     implements ConfirmTransactionRepo {
   List<TransactionModel> todayList = [];
 
-  Future<void> addExpenseToBoxFromRepeatedBox(
+  Future<void> addTransactionToBoxFromRepeatedBox(
       {required TransactionModel currentExpense, double? newAmount}) async {
-    final TransactionModel expenseModel = currentExpense;
-    expenseModel.amount = newAmount ?? currentExpense.amount;
-    expenseModel.id = GUIDGen.generate();
-    expenseModel.paymentDate = today;
-    expenseModel.createdDate = today;
+    final TransactionModel transaction = currentExpense;
+    transaction.amount = newAmount ?? currentExpense.amount;
+    transaction.id = GUIDGen.generate();
+    transaction.paymentDate = today;
+    transaction.createdDate = today;
     Box<TransactionModel> allExpenseModel = Hive.box(AppBoxes.transactionBox);
     try {
       await hiveDatabase
           .putByKey<TransactionModel>(
-              indexKey: expenseModel.id,
-              dataModel: expenseModel,
+              indexKey: transaction.id,
+              dataModel: transaction,
               boxName: allExpenseModel)
           .then((_) {
-        if (expenseModel.amount == allExpenseModel.get(expenseModel.id)?.amount) {
-          super.minusBalance(amount: expenseModel.amount!);
+        if (transaction.isExpense) {
+          super.minusBalance(amount: transaction.amount);
+        }else{
+          super.plusBalance(amount: transaction.amount);
+
         }
       });
     } catch (error) {
@@ -219,7 +222,7 @@ class ConfirmTransactionImpl
   Future<void> saveDailyExpenseAndAddToRepeatBox(
       TransactionRepeatDetailsModel theMatchingDailyExpense) async {
     await theMatchingDailyExpense.save();
-    await addExpenseToBoxFromRepeatedBox(
+    await addTransactionToBoxFromRepeatedBox(
         currentExpense: theMatchingDailyExpense.transactionModel);
   }
 
@@ -262,7 +265,7 @@ class ConfirmTransactionImpl
   Future saveWeeklyExpenseAndAddToRepeatBox(
       TransactionRepeatDetailsModel theMatchingWeeklyExpenseModel) async {
     await theMatchingWeeklyExpenseModel.save();
-    await addExpenseToBoxFromRepeatedBox(
+    await addTransactionToBoxFromRepeatedBox(
         currentExpense: theMatchingWeeklyExpenseModel.transactionModel);
   }
 
@@ -306,13 +309,13 @@ class ConfirmTransactionImpl
   Future saveMonthlyExpenseAndAddToRepeatBox(
       TransactionRepeatDetailsModel theMatchingMonthlyExpenseModel) async {
     await theMatchingMonthlyExpenseModel.save();
-    await addExpenseToBoxFromRepeatedBox(
+    await addTransactionToBoxFromRepeatedBox(
         currentExpense: theMatchingMonthlyExpenseModel.transactionModel);
   }
 
   Future saveNoRepeatExpenseAndDeleteRepeatBox(
       TransactionRepeatDetailsModel theMatchingNoRepExpenseModel) async {
-    await addExpenseToBoxFromRepeatedBox(
+    await addTransactionToBoxFromRepeatedBox(
         currentExpense: theMatchingNoRepExpenseModel.transactionModel);
     theMatchingNoRepExpenseModel.delete();
   }
