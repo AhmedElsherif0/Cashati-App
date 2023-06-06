@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -46,10 +47,10 @@ class _NotificationTestScreenState extends State<NotificationTestScreen> {
               itemCount:
                   BlocProvider.of<HomeCubit>(context).notificationList!.length,
               itemBuilder: (_, index) => CustomNotificationTile(
-                  dateTime: BlocProvider.of<HomeCubit>(context)
+                isActionTaken:context.read<HomeCubit>().notificationList![index].didTakeAction ,
+                  dateTime: DateFormat.yMMMd().format(BlocProvider.of<HomeCubit>(context)
                       .notificationList![index]
-                      .checkedDate
-                      .toString(),
+                      .checkedDate),
                   firstIcon:context.read<HomeCubit>().notificationList![index].didTakeAction?const Icon(
                     Icons.check_circle_outline,
                     color: AppColor.green,
@@ -58,6 +59,7 @@ class _NotificationTestScreenState extends State<NotificationTestScreen> {
                     color: AppColor.red,
                   ),
                   onPressedNotification: () {
+                  if(!context.read<HomeCubit>().notificationList![index].didTakeAction){
                     showDialog(
                         context: context,
                         builder: (ctx) {
@@ -66,19 +68,25 @@ class _NotificationTestScreenState extends State<NotificationTestScreen> {
 
                             child: NotifyingConfirmPaying(
                                 onEditAmount: (){
-                                 // BlocProvider.of<HomeCubit>(context).notificationList![index].amount = amount;
+                                  // BlocProvider.of<HomeCubit>(context).notificationList![index].amount = amount;
                                 },
                                 onDetails: (){},
                                 notificationModel: BlocProvider.of<HomeCubit>(context).notificationList![index],
                                 date:  BlocProvider.of<HomeCubit>(context).notificationList![index]
-                                .checkedDate.toString(),
+                                    .checkedDate.toString(),
                                 onDelete: (){},
-                                onCancel: (){},
+                                onCancel: (){
+                                  Navigator.pop(context);
+                                },
                                 onConfirm: (){
                                   context.read<HomeCubit>().onYesTransactionNotification(BlocProvider.of<HomeCubit>(context).notificationList![index]);
+                                  Navigator.pop(context);
                                 }),
                           );
                         });
+                  }else{
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Action Has been taken already on ${context.read<HomeCubit>().notificationList![index].modelName}",maxLines: 2,)));
+                  }
                   },
                   subTitle: BlocProvider.of<HomeCubit>(context)
                       .notificationList![index]

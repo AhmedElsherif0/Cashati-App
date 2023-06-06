@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../styles/colors.dart';
@@ -10,12 +11,14 @@ class CustomNotificationTile extends StatelessWidget {
     this.onPressedNotification,
     required this.subTitle,
     required this.dateTime,
+    required this.isActionTaken,
   }) : super(key: key);
 
   final String title;
   final String subTitle;
   final String dateTime;
   final Widget? firstIcon;
+  final bool? isActionTaken;
   final VoidCallback? onPressedNotification;
 
   @override
@@ -36,7 +39,7 @@ class CustomNotificationTile extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.topRight,
-                  child: Text('$dateTime ago',
+                  child: Text('$dateTime',
                       style: Theme.of(context).textTheme.overline,
                       overflow: TextOverflow.ellipsis),
                 ),
@@ -60,11 +63,20 @@ class CustomNotificationTile extends StatelessWidget {
                       ),
                       Expanded(
                         flex: 8,
-                        child: Text(
-                          title,
-                          style: Theme.of(context).textTheme.subtitle1,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                        child: Visibility(
+                          visible:!isActionTaken! ,
+                          child: Text(
+                            "$title Confirmation Required",
+                            style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 15),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          replacement: Text(
+                            "$title Confirmed Successfully",
+                            style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 15),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
                       ),
                       const Spacer(),
@@ -78,11 +90,20 @@ class CustomNotificationTile extends StatelessWidget {
                       const Spacer(flex: 2),
                       Expanded(
                         flex: 8,
-                        child: Text(
-                          subTitle,
-                          style: Theme.of(context).textTheme.overline,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 4,
+                        child: Visibility(
+                          visible:!isActionTaken! ,
+                          child: Text(
+                            "Don’t forget to confirm your $title  $subTitle you have added before.",
+                            style: Theme.of(context).textTheme.overline!.copyWith(fontSize: 15),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 4,
+                          ),
+                          replacement: Text(
+                            "You have successfully confirmed your $title  $subTitle.",
+                            style: Theme.of(context).textTheme.overline!.copyWith(fontSize: 15),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 4,
+                          ),
                         ),
                       ),
                       const Spacer()

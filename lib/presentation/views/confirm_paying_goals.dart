@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/data/models/goals/goal_model.dart';
 
 import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
@@ -21,10 +22,12 @@ class ConfirmPayingGoals extends StatelessWidget {
     required this.onConfirm,
     required this.blockedAmount,
     required this.onEditBlockedAmount,
+    required this.goalModel,
   }) : super(key: key);
 
   final int index;
   final double amount;
+  final GoalModel goalModel;
   final double changedAmount;
   final double blockedAmount;
   final void Function() onEditAmount;
@@ -52,29 +55,37 @@ class ConfirmPayingGoals extends StatelessWidget {
                   child:
                       ConfirmPayingTitleCard(cardTitle: 'Goals', index: index),
                 ),
-                const Expanded(
+                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
-                      startIcon: AppIcons.goals, title: 'Go To Disney Land'),
+                      toolTipMessage: "Goal Name",
+
+                      startIcon: AppIcons.goals, title: goalModel.goalName),
                 ),
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
+                      toolTipMessage: "Registered Repeated amount",
+
                       startIcon: AppIcons.poundSterlingSign,
-                      title: '${amount.toStringAsFixed(0)} LE, Weekly',
+                      title: '${goalModel.goalSaveAmount.toStringAsFixed(0)} LE, Weekly',
                       endIcon: onPressIcon(onEditAmount, AppIcons.editIcon)),
                 ),
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
+                    toolTipMessage: "Paid Amount",
+
                     startIcon: AppIcons.change,
-                    title: '${changedAmount.toStringAsFixed(0)} LE',
+                    title: '${goalModel.goalSaveAmount.toStringAsFixed(0)} LE',
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),
                   ),
                 ),
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
+                    toolTipMessage: "Remaining Goal Target Amount",
+
                     startIcon: AppIcons.blockedCash,
                     title: '${blockedAmount.toStringAsFixed(0)} LE',
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),
