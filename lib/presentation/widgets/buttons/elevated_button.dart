@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
+import '../common_texts/elevated_text_button.dart';
+
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     Key? key,
@@ -14,7 +16,8 @@ class CustomElevatedButton extends StatelessWidget {
     this.alignment = Alignment.center,
     this.borderRadius,
     this.iconColor,
-    this.icon, this.isVisible = true,
+    this.icon,
+    this.isVisible = true,
   }) : super(key: key);
 
   final void Function() onPressed;
@@ -45,20 +48,20 @@ class CustomElevatedButton extends StatelessWidget {
         onPressed: onPressed,
         child: Padding(
           padding: EdgeInsets.all(4.sp),
-          child: icon != null ? Row(
-            children: [
-              Expanded(
-                  child: Icon(icon,
-                      size: 20.sp, color: iconColor ?? AppColor.white)),
-              const Spacer(),
-              Expanded(
-                flex: 4,
-                child: Text(text,
-                    style: textStyle ?? Theme.of(context).textTheme.bodyText1),
-              ),
-            ],
-          ) :Text(text,
-              style: textStyle ?? Theme.of(context).textTheme.bodyText1) ,
+          child: icon != null
+              ? Row(
+                  children: [
+                    Expanded(
+                        child: Icon(icon,
+                            size: 20.sp, color: iconColor ?? AppColor.white)),
+                    const Spacer(),
+                    Expanded(
+                      flex: 4,
+                      child: ElevatedTextButton(text: text, textStyle: textStyle),
+                    ),
+                  ],
+                )
+              : ElevatedTextButton(text: text, textStyle: textStyle),
         ),
       ),
     );

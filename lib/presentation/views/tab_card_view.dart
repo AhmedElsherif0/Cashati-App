@@ -3,6 +3,7 @@ import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
+import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import '../../constants/enum_classes.dart';
 import '../styles/colors.dart';
@@ -45,7 +46,7 @@ class TabCardView extends StatelessWidget {
                 index: index,
                 priceColor: priorityColor,
                 isVisible: isVisible,
-                onPressSeeMore: onPressSeeMore,
+       //onPressedssSeeMore: onPressSeeMore,
                 isRepeated: isRepeated,
                 priorityColor: priorityColor,
                 priorityName: priorityName.name,
@@ -54,18 +55,17 @@ class TabCardView extends StatelessWidget {
   }
 }
 
-
-class TabCardViewEdited extends StatelessWidget {
+class TabCardViewEdited extends StatelessWidget with HelperClass{
   const TabCardViewEdited(
       {Key? key,
-        required this.expenseList,
-        required this.onPressSeeMore,
-        this.priorityName = 'Important',
-        this.priceColor = AppColor.red,
-        required this.isVisible,
-        this.seeMoreOrDetailsOrHighest,
-        this.isRepeated = false,
-        this.priorityColor = AppColor.secondColor})
+      required this.expenseList,
+      required this.onPressSeeMore,
+      this.priorityName = 'Important',
+      this.priceColor = AppColor.red,
+      required this.isVisible,
+      this.seeMoreOrDetailsOrHighest,
+      this.isRepeated = false,
+      this.priorityColor = AppColor.secondColor})
       : super(key: key);
 
   final bool isVisible;
@@ -82,12 +82,10 @@ class TabCardViewEdited extends StatelessWidget {
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
         widget = PriorityWidget(
-            text: 'Heighset ${expenseList[0].name}',
-            circleColor: AppColor.red);
+            text: 'Heighset ${expenseList[0].name}', circleColor: AppColor.red);
         break;
       case SwitchWidgets.seeMore:
-        widget =
-            UnderLineTextButton(onPressed: onPressSeeMore, text: 'see more');
+        widget = UnderLineTextButton(onPressed: onPressSeeMore, text: 'see more');
         break;
       default:
         widget = const SizedBox.shrink();
@@ -101,98 +99,94 @@ class TabCardViewEdited extends StatelessWidget {
     return expenseList.isEmpty
         ? Image.asset(AppIcons.noDataCate)
         : ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: expenseList.length,
-        itemBuilder: (context, index) {
-          final expenseModel = expenseList[index];
-          return Column(
-            children: [
-              Card(
-                margin: EdgeInsets.symmetric(horizontal: 16.sp),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.sp),
-                ),
-                elevation: 4.sp,
-                color: AppColor.lightGrey,
-                child: Padding(
-                  padding:
-                  EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: EdgeInsets.zero,
+            itemCount: expenseList.length,
+            itemBuilder: (context, index) {
+              final expenseModel = expenseList[index];
+              return Column(
+                children: [
+                  Card(
+                    margin: EdgeInsets.symmetric(horizontal: 16.sp),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.sp),
+                    ),
+                    elevation: 4.sp,
+                    color: AppColor.lightGrey,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+                      child: Column(
                         children: [
-                          Flexible(
-                            flex:5,
-                            child: Text(expenseModel.name,
-                                overflow: TextOverflow.ellipsis,
-                                style: textTheme.headline5),
-                          ),
-                         // const Spacer(),
-
-                          Text(
-                            '${expenseModel.amount ?? 200} LE',
-                            style: textTheme.headline5
-                                ?.copyWith(color: priceColor),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 1.h),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${expenseModel.createdDate}',
-                          style: textTheme.subtitle1,
-                        ),
-                      ),
-                      SizedBox(height: 1.h),
-                      Row(
-                        children: [
-                          Column(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Visibility(
-                                visible: isRepeated,
-                                child: Column(
+                              Flexible(
+                                flex: 5,
+                                child: Text(expenseModel.name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textTheme.headline5),
+                              ),
+                              // const Spacer(),
+
+                              Text(
+                                '${expenseModel.amount ?? 200} LE',
+                                style:
+                                    textTheme.headline5?.copyWith(color: priceColor),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 1.h),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              formatDayDate(expenseModel.createdDate),
+                              style: textTheme.subtitle1,
+                            ),
+                          ),
+                          SizedBox(height: 1.h),
+                          Row(
+                            children: [
+                              Column(
+                                children: [
+                                  Visibility(
+                                    visible: isRepeated,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: 2.h),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(expenseModel.repeatType,
+                                              style: textTheme.subtitle1),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: isVisible,
+                                    child: switchWidgets(seeMoreOrDetailsOrHighest),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: Row(
                                   children: [
-                                    SizedBox(height: 2.h),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(expenseModel.repeatType,
-                                          style: textTheme.subtitle1),
+                                    const Spacer(),
+                                    PriorityWidget(
+                                      isPriority: expenseModel.isPriority,
+                                      text: priorityName,
+                                      circleColor: priorityColor,
                                     ),
                                   ],
                                 ),
                               ),
-                              Visibility(
-                                visible: isVisible,
-                                child: switchWidgets(
-                                    seeMoreOrDetailsOrHighest),
-                              ),
                             ],
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                const Spacer(),
-
-                                PriorityWidget(
-                                  isPriority: expenseModel.isPriority,
-                                  text: priorityName,
-                                  circleColor: priorityColor,
-                                ),
-                              ],
-                            ),
-                          ),
+                          )
                         ],
-                      )
-                    ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(height: 3.h)
-            ],
-          );
-        });
+                  SizedBox(height: 3.h)
+                ],
+              );
+            });
   }
 }
-

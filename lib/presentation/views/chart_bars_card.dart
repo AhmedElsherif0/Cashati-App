@@ -8,20 +8,11 @@ class ChartBarsCard extends StatelessWidget {
   const ChartBarsCard({
     Key? key,
     required this.expensesList,
+    this.transactionsValues = const [],
   }) : super(key: key);
 
   final List<ExpensesModel> expensesList;
-
-  List<Map<String, dynamic>> get transactionsValues {
-    return List.generate(expensesList.length, (index) {
-      final weekDay = DateTime.now().subtract(const Duration(days: 7));
-      return {
-        'date': DateFormat.E().format(weekDay),
-        'amount': expensesList[index].salary,
-        'expense': expensesList[index].totalExpense,
-      };
-    });
-  }
+  final List<Map<String, dynamic>> transactionsValues;
 
   /* List<ExpensesModel> get recentExpense {
     ExpensesLists expensesList = ExpensesLists();
@@ -31,11 +22,21 @@ class ChartBarsCard extends StatelessWidget {
     }).toList();
   }*/
 
+  /* List<Map<String, dynamic>> get transactionsValues {
+    return List.generate(expensesList.length, (index) {
+      final weekDay = DateTime.now().subtract(const Duration(days: 7));
+      return {
+        'date': DateFormat.E().format(weekDay),
+        'amount': expensesList[index].salary,
+        'expense': expensesList[index].totalExpense,
+      };
+    });
+  }*/
+
   double _totalTransActions(int index) {
-    double salary = transactionsValues[index]['amount'] ?? 10000;
-    double expense = transactionsValues[index]['expense'] ?? 0.0;
-    final expensePercentage = (expense * 100) / salary;
-    return expensePercentage;
+    num salary = transactionsValues[index]['amount'] ?? 10000;
+    num expense = transactionsValues[index]['expense'] ?? 0.0;
+    return ((expense * 100) / salary);
   }
 
   double _charHeight(int index) {
@@ -47,16 +48,20 @@ class ChartBarsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: transactionsValues.length,
-        scrollDirection: Axis.horizontal,
-        itemExtent: transactionsValues.length == 4 ? 25.w : 16.w,
-        padding: EdgeInsets.zero,
-        itemBuilder: (context, index) => ChartBar(
-              index: index,
-              height: _charHeight(index),
-              percentage: transactionsValues.length == 4 ?'Week':'Month',
-              after: transactionsValues[index]['amount'] / 2,
-              totalExp: _totalTransActions(index),
-            ));
+      itemCount: transactionsValues.length,
+      scrollDirection: Axis.horizontal,
+      itemExtent: transactionsValues.length <= 5 ? 25.w : 16.w,
+      padding: EdgeInsets.zero,
+      itemBuilder: (context, index) {
+        return ChartBar(
+          index: index,
+          height:  _charHeight(index),
+          percentage: transactionsValues.length <= 5 ? 'Week' : 'Month',
+          totalExp: _totalTransActions(index).isNaN
+              ? 0.0
+              : _totalTransActions(index).toDouble(),
+        );
+      },
+    );
   }
 }

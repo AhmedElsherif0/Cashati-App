@@ -26,9 +26,5 @@ class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
     emit(ExpenseRepeatScreenState());
   }
 
-  String _convertedCurrentDay(DateTime inputDate) {
-    String currentTime = DateFormat('dd/MM/yyyy').format(inputDate.toUtc());
-    final currentTimeAfter = currentTime.replaceFirst('0', '');
-    return currentTimeAfter;
-  }
+
 }

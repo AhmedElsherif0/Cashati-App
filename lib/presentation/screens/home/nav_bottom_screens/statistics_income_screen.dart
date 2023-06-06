@@ -4,6 +4,7 @@ import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
+import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
@@ -14,6 +15,7 @@ import '../../../router/app_router_names.dart';
 import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/buttons/elevated_button.dart';
+import '../statistics_details_screen.dart';
 
 class IncomeStatisticsScreen extends StatefulWidget {
   const IncomeStatisticsScreen({Key? key}) : super(key: key);
@@ -22,7 +24,8 @@ class IncomeStatisticsScreen extends StatefulWidget {
   State<IncomeStatisticsScreen> createState() => _IncomeStatisticsScreenState();
 }
 
-class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
+class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
+    with HelperClass {
   final PageController _controller = PageController(initialPage: 0);
 
   @override
@@ -37,7 +40,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
 
     getStatisticsCubit().getIncome();
     getStatisticsCubit().getTransactionsByMonth(false);
-    getStatisticsCubit().getTodaysExpenses(false);
+    getStatisticsCubit().getTodayExpenses(false);
     super.initState();
   }
 
@@ -82,7 +85,6 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ExpensesLists expensesLists = ExpensesLists();
     int currentIndex = 0;
     return BlocConsumer<StatisticsCubit, StatisticsState>(
       listener: (context, state) {},
@@ -112,36 +114,34 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen> {
                         ),
                         const Spacer(),
                         FlowChartView(
-                            maxExpenses:
-                                context.read<StatisticsCubit>().getTotalExpense(),
-                            totalExpenses: context
-                                .read<StatisticsCubit>()
-                                .totalExpenses(isPriority: false),
-                            index: index,
-                            priorityType: PriorityType.Important,
-                            notPriority: PriorityType.NotImportant,
-                            expensesModel: expensesLists.expensesData[index]),
+                          maxExpenses:
+                              context.read<StatisticsCubit>().getTotalExpense(),
+                          totalExpenses: context
+                              .read<StatisticsCubit>()
+                              .totalImportantExpenses(isPriority: false),
+                          index: index,
+                          priorityType: PriorityType.Important,
+                          notPriority: PriorityType.NotImportant,
+                          transactionsValues: [],
+                        ),
 
                         /// TabBarView Widgets.
                         Expanded(
                           flex: 40,
                           child: CustomTabBarViewEdited(
-                              priorityName: PriorityType.Fixed,
-                              expenseList: getStatisticsCubit().byDayList,
-                              monthWidget: WeekCardViewEdited(
-                                weekRanges: getStatisticsCubit().weekRangeText(),
-                                chosenDay: getStatisticsCubit().choosenDay,
-                                weeksTotals: getStatisticsCubit().totals,
-                                seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
-                                onPressSeeMore: () {
-                                  Navigator.of(context).pushNamed(
-                                      AppRouterNames.rStatisticsDetailsScreen);
-                                  setState(() {});
-                                },
-                              ),
-                              currentIndex: currentIndex,
-                              index: index,
-                              pageController: _controller),
+                            priorityName: PriorityType.Fixed,
+                            expenseList: getStatisticsCubit().byDayList,
+                            onPressSeeMore: () => onPressed(context, index),
+                            monthWidget: WeekCardViewEdited(
+                              weekRanges: getStatisticsCubit().weekRangeText(),
+                              chosenDay: getStatisticsCubit().choosenDay,
+                              weeksTotals: getStatisticsCubit().totals,
+                              seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
+                            ),
+                            currentIndex: currentIndex,
+                            index: index,
+                            pageController: _controller,
+                          ),
                         ),
                       ],
                     ),
