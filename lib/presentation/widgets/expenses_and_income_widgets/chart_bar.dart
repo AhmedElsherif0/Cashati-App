@@ -4,18 +4,16 @@ import 'package:sizer/sizer.dart';
 import '../../styles/colors.dart';
 
 class ChartBar extends StatelessWidget {
-  const ChartBar(
-      {Key? key,
-      required this.height,
-      required this.percentage,
-      required this.index,
-      required this.after,
-      this.totalExp})
-      : super(key: key);
+  const ChartBar({
+    Key? key,
+    required this.height,
+    required this.percentage,
+    required this.index,
+    this.totalExp = 0.0,
+  }) : super(key: key);
 
   final double? height;
-  final double? after;
-  final double? totalExp;
+  final double totalExp;
   final int index;
   final String percentage;
 
@@ -30,24 +28,27 @@ class ChartBar extends StatelessWidget {
         Expanded(
           child: Align(
             alignment: Alignment.center,
-            child: Text('${totalExp?.toStringAsFixed(0)}%', style: textTheme),
+            child: Text('${totalExp.toStringAsFixed(0)}%', style: textTheme),
           ),
         ),
         Flexible(
           flex: 6,
-
           /// bar style
-          child: SizedBox(
-            height: (height! <= 10) ? 3.h : height,
-            width: 5.w,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: AppColor.primaryColor,
-                borderRadius: BorderRadius.circular(12.sp),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: 3.h, maxHeight: 30.h),
+            child: SizedBox(
+              height: (height! >= 10) ? height : 3.h,
+              width: 5.w,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: AppColor.primaryColor,
+                  borderRadius: BorderRadius.circular(12.sp),
+                ),
               ),
             ),
           ),
         ),
+        SizedBox(height: 1.h),
         Expanded(
           flex: 2,
 

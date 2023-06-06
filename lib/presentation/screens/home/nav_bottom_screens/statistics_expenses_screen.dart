@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
-import 'package:temp/data/models/transactions/transaction_model.dart';
-import 'package:temp/presentation/router/app_router_names.dart';
+import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
+
 import '../../../../constants/enum_classes.dart';
-import '../../../../data/models/statistics/expenses_lists.dart';
 import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
 
@@ -21,7 +19,8 @@ class ExpensesStatisticsScreen extends StatefulWidget {
   State<ExpensesStatisticsScreen> createState() => _ExpensesStatisticsScreenState();
 }
 
-class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
+class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
+    with HelperClass {
   final PageController _controller = PageController(initialPage: 0);
 
   @override
@@ -33,10 +32,9 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
   @override
   void initState() {
     // TODO: implement initState
-
     getStatisticsCubit().getExpenses();
     getStatisticsCubit().getTransactionsByMonth(true);
-    getStatisticsCubit().getTodaysExpenses(true);
+    getStatisticsCubit().getTodayExpenses(true);
     super.initState();
   }
 
@@ -68,7 +66,6 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ExpensesLists expensesLists = ExpensesLists();
     int currentIndex = 0;
     return Scaffold(
       body: BlocConsumer<StatisticsCubit, StatisticsState>(
@@ -83,24 +80,24 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
               onPageChanged: (index) => setState(() => currentIndex = index),
               itemCount: 3,
               itemBuilder: (context, index) {
-                final chosenDay = getStatisticsCubit().choosenDay;
-                print(chosenDay);
-                final list = expensesLists.expensesData[index];
                 return Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 4.w),
                     child: Column(
                       children: [
-                        CustomElevatedButton(
-                          onPressed: () =>
-                              index == 0 ? showDatePick() : showDatePickMonth(),
-                          text: index == 0
-                              ? '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}'
-                              : '${chosenDay.month} \\ ${chosenDay.year}',
-                          textStyle: Theme.of(context).textTheme.subtitle1,
-                          backgroundColor: AppColor.white,
-                          width: 40.w,
-                          borderRadius: 8.sp,
+                        ConstrainedBox(
+                          constraints: BoxConstraints(minWidth: 20.h, maxWidth: 35.h),
+                          child: CustomElevatedButton(
+                            onPressed: () =>
+                                index == 0 ? showDatePick() : showDatePickMonth(),
+                            text: index == 0
+                                ? formatDayDate(getStatisticsCubit().choosenDay)
+                                : formatWeekDate(getStatisticsCubit().choosenDay),
+                            textStyle: Theme.of(context).textTheme.subtitle1,
+                            backgroundColor: AppColor.white,
+                            width: 40.w,
+                            borderRadius: 8.sp,
+                          ),
                         ),
                         const Spacer(),
                         FlowChartView(
@@ -108,30 +105,33 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
                               context.read<StatisticsCubit>().getTotalExpense(),
                           totalExpenses: context
                               .read<StatisticsCubit>()
-                              .totalExpenses(isPriority: true),
+                              .totalImportantExpenses(isPriority: true),
                           index: index,
                           priorityType: PriorityType.Important,
                           notPriority: PriorityType.NotImportant,
-                          expensesModel: list,
+                          transactionsValues:
+                              getStatisticsCubit().transactionsValues(),
                         ),
 
                         /// TabBarView Widgets.
+
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(
+                              onPressSeeMore: () => onPressed(context, index),
                               priorityName: PriorityType.Important,
                               expenseList: getStatisticsCubit().byDayList,
                               monthWidget: WeekCardViewEdited(
                                 weekRanges: getStatisticsCubit().weekRangeText(),
                                 chosenDay: getStatisticsCubit().choosenDay,
-                                onPressSeeMore: (){},
-                                weeksTotals: getStatisticsCubit().totals,
+                                weeksTotals: getStatisticsCubit().totals ,
                                 seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                               ),
                               currentIndex: currentIndex,
                               index: index,
                               pageController: _controller),
                         ),
+
                         // Expanded(
                         //     flex: 40,
                         //     child:
@@ -168,5 +168,4 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen> {
       ),
     );
   }
-
 }

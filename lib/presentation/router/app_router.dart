@@ -52,8 +52,8 @@ class AppRouter {
         return _pageBuilder(child: const GoalsScreen());
       case AppRouterNames.rConfirmToday:
         return _pageBuilder(child: const ConfirmPaymentsScreen());
-      case AppRouterNames.rStatisticsDetailsScreen:
-        return _pageBuilder(child: const StatisticsDetailsScreen());
+     /* case AppRouterNames.rStatisticsDetailsScreen:
+        return _pageBuilder(child: const StatisticsDetailsScreen());*/
       default:
     }
     return null;

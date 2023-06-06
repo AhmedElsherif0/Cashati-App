@@ -8,13 +8,12 @@ import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_
 class WeekCardViewEdited extends StatelessWidget {
   const WeekCardViewEdited(
       {Key? key,
-        required this.weeksTotals,
-        required this.onPressSeeMore,
-        this.priceColor = AppColor.red,
-        this.seeMoreOrDetailsOrHighest,
-        required this.weekRanges,
-        required this.chosenDay ,
-        this.priorityColor = AppColor.secondColor})
+      required this.weeksTotals,
+      this.priceColor = AppColor.red,
+      this.seeMoreOrDetailsOrHighest,
+      required this.weekRanges,
+      required this.chosenDay,
+      this.priorityColor = AppColor.secondColor})
       : super(key: key);
 
   final List<num> weeksTotals;
@@ -22,20 +21,16 @@ class WeekCardViewEdited extends StatelessWidget {
   final DateTime chosenDay;
   final Color priceColor;
   final Color priorityColor;
-  final void Function() onPressSeeMore;
   final SwitchWidgets? seeMoreOrDetailsOrHighest;
 
   Widget switchWidgets(SwitchWidgets? switchWidgets) {
     Widget widget;
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
-        widget = PriorityWidget(
-            text: 'Heighset ',
-            circleColor: AppColor.red);
+        widget = PriorityWidget(text: 'Heighset ', circleColor: AppColor.red);
         break;
       case SwitchWidgets.seeMore:
-        widget =
-            UnderLineTextButton(onPressed: onPressSeeMore, text: 'see more');
+        widget = UnderLineTextButton(onPressed: () {}, text: 'see more');
         break;
       default:
         widget = const SizedBox.shrink();
@@ -46,12 +41,10 @@ class WeekCardViewEdited extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return
-         ListView.builder(
+    return ListView.builder(
         padding: EdgeInsets.zero,
-        itemCount: 4,
+        itemCount: weeksTotals.length,
         itemBuilder: (context, index) {
-         // final expenseModel = expenseList[index];
           return Column(
             children: [
               Card(
@@ -62,8 +55,7 @@ class WeekCardViewEdited extends StatelessWidget {
                 elevation: 4.sp,
                 color: AppColor.lightGrey,
                 child: Padding(
-                  padding:
-                  EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
                   child: Column(
                     children: [
                       Row(
@@ -74,18 +66,14 @@ class WeekCardViewEdited extends StatelessWidget {
                           const Spacer(),
                           Text(
                             '${weeksTotals[index]} LE',
-                            style: textTheme.headline5
-                                ?.copyWith(color: priceColor),
+                            style: textTheme.headline5?.copyWith(color: priceColor),
                           ),
                         ],
                       ),
                       SizedBox(height: 1.h),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          weekRanges[index],
-                          style: textTheme.subtitle1,
-                        ),
+                        child: Text(weekRanges[index], style: textTheme.subtitle1),
                       ),
                       SizedBox(height: 1.h),
                       Row(
@@ -107,12 +95,10 @@ class WeekCardViewEdited extends StatelessWidget {
                               // ),
                               Visibility(
                                 visible: true,
-                                child: switchWidgets(
-                                    seeMoreOrDetailsOrHighest),
+                                child: switchWidgets(seeMoreOrDetailsOrHighest),
                               ),
                             ],
                           ),
-
                         ],
                       )
                     ],
