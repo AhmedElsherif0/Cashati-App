@@ -2,14 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
-
-import '../../presentation/screens/home/statistics_details_screen.dart';
-
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
-
 import '../../presentation/screens/home/statistics_details_screen.dart';
 
 mixin HelperClass {
