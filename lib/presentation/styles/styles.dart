@@ -14,7 +14,7 @@ class AppStyle {
       letterSpacing: -0.3);
 
   TextStyle headline3Theme() => TextStyle(
-        fontSize: 16.sp,
+        fontSize: 15.8.sp,
         fontWeight: FontWeight.bold,
         color: AppColor.pineGreen,
       );

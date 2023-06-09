@@ -11,6 +11,7 @@ import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import '../../../../constants/enum_classes.dart';
 import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
+import '../statistics_details_screen.dart';
 
 class ExpensesStatisticsScreen extends StatefulWidget {
   const ExpensesStatisticsScreen({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class ExpensesStatisticsScreen extends StatefulWidget {
 class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     with HelperClass {
   final PageController _controller = PageController(initialPage: 0);
+  DateTime? datePicker = DateTime.now();
 
   @override
   void dispose() {
@@ -31,7 +33,6 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     getStatisticsCubit().getExpenses();
     getStatisticsCubit().getTransactionsByMonth(true);
     getStatisticsCubit().getTodayExpenses(true);
@@ -41,7 +42,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
   StatisticsCubit getStatisticsCubit() => BlocProvider.of<StatisticsCubit>(context);
 
   void showDatePick() async {
-    final datePicker = await showDatePicker(
+    datePicker = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
@@ -49,7 +50,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     );
     if (datePicker == null) return;
     // getStatisticsCubit().choosenDay = datePicker;
-    getStatisticsCubit().getExpensesByDay(datePicker, true);
+    getStatisticsCubit().getExpensesByDay(datePicker!, true);
   }
 
   void showDatePickMonth() async {
@@ -60,7 +61,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
       lastDate: DateTime(2100),
     );
     if (datePicker == null) return;
-    getStatisticsCubit().chooseMonth(datePicker);
+    getStatisticsCubit().changeDatePicker(datePicker);
     getStatisticsCubit().getTransactionsByMonth(true);
   }
 
@@ -91,8 +92,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                             onPressed: () =>
                                 index == 0 ? showDatePick() : showDatePickMonth(),
                             text: index == 0
-                                ? formatDayDate(getStatisticsCubit().choosenDay)
-                                : formatWeekDate(getStatisticsCubit().choosenDay),
+                                ? formatDayDate(getStatisticsCubit().chosenDay)
+                                : formatWeekDate(getStatisticsCubit().chosenDay),
                             textStyle: Theme.of(context).textTheme.subtitle1,
                             backgroundColor: AppColor.white,
                             width: 40.w,
@@ -103,14 +104,12 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                         FlowChartView(
                           maxExpenses:
                               context.read<StatisticsCubit>().getTotalExpense(),
-                          totalExpenses: context
-                              .read<StatisticsCubit>()
-                              .totalImportantExpenses(isPriority: true),
+                          totalExpenses:
+                              context.read<StatisticsCubit>().totalImportantExpenses(),
                           index: index,
                           priorityType: PriorityType.Important,
                           notPriority: PriorityType.NotImportant,
-                          transactionsValues:
-                              getStatisticsCubit().transactionsValues(),
+                          transactionsValues: getStatisticsCubit().transactionsValues,
                         ),
 
                         /// TabBarView Widgets.
@@ -118,13 +117,18 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(
-                              onPressSeeMore: () => onPressed(context, index),
+                              onPressSeeMore: () => onPressed(
+                                  context,
+                                  StatisticsDetailsScreen(
+                                      index: index,
+                                      transactions:
+                                          context.read<StatisticsCubit>().byDayList)),
                               priorityName: PriorityType.Important,
                               expenseList: getStatisticsCubit().byDayList,
                               monthWidget: WeekCardViewEdited(
                                 weekRanges: getStatisticsCubit().weekRangeText(),
-                                chosenDay: getStatisticsCubit().choosenDay,
-                                weeksTotals: getStatisticsCubit().totals ,
+                                chosenDay: getStatisticsCubit().chosenDay,
+                                weeksTotals: getStatisticsCubit().totals,
                                 seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                               ),
                               currentIndex: currentIndex,

@@ -17,12 +17,11 @@ class PriorityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("is priority $isPriority");
     return Row(
       children: [
         Icon(Icons.circle, color:isPriority? circleColor:AppColor.grey, size: 10.sp),
         SizedBox(width: 0.5.w),
-        Text(isPriority?text:"Not important",
+        Text(text,
             style: Theme.of(context).textTheme.caption,
             overflow: TextOverflow.ellipsis,
         softWrap: true),

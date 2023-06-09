@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
-import '../../presentation/screens/home/statistics_details_screen.dart';
+
+import '../../constants/enum_classes.dart';
+import '../../presentation/styles/colors.dart';
+import '../../presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
+import '../../presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
 mixin HelperClass {
   List<String> getWeekRange({required DateTime chosenDay}) {
@@ -19,19 +21,55 @@ mixin HelperClass {
     ];
   }
 
+  Widget switchWidgets(SwitchWidgets? switchWidgets, {String name = 'Expense'}) {
+    Widget widget;
+    switch (switchWidgets) {
+      case SwitchWidgets.higherExpenses:
+        widget = PriorityWidget(text: 'Highest $name', circleColor: AppColor.red);
+        break;
+      case SwitchWidgets.seeMore:
+        widget = UnderLineTextButton(onPressed: () {}, text: 'see more');
+        break;
+      default:
+        widget = const SizedBox.shrink();
+    }
+    return widget;
+  }
+
+  String priorityNames(bool isExpense, bool isPriority) => isPriority
+      ? (isExpense ? 'Important' : 'Fixed')
+      : (isExpense ? 'NotImportant' : 'NotFixed');
+
+  String switchPriorityName(PriorityType priorityType) {
+    switch (priorityType) {
+      case PriorityType.NotImportant:
+        return PriorityType.NotImportant.name;
+      case PriorityType.Fixed:
+        return PriorityType.Fixed.name;
+      case PriorityType.NotFixed:
+        return PriorityType.NotFixed.name;
+      case PriorityType.Important:
+        return PriorityType.Important.name;
+    }
+  }
+
+  Color switchPriorityColor(PriorityType priorityType) {
+    switch (priorityType) {
+      case PriorityType.NotImportant:
+      case PriorityType.NotFixed:
+        return AppColor.pinkishGrey;
+      default:
+        AppColor.secondColor;
+    }
+    return AppColor.secondColor;
+  }
+
   String formatDayDate(DateTime inputDate) =>
-      DateFormat('dd / MM/ yyyy').format(inputDate.toLocal()).replaceFirst('0', '');
+      DateFormat('d / MM/ yyyy').format(inputDate.toLocal());
 
   String formatWeekDate(DateTime inputDate) =>
       DateFormat(' MM / yyyy').format(inputDate.toLocal()).replaceFirst('0', '');
 
-  onPressed(context, int index) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => StatisticsDetailsScreen(
-            index: index,
-            transactions: context.read<StatisticsCubit>().byDayList,
-          ),
-        ),
-      );
+  Future onPressed<T>(context, Widget navigateScreen) =>
+      Navigator.push(context, MaterialPageRoute(builder: (context) => navigateScreen));
 }

@@ -17,8 +17,8 @@ class FlowChartView extends StatelessWidget {
     this.priorityType = PriorityType.Important,
     this.transactionType = TransactionType.Expense,
     required this.notPriority,
-    required this.maxExpenses,
-    required this.totalExpenses,
+     this.maxExpenses = 0,
+     this.totalExpenses =0,
     required this.transactionsValues,
   }) : super(key: key);
 
@@ -31,7 +31,6 @@ class FlowChartView extends StatelessWidget {
   final List<Map<String, dynamic>> transactionsValues;
 
   Widget switchWidgets(context, int currentIndex) {
-    final expList = ExpensesLists();
     Widget widget = CircularProgressBarChart(
         header: transactionType.name,
         maxExpenses: maxExpenses.toDouble(),
@@ -42,16 +41,10 @@ class FlowChartView extends StatelessWidget {
         widget;
         break;
       case 1:
-        widget = ChartBarsCard(
-          expensesList: expList.expensesData2,
-          transactionsValues: transactionsValues,
-        );
+        widget = ChartBarsCard(transactionsValues: transactionsValues);
         break;
       case 2:
-        widget = ChartBarsCard(
-          expensesList: expList.expensesData,
-          transactionsValues: transactionsValues,
-        );
+        widget = ChartBarsCard(transactionsValues: transactionsValues);
         break;
     }
     return widget;

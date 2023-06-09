@@ -59,11 +59,10 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> with AlertDialogMix
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (datePicker == null) return;
-     getAddExpOrIncCubit().changeDate(datePicker);
+    getAddExpOrIncCubit().changeDate(datePicker);
   }
 
-  AddExpOrIncCubit getAddExpOrIncCubit() =>
-      BlocProvider.of<AddExpOrIncCubit>(context);
+  AddExpOrIncCubit getAddExpOrIncCubit() => BlocProvider.of<AddExpOrIncCubit>(context);
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +87,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> with AlertDialogMix
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 3.5.h,
-        ),
+        SizedBox(height: 3.5.h),
         InkWell(
           onTap: () {
             addExpOrIncCubit.chooseMainCategory(mainCategoryName);
@@ -105,8 +102,9 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> with AlertDialogMix
             if (state is AddExpOrIncSuccess) {
               showSuccAndNavigate(context);
               BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
-            } else if(state is AddExpOrIncError){
-              errorSnackBar(context: context,message: 'Kindly Try again , and contact us !');
+            } else if (state is AddExpOrIncError) {
+              errorSnackBar(
+                  context: context, message: 'Kindly Try again , and contact us !');
             }
           },
           builder: (context, state) {
@@ -266,7 +264,6 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> with AlertDialogMix
                   CustomElevatedButton(
                     onPressed: () {
                       addExpOrIncCubit.validateields(
-                        true,
                         context,
                         TransactionModel.expense(
                             id: GUIDGen.generate(),
@@ -284,8 +281,7 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> with AlertDialogMix
                             //isPaid: choosedDate!.day==DateTime.now()?true:false,
                             isProcessing: false,
                             createdDate: getAddExpOrIncCubit().chosenDate as DateTime,
-                            paymentDate:
-                                addExpOrIncCubit.chosenDate as DateTime),
+                            paymentDate: addExpOrIncCubit.chosenDate as DateTime),
                       );
                     },
                     text: 'Add',

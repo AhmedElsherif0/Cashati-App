@@ -32,19 +32,6 @@ class TransactionsCard extends StatelessWidget with HelperClass {
   final Color priorityColor;
   final Widget? widget;
 
-  /* Widget switchWidgets(SwitchWidgets? switchWidgets) {
-    Widget widget;
-    switch (switchWidgets) {
-      case SwitchWidgets.higherExpenses:
-        widget = PriorityWidget(
-            text: 'Heighset ${transactionModel.name}', circleColor: AppColor.red);
-        break;
-      case SwitchWidgets.seeMore:
-        widget = UnderLineTextButton(onPressed: onPressSeeMore, text: 'see more');
-        break;
-      default:
-    }
-  }*/
 
   @override
   Widget build(BuildContext context) {

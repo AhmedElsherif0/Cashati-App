@@ -208,7 +208,6 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
                       children: List.generate(
                         expensesLists.noRepeats.length - 1,
                         (index) => TabCardViewEdited(
-                          priorityName: widget.priorityName.name,
                           seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                           isVisible: true,
                           expenseList: widget.expenseList,
