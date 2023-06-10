@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
+
 import '../../../../constants/enum_classes.dart';
-import '../../../../data/models/statistics/expenses_lists.dart';
-import '../../../router/app_router_names.dart';
-import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
-import '../../../widgets/buttons/elevated_button.dart';
 import '../statistics_details_screen.dart';
 
 class IncomeStatisticsScreen extends StatefulWidget {
@@ -27,7 +23,7 @@ class IncomeStatisticsScreen extends StatefulWidget {
 class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
     with HelperClass {
   final PageController _controller = PageController(initialPage: 0);
-
+  DateTime? datePicker =DateTime.now();
   @override
   void dispose() {
     _controller.dispose();
@@ -36,8 +32,6 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
-
     getStatisticsCubit().getIncome();
     getStatisticsCubit().getTransactionsByMonth(false);
     getStatisticsCubit().getTodayExpenses(false);
@@ -54,7 +48,6 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
       lastDate: DateTime(2100),
     );
     if (datePicker == null) return;
-    // getStatisticsCubit().choosenDay = datePicker;
     getStatisticsCubit().getExpensesByDay(datePicker, false);
   }
 
@@ -66,22 +59,9 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
       lastDate: DateTime(2100),
     );
     if (datePicker == null) return;
-    getStatisticsCubit().chooseMonth(datePicker);
+    getStatisticsCubit().changeDatePicker(datePicker);
     getStatisticsCubit().getTransactionsByMonth(false);
   }
-
-/*
-  void showDatePick() async {
-    final datePicker = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-    );
-    if (datePicker == null) return;
-    // getStatisticsCubit().choosenDay = datePicker;
-    getStatisticsCubit().getExpensesByDay(datePicker);
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +69,6 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
     return BlocConsumer<StatisticsCubit, StatisticsState>(
       listener: (context, state) {},
       builder: (context, state) {
-        final chosenDay = getStatisticsCubit().choosenDay;
         return Scaffold(
           body: Directionality(
             textDirection: TextDirection.ltr,
@@ -103,40 +82,52 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                     padding: EdgeInsets.symmetric(horizontal: 4.w),
                     child: Column(
                       children: [
-                        CustomElevatedButton(
-                          onPressed: () => showDatePick(),
-                          text:
-                              '${chosenDay.day} \\ ${chosenDay.month} \\ ${chosenDay.year}',
-                          textStyle: Theme.of(context).textTheme.subtitle1,
-                          backgroundColor: AppColor.white,
-                          width: 40.w,
-                          borderRadius: 8.sp,
+                        ConstrainedBox(
+                          constraints: BoxConstraints(minWidth: 20.h, maxWidth: 35.h),
+                          child: CustomElevatedButton(
+                            onPressed: () => showDatePick(),
+                            text: index == 0
+                                ? formatDayDate(getStatisticsCubit().chosenDay)
+                                : formatWeekDate(getStatisticsCubit().chosenDay),
+                            textStyle: Theme.of(context).textTheme.subtitle1,
+                            backgroundColor: AppColor.white,
+                            width: 40.w,
+                            borderRadius: 8.sp,
+                          ),
                         ),
                         const Spacer(),
                         FlowChartView(
-                          maxExpenses:
-                              context.read<StatisticsCubit>().getTotalExpense(),
+                          maxExpenses: context
+                              .read<StatisticsCubit>()
+                              .getTotalExpense(isExpense: false),
                           totalExpenses: context
                               .read<StatisticsCubit>()
-                              .totalImportantExpenses(isPriority: false),
+                              .totalImportantExpenses(isExpense: false),
                           index: index,
-                          priorityType: PriorityType.Important,
-                          notPriority: PriorityType.NotImportant,
-                          transactionsValues: [],
+                          priorityType: PriorityType.Fixed,
+                          notPriority: PriorityType.NotFixed,
+                          transactionsValues: getStatisticsCubit().transactionsValues,
                         ),
 
                         /// TabBarView Widgets.
                         Expanded(
-                          flex: 40,
+                          flex: 36,
                           child: CustomTabBarViewEdited(
                             priorityName: PriorityType.Fixed,
                             expenseList: getStatisticsCubit().byDayList,
-                            onPressSeeMore: () => onPressed(context, index),
+                            onPressSeeMore: () => onPressed(
+                              context,
+                              StatisticsDetailsScreen(
+                                  index: index,
+                                  transactions:
+                                      context.read<StatisticsCubit>().byDayList),
+                            ),
                             monthWidget: WeekCardViewEdited(
                               weekRanges: getStatisticsCubit().weekRangeText(),
-                              chosenDay: getStatisticsCubit().choosenDay,
+                              chosenDay: getStatisticsCubit().chosenDay,
                               weeksTotals: getStatisticsCubit().totals,
                               seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
+                              priceColor: AppColor.secondColor,
                             ),
                             currentIndex: currentIndex,
                             index: index,

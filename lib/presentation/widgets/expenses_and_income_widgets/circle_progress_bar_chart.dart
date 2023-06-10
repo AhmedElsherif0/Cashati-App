@@ -50,7 +50,7 @@ class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
               child: DataInsidePieChart(
                 header: widget.header,
                 valueNotifier: _valueNotifier,
-                totalExpenses: widget.totalExpenses,
+                totalExpenses: widget.totalExpenses ,
                 onPressToHome: widget.onPressToHome,
               ),
             ),

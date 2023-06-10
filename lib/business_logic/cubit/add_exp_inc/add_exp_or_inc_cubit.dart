@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +7,6 @@ import 'package:temp/business_logic/repository/general_stats_repo/general_stats_
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/constants/app_strings.dart';
-import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
@@ -205,38 +205,6 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     emit(ChoosedSubCategoryState());
   }
 
-  void chooseIncomeCategory(SubCategory currentSubcategory) {
-    currentID = currentSubcategory.id;
-    subCatName = currentSubcategory.subCategoryName;
-    emit(ChoosedSubCategoryState());
-  }
-
-  Future<void> validateExpenseFields(
-      BuildContext context, TransactionModel transactionModel) async {
-    if (transactionModel.amount == null || transactionModel.amount == 0) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
-    } else if (subCatName.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Kindly choose a subCategory ')));
-    } else {
-      await addExpense(expenseModel: transactionModel);
-    }
-  }
-
-  validateIncomeFields(
-      BuildContext context, String amount, TransactionModel transactionModel) {
-    if (amount.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
-    } else if (subCatName.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Kindly choose a subCategory ')));
-    } else {
-      addIncome(incomeModel: transactionModel);
-    }
-  }
-
   Future<void> addExpense({required TransactionModel expenseModel}) async {
     try {
       await _expensesRepository.addTransactionToTransactionBox(
@@ -266,9 +234,8 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     return  chosenDate;
   }
 
-  Future<void> validateields(
-      bool isExpense, BuildContext context, TransactionModel transactionModel) async {
-    currentAmount = transactionModel.amount ?? 0;
+  Future<void> validateields(BuildContext context, TransactionModel transactionModel) async {
+    currentAmount = transactionModel.amount;
     if (transactionModel.amount == null || transactionModel.amount == 0) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
@@ -279,9 +246,11 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Kindly , write the name ')));
     } else {
-      isExpense
+      transactionModel.isExpense
           ? await addExpense(expenseModel: transactionModel)
           : await addIncome(incomeModel: transactionModel);
+      print(
+          'Choosed Date before Adding in income widget is ${transactionModel.isExpense}');
     }
   }
 

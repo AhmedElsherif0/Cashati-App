@@ -9,34 +9,31 @@ import '../../models/transactions/transaction_details_model.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
-class ExpensesRepositoryImpl with GeneralStatsRepoImpl , MixinTransaction implements TransactionRepo {
+class ExpensesRepositoryImpl
+    with GeneralStatsRepoImpl, MixinTransaction
+    implements TransactionRepo {
   ExpensesRepositoryImpl();
-
-
 
   @override
   Future<void> addTransactionToTransactionBox(
       {required TransactionModel transactionModel}) async {
-    final Box<TransactionModel> allExpensesModel = hiveDatabase
-        .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
+    final Box<TransactionModel> allExpensesModel =
+        hiveDatabase.getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox);
     if (isEqualToday(date: transactionModel.paymentDate)) {
-      print(
-          'is equal today in if ? in exp repo '
-              '${isEqualToday(date: transactionModel.paymentDate)}');
+      print('is equal today in if ?'
+          '${isEqualToday(date: transactionModel.paymentDate)}');
       // await allExpensesModel.add(expenseModel);
 
       addTransactions(transaction: transactionModel);
-
-      await allExpensesModel.put(transactionModel.id, transactionModel).then(
-              (_) {
-                super.minusBalance(amount:transactionModel.amount);
-
-              });
-      print(
-          "name of the value added by  key is "
-              "${allExpensesModel.get(transactionModel.id)!.name} "
-              "and key is ${allExpensesModel.get(transactionModel.id)!.id}");
-
+      await allExpensesModel.put(transactionModel.id, transactionModel).then((_) {
+        if (transactionModel.amount ==
+            allExpensesModel.get(transactionModel.id)?.amount) {
+          super.minusBalance(amount: transactionModel.amount!);
+        }
+      });
+      print("name of the value added by  key is "
+          "${allExpensesModel.get(transactionModel.id)!.name} "
+          "and key is ${allExpensesModel.get(transactionModel.id)!.id}");
     } else {
       print(
           'is  equal today in else  ?${isEqualToday(date: transactionModel.paymentDate)}');
@@ -76,7 +73,7 @@ class ExpensesRepositoryImpl with GeneralStatsRepoImpl , MixinTransaction implem
   }
 
   @override
-  List<TransactionModel> getTransactionFromTransactionBox(bool isExpense) {
+  List<TransactionModel> getTransactionFromTransactionBox({bool isExpense = true}) {
     return HiveHelper()
         .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
         .values

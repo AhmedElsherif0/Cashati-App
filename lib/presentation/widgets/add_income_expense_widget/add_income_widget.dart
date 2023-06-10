@@ -27,7 +27,6 @@ class AddIncomeWidget extends StatefulWidget {
 }
 
 class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin {
-
   TextEditingController amountCtrl = TextEditingController();
   TextEditingController descriptionCtrl = TextEditingController();
   TextEditingController nameCtrl = TextEditingController();
@@ -37,9 +36,9 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
     // TODO: implement initState
     super.initState();
     BlocProvider.of<AddExpOrIncCubit>(context).addMoreToIncomeList();
-    print(
-        'Icon Add Code Point ${Icons.add.codePoint}, Color ${Colors.indigo.value}');
+    print('Icon Add Code Point ${Icons.add.codePoint}, Color ${Colors.indigo.value}');
   }
+
   void showDatePick() async {
     final datePicker = await showDatePicker(
       context: context,
@@ -51,13 +50,11 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
     getAddExpOrIncCubit().changeDate(datePicker);
   }
 
-  AddExpOrIncCubit getAddExpOrIncCubit() =>
-      BlocProvider.of<AddExpOrIncCubit>(context);
+  AddExpOrIncCubit getAddExpOrIncCubit() => BlocProvider.of<AddExpOrIncCubit>(context);
 
   @override
   Widget build(BuildContext context) {
-    AddExpOrIncCubit addExpOrIncCubit =
-    BlocProvider.of<AddExpOrIncCubit>(context);
+    AddExpOrIncCubit addExpOrIncCubit = BlocProvider.of<AddExpOrIncCubit>(context);
     BlocProvider.of<AddExpOrIncCubit>(context).addMoreToIncomeList();
     print('Built Inc');
 
@@ -73,10 +70,8 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
         });
   }
 
-  Column oneMainCategoryFields(AddExpOrIncCubit addExpOrIncCubit,
-      BuildContext context,
-      String mainCategoryName,
-      List<SubCategory> subCategoriesList) {
+  Column oneMainCategoryFields(AddExpOrIncCubit addExpOrIncCubit, BuildContext context,
+      String mainCategoryName, List<SubCategory> subCategoriesList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -97,13 +92,15 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
             if (state is AddExpOrIncSuccess) {
               showSuccAndNavigate(context);
               BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
-            }else if (state is AddExpOrIncError){
-              errorSnackBar(context: context,message: 'Kindly Try again , and contact us !');
+            } else if (state is AddExpOrIncError) {
+              errorSnackBar(
+                  context: context, message: 'Kindly Try again , and contact us !');
             }
           },
           builder: (context, state) {
             return Visibility(
               visible: addExpOrIncCubit.currentMainCat == mainCategoryName,
+              replacement: SizedBox(),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,8 +108,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                   SizedBox(
                     height: 4.5.h,
                   ),
-                  subCategoriesListContainer(
-                      subCategoriesList, addExpOrIncCubit),
+                  subCategoriesListContainer(subCategoriesList, addExpOrIncCubit),
                   SizedBox(
                     height: 1.2.h,
                   ),
@@ -143,15 +139,10 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                       ),
                       FittedBox(
                           child: Text(
-                            'EGP',
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .headline5!
-                                .copyWith(
-                                color: AppColor.primaryColor,
-                                fontWeight: FontWeight.bold),
-                          )),
+                        'EGP',
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
+                            color: AppColor.primaryColor, fontWeight: FontWeight.bold),
+                      )),
                       SizedBox(width: .4.w),
                     ],
                   ),
@@ -161,8 +152,9 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                   Container(
                       width: 65.w,
                       child: DateChooseContainer(
-                        onTap: () =>showDatePick(),
-                        dateTime: addExpOrIncCubit.chosenDate,)),
+                        onTap: () => showDatePick(),
+                        dateTime: addExpOrIncCubit.chosenDate,
+                      )),
                   SizedBox(
                     height: 1.5.h,
                   ),
@@ -192,8 +184,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                           ),
                           activeColor: AppColor.white,
                           checkColor: AppColor.white,
-                          fillColor: MaterialStateProperty.all(
-                              AppColor.primaryColor),
+                          fillColor: MaterialStateProperty.all(AppColor.primaryColor),
                         ),
                       ),
                       SizedBox(
@@ -201,8 +192,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                       ),
                       Text(
                         'Repeat',
-                        style: Theme
-                            .of(context)
+                        style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
                             .copyWith(color: AppColor.primaryColor),
@@ -217,8 +207,7 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                     child: Container(
                       width: 65.w,
                       child: DropDownCustomWidget(
-                          dropDownList:
-                          addExpOrIncCubit.dropDownChannelItems,
+                          dropDownList: addExpOrIncCubit.dropDownChannelItems,
                           hint: addExpOrIncCubit.choseRepeat,
                           onChangedFunc: addExpOrIncCubit.chooseRepeat),
                     ),
@@ -230,14 +219,14 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                   CustomElevatedButton(
                     onPressed: () {
                       print(
-                          'Choosed Date before Adding in income widget is ${addExpOrIncCubit
-                              .chosenDate}');
+                          'Choosed Date before Adding in income widget is ${addExpOrIncCubit.chosenDate}');
 
-                      addExpOrIncCubit.validateields(false, context,
-                          TransactionModel.income(
-                              id: GUIDGen.generate(),
-                              name: nameCtrl.text,
-                              amount: double.parse(amountCtrl.text),
+                      addExpOrIncCubit.validateields(
+                        context,
+                        TransactionModel.income(
+                          id: GUIDGen.generate(),
+                          name: nameCtrl.text,
+                          amount: double.parse(amountCtrl.text),
                           comment: amountCtrl.text,
                           repeatType: addExpOrIncCubit.choseRepeat,
                           mainCategory: addExpOrIncCubit.currentMainCat,
@@ -247,16 +236,14 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                           //isPaid: choosedDate!.day==DateTime.now()?true:false,
                           isProcessing: false,
                           createdDate: DateTime.now(),
-                          paymentDate: addExpOrIncCubit.chosenDate ??
-                              DateTime.now()),);
-
-
+                          paymentDate: addExpOrIncCubit.chosenDate ?? DateTime.now(),
+                        ),
+                      );
                     },
                     text: 'Add',
                   ),
                 ],
               ),
-              replacement: SizedBox(),
             );
           },
         )
@@ -265,8 +252,8 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
     );
   }
 
-  Container subCategoriesListContainer(List<SubCategory> subCatsList,
-      AddExpOrIncCubit addExpOrIncCubit) {
+  Container subCategoriesListContainer(
+      List<SubCategory> subCatsList, AddExpOrIncCubit addExpOrIncCubit) {
     return Container(
       height: 28.h,
       child: GridView.builder(
@@ -280,18 +267,12 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
               visible: index != subCatsList.length - 1,
               child: InkWell(
                   onTap: () {
-                    BlocProvider
-                        .of<AddSubcategoryCubit>(context)
-                        .currentMainCategory =
-                        BlocProvider
-                            .of<AddExpOrIncCubit>(context)
-                            .currentMainCat;
+                    BlocProvider.of<AddSubcategoryCubit>(context).currentMainCategory =
+                        BlocProvider.of<AddExpOrIncCubit>(context).currentMainCat;
                     //TODO assign transaction type , if it is expense or income
-                    BlocProvider
-                        .of<AddSubcategoryCubit>(context)
-                        .transactionType =
-                    addExpOrIncCubit.isExpense ? 'Expense' : 'Income';
-                    addExpOrIncCubit.chooseIncomeCategory(subCatsList[index]);
+                    BlocProvider.of<AddSubcategoryCubit>(context).transactionType =
+                        addExpOrIncCubit.isExpense ? 'Expense' : 'Income';
+                    addExpOrIncCubit.chooseCategory(subCatsList[index]);
                   },
                   child: SubCategoryChoice(
                     color: addExpOrIncCubit.fitRandomColors(subCatsList)[index],
@@ -300,15 +281,10 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
                   )),
               replacement: InkWell(
                   onTap: () {
-                    BlocProvider
-                        .of<AddSubcategoryCubit>(context)
-                        .currentMainCategory =
-                        BlocProvider
-                            .of<AddExpOrIncCubit>(context)
-                            .currentMainCat;
+                    BlocProvider.of<AddSubcategoryCubit>(context).currentMainCategory =
+                        BlocProvider.of<AddExpOrIncCubit>(context).currentMainCat;
 
-                    Navigator.pushNamed(
-                        context, AppRouterNames.rAddSubCategory);
+                    Navigator.pushNamed(context, AppRouterNames.rAddSubCategory);
                   },
                   child: SubCategoryChoice(
                     color: AppColor.green,
@@ -323,16 +299,14 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
   showSuccAndNavigate(BuildContext context) {
     //showLoadingDialog(context);
     //Navigator.pop(context);
-    showSuccessfulDialogNoOptions(
-        context, 'Added Successfully', '');
+    showSuccessfulDialogNoOptions(context, 'Added Successfully', '');
 
     Future.delayed(
       Duration(seconds: 2),
-          () {
+      () {
         // Navigator.pop(context);
         Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
       },
     );
   }
-
 }

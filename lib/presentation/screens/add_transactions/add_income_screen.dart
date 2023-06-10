@@ -33,7 +33,6 @@ class AddIncomeScreen extends StatelessWidget {
                         priorityName: PriorityType.Fixed,
                         expenseRepeatList: [],
                         onPressSeeMore: () {},
-                        priceColor: AppColor.secondColor,
                         seeMoreOrDetailsOrHighest: SwitchWidgets.higherExpenses,
                         isVisible: true,
                       ),

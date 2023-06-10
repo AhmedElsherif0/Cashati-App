@@ -13,45 +13,46 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   final TransactionRepo _expensesRepository;
   List<TransactionModel> monthTransactions = [];
   List<TransactionModel> byDayList = [];
-  num totalImport = 0;
-  num totalNotImport = 0;
-  num chosenDayTotal = 0;
+  num totalImport = 0, totalNotImport = 0, chosenDayTotal = 0;
   List<List<TransactionModel>> monthList = [];
   List<List<TransactionModel>> weeks = List.generate(5, (_) => []);
   List<num> importantWeeks = List.from([0, 0, 0, 0, 0]);
   List<num> totals = List.from([0, 0, 0, 0, 0]);
-  DateTime choosenDay = DateTime.now();
+  DateTime chosenDay = DateTime.now();
   int currentIndex = 0;
 
   /// 1- count the total.\
 
-  num getTotalExpense() => getExpenses()
-      .where(checkSameDay)
-      .fold(0, (total, transaction) => total + transaction.amount);
+  num getTotalExpense({bool isExpense = true}) {
+    return (isExpense ? getExpenses() : getIncome())
+        .where(checkSameDay)
+        .fold(0, (total, transaction) => total + transaction.amount);
+  }
 
   /// 2- filter the amount based on the important.
 
-  double totalImportantExpenses({required bool isPriority}) {
-    final List<TransactionModel> importantExpense = getExpenses()
-        .where((element) => checkSameDay(element) && element.isPriority == isPriority)
-        .toList();
-    final double totalSalary =
-        importantExpense.fold(0, (value, element) => value += element.amount);
-    return totalSalary;
+  double totalImportantExpenses({bool isExpense = true}) {
+    /// we need an condition for Important Income.
+    final List<TransactionModel> importantExpense =
+        (isExpense ? getExpenses() : getIncome())
+            .where((transaction) => isExpense
+                ? (checkSameDay(transaction) && transaction.isPriority == true)
+                : (checkSameDay(transaction)))
+            .toList();
+    return importantExpense.fold(0, (value, element) => value += element.amount);
   }
 
   List<TransactionModel> getExpenses() {
-    return _expensesRepository.getTransactionFromTransactionBox(true);
+    return _expensesRepository.getTransactionFromTransactionBox();
   }
 
   List<TransactionModel> getIncome() {
-    return _expensesRepository.getTransactionFromTransactionBox(false);
+    return _expensesRepository.getTransactionFromTransactionBox(isExpense: false);
   }
 
-  getExpensesByDay(DateTime date, bool isExpense) {
-    choosenDay = date;
-    getTodayExpenses(isExpense);
-    byDayList.map((e) => print(" priorityyyyy ${e.isPriority}"));
+  void getExpensesByDay(DateTime date, bool isExpense) {
+    chosenDay = date;
+    byDayList = getTodayExpenses(isExpense);
     byDayList.forEach((element) {
       if (element.isPriority) {
         /// Green space
@@ -65,55 +66,51 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
     emit(StatisticsByDayList());
   }
 
-  getTodayExpenses(bool isExpense) {
-    byDayList.clear();
-    byDayList = isExpense
-        ? getExpenses().where((element) => checkSameDay(element)).toList()
-        : getIncome().where((element) => checkSameDay(element)).toList();
-    emit(StatisticsByDayList());
-  }
-
-  //TODO Get Date Format logic to get Day's name
+  List<TransactionModel> getTodayExpenses(bool isExpense) => byDayList = isExpense
+      ? getExpenses().where((element) => checkSameDay(element)).toList()
+      : getIncome().where((element) => checkSameDay(element)).toList();
 
   getTransactionsByMonth(bool isExpense) {
-    /// to prevent duplicate data
-    monthTransactions.clear();
-    print("current month is ${choosenDay.month}");
+    _resetData();
     monthTransactions = isExpense ? getExpenses() : getIncome();
+    print('get Income length ${getIncome()}');
 
     /// Categorize the transactions by week and calculate the totals
     for (TransactionModel transaction in monthTransactions) {
-      if (transaction.paymentDate.month == choosenDay.month) {
+      if (transaction.paymentDate.month == chosenDay.month) {
         int weekNumber = (transaction.paymentDate.day - 1) ~/ 7;
         weeks[weekNumber].add(transaction);
         totals[weekNumber] += transaction.amount;
-        if (transaction.isPriority) {
-          importantWeeks[weekNumber] += transaction.amount;
-        }
+        if (transaction.isPriority) importantWeeks[weekNumber] += transaction.amount;
       }
     }
-    print("totalsssssssssss $totals");
-    print("month $monthList");
     emit(FetchedMonthData());
   }
 
-  List<Map<String, num>> transactionsValues() => List.generate(weeks.length,
+  void _resetData() {
+    monthTransactions = [];
+    weeks = List.generate(5, (_) => []);
+    importantWeeks = List.from([0, 0, 0, 0, 0]);
+    totals = List.from([0, 0, 0, 0, 0]);
+  }
+
+  List<Map<String, num>> get transactionsValues => List.generate(totals.length,
       (index) => {'amount': totals[index], 'expense': importantWeeks[index]});
 
   bool checkSameDay(TransactionModel model) {
-    if (model.paymentDate.day == choosenDay.day &&
-        model.paymentDate.month == choosenDay.month &&
-        model.paymentDate.year == choosenDay.year) {
+    if (model.paymentDate.day == chosenDay.day &&
+        model.paymentDate.month == chosenDay.month &&
+        model.paymentDate.year == chosenDay.year) {
       return true;
     } else {
       return false;
     }
   }
 
-  chooseMonth(DateTime dateTime) {
-    choosenDay = dateTime;
+  changeDatePicker(dateTime) {
+    chosenDay = dateTime;
     emit(ChoseDateSucc());
   }
 
-  List<String> weekRangeText() => getWeekRange(chosenDay: choosenDay);
+  List<String> weekRangeText() => getWeekRange(chosenDay: chosenDay);
 }

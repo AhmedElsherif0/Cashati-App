@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/enum_classes.dart';
+import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
-class WeekCardViewEdited extends StatelessWidget {
+class WeekCardViewEdited extends StatelessWidget with HelperClass {
   const WeekCardViewEdited(
       {Key? key,
       required this.weeksTotals,
@@ -22,21 +23,6 @@ class WeekCardViewEdited extends StatelessWidget {
   final Color priceColor;
   final Color priorityColor;
   final SwitchWidgets? seeMoreOrDetailsOrHighest;
-
-  Widget switchWidgets(SwitchWidgets? switchWidgets) {
-    Widget widget;
-    switch (switchWidgets) {
-      case SwitchWidgets.higherExpenses:
-        widget = PriorityWidget(text: 'Heighset ', circleColor: AppColor.red);
-        break;
-      case SwitchWidgets.seeMore:
-        widget = UnderLineTextButton(onPressed: () {}, text: 'see more');
-        break;
-      default:
-        widget = const SizedBox.shrink();
-    }
-    return widget;
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -20,17 +19,6 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
   final int index;
 
  // void onPressed() {}
-
-  Color priorityColor(PriorityType priorityType) {
-    switch (priorityType) {
-      case PriorityType.NotImportant:
-      case PriorityType.NotFixed:
-        return AppColor.pinkishGrey;
-      default:
-        AppColor.secondColor;
-    }
-    return AppColor.secondColor;
-  }
 
   @override
   Widget build(BuildContext context) {

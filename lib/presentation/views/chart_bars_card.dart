@@ -7,11 +7,9 @@ import '../widgets/expenses_and_income_widgets/chart_bar.dart';
 class ChartBarsCard extends StatelessWidget {
   const ChartBarsCard({
     Key? key,
-    required this.expensesList,
     this.transactionsValues = const [],
   }) : super(key: key);
 
-  final List<ExpensesModel> expensesList;
   final List<Map<String, dynamic>> transactionsValues;
 
   /* List<ExpensesModel> get recentExpense {
