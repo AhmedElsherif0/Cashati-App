@@ -22,11 +22,10 @@ class ChartBar extends StatefulWidget {
 }
 
 class _ChartBarState extends State<ChartBar> {
-
   @override
   void didUpdateWidget(covariant ChartBar oldWidget) {
-    _height = widget.height!;
     super.didUpdateWidget(oldWidget);
+    _height = widget.height!;
   }
 
   double _height = 0;
@@ -52,7 +51,7 @@ class _ChartBarState extends State<ChartBar> {
           child: AnimatedContainer(
             height: _height,
             curve: Curves.fastOutSlowIn,
-            duration: const Duration(seconds: 3),
+            duration: const Duration(seconds: 2000),
             constraints: BoxConstraints(minHeight: 3.h, maxHeight: 30.h),
             child: SizedBox(
               height: (widget.height! >= 10) ? widget.height : 3.h,
