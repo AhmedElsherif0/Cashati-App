@@ -125,7 +125,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                             monthWidget: WeekCardViewEdited(
                               weekRanges: getStatisticsCubit().weekRangeText(),
                               chosenDay: getStatisticsCubit().chosenDay,
-                              weeksTotals: getStatisticsCubit().totals,
+                              weeksTotals: getStatisticsCubit().totalsWeeks,
                               seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                               priceColor: AppColor.secondColor,
                             ),

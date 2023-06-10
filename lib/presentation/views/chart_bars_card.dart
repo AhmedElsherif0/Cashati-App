@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
-import '../../data/models/statistics/expenses_model.dart';
+
 import '../widgets/expenses_and_income_widgets/chart_bar.dart';
 
 class ChartBarsCard extends StatelessWidget {
@@ -20,27 +19,15 @@ class ChartBarsCard extends StatelessWidget {
     }).toList();
   }*/
 
-  /* List<Map<String, dynamic>> get transactionsValues {
-    return List.generate(expensesList.length, (index) {
-      final weekDay = DateTime.now().subtract(const Duration(days: 7));
-      return {
-        'date': DateFormat.E().format(weekDay),
-        'amount': expensesList[index].salary,
-        'expense': expensesList[index].totalExpense,
-      };
-    });
-  }*/
-
   double _totalTransActions(int index) {
-    num salary = transactionsValues[index]['amount'] ?? 10000;
+    num total = transactionsValues[index]['totalWeeks'] ?? 10000;
     num expense = transactionsValues[index]['expense'] ?? 0.0;
-    return ((expense * 100) / salary);
+    return ((total * 100) / expense);
   }
 
   double _charHeight(int index) {
-    return transactionsValues[index]['expense'] *
-        200 /
-        transactionsValues[index]['amount'];
+    return (transactionsValues[index]['totalWeeks'] * 200) /
+        transactionsValues[index]['expense'];
   }
 
   @override

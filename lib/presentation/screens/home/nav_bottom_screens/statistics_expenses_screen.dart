@@ -128,7 +128,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                               monthWidget: WeekCardViewEdited(
                                 weekRanges: getStatisticsCubit().weekRangeText(),
                                 chosenDay: getStatisticsCubit().chosenDay,
-                                weeksTotals: getStatisticsCubit().totals,
+                                weeksTotals: getStatisticsCubit().totalsWeeks,
                                 seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                               ),
                               currentIndex: currentIndex,
