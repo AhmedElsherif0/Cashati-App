@@ -163,10 +163,7 @@ mixin MixinGoals {
       ..goalCompletionDate = getCompletionDate(goalModel: goalModel)
       ..goalRemainingPeriod =
           getCompletionDate(goalModel: goalModel).difference(_today).inDays
-      ..goalRemainingAmount =
-          newAmount != null && newAmount != goalModel.goalSaveAmount
-              ? goalModel.goalRemainingAmount - newAmount
-              : goalModel.goalRemainingAmount - goalModel.goalSaveAmount;
+      ..goalRemainingAmount = goalModel.goalRemainingAmount - goalModel.goalSaveAmount;
     try {
       await goalBox.put(goalModel.id, goalModel);
     } catch (error) {
@@ -268,6 +265,8 @@ mixin MixinGoals {
       {required GoalRepeatedDetailsModel theMatchingGoalinRep,
       required num? newAmount}) async {
     await theMatchingGoalinRep.save();
+    print("the matching daily goal id ${theMatchingGoalinRep.goal.id}");
+    print("the matching daily remaining amount ${theMatchingGoalinRep.goal.goalRemainingAmount}");
     await addGoalToBoxFromRepeatedBox(
         currentGoal: theMatchingGoalinRep.goal, newAmount: newAmount);
   }

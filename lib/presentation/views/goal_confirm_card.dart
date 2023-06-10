@@ -4,9 +4,11 @@ import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/presentation/views/confirm_paying_goals.dart';
+import 'package:temp/presentation/widgets/show_dialog.dart';
 
-class GoalConfirmCard extends StatelessWidget {
-  const GoalConfirmCard({Key? key}) : super(key: key);
+class GoalConfirmCard extends StatelessWidget with AlertDialogMixin {
+  const GoalConfirmCard({Key? key, required this.changedAmount}) : super(key: key);
+  final TextEditingController changedAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,23 @@ class GoalConfirmCard extends StatelessWidget {
                   goalModel: context.read<ConfirmPaymentCubit>().allTodayGoals[index],
                   amount: currentGoal.goalSaveAmount.toDouble(),
                   onDelete: () {},
-                  onEditAmount: () {},
+                  onEditAmount: () {
+                    changedAmount.text=currentGoal.goalSaveAmount.toString();
+                    showDialog(context: context, builder: (ctx)=>newAmountDialog(amount: context.read<ConfirmPaymentCubit>().test[index],onUpdate: (){
+                      context.read<ConfirmPaymentCubit>().onChangeAmount(currentGoal.goalSaveAmount.toDouble(),double.parse(changedAmount.text));
+                      currentGoal.goalSaveAmount=double.parse(changedAmount.text);
+                    },context: ctx,changedAmountCtrl: changedAmount));
+                  },
                   index: index,
-                  onCancel: () {},
-                  onConfirm: () {},
+                  onCancel: () {
+                    context.read<ConfirmPaymentCubit>().onNoConfirmedGoal(goalModel: currentGoal);
+                  },
+                  onConfirm: () {
+                    context.read<ConfirmPaymentCubit>().onYesConfirmedGoal(goalModel: currentGoal);
+
+                  },
                   changedAmount: 10000,
-                  blockedAmount: 20000,
+                  blockedAmount: currentGoal.goalRemainingAmount.toDouble(),
                   onEditBlockedAmount: () {},
                   onEditChangedAmount: () {},
                 ),

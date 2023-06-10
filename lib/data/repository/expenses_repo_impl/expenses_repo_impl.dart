@@ -25,7 +25,6 @@ class ExpensesRepositoryImpl
       // await allExpensesModel.add(expenseModel);
 
       addTransactions(transaction: transactionModel);
-
       await allExpensesModel.put(transactionModel.id, transactionModel).then((_) {
         if (transactionModel.amount ==
             allExpensesModel.get(transactionModel.id)?.amount) {

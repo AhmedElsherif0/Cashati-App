@@ -283,6 +283,8 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> with AlertDialogMix
                             createdDate: getAddExpOrIncCubit().chosenDate as DateTime,
                             paymentDate: addExpOrIncCubit.chosenDate as DateTime),
                       );
+                      print("chooosen daaaaate is ${addExpOrIncCubit.chosenDate}");
+
                     },
                     text: 'Add',
                   ),
@@ -345,8 +347,8 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> with AlertDialogMix
     //showLoadingDialog(context);
     showSuccessfulDialogNoOptions(context, 'Added Successfully', '');
 
-    Future.delayed(const Duration(seconds: 2), () => Navigator.pop(context)
-        // Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute)
+    Future.delayed(const Duration(seconds: 2), () =>
+        Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute)
         );
   }
 }

@@ -49,7 +49,6 @@ class IncomeRepositoryImpl
       });
       print(
           "name of the value added by  key is ${allIncomeBox.get(transactionModel.id)!.name} and key is ${allIncomeBox.get(transactionModel.id)!.id}");
-
       addTransactions(transaction: transactionModel);
     } else {
       print(

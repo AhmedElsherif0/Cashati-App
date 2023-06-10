@@ -56,8 +56,7 @@ mixin MixinTransaction {
   }
 
   bool isEqualToday({required DateTime? date }) {
-    date = DateTime.now();
-    return (today.day == date.day &&
+    return (today.day == date!.day &&
             today.month == date.month &&
             today.year == date.year)
         ? true
