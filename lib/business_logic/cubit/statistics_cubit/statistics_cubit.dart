@@ -10,14 +10,15 @@ part 'statistics_state.dart';
 
 class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   StatisticsCubit(this._expensesRepository) : super(StatisticsInitial());
+
   final TransactionRepo _expensesRepository;
   List<TransactionModel> monthTransactions = [];
   List<TransactionModel> byDayList = [];
   num totalImport = 0, totalNotImport = 0, chosenDayTotal = 0;
   List<List<TransactionModel>> monthList = [];
   List<List<TransactionModel>> weeks = List.generate(5, (_) => []);
-  List<num> importantWeeks = List.from([0, 0, 0, 0, 0]);
-  List<num> totals = List.from([0, 0, 0, 0, 0]);
+  num importantWeeks = 0;
+  List<num> totalsWeeks = List.from([0, 0, 0, 0, 0]);
   DateTime chosenDay = DateTime.now();
   int currentIndex = 0;
 
@@ -78,24 +79,25 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
     /// Categorize the transactions by week and calculate the totals
     for (TransactionModel transaction in monthTransactions) {
       if (transaction.paymentDate.month == chosenDay.month) {
+        importantWeeks += transaction.amount;
         int weekNumber = (transaction.paymentDate.day - 1) ~/ 7;
         weeks[weekNumber].add(transaction);
-        totals[weekNumber] += transaction.amount;
-        if (transaction.isPriority) importantWeeks[weekNumber] += transaction.amount;
+        totalsWeeks[weekNumber] += transaction.amount;
       }
     }
+    print('importantWeeks  $importantWeeks');
     emit(FetchedMonthData());
   }
 
   void _resetData() {
     monthTransactions = [];
     weeks = List.generate(5, (_) => []);
-    importantWeeks = List.from([0, 0, 0, 0, 0]);
-    totals = List.from([0, 0, 0, 0, 0]);
+    importantWeeks = 0;
+    totalsWeeks = List.from([0, 0, 0, 0, 0]);
   }
 
-  List<Map<String, num>> get transactionsValues => List.generate(totals.length,
-      (index) => {'amount': totals[index], 'expense': importantWeeks[index]});
+  List<Map<String, num>> get transactionsValues => List.generate(totalsWeeks.length,
+      (index) => {'totalWeeks': totalsWeeks[index], 'expense': importantWeeks});
 
   bool checkSameDay(TransactionModel model) {
     if (model.paymentDate.day == chosenDay.day &&

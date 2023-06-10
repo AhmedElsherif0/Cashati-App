@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../styles/colors.dart';
 
-class ChartBar extends StatelessWidget {
+class ChartBar extends StatefulWidget {
   const ChartBar({
     Key? key,
     required this.height,
@@ -18,6 +18,20 @@ class ChartBar extends StatelessWidget {
   final String percentage;
 
   @override
+  State<ChartBar> createState() => _ChartBarState();
+}
+
+class _ChartBarState extends State<ChartBar> {
+
+  @override
+  void didUpdateWidget(covariant ChartBar oldWidget) {
+    _height = widget.height!;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  double _height = 0;
+
+  @override
   Widget build(BuildContext context) {
     final textTheme =
         Theme.of(context).textTheme.headline6?.copyWith(fontSize: 8.5.sp);
@@ -28,16 +42,20 @@ class ChartBar extends StatelessWidget {
         Expanded(
           child: Align(
             alignment: Alignment.center,
-            child: Text('${totalExp.toStringAsFixed(0)}%', style: textTheme),
+            child: Text('${widget.totalExp.toStringAsFixed(0)}%', style: textTheme),
           ),
         ),
         Flexible(
           flex: 6,
+
           /// bar style
-          child: ConstrainedBox(
+          child: AnimatedContainer(
+            height: _height,
+            curve: Curves.fastOutSlowIn,
+            duration: const Duration(seconds: 3),
             constraints: BoxConstraints(minHeight: 3.h, maxHeight: 30.h),
             child: SizedBox(
-              height: (height! >= 10) ? height : 3.h,
+              height: (widget.height! >= 10) ? widget.height : 3.h,
               width: 5.w,
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -57,7 +75,8 @@ class ChartBar extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Transform(
               transform: Matrix4.rotationZ(-65 * pi / 180),
-              child: Text('$percentage ${index + 1}', style: textTheme),
+              child:
+                  Text('${widget.percentage} ${widget.index + 1}', style: textTheme),
             ),
           ),
         )
