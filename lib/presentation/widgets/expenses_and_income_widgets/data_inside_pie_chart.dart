@@ -6,23 +6,23 @@ class DataInsidePieChart extends StatelessWidget {
       {Key? key,
       required this.totalExpenses,
       required this.valueNotifier,
-      required this.onPressToHome, required this.header})
+      required this.onPressToHome,
+      required this.header})
       : super(key: key);
   final num totalExpenses;
   final ValueNotifier<double> valueNotifier;
   final void Function() onPressToHome;
-  final  String header;
+  final String header;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         children: [
-         const Spacer(),
+          const Spacer(),
           Expanded(
             flex: 4,
-            child: Text(
-                totalExpenses != 0 ? 'Total $header' : 'No Data To Show',
+            child: Text(totalExpenses != 0 ? 'Total $header' : ' Empty Show',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.subtitle1),
           ),
@@ -39,10 +39,14 @@ class DataInsidePieChart extends StatelessWidget {
             ),
           if (totalExpenses == 0)
             Expanded(
-              child: UnderLineTextButton(
+              child: Center(
+                child: UnderLineTextButton(
+                  padding: EdgeInsets.zero,
                   text: 'Back To Home',
-                  onPressed: onPressToHome,
-                  textStyle: const TextStyle(fontWeight: FontWeight.w500)),
+                  onPressed: totalExpenses == 0 ? onPressToHome : () {},
+                  textStyle: const TextStyle(fontWeight: FontWeight.w500),
+                ),
+              ),
             ),
           const Spacer()
         ],

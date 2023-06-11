@@ -27,9 +27,4 @@ class IncomeRepeatCubit extends Cubit<IncomeRepeatCubitStates> {
     emit(IncomeRepeatScreenState());
   }
 
-  String _convertedCurrentDay(DateTime inputDate) {
-    String currentTime = DateFormat('dd/MM/yyyy').format(inputDate.toUtc());
-    final currentTimeAfter = currentTime.replaceFirst('0', '');
-    return currentTimeAfter;
-  }
 }

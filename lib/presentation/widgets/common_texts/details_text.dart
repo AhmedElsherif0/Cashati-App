@@ -10,10 +10,7 @@ class DetailsText extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12.sp),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(
-          'Details',
-          style: Theme.of(context).textTheme.headline3,
-        ),
+        child: Text('Details', style: Theme.of(context).textTheme.headline3),
       ),
     );
   }

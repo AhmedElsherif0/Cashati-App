@@ -13,6 +13,6 @@ abstract class TransactionRepo {
 
  List<TransactionRepeatDetailsModel> getTransactionTypeList(int currentIndex);
 
- List<TransactionModel> getTransactionFromTransactionBox(bool isExpense);
+ List<TransactionModel> getTransactionFromTransactionBox({bool isExpense});
 
 }

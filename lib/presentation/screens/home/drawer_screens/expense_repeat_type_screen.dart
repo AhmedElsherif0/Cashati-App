@@ -25,7 +25,7 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
                 child: CustomAppBar(
-                  title: 'Expense Repeat Income',
+                  title: 'Expense Repeat',
                   onTapFirstIcon: () => Navigator.of(context).pop(),
                   onTapNotification: () {},
                   textStyle: Theme.of(context).textTheme.headline5,
