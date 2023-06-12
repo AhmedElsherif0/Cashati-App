@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:temp/constants/app_lists.dart';
 
 import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import '../../styles/colors.dart';
 
 class SubCategoryChoice extends StatefulWidget {
-  const SubCategoryChoice(
+   SubCategoryChoice(
       {Key? key,
       required this.subCategory,
       required this.currentID,
@@ -19,6 +20,8 @@ class SubCategoryChoice extends StatefulWidget {
 }
 
 class _SubCategoryChoiceState extends State<SubCategoryChoice> {
+  AppConstantList appLists=AppConstantList();
+
   BoxDecoration animatedDecoration(Color color) => BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: color, width: 1),
@@ -41,8 +44,7 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-                IconData(widget.subCategory.subCategoryIconCodePoint,
-                    fontFamily: Icons.add.fontFamily),
+                appLists.iconsOfApp[widget.subCategory.subCategoryIconName],
                 color: widget.color),
             const SizedBox(height: 10),
             FittedBox(
@@ -74,8 +76,7 @@ class _SubCategoryChoiceState extends State<SubCategoryChoice> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              IconData(widget.subCategory.subCategoryIconCodePoint,
-                  fontFamily: Icons.add.fontFamily),
+              appLists.iconsOfApp[widget.subCategory.subCategoryIconName],
               color: AppColor.white,
             ),
             const SizedBox(height: 10),

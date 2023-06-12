@@ -28,7 +28,7 @@ class ExpensesRepositoryImpl
       await allExpensesModel.put(transactionModel.id, transactionModel).then((_) {
         if (transactionModel.amount ==
             allExpensesModel.get(transactionModel.id)?.amount) {
-          super.minusBalance(amount: transactionModel.amount!);
+          super.minusBalance(amount: transactionModel.amount);
         }
       });
       print("name of the value added by  key is "

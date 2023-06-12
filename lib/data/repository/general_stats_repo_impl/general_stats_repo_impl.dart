@@ -239,7 +239,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
-            amount: element.transactionModel.amount!,
+            amount: element.transactionModel.amount,
             checkedDate: element.nextShownDate,
             actionDate: DateTime.now(),
             didTakeAction: false,
@@ -267,7 +267,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
-            amount: element.transactionModel.amount!,
+            amount: element.transactionModel.amount,
             checkedDate: element.nextShownDate,
             actionDate: DateTime.now(),
             didTakeAction: false,
@@ -295,7 +295,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
-            amount: element.transactionModel.amount!,
+            amount: element.transactionModel.amount,
             checkedDate: element.nextShownDate,
             actionDate: DateTime.now(),
             didTakeAction: false,
@@ -349,7 +349,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
       goalRepBox.values.forEach((element) async {
 if (element.nextShownDate.isBefore(todayDate) && todayDate
             .difference(element.nextShownDate)
-            .inDays > 7&& element.goalLastConfirmationDate.isBefore(element.nextShownDate)) {
+            .inDays > 0&& element.goalLastConfirmationDate.isBefore(element.nextShownDate)) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.goal.id,
@@ -438,7 +438,7 @@ if (element.nextShownDate.isBefore(todayDate) && todayDate
     });
     weeklyBox.values.forEach((element) async {
       if (element.isLastConfirmed &&
-          element.transactionModel.paymentDate!.month == todayDate.month &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
           element.transactionModel.isExpense &&
           element.transactionModel.amount > topExp) {
         topExp = element.transactionModel.amount;
@@ -450,7 +450,7 @@ if (element.nextShownDate.isBefore(todayDate) && todayDate
 
         await element.save();
       } else if (element.isLastConfirmed &&
-          element.transactionModel.paymentDate!.month == todayDate.month &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
           !element.transactionModel.isExpense &&
           element.transactionModel.amount > topIncome) {
         topIncome = element.transactionModel.amount;
@@ -466,10 +466,10 @@ if (element.nextShownDate.isBefore(todayDate) && todayDate
     });
     monthlyBox.values.forEach((element) async {
       if (element.isLastConfirmed &&
-          element.transactionModel.paymentDate!.month == todayDate.month &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
           element.transactionModel.isExpense &&
-          element.transactionModel.amount! > topExp) {
-        topExp = element.transactionModel.amount!;
+          element.transactionModel.amount > topExp) {
+        topExp = element.transactionModel.amount;
         topExpName = element.transactionModel.name;
         print(
             '${element.transactionModel.name} before saving is ${element.isLastConfirmed}');
@@ -478,7 +478,7 @@ if (element.nextShownDate.isBefore(todayDate) && todayDate
         await element.save().whenComplete(() => print(
             '${element.transactionModel.name} after saving is ${element.isLastConfirmed}'));
       } else if (element.isLastConfirmed &&
-          element.transactionModel.paymentDate!.month == todayDate.month &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
           !element.transactionModel.isExpense &&
           element.transactionModel.amount > topIncome) {
         topIncome = element.transactionModel.amount;
@@ -493,7 +493,7 @@ if (element.nextShownDate.isBefore(todayDate) && todayDate
     });
     noRepBox.values.forEach((element) async {
       if (element.isLastConfirmed &&
-          element.transactionModel.paymentDate!.month == todayDate.month &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
           element.transactionModel.isExpense &&
           element.transactionModel.amount > topExp) {
         topExp = element.transactionModel.amount;
@@ -542,7 +542,7 @@ if (element.nextShownDate.isBefore(todayDate) && todayDate
     if(
     element.nextShownDate.isBefore(todayDate) && todayDate
         .difference(element.nextShownDate)
-        .inDays > 7 &&element.lastConfirmationDate.isBefore(element.nextShownDate)
+        .inDays > 0 &&element.lastConfirmationDate.isBefore(element.nextShownDate)
     ){
       return true;
     }else{
