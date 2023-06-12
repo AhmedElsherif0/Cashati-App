@@ -84,13 +84,19 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
                     child: ListView.builder(
                         //  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 1),
 
-                        itemCount: addSubcategoryCubit.appList.iconsList.length,
+                        itemCount:
+                            addSubcategoryCubit.appList.iconsOfApp.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
+                          String iconNameFromList=addSubcategoryCubit.appList.iconsOfApp.keys.toList()[index];
                           return InkWell(
                             onTap: () {
                               addSubcategoryCubit.chooseSubCategory(
-                                  addSubcategoryCubit.appList.iconsList[index]);
+                                  addSubcategoryCubit.appList.iconsOfApp.keys
+                                      .toList()[index]);
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Chosen icon name ${iconNameFromList}, and current icon name is ${addSubcategoryCubit.currentIconName}")));
                             },
                             child: BlocBuilder<AddSubcategoryCubit,
                                 AddSubcategoryState>(
@@ -99,29 +105,26 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
                                   margin: EdgeInsets.only(right: 20.0),
                                   decoration: BoxDecoration(
                                     color:
-                                        addSubcategoryCubit.currentIconData ==
-                                                addSubcategoryCubit
-                                                    .appList.iconsList[index]
+                                        addSubcategoryCubit.currentIconName ==
+                                                iconNameFromList
                                             ? AppColor.primaryColor
                                             : AppColor.white,
                                     shape: BoxShape.circle,
                                     border: Border.all(
                                         color: addSubcategoryCubit
-                                                    .currentIconData ==
-                                                addSubcategoryCubit
-                                                    .appList.iconsList[index]
+                                                    .currentIconName ==
+                                            iconNameFromList
                                             ? AppColor.white
                                             : AppColor.primaryColor),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.all(8),
                                     child: Icon(
-                                      addSubcategoryCubit
-                                          .appList.iconsList[index],
+                                      addSubcategoryCubit.appList.iconsOfApp[iconNameFromList],
                                       color:
-                                          addSubcategoryCubit.currentIconData ==
-                                                  addSubcategoryCubit
-                                                      .appList.iconsList[index]
+                                      addSubcategoryCubit
+                                          .currentIconName ==
+                                          iconNameFromList
                                               ? AppColor.white
                                               : AppColor.primaryColor,
                                     ),

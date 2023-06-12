@@ -44,7 +44,7 @@ class IncomeRepositoryImpl
       // await allExpensesModel.add(expenseModel);
       await allIncomeBox.put(transactionModel.id, transactionModel).then((_) {
         if (transactionModel.amount == allIncomeBox.get(transactionModel.id)?.amount) {
-          super.plusBalance(amount: transactionModel.amount!);
+          super.plusBalance(amount: transactionModel.amount);
         }
       });
       print(

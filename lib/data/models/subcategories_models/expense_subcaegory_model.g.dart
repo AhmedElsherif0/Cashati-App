@@ -20,15 +20,13 @@ class SubCategoryAdapter extends TypeAdapter<SubCategory> {
       ..id = fields[0] as String
       ..mainCategoryName = fields[1] as String
       ..subCategoryName = fields[2] as String
-      ..subCategoryIconName = fields[3] as String
-      ..subCategoryColor = fields[4] as String
-      ..subCategoryIconCodePoint = fields[5] as int;
+      ..subCategoryIconName = fields[3] as String;
   }
 
   @override
   void write(BinaryWriter writer, SubCategory obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -36,11 +34,7 @@ class SubCategoryAdapter extends TypeAdapter<SubCategory> {
       ..writeByte(2)
       ..write(obj.subCategoryName)
       ..writeByte(3)
-      ..write(obj.subCategoryIconName)
-      ..writeByte(4)
-      ..write(obj.subCategoryColor)
-      ..writeByte(5)
-      ..write(obj.subCategoryIconCodePoint);
+      ..write(obj.subCategoryIconName);
   }
 
   @override
