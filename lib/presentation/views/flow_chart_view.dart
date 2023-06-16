@@ -72,7 +72,7 @@ class FlowChartView extends StatelessWidget {
                         PriorityWidget(text: priorityType.name),
                         SizedBox(height: 0.3.h),
                         PriorityWidget(
-                            text: notPriority.name, circleColor: AppColor.grey),
+                            text: notPriority.name,isPriority: false),
                       ],
                     ),
                   ),

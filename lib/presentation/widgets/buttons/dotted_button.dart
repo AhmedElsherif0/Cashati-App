@@ -7,12 +7,10 @@ class DottedButton extends StatelessWidget {
     Key? key,
     required this.onPressed,
     required this.text,
-    required this.title,
   }) : super(key: key);
 
   final void Function() onPressed;
   final String text;
-  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +22,12 @@ class DottedButton extends StatelessWidget {
         child: DottedBorder(
           color: Colors.white,
           strokeCap: StrokeCap.round,
-          dashPattern: const [3, 6],
+          dashPattern: const [3, 7],
           borderType: BorderType.RRect,
-          padding: EdgeInsets.symmetric(horizontal: 40.sp, vertical: 18.sp),
+          strokeWidth: 2,
+          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: 18.sp),
           radius: Radius.circular(4.sp),
-          child: Text('$text $title', style: textTheme.bodyText1),
+          child: Text(text , style: textTheme.bodyText1),
         ),
       ),
     );

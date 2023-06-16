@@ -12,121 +12,133 @@ import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_
 import '../styles/colors.dart';
 
 class CardHome extends StatelessWidget {
-   const CardHome(
+  const CardHome(
       {Key? key,
       required this.title,
-      required this.onPressedShow,
-      required this.onPressedAdd,
+      required this.onShow,
+      required this.onAdd,
       required this.generalStatsModel,
       required this.isExpense,
-      required this.onPressedTop})
+      required this.onTop})
       : super(key: key);
 
   final String title;
   final GeneralStatsModel generalStatsModel;
   final bool isExpense;
-  final Function() onPressedShow;
-  final Function() onPressedAdd;
-  final Function() onPressedTop;
+  final Function() onShow;
+  final Function() onAdd;
+  final Function() onTop;
+
   @override
   Widget build(BuildContext context) {
     Hive.isBoxOpen(AppBoxes.generalStatisticsBox);
     final textTheme = Theme.of(context).textTheme;
     return ValueListenableBuilder<Box<GeneralStatsModel>>(
-     // valueListenable: HiveHelper().getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsModel).listenable(),
-      valueListenable:  HiveHelper().getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsBox).listenable(),
-      builder: (context,box,_) {
-        GeneralStatsModel ourGeneral =box.get(AppStrings.theOnlyGeneralStatsModelID)??generalStatsModel;
-        return Stack(
-          children: [
-            /// Show Expense or Income.
-            Padding(
-              padding: EdgeInsets.only(top: 45.sp),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: AppColor.primaryColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40.sp),
-                    topRight: Radius.circular(40.sp),
+        // valueListenable: HiveHelper().getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsModel).listenable(),
+        valueListenable: HiveHelper()
+            .getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsBox)
+            .listenable(),
+        builder: (context, box, _) {
+          GeneralStatsModel ourGeneral =
+              box.get(AppStrings.theOnlyGeneralStatsModelID) ?? generalStatsModel;
+          return Stack(
+            children: [
+              /// Show Expense or Income.
+              Padding(
+                padding: EdgeInsets.only(top: 45.sp),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: AppColor.primaryColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40.sp),
+                      topRight: Radius.circular(40.sp),
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(right: 14.sp, bottom: 8.sp),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: UnderLineTextButton(
-                      text: 'Show $title',
-                      onPressed: onPressedShow,
-                      textStyle: TextStyle(fontSize: 14.sp, color: AppColor.white),
-                      decorationColor: AppColor.white,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 14.sp, bottom: 8.sp),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: UnderLineTextButton(
+                        text: 'Show $title',
+                        onPressed: onShow,
+                        textStyle: TextStyle(fontSize: 14.sp, color: AppColor.white),
+                        decorationColor: AppColor.white,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
 
-            ///  Stacked Balance Widget.
-            Align(
-              alignment: Alignment.topCenter,
-              child: Column(
-                children: [
-                  Visibility(
-                    visible: isExpense,
-                      child: Text('Top Expense Of the month',
-                      style: Theme.of(context).textTheme.headline6,
+              ///  Stacked Balance Widget.
+              Align(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Visibility(
+                      visible: isExpense,
+                      replacement: Text(
+                        'Top Income Of the month',
+                        style: Theme.of(context).textTheme.headline6,
                       ),
-                  replacement:  Text('Top Income Of the month',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  ),
-                  SizedBox(
-                    height: 14.h,
-                    width: 40.w,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16.sp),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 50,
-                            offset: const Offset(0, 4), // changes position of shadow
-                          ),
-                        ],
+                      child: Text(
+                        'Top Expense Of this month',
+                        style: Theme.of(context).textTheme.headline6,
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 12.sp, right: 5.w, left: 5.w),
-                        child: Column(
-                          children: [
-                            SvgPicture.asset('assets/icons/download.svg',
-                                height: 20.sp, width: 20.sp),
-                            SizedBox(height: 2.h),
-                            Text('${isExpense?ourGeneral.topExpense:ourGeneral.topIncome} : ${isExpense?ourGeneral.topExpenseAmount:ourGeneral.topIncomeAmount}', style: textTheme.headline6),
+                    ),
+                    SizedBox(
+                      height: 14.h,
+                      width: 40.w,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16.sp),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 50,
+                              offset: const Offset(0, 4), // changes position of shadow
+                            ),
                           ],
+                        ),
+                        child: Padding(
+                          padding:
+                              EdgeInsets.only(top: 14.sp, right: 6.sp, left: 6.sp),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset('assets/icons/download.svg',
+                                  height: 20.sp, width: 20.sp),
+                              SizedBox(height: 2.h),
+                              Center(
+                                child: Text(
+                                  '${isExpense ? ourGeneral.topExpense : ourGeneral.topIncome}, ${isExpense ? ourGeneral.topExpenseAmount : ourGeneral.topIncomeAmount}',
+                                  style: textTheme.headline6,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
 
-            /// Dotted Widget
-            Padding(
-              padding: EdgeInsets.only(top: 22.h),
-              child: Column(
-                children: [
-                  DottedButton(text: 'Balance', title: '${ourGeneral.balance}', onPressed: onPressedTop),
-                  SizedBox(height: 2.h),
-                  DottedButton(text: 'Add', title: title, onPressed: onPressedAdd),
-
-                ],
+              /// Dotted Widget
+              Padding(
+                padding: EdgeInsets.only(top: 22.h),
+                child: Column(
+                  children: [
+                    DottedButton(
+                        text: 'Balance ${ourGeneral.balance}', onPressed: onTop),
+                    SizedBox(height: 2.h),
+                    DottedButton(text: 'Add $title', onPressed: onAdd),
+                  ],
+                ),
               ),
-            ),
-          ],
-        );
-      }
-    );
+            ],
+          );
+        });
   }
 }

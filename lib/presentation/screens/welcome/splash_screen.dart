@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(microseconds: 3), () {
+    Timer(const Duration(seconds: 2), () {
       bool? onBoardingData =
           CacheHelper.getDataFromSharedPreference(key: 'onBoardDone');
       debugPrint('onBoarding is = $onBoardingData');
@@ -35,10 +35,9 @@ class _SplashScreenState extends State<SplashScreen> {
     _onClickNotify(context);
   }
 
-  StreamSubscription _onClickNotify(context) {
-    return NotificationsApi.streamController.stream.listen(
+  StreamSubscription _onClickNotify(context) =>
+     NotificationsApi.streamController.stream.listen(
         (event) => Navigator.of(context).pushNamed(AppRouterNames.rNotification));
-  }
 
   @override
   void dispose() {

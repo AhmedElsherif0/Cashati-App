@@ -22,18 +22,30 @@ class ChartBar extends StatefulWidget {
 }
 
 class _ChartBarState extends State<ChartBar> {
+  double _height = 0;
+
   @override
-  void didUpdateWidget(covariant ChartBar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _height = widget.height!;
+  void didChangeDependencies() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Future.delayed(Duration.zero, () => setState(() => _height = widget.height!));
+    });
+    super.didChangeDependencies();
   }
 
-  double _height = 0;
+  @override
+  void didUpdateWidget(covariant ChartBar oldWidget) {
+    _height = widget.height!;
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
     final textTheme =
-        Theme.of(context).textTheme.headline6?.copyWith(fontSize: 8.5.sp);
+    Theme
+        .of(context)
+        .textTheme
+        .headline6
+        ?.copyWith(fontSize: 8.5.sp);
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.end,
@@ -49,10 +61,12 @@ class _ChartBarState extends State<ChartBar> {
 
           /// bar style
           child: AnimatedContainer(
-            height: _height,
+            height: widget.totalExp == 0 ? 0 : _height,
+            onEnd: () => _height = widget.height!,
             curve: Curves.fastOutSlowIn,
-            duration: const Duration(seconds: 2000),
-            constraints: BoxConstraints(minHeight: 3.h, maxHeight: 30.h),
+            duration: const Duration(seconds: 3),
+            constraints: BoxConstraints(
+                minHeight: 3.h, maxHeight: widget.totalExp == 0 ? 3.h: 30.h),
             child: SizedBox(
               height: (widget.height! >= 10) ? widget.height : 3.h,
               width: 5.w,
@@ -75,7 +89,7 @@ class _ChartBarState extends State<ChartBar> {
             child: Transform(
               transform: Matrix4.rotationZ(-65 * pi / 180),
               child:
-                  Text('${widget.percentage} ${widget.index + 1}', style: textTheme),
+              Text('${widget.percentage} ${widget.index + 1}', style: textTheme),
             ),
           ),
         )

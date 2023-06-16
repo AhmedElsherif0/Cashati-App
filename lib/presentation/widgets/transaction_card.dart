@@ -16,7 +16,7 @@ class TransactionsCard extends StatelessWidget with HelperClass {
     required this.priceColor,
     required this.isVisible,
     required this.isRepeated,
-  //  required this.onPressed,
+    //  required this.onPressed,
     required this.priorityColor,
     required this.priorityName,
     this.widget = const SizedBox.shrink(),
@@ -28,10 +28,10 @@ class TransactionsCard extends StatelessWidget with HelperClass {
   final int index;
   final bool isVisible;
   final bool isRepeated;
- // final void Function() onPressed;
+
+  // final void Function() onPressed;
   final Color priorityColor;
   final Widget? widget;
-
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,8 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                         children: [
                           const Spacer(),
                           PriorityWidget(
-                              text: priorityName, circleColor: priorityColor),
+                              text: priorityName,
+                              isPriority: transactionModel.isPriority),
                         ],
                       ),
                     ),

@@ -177,19 +177,16 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
             indicator: AppDecorations.defBoxDecoration,
             unselectedLabelColor: AppColor.grey,
             labelStyle: Theme.of(context).textTheme.headline6,
-            tabs: List.generate(3, (index) {
-              return Tab(
-                height: 6.h,
-                child: TabBarItem(
-                  text: expensesLists.statisticsList[index],
-                  onTap: () => setState(() => onSwapByIndex(index: index)),
-                  textColor: tabController.index == index
-                      ? AppColor.white
-                      : AppColor.primaryColor,
-                  backGroundColor: tabController.index == index
-                      ? AppColor.primaryColor
-                      : AppColor.white,
-                ),
+            tabs: List.generate(expensesLists.statisticsList.length, (index) {
+              return TabBarItem(
+                text: expensesLists.statisticsList[index],
+                onTap: () => setState(() => onSwapByIndex(index: index)),
+                textColor: tabController.index == index
+                    ? AppColor.white
+                    : AppColor.primaryColor,
+                backGroundColor: tabController.index == index
+                    ? AppColor.primaryColor
+                    : AppColor.white,
               );
             }),
           ),
@@ -210,7 +207,7 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
                         (index) => TabCardViewEdited(
                           seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                           isVisible: true,
-                          expenseList: widget.expenseList,
+                          transactions: widget.expenseList,
                           onPressSeeMore: widget.onPressSeeMore,
                         ),
                       ),
