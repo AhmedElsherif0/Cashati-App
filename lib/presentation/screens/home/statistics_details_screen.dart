@@ -18,7 +18,7 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
   final List<TransactionModel> transactions;
   final int index;
 
- // void onPressed() {}
+  // void onPressed() {}
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,11 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [PriorityWidget()]),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 PriorityWidget(
-                    text: 'Not Important', circleColor: AppColor.pinkishGrey)
+                  text: 'Not Important',
+                  isPriority: transactions[index].isPriority,
+                )
               ])
             ],
           ),
@@ -56,13 +58,14 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
                   priceColor:
                       transaction.isExpense ? AppColor.secondColor : AppColor.red,
                   transactionModel: transaction,
-                 // onPress: () => onPressed(),
+                  // onPress: () => onPressed(),
                   priorityName: transaction.isPriority ? 'Important' : 'Not Important',
                   priorityColor: transaction.isPriority
                       ? AppColor.secondColor
                       : AppColor.pinkishGrey,
                   widget: PriorityWidget(
-                      text: 'Heighset ${transaction.name}', circleColor: AppColor.red),
+                      text: 'Heighset ${transaction.name}',
+                      isPriority: transaction.isPriority),
                 );
               }),
         )

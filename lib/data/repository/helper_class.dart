@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:temp/data/models/transactions/transaction_model.dart';
 
 import '../../constants/enum_classes.dart';
 import '../../presentation/styles/colors.dart';
@@ -21,11 +22,12 @@ mixin HelperClass {
     ];
   }
 
-  Widget switchWidgets(SwitchWidgets? switchWidgets, {String name = 'Expense'}) {
+  Widget switchWidgets({SwitchWidgets? switchWidgets, TransactionModel? transaction}) {
     Widget widget;
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
-        widget = PriorityWidget(text: 'Highest $name', circleColor: AppColor.red);
+        widget = PriorityWidget(text: 'Highest ${transaction?.name??''}',
+            isPriority: transaction?.isPriority??true);
         break;
       case SwitchWidgets.seeMore:
         widget = UnderLineTextButton(onPressed: () {}, text: 'see more');

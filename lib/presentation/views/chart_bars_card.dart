@@ -11,14 +11,6 @@ class ChartBarsCard extends StatelessWidget {
 
   final List<Map<String, dynamic>> transactionsValues;
 
-  /* List<ExpensesModel> get recentExpense {
-    ExpensesLists expensesList = ExpensesLists();
-    return expensesList.expensesData.where((element) {
-      return element.dateTime
-          .isAfter(DateTime.now().subtract(const Duration(days: 7)));
-    }).toList();
-  }*/
-
   double _totalTransActions(int index) {
     num total = transactionsValues[index]['totalWeeks'] ?? 10000;
     num expense = transactionsValues[index]['expense'] ?? 0.0;

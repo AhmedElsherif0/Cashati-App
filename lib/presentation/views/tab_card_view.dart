@@ -56,7 +56,7 @@ class TabCardView extends StatelessWidget {
 class TabCardViewEdited extends StatelessWidget with HelperClass {
   const TabCardViewEdited(
       {Key? key,
-      required this.expenseList,
+      required this.transactions,
       required this.onPressSeeMore,
       this.priorityName = PriorityType.Important,
       required this.isVisible,
@@ -67,7 +67,7 @@ class TabCardViewEdited extends StatelessWidget with HelperClass {
 
   final bool isVisible;
   final bool isRepeated;
-  final List<TransactionModel> expenseList;
+  final List<TransactionModel> transactions;
   final PriorityType priorityName;
   final Color priorityColor;
   final void Function() onPressSeeMore;
@@ -76,13 +76,13 @@ class TabCardViewEdited extends StatelessWidget with HelperClass {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return expenseList.isEmpty
+    return transactions.isEmpty
         ? Image.asset(AppIcons.noDataCate)
         : ListView.builder(
             padding: EdgeInsets.zero,
-            itemCount: expenseList.length,
+            itemCount: transactions.length,
             itemBuilder: (context, index) {
-              final expenseModel = expenseList[index];
+              final expenseModel = transactions[index];
               return Column(
                 children: [
                   Card(
@@ -144,10 +144,9 @@ class TabCardViewEdited extends StatelessWidget with HelperClass {
                                   ),
                                   Visibility(
                                     visible: isVisible,
-                                    child: switchWidgets(seeMoreOrDetailsOrHighest,
-                                        name: expenseModel.isExpense
-                                            ? 'Expense'
-                                            : 'Income'),
+                                    child: switchWidgets(
+                                        switchWidgets: seeMoreOrDetailsOrHighest,
+                                        transaction: expenseModel),
                                   ),
                                 ],
                               ),
@@ -159,7 +158,6 @@ class TabCardViewEdited extends StatelessWidget with HelperClass {
                                       isPriority: expenseModel.isPriority,
                                       text: priorityNames(expenseModel.isExpense,
                                           expenseModel.isPriority),
-                                      circleColor: priorityColor,
                                     ),
                                   ],
                                 ),

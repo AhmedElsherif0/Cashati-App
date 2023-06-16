@@ -125,42 +125,16 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                                           context.read<StatisticsCubit>().byDayList)),
                               priorityName: PriorityType.Important,
                               expenseList: getStatisticsCubit().byDayList,
-                              monthWidget: WeekCardViewEdited(
-                                weekRanges: getStatisticsCubit().weekRangeText(),
-                                chosenDay: getStatisticsCubit().chosenDay,
-                                weeksTotals: getStatisticsCubit().totalsWeeks,
-                                seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
-                              ),
                               currentIndex: currentIndex,
                               index: index,
-                              pageController: _controller),
+                              pageController: _controller,
+                            monthWidget: WeekCardViewEdited(
+                              weekRanges: getStatisticsCubit().weekRangeText(),
+                              chosenDay: getStatisticsCubit().chosenDay,
+                              weeksTotals: getStatisticsCubit().totalsWeeks,
+                              seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
+                            ),),
                         ),
-
-                        // Expanded(
-                        //     flex: 40,
-                        //     child:
-                        //         ListView.builder(
-                        //             itemCount: getStatisticsCubit().currentIndex==0?getStatisticsCubit().byDayList.length:3,
-                        //             itemBuilder: (context, index) {
-                        //               TransactionModel item =getStatisticsCubit().byDayList[index];
-                        //       return Visibility(
-                        //         visible: getStatisticsCubit().currentIndex==0,
-                        //           child: ExpansionTile(
-                        //               title: Text(item.name),
-                        //               children: [
-                        //                 Text('${item.paymentDate}'),
-                        //               ]
-                        //
-                        //           ),
-                        //       replacement: ExpansionTile(title: Text("Week ${index+1}"),
-                        //       subtitle: Text("${getStatisticsCubit().totals[index]}"),
-                        //       ),
-                        //       );
-                        //     })
-                        //
-                        //
-                        //
-                        //     ),
                       ],
                     ),
                   ),
