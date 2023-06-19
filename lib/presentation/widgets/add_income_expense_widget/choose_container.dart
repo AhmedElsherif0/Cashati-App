@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 
 import '../../../constants/app_icons.dart';
+import '../../styles/colors.dart';
 
 class DateChooseContainer extends StatelessWidget {
   const DateChooseContainer({
@@ -22,7 +23,7 @@ class DateChooseContainer extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.blueGrey.withOpacity(.2),
+            color: AppColor.primaryColor.withOpacity(0.3),
             borderRadius: BorderRadius.circular(20)),
         child: Padding(
           padding: const EdgeInsets.all(1.0),

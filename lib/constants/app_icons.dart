@@ -19,7 +19,7 @@ class AppIcons {
   static const String navSettings = '$icons/nav_bottom/setting.svg';
 
   /// Confirm Paying Screen Icons.
-  static const String confirmAssets = 'assets/icons/confirm_paying';
+  static const String confirmAssets = '$icons/confirm_paying';
   static const String categories = '$confirmAssets/categories_icon.svg';
   static const String poundSterlingSign = '$confirmAssets/pound_sign_icon.svg';
   static const String editIcon = '$confirmAssets/edit-Icons.svg';
@@ -64,6 +64,15 @@ class AppIcons {
   static const String goalCompleteDollar = '$icons/goalCompleteDollar.svg';
   static const String completedGoal = '$icons/completedGoal.svg';
   static const String addIcon = '$icons/addIcon.svg';
+
+  ///Home Icons...
+  static const String balance = '$icons/home/balance.svg';
+  static const String addWhite = '$icons/home/addWhite.svg';
+  static const String business = '$icons/home/business.svg';
+  static const String fixed = '$icons/home/fixed.svg';
+  static const String home = '$icons/home/home.svg';
+  static const String person = '$icons/home/person.svg';
+  static const String variable = '$icons/home/variable.svg';
 
   /// Fixed App Icons
   static const String fbAppIcon = "fb";

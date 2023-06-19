@@ -1,16 +1,18 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 
 class DottedButton extends StatelessWidget {
   const DottedButton({
     Key? key,
     required this.onPressed,
-    required this.text,
+    required this.text, required this.icon,
   }) : super(key: key);
 
   final void Function() onPressed;
   final String text;
+  final String icon;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,14 @@ class DottedButton extends StatelessWidget {
           strokeWidth: 2,
           padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: 18.sp),
           radius: Radius.circular(4.sp),
-          child: Text(text , style: textTheme.bodyText1),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(icon),
+              SizedBox(width: 2.h),
+              Text(text , style: textTheme.bodyText1),
+            ],
+          ),
         ),
       ),
     );

@@ -125,7 +125,6 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                                           context.read<StatisticsCubit>().byDayList)),
                               priorityName: PriorityType.Important,
                               expenseList: getStatisticsCubit().byDayList,
-                              currentIndex: currentIndex,
                               index: index,
                               pageController: _controller,
                             monthWidget: WeekCardViewEdited(

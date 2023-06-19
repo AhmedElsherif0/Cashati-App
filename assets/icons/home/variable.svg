@@ -1,0 +1,10 @@
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1 13H4.6" stroke="#80BF88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.4004 13H25.0004" stroke="#80BF88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13 1V4.6" stroke="#80BF88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13 21.3999V24.9999" stroke="#80BF88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.9996 21.4001C17.6388 21.4001 21.3996 17.6393 21.3996 13.0001C21.3996 8.36091 17.6388 4.6001 12.9996 4.6001C8.36042 4.6001 4.59961 8.36091 4.59961 13.0001C4.59961 17.6393 8.36042 21.4001 12.9996 21.4001Z" stroke="#80BF88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13.0004 16.5999C14.9886 16.5999 16.6004 14.9881 16.6004 12.9999C16.6004 11.0117 14.9886 9.3999 13.0004 9.3999C11.0122 9.3999 9.40039 11.0117 9.40039 12.9999C9.40039 14.9881 11.0122 16.5999 13.0004 16.5999Z" stroke="#80BF88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="21.9707" y="5" width="2" height="24" transform="rotate(45 21.9707 5)" fill="#80BF88"/>
+<rect x="5" y="5.41406" width="2" height="24" transform="rotate(-45 5 5.41406)" fill="#80BF88"/>
+</svg>

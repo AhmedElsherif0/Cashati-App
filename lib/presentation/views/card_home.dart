@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
@@ -34,7 +35,6 @@ class CardHome extends StatelessWidget {
     Hive.isBoxOpen(AppBoxes.generalStatisticsBox);
     final textTheme = Theme.of(context).textTheme;
     return ValueListenableBuilder<Box<GeneralStatsModel>>(
-        // valueListenable: HiveHelper().getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsModel).listenable(),
         valueListenable: HiveHelper()
             .getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsBox)
             .listenable(),
@@ -131,9 +131,12 @@ class CardHome extends StatelessWidget {
                 child: Column(
                   children: [
                     DottedButton(
-                        text: 'Balance ${ourGeneral.balance}', onPressed: onTop),
+                        icon: AppIcons.balance,
+                        text: 'Balance ${ourGeneral.balance}',
+                        onPressed: onTop),
                     SizedBox(height: 2.h),
-                    DottedButton(text: 'Add $title', onPressed: onAdd),
+                    DottedButton(
+                        icon: AppIcons.addWhite, text: 'Add $title', onPressed: onAdd),
                   ],
                 ),
               ),

@@ -129,7 +129,6 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                               seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                               priceColor: AppColor.secondColor,
                             ),
-                            currentIndex: currentIndex,
                             index: index,
                             pageController: _controller,
                           ),
