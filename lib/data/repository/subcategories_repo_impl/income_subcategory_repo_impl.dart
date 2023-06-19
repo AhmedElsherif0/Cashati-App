@@ -18,10 +18,8 @@ class IncomeSubcategoryImpl implements CategoryTransactionRepo {
     SubCategory subCategories = SubCategory.copyWith(
       id: GUIDGen.generate(),
       mainCategoryName: subCategory.mainCategoryName,
-      subCategoryColor: subCategory.subCategoryColor,
       subCategoryIconName: subCategory.subCategoryIconName,
       subCategoryName: subCategory.subCategoryName,
-      subCategoryIconCodePoint: subCategory.subCategoryIconCodePoint,
     );
     await _hiveHelper.addToBox2(
         dataModel: subCategories, boxName: _getSubCategoryBox());

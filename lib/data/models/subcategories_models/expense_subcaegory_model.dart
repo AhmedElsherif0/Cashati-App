@@ -11,8 +11,7 @@ class SubCategory {
     required this.id,
     required this.subCategoryName,
     required this.subCategoryIconName,
-    required this.subCategoryColor,
-    required this.subCategoryIconCodePoint,
+
   });
 
   @HiveField(0)
@@ -26,9 +25,6 @@ class SubCategory {
   @HiveField(3)
   late String subCategoryIconName;
 
-  //TODO remove colors
-  @HiveField(4)
-  late String subCategoryColor;
-  @HiveField(5)
-  late int subCategoryIconCodePoint;
+
+
 }

@@ -48,7 +48,7 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
         Expanded(
           flex: 5,
           child: ListView.builder(
-              itemCount: transactions.length ?? 5,
+              itemCount: transactions.length,
               itemBuilder: (_, currIndex) {
                 final transaction = transactions[currIndex];
                 return TransactionsCard(
