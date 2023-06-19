@@ -36,9 +36,8 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
     /// we need an condition for Important Income.
     final List<TransactionModel> importantExpense =
         (isExpense ? getExpenses() : getIncome())
-            .where((transaction) => isExpense
-                ? (checkSameDay(transaction) && transaction.isPriority == true)
-                : (checkSameDay(transaction)))
+            .where((transaction) =>
+                (checkSameDay(transaction) && transaction.isPriority == true))
             .toList();
     return importantExpense.fold(0, (value, element) => value += element.amount);
   }

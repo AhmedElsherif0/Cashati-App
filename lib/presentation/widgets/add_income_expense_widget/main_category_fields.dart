@@ -212,9 +212,10 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                             isAddAuto: false,
                             isPriority: widget.addExpOrIncCubit.isImportant,
                             subCategory: widget.addExpOrIncCubit.subCatName,
-                            isExpense: _checkTheCurrentTab()
-                                ? widget.addExpOrIncCubit.isExpense = true
-                                : widget.addExpOrIncCubit.isExpense = false,
+                            isExpense: widget.addExpOrIncCubit.isExpense =
+                                _checkTheCurrentTab()
+                                    ? widget.addExpOrIncCubit.isExpense = true
+                                    : widget.addExpOrIncCubit.isExpense = false,
                             //isPaid: choosedDate!.day==DateTime.now()?true:false,
                             isProcessing: false,
                             createdDate: getAddExpOrIncCubit().chosenDate as DateTime,
