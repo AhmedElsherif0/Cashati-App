@@ -21,13 +21,13 @@ import '../drop_down_custom.dart';
 import '../editable_text.dart';
 
 class MainCategoryFields extends StatefulWidget {
-  const MainCategoryFields(
-      {super.key,
-      required this.addExpOrIncCubit,
-      required this.icons,
-      required this.mainCategoryName,
-      required this.subCategoriesList,
-    });
+  const MainCategoryFields({
+    super.key,
+    required this.addExpOrIncCubit,
+    required this.icons,
+    required this.mainCategoryName,
+    required this.subCategoriesList,
+  });
 
   final AddExpOrIncCubit addExpOrIncCubit;
   final String icons;
@@ -212,7 +212,9 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                             isAddAuto: false,
                             isPriority: widget.addExpOrIncCubit.isImportant,
                             subCategory: widget.addExpOrIncCubit.subCatName,
-                            isExpense: true,
+                            isExpense: _checkTheCurrentTab()
+                                ? widget.addExpOrIncCubit.isExpense = true
+                                : widget.addExpOrIncCubit.isExpense = false,
                             //isPaid: choosedDate!.day==DateTime.now()?true:false,
                             isProcessing: false,
                             createdDate: getAddExpOrIncCubit().chosenDate as DateTime,

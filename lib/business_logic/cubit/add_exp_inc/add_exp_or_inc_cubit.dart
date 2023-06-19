@@ -14,6 +14,7 @@ import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/subcategories_repo_impl/expense_subcategory_repo_impl.dart';
 import 'package:temp/data/repository/subcategories_repo_impl/income_subcategory_repo_impl.dart';
 
+import '../../../constants/app_icons.dart';
 import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import '../../repository/transactions_repo/transaction_repo.dart';
 
@@ -33,7 +34,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   List<MaterialColor> lastColorList = [];
   bool isExpense = true;
   List<String> expMainCats = ['Personal', 'Home', 'Business'];
+  List<String> expMainIcons = [AppIcons.person, AppIcons.home, AppIcons.business];
   List<String> incomeMainCats = ['Fixed', 'Variable'];
+  List<String> incomeMainIcons = [AppIcons.fixed, AppIcons.variable];
   List<SubCategory> personalSubCatsList = [];
   List<SubCategory> homeSubCatsList = [];
   List<SubCategory> businessSubCatsList = [];
@@ -82,7 +85,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   void isImportantOrNo(bool? value) {
     isImportant = value ?? false;
-     emit(ChoosedPriorityState());
+    emit(ChoosedPriorityState());
   }
 
   List<SubCategory> fetchExpensesSubCategories() {
@@ -228,13 +231,14 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   }
 
   Future<DateTime?> changeDate(DateTime? datePicker) async {
-    chosenDate = datePicker ;
+    chosenDate = datePicker;
     print('Choosed Date in cubit is ${chosenDate}');
     emit(ChoosedDateState());
-    return  chosenDate;
+    return chosenDate;
   }
 
-  Future<void> validateields(BuildContext context, TransactionModel transactionModel) async {
+  Future<void> validateields(
+      BuildContext context, TransactionModel transactionModel) async {
     currentAmount = transactionModel.amount;
     if (transactionModel.amount == null || transactionModel.amount == 0) {
       ScaffoldMessenger.of(context)
