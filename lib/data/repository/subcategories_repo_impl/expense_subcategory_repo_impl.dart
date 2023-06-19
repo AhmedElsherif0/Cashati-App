@@ -20,8 +20,7 @@ class ExpenseSubCategoryImpl implements CategoryTransactionRepo {
         id: GUIDGen.generate(),
         subCategoryName: subCategory.subCategoryName,
         subCategoryIconName: subCategory.subCategoryIconName,
-        subCategoryIconCodePoint: subCategory.subCategoryIconCodePoint,
-        subCategoryColor: subCategory.subCategoryColor);
+        );
     await _hiveHelper.addToBox2(
         dataModel: subCategoryExpense, boxName: _getSubCatExpenseBox());
   }

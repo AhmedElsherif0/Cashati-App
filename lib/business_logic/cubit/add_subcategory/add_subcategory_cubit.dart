@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
+import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
@@ -21,10 +22,11 @@ class AddSubcategoryCubit extends Cubit<AddSubcategoryState> {
   CategoryTransactionRepo incomeSubcategoryRepo = IncomeSubcategoryImpl();
   final AppConstantList appList = AppConstantList();
 
-  IconData currentIconData = Icons.add;
+  String currentIconName = AppIcons.addAppIcon;
 
-  chooseSubCategory(IconData iconData) {
-    currentIconData = iconData;
+  chooseSubCategory(String iconName) {
+    currentIconName = iconName;
+
     emit(ChoseSubCategory());
   }
 
@@ -54,9 +56,8 @@ class AddSubcategoryCubit extends Cubit<AddSubcategoryState> {
               mainCategoryName: currentMainCategory,
               id: GUIDGen.generate(),
               subCategoryName: subCategoryName,
-              subCategoryIconName: iconName,
-              subCategoryColor: 'none',
-              subCategoryIconCodePoint: currentIconData.codePoint));
+              subCategoryIconName: currentIconName,
+              ));
     } catch (e) {
       print('Error Adding Expense subcat is $e');
     }

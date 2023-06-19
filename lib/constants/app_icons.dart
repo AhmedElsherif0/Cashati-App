@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class AppIcons {
   static const String icons = 'assets/icons';
 
@@ -71,5 +73,17 @@ class AppIcons {
   static const String home = '$icons/home/home.svg';
   static const String person = '$icons/home/person.svg';
   static const String variable = '$icons/home/variable.svg';
+
+  /// Fixed App Icons
+  static const String fbAppIcon = "fb";
+  static const String keyAppIcon = "key";
+  static const String sevenAppIcon = "seven_k";
+  static const String titleAppIcon = "title";
+  static const String buildAppIcon ="build";
+  static const String vaccinesOutlinedAppIcon = "vaccines_outlined";
+  static const String repeatAppIcon = "repeat";
+  static const String pauseAppIcon = "pause";
+  static const String dangerousAppIcon = "dangerous";
+  static const String addAppIcon = "add";
 
 }
