@@ -15,7 +15,6 @@ class AddExpenseOrIncomeScreen extends StatefulWidget {
 }
 
 class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
-  String? subCategoryName;
   int currentIndex = 0;
 
   @override
@@ -25,21 +24,16 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
       initialIndex: currentIndex,
       child: Scaffold(
           body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           children: [
-            SizedBox(
-              height: 5.h,
-            ),
+            SizedBox(height: 5.h),
             CustomAppBar(
               title: 'Add Transaction',
-              onTapNotification: () {
-                Navigator.pushNamed(context, AppRouterNames.rAddSubCategory);
-              },
+              onTapNotification: () =>
+                  Navigator.pushNamed(context, AppRouterNames.rAddSubCategory),
             ),
-            SizedBox(
-              height: 1.h,
-            ),
+            SizedBox(height: 1.h),
             TabBar(
                 isScrollable: false,
                 unselectedLabelColor: AppColor.grey,
@@ -60,11 +54,11 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
                   Tab(child: Text('Expenses')),
                   Tab(child: Text('Income'))
                 ]),
-            Expanded(
+             const Expanded(
               child: TabBarView(
                 children: [
                   AddExpenseWidget(),
-                  AddIncomeWidget(),
+                  AddIncomeWidget()
                 ],
               ),
             ),
