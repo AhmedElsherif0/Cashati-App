@@ -97,7 +97,8 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                         children: [
                           const Spacer(),
                           PriorityWidget(
-                              text: priorityName,
+                              text: priorityNames(transactionModel.isExpense,
+                                  transactionModel.isPriority),
                               isPriority: transactionModel.isPriority),
                         ],
                       ),
