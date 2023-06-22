@@ -34,7 +34,6 @@ class BottomNavBarWidget extends StatelessWidget {
         showSelectedLabels: true,
         selectedFontSize: 0,
         unselectedFontSize: 0,
-        type: BottomNavigationBarType.fixed,
         onTap: (index) => cubit.changePage(index: index),
         items: [
           bottomNavBarItem(AppIcons.navDollarSign),

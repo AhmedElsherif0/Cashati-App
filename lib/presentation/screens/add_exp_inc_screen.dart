@@ -45,21 +45,14 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
                 //  padding: EdgeInsets.symmetric(horizontal: 24.0),
                 indicatorSize: TabBarIndicatorSize.label,
                 indicatorColor: AppColor.primaryColor,
-                onTap: (index) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                },
+                onTap: (index) => setState(() => currentIndex = index),
                 tabs: const [
                   Tab(child: Text('Expenses')),
                   Tab(child: Text('Income'))
                 ]),
-             const Expanded(
+            const Expanded(
               child: TabBarView(
-                children: [
-                  AddExpenseWidget(),
-                  AddIncomeWidget()
-                ],
+                children: [AddExpenseWidget(), AddIncomeWidget()],
               ),
             ),
           ],

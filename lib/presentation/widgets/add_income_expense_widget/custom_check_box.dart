@@ -33,7 +33,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             activeColor: AppColor.white,
             checkColor: AppColor.white,
-            fillColor: MaterialStateProperty.all(AppColor.primaryColor),
+            fillColor: MaterialStateProperty.all(AppColor.secondColor),
           ),
         ),
         SizedBox(width: 2.5.w),

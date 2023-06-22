@@ -1,7 +1,11 @@
-import 'package:flutter/material.dart';
-
 class AppIcons {
   static const String icons = 'assets/icons';
+  static const String images = 'assets/images';
+
+  /// On Boarding
+  static const String onBoarding2 = '$images/on_boarding/on_boarding2.png';
+  static const String onBoarding1 = '$images/on_boarding/onboarding_1.png';
+  static const String onBoarding3 = '$images/on_boarding/on_boarding3.png';
 
   static const String reminder = '$icons/reminderIcon.svg';
   static const String notificationSetting = '$icons/notificationIconAlert.svg';
@@ -55,6 +59,7 @@ class AppIcons {
 
   ///Goal Images
   static const String goalNote = 'assets/images/goalNote.png';
+  static const String loading1 = "$icons/on_boarding/loading1.gif";
   static const String savingMoney = 'assets/images/SavingMoney.png';
   static const String medalStar = '$icons/medalStar.svg';
   static const String dollarCircle = '$icons/dollar-circle.svg';
@@ -79,11 +84,10 @@ class AppIcons {
   static const String keyAppIcon = "key";
   static const String sevenAppIcon = "seven_k";
   static const String titleAppIcon = "title";
-  static const String buildAppIcon ="build";
+  static const String buildAppIcon = "build";
   static const String vaccinesOutlinedAppIcon = "vaccines_outlined";
   static const String repeatAppIcon = "repeat";
   static const String pauseAppIcon = "pause";
   static const String dangerousAppIcon = "dangerous";
   static const String addAppIcon = "add";
-
 }

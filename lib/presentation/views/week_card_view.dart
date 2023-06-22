@@ -84,6 +84,7 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                                   //     ],
                                   //   ),
                                   // ),
+                                  /// you can add onPress function to navigate to Statistics Screen.
                                   Visibility(
                                     visible: true,
                                     child: switchWidgets(

@@ -96,7 +96,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                     ),
                     Expanded(
                         flex: 5,
-                        child: Image.asset(myData[index].img, fit: BoxFit.contain)),
+                        child: Image.asset(myData[index].image, fit: BoxFit.contain)),
                     Expanded(
                       flex: 3,
                       child: Column(
@@ -198,7 +198,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                         children: [
                           Expanded(
                             flex: 5,
-                            child: Image.asset(myData[index].img, fit: BoxFit.contain),
+                            child: Image.asset(myData[index].image, fit: BoxFit.contain),
                           ),
                           Expanded(
                             flex: 3,

@@ -27,7 +27,6 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
                 child: CustomAppBar(
                   title: 'Expense Repeat',
                   onTapFirstIcon: () => Navigator.of(context).pop(),
-                  onTapNotification: () {},
                   textStyle: Theme.of(context).textTheme.headline5,
                 ),
               ),
@@ -52,7 +51,8 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
                         Expanded(
                           child: TabCardView(
                             priorityName: PriorityType.Important,
-                            expenseRepeatList: _repeatCubit(context).getExpenseTypeList(),
+                            expenseRepeatList:
+                                _repeatCubit(context).getExpenseTypeList(),
                             onPressSeeMore: () => Navigator.of(context)
                                 .pushNamed(AppRouterNames.rExpenseRepeatDetails),
                             isVisible: true,
@@ -72,5 +72,6 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
     );
   }
 
-  ExpenseRepeatCubit _repeatCubit(context) => BlocProvider.of<ExpenseRepeatCubit>(context);
+  ExpenseRepeatCubit _repeatCubit(context) =>
+      BlocProvider.of<ExpenseRepeatCubit>(context);
 }

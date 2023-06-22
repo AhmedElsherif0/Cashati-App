@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/constants/app_icons.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import '../../widgets/buttons/custom_text_button.dart';
 import '../../widgets/show_dialog.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -31,6 +31,7 @@ class _LoadingScreenState extends State<LoadingScreen> with AlertDialogMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           children: [
@@ -39,14 +40,13 @@ class _LoadingScreenState extends State<LoadingScreen> with AlertDialogMixin {
               flex: 5,
               child: Center(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Expanded(
-                      flex: 4,
-                      child: Image(
-                        image: AssetImage("assets/images/loading.gif"),
-                        gaplessPlayback: true,
-                      ),
+                    Image(
+                      colorBlendMode: BlendMode.srcOut,
+                      width: 70.w,
+                      image:  const AssetImage(AppIcons.loading1),
+                      gaplessPlayback: true,
                     ),
                     Text(
                       'Loading...',
