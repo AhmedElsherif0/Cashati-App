@@ -41,11 +41,7 @@ class _ChartBarState extends State<ChartBar> {
   @override
   Widget build(BuildContext context) {
     final textTheme =
-    Theme
-        .of(context)
-        .textTheme
-        .headline6
-        ?.copyWith(fontSize: 8.5.sp);
+        Theme.of(context).textTheme.headline6?.copyWith(fontSize: 8.5.sp);
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.end,
@@ -66,7 +62,7 @@ class _ChartBarState extends State<ChartBar> {
             curve: Curves.fastOutSlowIn,
             duration: const Duration(seconds: 3),
             constraints: BoxConstraints(
-                minHeight: 3.h, maxHeight: widget.totalExp == 0 ? 3.h: 30.h),
+                minHeight: 3.h, maxHeight: widget.totalExp == 0 ? 3.h : 30.h),
             child: SizedBox(
               height: (widget.height! >= 10) ? widget.height : 3.h,
               width: 5.w,
@@ -89,7 +85,7 @@ class _ChartBarState extends State<ChartBar> {
             child: Transform(
               transform: Matrix4.rotationZ(-65 * pi / 180),
               child:
-              Text('${widget.percentage} ${widget.index + 1}', style: textTheme),
+                  Text('${widget.percentage} ${widget.index + 1}', style: textTheme),
             ),
           ),
         )

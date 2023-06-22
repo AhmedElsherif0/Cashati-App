@@ -13,25 +13,20 @@ class TransactionsCard extends StatelessWidget with HelperClass {
     Key? key,
     required this.transactionModel,
     required this.index,
-    required this.priceColor,
     required this.isVisible,
     required this.isRepeated,
-    //  required this.onPressed,
     required this.priorityColor,
     required this.priorityName,
-    this.widget = const SizedBox.shrink(),
+    this.switchWidget = SwitchWidgets.higherExpenses,
   }) : super(key: key);
 
   final TransactionModel transactionModel;
-  final Color priceColor;
   final String priorityName;
   final int index;
   final bool isVisible;
   final bool isRepeated;
-
-  // final void Function() onPressed;
   final Color priorityColor;
-  final Widget? widget;
+  final SwitchWidgets switchWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +51,10 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                     const Spacer(),
                     Text(
                       '${transactionModel.amount} LE',
-                      style: textTheme.headline5?.copyWith(color: priceColor),
+                      style: textTheme.headline5?.copyWith(
+                          color: transactionModel.isExpense
+                              ? AppColor.red
+                              : AppColor.secondColor),
                     ),
                   ],
                 ),
@@ -87,8 +85,10 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                           ),
                         ),
                         Visibility(
-                          visible: widget == const SizedBox.shrink() ? false : true,
-                          child: widget == null ? const SizedBox.shrink() : widget!,
+                          visible: isVisible,
+                          child: switchWidgets(
+                              switchWidgets: switchWidget,
+                              transaction: transactionModel),
                         ),
                       ],
                     ),
@@ -99,7 +99,9 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                           PriorityWidget(
                               text: priorityNames(transactionModel.isExpense,
                                   transactionModel.isPriority),
-                              isPriority: transactionModel.isPriority),
+                              color: transactionModel.isPriority
+                                  ? AppColor.secondColor
+                                  : AppColor.pinkishGrey),
                         ],
                       ),
                     ),

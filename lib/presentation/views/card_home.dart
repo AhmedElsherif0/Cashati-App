@@ -30,6 +30,14 @@ class CardHome extends StatelessWidget {
   final Function() onAdd;
   final Function() onTop;
 
+  String topTransaction(Box<GeneralStatsModel> thisBox) {
+    GeneralStatsModel ourGeneral =
+        thisBox.get(AppStrings.theOnlyGeneralStatsModelID) ?? generalStatsModel;
+    return isExpense
+        ? '${ourGeneral.topExpense}, ${ourGeneral.topExpenseAmount.toStringAsFixed(2)} LE'
+        : '${ourGeneral.topIncome}, ${ourGeneral.topIncomeAmount.toStringAsFixed(2)} LE';
+  }
+
   @override
   Widget build(BuildContext context) {
     Hive.isBoxOpen(AppBoxes.generalStatisticsBox);
@@ -85,9 +93,7 @@ class CardHome extends StatelessWidget {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
-                    SizedBox(
-                      height: 14.h,
-                      width: 40.w,
+                    FittedBox(
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -102,8 +108,8 @@ class CardHome extends StatelessWidget {
                           ],
                         ),
                         child: Padding(
-                          padding:
-                              EdgeInsets.only(top: 14.sp, right: 6.sp, left: 6.sp),
+                          padding: EdgeInsets.only(
+                              top: 14.sp, right: 10.sp, left: 10.sp, bottom: 14.sp),
                           child: Column(
                             children: [
                               SvgPicture.asset('assets/icons/download.svg',
@@ -111,7 +117,7 @@ class CardHome extends StatelessWidget {
                               SizedBox(height: 2.h),
                               Center(
                                 child: Text(
-                                  '${isExpense ? ourGeneral.topExpense : ourGeneral.topIncome}, ${isExpense ? ourGeneral.topExpenseAmount : ourGeneral.topIncomeAmount}',
+                                  topTransaction(box),
                                   style: textTheme.headline6,
                                   maxLines: 1,
                                 ),
@@ -129,10 +135,13 @@ class CardHome extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 22.h),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     DottedButton(
                         icon: AppIcons.balance,
-                        text: 'Balance ${ourGeneral.balance}',
+                        text: ourGeneral.balance == 0
+                            ? 'Balance ${0.00.toStringAsFixed(2)}LE'
+                            : '${ourGeneral.balance.toStringAsFixed(2)} LE',
                         onPressed: onTop),
                     SizedBox(height: 2.h),
                     DottedButton(

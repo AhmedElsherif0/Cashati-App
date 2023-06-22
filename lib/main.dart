@@ -25,6 +25,8 @@ import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/screens/add_transactions/add_expenses_screen.dart';
 import 'package:temp/presentation/screens/home/statistics_details_screen.dart';
+import 'package:temp/presentation/screens/shared/loading_screen.dart';
+import 'package:temp/presentation/screens/welcome/on_boarding_screens.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'package:temp/presentation/widgets/status_bar_configuration.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -147,7 +149,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
                   locale: translator.activeLocale,
                   // Active locale
                   supportedLocales: translator.locals(),
-                 // home: PartTimeDetails(), // Locals list
+                //  home: OnBoardScreens(), // Locals list
                     initialRoute: AppRouterNames.rSplashScreen,
                   onGenerateRoute: widget.appRouter.onGenerateRoute,
                 );

@@ -6,14 +6,14 @@ import '../../styles/colors.dart';
 class UnderLineTextButton extends StatelessWidget {
   const UnderLineTextButton({
     Key? key,
-    required this.onPressed,
+     this.onPressed,
     required this.text,
     this.textStyle,
     this.decorationColor = AppColor.pineGreen,
     this.padding,
   }) : super(key: key);
 
-  final void Function() onPressed;
+  final void Function()? onPressed;
   final String text;
   final TextStyle? textStyle;
   final Color? decorationColor;

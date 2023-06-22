@@ -4,4 +4,4 @@ enum Header { daily, weekly, monthly }
 
 enum TransactionType { Expense, Income, Goals }
 
-enum PriorityType { Important, NotImportant, Fixed, NotFixed }
+enum PriorityType {HigherExpenses, Important, NotImportant, Fixed, NotFixed }

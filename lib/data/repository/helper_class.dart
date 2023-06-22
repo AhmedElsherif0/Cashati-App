@@ -22,20 +22,24 @@ mixin HelperClass {
     ];
   }
 
-  Widget switchWidgets({SwitchWidgets? switchWidgets, TransactionModel? transaction}) {
-    Widget widget;
+  Widget switchWidgets(
+      {SwitchWidgets? switchWidgets,
+      TransactionModel? transaction,
+      PriorityType? priorityType,
+      void Function()? onPress}) {
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
-        widget = PriorityWidget(text: 'Highest ${transaction?.name??''}',
-            isPriority: transaction?.isPriority??true);
-        break;
+        String expense = (transaction!.isExpense) ? 'Expense' : 'Income';
+        return PriorityWidget(
+          text: 'Highest $expense',
+          color: !transaction.isPriority ? AppColor.red : AppColor.pinkishGrey,
+        );
       case SwitchWidgets.seeMore:
-        widget = UnderLineTextButton(onPressed: () {}, text: 'see more');
-        break;
+        return UnderLineTextButton(onPressed: onPress, text: 'see more');
       default:
-        widget = const SizedBox.shrink();
+        const SizedBox.shrink();
     }
-    return widget;
+    return const SizedBox.shrink();
   }
 
   String priorityNames(bool isExpense, bool isPriority) => isPriority
@@ -52,18 +56,22 @@ mixin HelperClass {
         return PriorityType.NotFixed.name;
       case PriorityType.Important:
         return PriorityType.Important.name;
+      case PriorityType.HigherExpenses:
+        return PriorityType.HigherExpenses.name;
     }
   }
 
-  Color switchPriorityColor(PriorityType priorityType) {
+  Color switchPriorityColor(PriorityType? priorityType) {
     switch (priorityType) {
-      case PriorityType.NotImportant:
-      case PriorityType.NotFixed:
-        return AppColor.pinkishGrey;
+      case PriorityType.HigherExpenses:
+        return AppColor.red;
+      case PriorityType.Important:
+      case PriorityType.Fixed:
+        return AppColor.secondColor;
       default:
-        AppColor.secondColor;
+        AppColor.pinkishGrey;
     }
-    return AppColor.secondColor;
+    return AppColor.pinkishGrey;
   }
 
   String formatDayDate(DateTime inputDate) =>

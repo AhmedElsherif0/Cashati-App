@@ -207,7 +207,6 @@ class AppConstantList{
     AppIcons.pauseAppIcon:Icons.pause,
     AppIcons.dangerousAppIcon:Icons.dangerous,
     AppIcons.addAppIcon:Icons.add,
-
   };
 
   final List<SubCategory> incomeFixedSubFixedList=[

@@ -1,20 +1,20 @@
-
+import '../../../constants/app_icons.dart';
 import 'onboarding_data.dart';
 
 class OnBoardingData {
   List<Data> myData = [
     Data(
       description: "All- in -one finance tracker \n gain points.",
-      img: 'assets/images/on_boarding/onboarding_1.png',
+      image: AppIcons.onBoarding1,
       buttonTitle: 'Next',
     ),
     Data(
         description: "Save your money and \n daily expenses.",
-        img: 'assets/images/on_boarding/onboarding_2.png',
+        image: AppIcons.onBoarding2,
         buttonTitle: 'Next'),
     Data(
         description: "Track and analysis your",
-        img: 'assets/images/on_boarding/onboarding_3.png',
+        image: AppIcons.onBoarding3,
         buttonTitle: 'Start'),
   ];
 }

@@ -54,7 +54,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   hive_generator: 2.0.0
-  build_runner: 2.4.0
+  build_runner: any
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -84,6 +84,8 @@ flutter:
     - assets/icons/categories/
     - assets/icons/confirm_paying/
     - assets/icons/nav_bottom/
+    - assets/icons/on_boarding/
+    - assets/icons/home/
     - assets/fonts/
     - assets/i18n/
 
