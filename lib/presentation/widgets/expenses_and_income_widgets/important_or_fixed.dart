@@ -5,7 +5,7 @@ import 'package:temp/data/repository/helper_class.dart';
 
 import '../../styles/colors.dart';
 
-class PriorityWidget extends StatelessWidget with HelperClass{
+class PriorityWidget extends StatelessWidget {
   const PriorityWidget({
     Key? key,
     this.text = 'important',
@@ -14,6 +14,19 @@ class PriorityWidget extends StatelessWidget with HelperClass{
 
   final String text;
   final Color color;
+
+  Color switchPriorityColor(PriorityType? priorityType) {
+    switch (priorityType) {
+      case PriorityType.HigherExpenses:
+        return AppColor.red;
+      case PriorityType.Important:
+      case PriorityType.Fixed:
+        return AppColor.secondColor;
+      default:
+        AppColor.pinkishGrey;
+    }
+    return AppColor.pinkishGrey;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,7 @@ import 'package:temp/data/models/notifications.dart';
 import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/widgets/gradiant_background.dart';
 
+import '../../../constants/app_icons.dart';
 import '../../../data/local/cache_helper.dart';
 import '../../router/app_router_names.dart';
 import '../../widgets/buttons/elevated_button.dart';
@@ -24,9 +25,12 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 2), () {
       bool? onBoardingData =
-          CacheHelper.getDataFromSharedPreference(key: 'onBoardDone');
+          CacheHelper.getDataFromSharedPreference(key: 'OnBoardDone');
+      bool? onWelcome = CacheHelper.getDataFromSharedPreference(key: 'onWelcome');
       debugPrint('onBoarding is = $onBoardingData');
-      if (onBoardingData == null) {
+      if (onBoardingData == null && onWelcome ==null) {
+        Navigator.pushReplacementNamed(context, AppRouterNames.rWelcomeScreen);
+      } else if (onBoardingData == null ) {
         Navigator.pushReplacementNamed(context, AppRouterNames.rOnBoardingRoute);
       } else {
         Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
@@ -36,8 +40,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   StreamSubscription _onClickNotify(context) =>
-     NotificationsApi.streamController.stream.listen(
-        (event) => Navigator.of(context).pushNamed(AppRouterNames.rNotification));
+      NotificationsApi.streamController.stream.listen(
+          (event) => Navigator.of(context).pushNamed(AppRouterNames.rNotification));
 
   @override
   void dispose() {
@@ -61,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     flex: 4,
                     child: SizedBox(
                       width: 40.w,
-                      child: SvgPicture.asset('assets/icons/cashati_logo.svg'),
+                      child: SvgPicture.asset(AppIcons.cashatiLogoSVG),
                     ),
                   ),
                   Expanded(

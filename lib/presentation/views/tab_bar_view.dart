@@ -13,13 +13,13 @@ import '../widgets/common_texts/details_text.dart';
 class CustomTabBarViewEdited extends StatefulWidget {
   const CustomTabBarViewEdited({
     Key? key,
-    this.expenseList=const [],
+    this.expenseList = const [],
     required this.index,
     this.pageController,
     required this.priorityName,
     required this.monthWidget,
     required this.onPressSeeMore,
-    this.transactionDetails =const [],
+    this.transactionDetails = const [],
   }) : super(key: key);
 
   final PriorityType priorityName;
@@ -39,11 +39,8 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
   late TabController tabController;
 
   void onSwapByIndex({required int index}) {
-    widget.pageController?.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 600),
-      curve: Curves.easeOut,
-    );
+    widget.pageController?.animateToPage(index,
+        duration: const Duration(milliseconds: 600), curve: Curves.easeOut  );
   }
 
   @override

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
@@ -17,11 +18,11 @@ class OnBoardScreens extends StatefulWidget {
   State<OnBoardScreens> createState() => _OnBoardScreensState();
 }
 
-class _OnBoardScreensState extends State<OnBoardScreens> {
+class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentIndex = 0;
 
-  final myData = OnBoardingData().myData;
+  final myData = OnBoardingData().getOnBoardingData;
 
   @override
   void initState() {
@@ -38,22 +39,19 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
     });
   }
 
-  void navigateToHomeScreen(context) async {
-    await CacheHelper.saveDataSharedPreference(key: 'onBoardDone', value: true);
-    Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
-  }
-
-  void onPressNext() {
+  void onNext(context) {
     if (_currentIndex < 2) {
       _currentIndex++;
-      _pageController.animateToPage(
-        _currentIndex,
-        duration: const Duration(seconds: 1),
-        curve: Curves.easeIn,
-      );
+      _pageController.animateToPage(_currentIndex,
+          duration: const Duration(seconds: 1), curve: Curves.easeIn);
     } else {
-      navigateToHomeScreen(context);
+      onStart(context);
     }
+  }
+
+  void onStart(context) async {
+    await CacheHelper.saveDataSharedPreference(key: 'OnBoardDone', value: true);
+    Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
   }
 
   @override
@@ -88,7 +86,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: TextButton(
-                          onPressed: () => navigateToHomeScreen(context),
+                          onPressed: () => onStart(context),
                           child: Text('Skip',
                               style: textTheme.bodyText2?.copyWith(letterSpacing: 2)),
                         ),
@@ -145,7 +143,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                           ),
                           SizedBox(height: 3.h),
                           CustomElevatedButton(
-                            onPressed: () => onPressNext(),
+                            onPressed: () => onNext(context),
                             text: myData[index].buttonTitle,
                             borderRadius: 6.sp,
                             width: 80.w,
@@ -186,7 +184,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: TextButton(
-                          onPressed: () => navigateToHomeScreen(context),
+                          onPressed: () => onStart(context),
                           child: Text('Skip',
                               style: textTheme.bodyText2?.copyWith(letterSpacing: 2)),
                         ),
@@ -198,7 +196,8 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                         children: [
                           Expanded(
                             flex: 5,
-                            child: Image.asset(myData[index].image, fit: BoxFit.contain),
+                            child:
+                                Image.asset(myData[index].image, fit: BoxFit.contain),
                           ),
                           Expanded(
                             flex: 3,
@@ -253,7 +252,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> {
                           ),
                           const Spacer(),
                           CustomElevatedButton(
-                            onPressed: () => onPressNext(),
+                            onPressed: () => onStart(context),
                             text: myData[index].buttonTitle,
                             borderRadius: 5.5.sp,
                             width: 80.w,
