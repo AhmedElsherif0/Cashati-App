@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 
 import '../../constants/enum_classes.dart';
+import '../../presentation/router/app_router_names.dart';
 import '../../presentation/styles/colors.dart';
 import '../../presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import '../../presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
+import '../local/cache_helper.dart';
 
 mixin HelperClass {
   List<String> getWeekRange({required DateTime chosenDay}) {
@@ -61,24 +63,12 @@ mixin HelperClass {
     }
   }
 
-  Color switchPriorityColor(PriorityType? priorityType) {
-    switch (priorityType) {
-      case PriorityType.HigherExpenses:
-        return AppColor.red;
-      case PriorityType.Important:
-      case PriorityType.Fixed:
-        return AppColor.secondColor;
-      default:
-        AppColor.pinkishGrey;
-    }
-    return AppColor.pinkishGrey;
-  }
-
   String formatDayDate(DateTime inputDate) =>
       DateFormat('d / MM/ yyyy').format(inputDate.toLocal());
 
   String formatWeekDate(DateTime inputDate) =>
       DateFormat(' MM / yyyy').format(inputDate.toLocal()).replaceFirst('0', '');
+
 
   Future onPressed<T>(context, Widget navigateScreen) =>
       Navigator.push(context, MaterialPageRoute(builder: (context) => navigateScreen));

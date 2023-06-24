@@ -11,6 +11,7 @@ import 'package:temp/presentation/screens/test_screens/confirm_payments.dart';
 import 'package:temp/presentation/screens/test_screens/fetch_goals_test.dart';
 import 'package:temp/presentation/screens/test_screens/notifications_test.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
+import 'package:temp/presentation/screens/welcome/welcome_screen.dart';
 import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
 import '../screens/home/nav_bottom_screens/control_screen.dart';
 import '../screens/home/nav_bottom_screens/settings_screen.dart';
@@ -26,6 +27,8 @@ class AppRouter {
         return _pageBuilder(child: const ControlScreen());
       case AppRouterNames.rOnBoardingRoute:
         return _pageBuilder(child: const OnBoardScreens());
+      case AppRouterNames.rWelcomeScreen:
+        return _pageBuilder(child: const WelcomeScreen());
       case AppRouterNames.rSettingsRoute:
         return _pageBuilder(child: const SettingsScreen());
       case AppRouterNames.rExpenseRepeatType:

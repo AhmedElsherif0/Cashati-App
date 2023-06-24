@@ -12,12 +12,13 @@ part 'global_state.dart';
 class GlobalCubit extends Cubit<GlobalState> {
   GlobalCubit() : super(GlobalInitial());
 
-
   ////////////////////////language
   bool isEnglish = true;
 
-  void changeLanguage() {
-    isEnglish != isEnglish;
+  void changeLanguage(bool isCheck) {
+    if(isCheck) {
+      isEnglish = !isEnglish;
+    }
     emit(LanguageChangedState());
   }
 

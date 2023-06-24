@@ -1,11 +1,11 @@
 
 
-class Data {
+class OnBoardingModel {
   final String image;
   final String description;
   final String buttonTitle;
 
-  Data({
+  OnBoardingModel({
     required this.image,
     required this.description,
     required this.buttonTitle,

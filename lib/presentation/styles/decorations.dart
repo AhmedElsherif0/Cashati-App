@@ -3,8 +3,7 @@ import 'package:sizer/sizer.dart';
 import 'colors.dart';
 
 class AppDecorations {
- static const duration600ms = Duration(milliseconds: 600);
-
+  static const duration600ms = Duration(milliseconds: 600);
 
   static BoxDecoration defBoxDecoration = BoxDecoration(
     color: AppColor.primaryColor,
@@ -12,14 +11,15 @@ class AppDecorations {
     border: Border.all(width: 1.sp, color: AppColor.primaryColor),
   );
 
-// BoxDecoration maniBocDecoration = BoxDecoration(
-//   color: AppColor.white,
-//   boxShadow: [
-//     BoxShadow(
-//         color: Colors.grey.withOpacity(0.6),
-//         offset: Offset(0.0, 0.5.h),
-//         blurRadius: 2.0),
-//   ],
-//   borderRadius: BorderRadius.circular(5),
-// );
+  static BoxDecoration languageDecoration = BoxDecoration(
+      color: AppColor.veryLightGrey, borderRadius: BorderRadius.circular(16.sp));
+
+  static BoxDecoration decoratedTextDecoration = BoxDecoration(
+    color: AppColor.white,
+    borderRadius: BorderRadius.circular(16.sp),
+  );
+  static ShapeBorder dropDownCurrency = RoundedRectangleBorder(
+      side: const BorderSide(color: AppColor.primaryColor, width: 0.8),
+      borderRadius: BorderRadius.circular(12.sp));
+
 }

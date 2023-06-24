@@ -6,6 +6,7 @@ class AppIcons {
   static const String onBoarding2 = '$images/on_boarding/on_boarding2.png';
   static const String onBoarding1 = '$images/on_boarding/onboarding_1.png';
   static const String onBoarding3 = '$images/on_boarding/on_boarding3.png';
+  static const String cashatiLogoSVG = '$icons/cashati_logo.svg';
 
   static const String reminder = '$icons/reminderIcon.svg';
   static const String notificationSetting = '$icons/notificationIconAlert.svg';

@@ -1,6 +1,7 @@
 class AppRouterNames {
   static const rSplashScreen = '/';
   static const rOnBoardingRoute = '/onBoarding';
+  static const rWelcomeScreen = '/welcomeScreen';
   static const rHomeRoute = '/home';
   static const rSettingsRoute = '/settings';
   static const rExpenseRepeatType = '/expenseRepeatType';

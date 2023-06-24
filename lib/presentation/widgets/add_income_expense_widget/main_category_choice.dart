@@ -40,25 +40,16 @@ class _MainCategoryChoiceState extends State<MainCategoryChoice> {
               duration: const Duration(milliseconds: 600),
               padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: AppColor.primaryColor,
-              ),
+                  borderRadius: BorderRadius.circular(15),
+                  color: AppColor.primaryColor),
               child: ListTile(
-                leading: SvgPicture.asset(
-                  widget.homeIcons,
-                  color: AppColor.white,
-                ),
-                title: Text(
-                  widget.mainCategoryName,
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                      color: AppColor.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                ),
-                trailing: SvgPicture.asset(
-                  AppIcons.downArrow,
-                  color: AppColor.white,
-                ),
+                leading: SvgPicture.asset(widget.homeIcons, color: AppColor.white),
+                title: Text(widget.mainCategoryName,
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                        color: AppColor.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16)),
+                trailing: SvgPicture.asset(AppIcons.downArrow, color: AppColor.white),
               ),
             ),
             child: AnimatedContainer(
@@ -71,10 +62,8 @@ class _MainCategoryChoiceState extends State<MainCategoryChoice> {
                 color: AppColor.white,
               ),
               child: ListTile(
-                leading: SvgPicture.asset(
-                  widget.homeIcons,
-                  color: AppColor.primaryColor,
-                ),
+                leading:
+                    SvgPicture.asset(widget.homeIcons, color: AppColor.primaryColor),
                 title: Text(
                   widget.mainCategoryName,
                   style: Theme.of(context).textTheme.headline5!.copyWith(
@@ -82,10 +71,7 @@ class _MainCategoryChoiceState extends State<MainCategoryChoice> {
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
                 ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppColor.primaryColor,
-                ),
+                trailing: const Icon(Icons.arrow_forward_ios, color: AppColor.primaryColor),
               ),
             ),
           );
