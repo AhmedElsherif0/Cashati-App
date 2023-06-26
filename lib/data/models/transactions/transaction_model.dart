@@ -20,6 +20,7 @@ class TransactionModel extends HiveObject{
     required this.isProcessing,
     required this.createdDate,
     required this.paymentDate,
+    required this.description
   });
 
   TransactionModel.income({
@@ -35,6 +36,7 @@ class TransactionModel extends HiveObject{
     required this.isProcessing,
     required this.createdDate,
     required this.paymentDate,
+    required this.description
   });
 
   @HiveField(0)
@@ -63,4 +65,6 @@ class TransactionModel extends HiveObject{
   DateTime paymentDate =DateTime.now();
   @HiveField(12)
   DateTime createdDate = DateTime.now();
+  @HiveField(13)
+  String description ='';
 }

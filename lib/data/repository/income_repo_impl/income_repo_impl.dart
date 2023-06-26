@@ -70,8 +70,8 @@ class IncomeRepositoryImpl
   }
 
   @override
-  List<TransactionRepeatDetailsModel> getTransactionTypeList(int currentIndex) {
-    List<List<TransactionRepeatDetailsModel>> expenseTypesList = [];
+  List<TransactionModel> getTransactionTypeList(int currentIndex) {
+    List<List<TransactionModel>> expenseTypesList = [];
     expenseTypesList = [
       DailyTransaction().getRepeatedTransactions(isExpense: false),
       WeeklyTransaction().getRepeatedTransactions(isExpense: false),

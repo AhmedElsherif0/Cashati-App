@@ -11,7 +11,7 @@ abstract class TransactionRepo {
   void addTransactions(
       {required TransactionModel transaction});
 
- List<TransactionRepeatDetailsModel> getTransactionTypeList(int currentIndex);
+ List<TransactionModel> getTransactionTypeList(int currentIndex);
 
  List<TransactionModel> getTransactionFromTransactionBox({bool isExpense});
 

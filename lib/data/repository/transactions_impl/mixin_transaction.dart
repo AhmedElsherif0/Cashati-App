@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
+import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/models/transactions/transaction_types_model.dart';
 
 import '../../local/hive/hive_database.dart';
@@ -87,6 +88,21 @@ mixin MixinTransaction {
     return repeatedTransactions;
   }
 
+
+  List<TransactionModel> getTransactionsFromDetails(String boxName) {
+    List<TransactionModel> repeatedTransactions = [];
+    try {
+      /// get data from box and assign it to dailyExpense List.
+      repeatedTransactions =
+          _hiveDatabase.getBoxName<TransactionRepeatDetailsModel>(boxName: boxName).values
+          .map((element) => element.transactionModel)
+          .toList();
+    } catch (error) {
+      print('new error ${error.toString()}');
+    }
+    return repeatedTransactions;
+  }
+
   List<TransactionRepeatDetailsModel> getRepTransactionsByRep(
       {required String repeat, required isExpense}) {
     switch (repeat) {
@@ -103,13 +119,14 @@ mixin MixinTransaction {
             .where((element) => element.transactionModel.isExpense == isExpense)
             .toList();
       default:
-        return  getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
+        return getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
             .where((element) => element.transactionModel.isExpense == isExpense)
             .toList();
     }
   }
- String getBoxNameAccordingToRepeat({required String repeatType}){
-    switch(repeatType) {
+
+  String getBoxNameAccordingToRepeat({required String repeatType}) {
+    switch (repeatType) {
       case AppStrings.daily:
         return AppBoxes.dailyTransactionsBoxName;
       case AppStrings.weekly:
@@ -118,12 +135,13 @@ mixin MixinTransaction {
         return AppBoxes.monthlyTransactionsBoxName;
       case AppStrings.noRepeat:
         return AppBoxes.noRepeaTransactionsBoxName;
-        default:
-          return AppBoxes.noRepeaTransactionsBoxName;
+      default:
+        return AppBoxes.noRepeaTransactionsBoxName;
     }
   }
-  minusOrAddBalanceByTransactionType( String transactionType){
-    switch(transactionType) {
+
+  minusOrAddBalanceByTransactionType(String transactionType) {
+    switch (transactionType) {
       case "Expense":
         return AppBoxes.dailyTransactionsBoxName;
       case "Income":

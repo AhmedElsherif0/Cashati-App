@@ -29,13 +29,14 @@ class TransactionModelAdapter extends TypeAdapter<TransactionModel> {
       ..isAddAuto = fields[9] as bool
       ..isProcessing = fields[10] as bool?
       ..paymentDate = fields[11] as DateTime
-      ..createdDate = fields[12] as DateTime;
+      ..createdDate = fields[12] as DateTime
+      ..description = fields[13] as String;
   }
 
   @override
   void write(BinaryWriter writer, TransactionModel obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -61,7 +62,9 @@ class TransactionModelAdapter extends TypeAdapter<TransactionModel> {
       ..writeByte(11)
       ..write(obj.paymentDate)
       ..writeByte(12)
-      ..write(obj.createdDate);
+      ..write(obj.createdDate)
+      ..writeByte(13)
+      ..write(obj.description);
   }
 
   @override

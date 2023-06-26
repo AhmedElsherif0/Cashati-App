@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
+import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 
 import '../../../business_logic/cubit/income_repeat/income_repeat_cubit.dart';
@@ -13,7 +14,7 @@ class IncomeRepeatHeader extends StatelessWidget {
     required this.currentIndex, required this.incomeRepeatCubit,
   }) : super(key: key);
 
-  final List<String> header;
+  final List<RepeatTypes> header;
   final int currentIndex;
   final IncomeRepeatCubit incomeRepeatCubit;
 
@@ -33,7 +34,7 @@ class IncomeRepeatHeader extends StatelessWidget {
                       width: 30.w,
                       height: 6.h,
                       child: TabBarItem(
-                        text: header[index],
+                        text: header[index].name,
                         onTap: () =>
                             incomeRepeatCubit.changePage(index: index),
                         backGroundColor: currentIndex == index

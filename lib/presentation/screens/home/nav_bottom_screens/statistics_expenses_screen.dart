@@ -117,14 +117,14 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(
-                              onPressSeeMore: () => onPressed(
+                              onPressSeeMore: () => onNavigateTo(
                                   context,
                                   StatisticsDetailsScreen(
                                       index: index,
                                       transactions:
                                           context.read<StatisticsCubit>().byDayList)),
                               priorityName: PriorityType.Important,
-                              expenseList: getStatisticsCubit().byDayList,
+                            transactions: getStatisticsCubit().byDayList,
                               index: index,
                               pageController: _controller,
                             monthWidget: WeekCardViewEdited(

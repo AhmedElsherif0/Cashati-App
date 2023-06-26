@@ -206,6 +206,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                             amount: amountCtrl.text.isNotEmpty
                                 ? double.parse(amountCtrl.text)
                                 : 0,
+                            description: descriptionCtrl.text,
                             comment: amountCtrl.text,
                             repeatType: widget.addExpOrIncCubit.choseRepeat,
                             mainCategory: widget.addExpOrIncCubit.currentMainCat,

@@ -35,24 +35,24 @@ class DailyTransaction  with MixinTransaction implements ITransactions {
   }
 
   @override
-  List<TransactionRepeatDetailsModel> getRepeatedTransactions(
+  List<TransactionModel> getRepeatedTransactions(
       {required bool isExpense}) {
     /// get dailyExpenseRepeatList from BOX based on key number = 0.
-    List<TransactionRepeatDetailsModel> dailyTransactionList = [];
+    List<TransactionModel> dailyTransactionList = [];
     try {
       //TODO check the condition below as expenseRepeatModel should be empty by default .
       if (dailyTransactionList.isEmpty) {
         if (isExpense) {
           dailyTransactionList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-              getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName)
-                  .where((element) => element.transactionModel.isExpense)
+          getTransactionsFromDetails(AppBoxes.dailyTransactionsBoxName)
+                  .where((element) => element.isExpense)
                   .toList();
         } else {
           dailyTransactionList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-              getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName)
-                  .where((element) => !element.transactionModel.isExpense)
+          getTransactionsFromDetails(AppBoxes.dailyTransactionsBoxName)
+                  .where((element) => !element.isExpense)
                   .toList();
         }
       }
@@ -96,24 +96,24 @@ class WeeklyTransaction extends ITransactions with MixinTransaction {
   }
 
   @override
-  List<TransactionRepeatDetailsModel> getRepeatedTransactions(
+  List<TransactionModel> getRepeatedTransactions(
       {required bool isExpense}) {
     /// get dailyExpenseRepeatList from BOX based on key number = 0.
-    List<TransactionRepeatDetailsModel> weeklyTransactionsList = [];
+    List<TransactionModel> weeklyTransactionsList = [];
     try {
       //TODO check the condition below as expenseRepeatModel should be empty by default .
       if (weeklyTransactionsList.isEmpty) {
         if (isExpense) {
           weeklyTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-              getRepeatedTransByBoxName(AppBoxes.weeklyTransactionsBoxName)
-                  .where((element) => element.transactionModel.isExpense)
+              getTransactionsFromDetails(AppBoxes.weeklyTransactionsBoxName)
+                  .where((element) => element.isExpense)
                   .toList();
         } else {
           weeklyTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-              getRepeatedTransByBoxName(AppBoxes.weeklyTransactionsBoxName)
-                  .where((element) => !element.transactionModel.isExpense)
+          getTransactionsFromDetails(AppBoxes.weeklyTransactionsBoxName)
+                  .where((element) => !element.isExpense)
                   .toList();
         }
       }
@@ -152,24 +152,24 @@ class MonthlyTransaction extends ITransactions with MixinTransaction {
   }
 
   @override
-  List<TransactionRepeatDetailsModel> getRepeatedTransactions(
+  List<TransactionModel> getRepeatedTransactions(
       {required bool isExpense}) {
     /// get dailyExpenseRepeatList from BOX based on key number = 0.
-    List<TransactionRepeatDetailsModel> monthlyTransactionsList = [];
+    List<TransactionModel> monthlyTransactionsList = [];
     try {
       //TODO check the condition below as expenseRepeatModel should be empty by default .
       if (monthlyTransactionsList.isEmpty) {
         if (isExpense) {
           monthlyTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-              getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName)
-                  .where((element) => element.transactionModel.isExpense)
+              getTransactionsFromDetails(AppBoxes.monthlyTransactionsBoxName)
+                  .where((element) => element.isExpense)
                   .toList();
         } else {
           monthlyTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-              getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName)
-                  .where((element) => !element.transactionModel.isExpense)
+          getTransactionsFromDetails(AppBoxes.monthlyTransactionsBoxName)
+                  .where((element) => !element.isExpense)
                   .toList();
         }
       }
@@ -215,24 +215,24 @@ class NoRepeatTransaction extends ITransactions with MixinTransaction {
   }
 
   @override
-  List<TransactionRepeatDetailsModel> getRepeatedTransactions(
+  List<TransactionModel> getRepeatedTransactions(
       {required bool isExpense}) {
     /// get dailyExpenseRepeatList from BOX based on key number = 0.
-    List<TransactionRepeatDetailsModel> noRepeatTransactionsList = [];
+    List<TransactionModel> noRepeatTransactionsList = [];
     try {
       //TODO check the condition below as expenseRepeatModel should be empty by default .
       if (noRepeatTransactionsList.isEmpty) {
         if (isExpense) {
           noRepeatTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-              getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
-                  .where((element) => element.transactionModel.isExpense)
+          getTransactionsFromDetails(AppBoxes.noRepeaTransactionsBoxName)
+                  .where((element) => element.isExpense)
                   .toList();
         } else {
           noRepeatTransactionsList =
               //getExpenseDataFromBox(AppBoxes.expenseRepeatDaily);
-              getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
-                  .where((element) => !element.transactionModel.isExpense)
+          getTransactionsFromDetails(AppBoxes.noRepeaTransactionsBoxName)
+                  .where((element) => !element.isExpense)
                   .toList();
         }
       }

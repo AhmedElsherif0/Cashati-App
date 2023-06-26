@@ -22,6 +22,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
   @override
   void initState() {
     BlocProvider.of<GoalsCubit>(context).fetchAllGoals();
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {

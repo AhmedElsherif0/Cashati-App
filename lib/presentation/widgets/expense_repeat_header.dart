@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 
+import '../../constants/enum_classes.dart';
 import '../styles/colors.dart';
 import 'expenses_and_income_widgets/tab_view_item_decoration.dart';
 
@@ -12,7 +13,7 @@ class ExpenseRepeatHeader extends StatelessWidget {
     required this.currentIndex, required this.repeatCubit,
   }) : super(key: key);
 
-  final List<String> header;
+  final List<RepeatTypes> header;
   final int currentIndex;
   final ExpenseRepeatCubit repeatCubit;
 
@@ -32,7 +33,7 @@ class ExpenseRepeatHeader extends StatelessWidget {
                       width: 30.w,
                       height: 6.h,
                       child: TabBarItem(
-                        text: header[index],
+                        text: header[index].name,
                         onTap: () =>
                            repeatCubit.changePage(index: index),
                         backGroundColor: currentIndex == index
