@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import '../../../constants/enum_classes.dart';
-import '../../views/tab_card_View.dart';
 import '../../widgets/custom_app_bar.dart';
 
 class AddIncomeScreen extends StatelessWidget {

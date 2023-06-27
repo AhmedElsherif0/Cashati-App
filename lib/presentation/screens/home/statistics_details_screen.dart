@@ -10,7 +10,7 @@ import 'package:temp/presentation/widgets/transaction_card.dart';
 import '../../router/app_router.dart';
 import '../../widgets/custom_app_bar.dart';
 
-class StatisticsDetailsScreen<T> extends StatelessWidget with HelperClass {
+class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
   const StatisticsDetailsScreen({
     Key? key,
     this.transactions = const [],

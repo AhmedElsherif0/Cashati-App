@@ -27,7 +27,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   String currentID = '';
   String subCatName = '';
   bool isSubChoosed = false;
-  DateTime? chosenDate = DateTime.now();
+  DateTime chosenDate = DateTime.now();
   String currentMainCat = '';
   num currentAmount = 0;
 
@@ -52,9 +52,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   CategoryTransactionRepo subCategoryRepo = ExpenseSubCategoryImpl();
   CategoryTransactionRepo incomeSubCategoryRepo = IncomeSubcategoryImpl();
   List<DropdownMenuItem<String>> dropDownChannelItems = const [
-    DropdownMenuItem(child: Text(AppStrings.daily), value: AppStrings.daily),
-    DropdownMenuItem(child: Text(AppStrings.weekly), value: AppStrings.weekly),
-    DropdownMenuItem(child: Text(AppStrings.monthly), value: AppStrings.monthly)
+    DropdownMenuItem(value: AppStrings.daily, child: Text(AppStrings.daily)),
+    DropdownMenuItem(value: AppStrings.weekly, child: Text(AppStrings.weekly)),
+    DropdownMenuItem(value: AppStrings.monthly, child: Text(AppStrings.monthly))
   ];
 
   final TransactionRepo _expensesRepository;
@@ -230,7 +230,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     }
   }
 
-  Future<DateTime?> changeDate(DateTime? datePicker) async {
+  Future<DateTime?> changeDate(DateTime datePicker) async {
     chosenDate = datePicker;
     print('Choosed Date in cubit is ${chosenDate}');
     emit(ChoosedDateState());
