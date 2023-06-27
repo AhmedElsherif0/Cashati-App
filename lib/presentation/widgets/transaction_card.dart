@@ -7,7 +7,7 @@ import '../../data/models/transactions/transaction_model.dart';
 import '../styles/colors.dart';
 import 'expenses_and_income_widgets/important_or_fixed.dart';
 
-class TransactionsCard<T> extends StatelessWidget with HelperClass {
+class TransactionsCard extends StatelessWidget with HelperClass {
   const TransactionsCard({
     Key? key,
     required this.transactionModel,
