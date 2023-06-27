@@ -22,50 +22,51 @@ class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRouterNames.rSplashScreen:
-        return _pageBuilder(child: const SplashScreen());
+        return pageBuilderRoute(child: const SplashScreen());
       case AppRouterNames.rHomeRoute:
-        return _pageBuilder(child: const ControlScreen());
+        return pageBuilderRoute(child: const ControlScreen());
       case AppRouterNames.rOnBoardingRoute:
-        return _pageBuilder(child: const OnBoardScreens());
+        return pageBuilderRoute(child: const OnBoardScreens());
       case AppRouterNames.rWelcomeScreen:
-        return _pageBuilder(child: const WelcomeScreen());
+        return pageBuilderRoute(child: const WelcomeScreen());
       case AppRouterNames.rSettingsRoute:
-        return _pageBuilder(child: const SettingsScreen());
+        return pageBuilderRoute(child: const SettingsScreen());
       case AppRouterNames.rExpenseRepeatType:
-        return _pageBuilder(child: const ExpenseRepeatTypeScreen());
+        return pageBuilderRoute(child: const ExpenseRepeatTypeScreen());
       case AppRouterNames.rIncomeRepeatType:
-        return _pageBuilder(child: const IncomeRepeatTypeScreen());
+        return pageBuilderRoute(child: const IncomeRepeatTypeScreen());
       case AppRouterNames.rExpenseRepeatDetails:
-        return _pageBuilder(child: const AddExpenseOrIncomeScreen());
+        return pageBuilderRoute(child: const AddExpenseOrIncomeScreen());
       case AppRouterNames.rAddExpenseOrIncomeScreen:
-        return _pageBuilder(child: const AddExpenseOrIncomeScreen());
+        return pageBuilderRoute(child: const AddExpenseOrIncomeScreen());
       case AppRouterNames.rAddSubCategory:
-        return _pageBuilder(child: const AddSubCategoryScreen());
-     case AppRouterNames.rNotification:
-        return _pageBuilder(child: const NotificationScreen());
+        return pageBuilderRoute(child: const AddSubCategoryScreen());
+      case AppRouterNames.rNotification:
+        return pageBuilderRoute(child: const NotificationScreen());
       case AppRouterNames.rNotificationTest:
-        return _pageBuilder(child: const NotificationTestScreen());
+        return pageBuilderRoute(child: const NotificationTestScreen());
       case AppRouterNames.rTestAddGoalScreen:
-        return _pageBuilder(child: AddGoalTestScreen());
+        return pageBuilderRoute(child: AddGoalTestScreen());
       case AppRouterNames.rFetchGoalScreen:
-        return _pageBuilder(child: FetchGoalsTestScreen());
+        return pageBuilderRoute(child: FetchGoalsTestScreen());
       case AppRouterNames.rAddGoal:
-        return _pageBuilder(child: AddGoalScreen());
+        return pageBuilderRoute(child: AddGoalScreen());
       case AppRouterNames.rGetGoals:
-        return _pageBuilder(child: const GoalsScreen());
+        return pageBuilderRoute(child: const GoalsScreen());
       case AppRouterNames.rConfirmToday:
-        return _pageBuilder(child: const ConfirmPaymentsScreen());
-     /* case AppRouterNames.rStatisticsDetailsScreen:
-        return _pageBuilder(child: const StatisticsDetailsScreen());*/
+        return pageBuilderRoute(child: const ConfirmPaymentsScreen());
+       case AppRouterNames.rStatisticsDetailsScreen:
+        return pageBuilderRoute(child: const StatisticsDetailsScreen());
       default:
     }
     return null;
   }
 
-  PageRouteBuilder _pageBuilder({required Widget child}) {
+  static PageRouteBuilder pageBuilderRoute(
+      {context, Widget child = const Navigator()}) {
     return PageRouteBuilder(
-      transitionDuration: const Duration(milliseconds: 500),
-      reverseTransitionDuration: const Duration(milliseconds: 500),
+      transitionDuration: const Duration(milliseconds: 600),
+      reverseTransitionDuration: const Duration(milliseconds: 600),
       pageBuilder: (context, animation, secondaryAnimation) => child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(

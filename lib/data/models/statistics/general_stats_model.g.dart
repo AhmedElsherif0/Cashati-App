@@ -6,7 +6,6 @@ part of 'general_stats_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-
 class GeneralStatsModelAdapter extends TypeAdapter<GeneralStatsModel> {
   @override
   final int typeId = 7;

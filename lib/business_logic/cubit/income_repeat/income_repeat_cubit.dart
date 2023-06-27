@@ -6,6 +6,7 @@ import 'package:temp/business_logic/repository/transactions_repo/transaction_rep
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
 
 import '../../../data/models/statistics/expenses_lists.dart';
+import '../../../data/models/transactions/transaction_model.dart';
 
 part 'income_repeat_state.dart';
 
@@ -14,11 +15,9 @@ class IncomeRepeatCubit extends Cubit<IncomeRepeatCubitStates> {
 
   final TransactionRepo _incomeRepository;
 
-  List<String> noRepeats = ExpensesLists().noRepeats;
-
   int currentIndex = 0;
 
-  List<TransactionRepeatDetailsModel> getIncomeTypeList() {
+  List<TransactionModel> getIncomeTypeList() {
     return _incomeRepository.getTransactionTypeList(currentIndex);
   }
 

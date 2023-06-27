@@ -6,18 +6,17 @@ import '../../constants/enum_classes.dart';
 import '../../data/models/transactions/transaction_model.dart';
 import '../styles/colors.dart';
 import 'expenses_and_income_widgets/important_or_fixed.dart';
-import 'expenses_and_income_widgets/underline_text_button.dart';
 
-class TransactionsCard extends StatelessWidget with HelperClass {
+class TransactionsCard<T> extends StatelessWidget with HelperClass {
   const TransactionsCard({
     Key? key,
     required this.transactionModel,
     required this.index,
     required this.isVisible,
     required this.isRepeated,
-    required this.priorityColor,
     required this.priorityName,
     this.switchWidget = SwitchWidgets.higherExpenses,
+    required this.onSeeMore,
   }) : super(key: key);
 
   final TransactionModel transactionModel;
@@ -25,8 +24,8 @@ class TransactionsCard extends StatelessWidget with HelperClass {
   final int index;
   final bool isVisible;
   final bool isRepeated;
-  final Color priorityColor;
   final SwitchWidgets switchWidget;
+  final void Function() onSeeMore;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +86,7 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                         Visibility(
                           visible: isVisible,
                           child: switchWidgets(
+                              onPress: onSeeMore,
                               switchWidgets: switchWidget,
                               transaction: transactionModel),
                         ),

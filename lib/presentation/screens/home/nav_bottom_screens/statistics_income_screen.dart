@@ -114,8 +114,8 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                           flex: 36,
                           child: CustomTabBarViewEdited(
                             priorityName: PriorityType.Fixed,
-                            expenseList: getStatisticsCubit().byDayList,
-                            onPressSeeMore: () => onPressed(
+                            transactions: getStatisticsCubit().byDayList,
+                            onPressSeeMore: () => onNavigateTo(
                               context,
                               StatisticsDetailsScreen(
                                   index: index,

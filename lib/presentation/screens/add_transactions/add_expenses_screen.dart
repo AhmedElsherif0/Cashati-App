@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/presentation/widgets/custom_app_bar.dart';
+
 import '../../views/tab_card_View.dart';
 
 class AddExpensesScreen extends StatelessWidget {
@@ -26,7 +27,7 @@ class AddExpensesScreen extends StatelessWidget {
                   Text('23/ 04/ 2022 To 30/ 04/ 2022  ',
                       style: textTheme.subtitle1),
                   const Spacer(),
-                  Expanded(
+                 /* Expanded(
                     flex: 32,
                     child: TabCardView(
                       priorityName: PriorityType.Important,
@@ -35,7 +36,7 @@ class AddExpensesScreen extends StatelessWidget {
                       seeMoreOrDetailsOrHighest: SwitchWidgets.higherExpenses,
                       isVisible: true,
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             )

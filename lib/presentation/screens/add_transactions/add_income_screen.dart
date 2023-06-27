@@ -27,7 +27,7 @@ class AddIncomeScreen extends StatelessWidget {
                     Text('23/ 04/ 2022 To 30/ 04/ 2022  ',
                         style: textTheme.subtitle1),
                     const Spacer(),
-                    Expanded(
+                   /* Expanded(
                       flex: 32,
                       child: TabCardView(
                         priorityName: PriorityType.Fixed,
@@ -36,7 +36,7 @@ class AddIncomeScreen extends StatelessWidget {
                         seeMoreOrDetailsOrHighest: SwitchWidgets.higherExpenses,
                         isVisible: true,
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               )
