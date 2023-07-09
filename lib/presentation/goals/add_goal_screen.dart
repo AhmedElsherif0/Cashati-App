@@ -14,8 +14,14 @@ import 'package:temp/presentation/widgets/editable_text.dart';
 import 'package:temp/presentation/widgets/goals_widgets/note_widget.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
-class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
-  AddGoalScreen({Key? key}) : super(key: key);
+class AddGoalScreen extends StatefulWidget {
+  const AddGoalScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AddGoalScreen> createState() => _AddGoalScreenState();
+}
+
+class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
   final TextEditingController goalNameCtrl = TextEditingController();
   final TextEditingController goalCostCtrl = TextEditingController();
   final TextEditingController goalSaveRepeatAmount = TextEditingController();
@@ -65,8 +71,8 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
                         height: 1.0.h,
                       ),
                       Center(
-                          child: SvgPicture.asset(AppIcons.savingMoneyCute,
-                              height: 25.h, width: 70.w)),
+                        child: Image.asset(AppIcons.savingMoney, height: 25.h, width: 70.w)
+                      ),
                       SizedBox(
                         height: 2.0.h,
                       ),
@@ -167,17 +173,15 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
             child: Padding(
               padding: const EdgeInsets.all(1.0),
               child: ListTile(
-                title: goalCubit.chosenDate == null
-                    ? Text(
-                        'Choose Date',
-                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            fontWeight: FontWeight.w300, fontSize: 13),
-                      )
-                    : Text(
-                        '${goalCubit.chosenDate!.day} \\ ${goalCubit.chosenDate!.month} \\ ${goalCubit.chosenDate!.year}',
-                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            fontWeight: FontWeight.w300, fontSize: 13),
-                      ),
+                title: Text(
+                  goalCubit.chosenDate == null
+                      ? 'Choose Date'
+                      : '${goalCubit.chosenDate!.day} \\ ${goalCubit.chosenDate!.month} \\ ${goalCubit.chosenDate!.year}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
+                ),
                 leading: SvgPicture.asset(AppIcons.dateIcon),
               ),
             ),
@@ -194,10 +198,9 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
           goalCreatedDay: DateTime.now(),
           id: GUIDGen.generate(),
           goalName: goalNameCtrl.text,
-          goalRemainingAmount:goalCubit.countRemainingAmount(
+          goalRemainingAmount: goalCubit.countRemainingAmount(
               num.tryParse(goalCostCtrl.text)!,
-              num.tryParse(goalSaveRepeatAmount.text)!
-          ),
+              num.tryParse(goalSaveRepeatAmount.text)!),
           //num.tryParse(goalCostCtrl.text)!,
           goalRemainingPeriod: goalCubit.remainingTimes(
               cost: num.tryParse(goalCostCtrl.text)!,
@@ -206,7 +209,7 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
           goalSaveAmountRepeat: goalCubit.choseRepeat,
           goalTotalAmount: num.parse(goalCostCtrl.text),
           //num.tryParse(goalCostCtrl.text)!,
-          goalStartSavingDate: goalCubit.chosenDate ?? goalCubit.today ,
+          goalStartSavingDate: goalCubit.chosenDate ?? goalCubit.today,
           goalCompletionDate: goalCubit.getCompletionDate(
               cost: num.tryParse(goalCostCtrl.text)!,
               dailySavings: num.tryParse(goalSaveRepeatAmount.text)!,
@@ -228,18 +231,13 @@ class AddGoalScreen extends StatelessWidget with AlertDialogMixin {
 
   showDialogAndNavigate(BuildContext context) {
     Navigator.pop(context);
-    showSuccessfulDialog(
-        context, 'Goal Added', 'You have successfully added goal');
+    showSuccessfulDialog(context, 'Goal Added', 'You have successfully added goal');
     Future.delayed(
       Duration(seconds: 1),
-
       () {
-
-       // Navigator.pop(context);
-        Navigator.pushReplacementNamed(
-            context, AppRouterNames.rGetGoals);
+        // Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, AppRouterNames.rGetGoals);
       },
     );
   }
-
 }

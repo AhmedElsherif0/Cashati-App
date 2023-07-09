@@ -19,22 +19,21 @@ class GoalsScreen extends StatefulWidget {
 }
 
 class _GoalsScreenState extends State<GoalsScreen> {
-  @override
+
+
+   @override
   void initState() {
-    BlocProvider.of<GoalsCubit>(context).fetchAllGoals();
     super.initState();
   }
+
+
   @override
   Widget build(BuildContext context) {
-    final GoalsCubit goalsCubit = BlocProvider.of<GoalsCubit>(context);
-
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.0.w),
         child: RefreshIndicator(
-          onRefresh: ()async{
-             goalsCubit.fetchAllGoals();
-          },
+          onRefresh: ()async=> BlocProvider.of<GoalsCubit>(context).fetchAllGoals(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -47,11 +46,11 @@ class _GoalsScreenState extends State<GoalsScreen> {
                 firstIcon: Icons.arrow_back_ios,
                 actionIcon: AppIcons.addIcon,
                 actionIconFunction: () =>
-                    Navigator.pushNamed(context, AppRouterNames.rAddGoal),
+                    Navigator.of(context).pushNamed(AppRouterNames.rAddGoal),
               ),
               BlocBuilder<GoalsCubit, GoalsState>(
   builder: (context, state) {
-    return bodyContent(goalsCubit, context);
+    return bodyContent(BlocProvider.of<GoalsCubit>(context), context);
   },
 )
             ],
@@ -65,7 +64,6 @@ class _GoalsScreenState extends State<GoalsScreen> {
     return Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-
           children: [
             SizedBox(height: 4.h,),
             filterDropDown(goalsCubit),
@@ -75,9 +73,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                   itemBuilder: (context,index){
                   GoalRepeatedDetailsModel goal=goalsCubit.registeredGoals[index];
                 return GoalCard(goal: goal.goal,
-                deleteFunction:(){
-                  goalsCubit.deleteGoal(goal.goal);
-                },
+                deleteFunction:()=> goalsCubit.deleteGoal(goal.goal),
                   editFunction: (){},
                 );
               }),

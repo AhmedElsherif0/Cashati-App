@@ -65,12 +65,10 @@ class AppBarWithIcon extends StatelessWidget {
           flex: 1,
           child:  Visibility(
             visible: actionIcon.isNotEmpty,
+            replacement: const SizedBox(),
             child: InkWell(
-              onTap: (){
-                actionIconFunction!();
-              },
+              onTap: actionIconFunction,
                 child: SvgPicture.asset(actionIcon, height: 22.sp, width: 22.sp)),
-            replacement: SizedBox(),
           ),
         )
       ],
