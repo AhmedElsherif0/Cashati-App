@@ -10,6 +10,7 @@ import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 
 import '../../../../constants/enum_classes.dart';
+import '../../../router/app_router.dart';
 import '../../../views/tab_bar_view.dart';
 import '../statistics_details_screen.dart';
 
@@ -63,6 +64,13 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
     getStatisticsCubit().getTransactionsByMonth(false);
   }
 
+  _onSeeMore(context, index) => Navigator.push(
+      context,
+      AppRouter.pageBuilderRoute(
+        child: StatisticsDetailsScreen(
+            index: index, transactions: context.read<StatisticsCubit>().byDayList),
+      ));
+
   @override
   Widget build(BuildContext context) {
     int currentIndex = 0;
@@ -115,13 +123,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                           child: CustomTabBarViewEdited(
                             priorityName: PriorityType.Fixed,
                             transactions: getStatisticsCubit().byDayList,
-                            onPressSeeMore: () => onNavigateTo(
-                              context,
-                              StatisticsDetailsScreen(
-                                  index: index,
-                                  transactions:
-                                      context.read<StatisticsCubit>().byDayList),
-                            ),
+                            onPressSeeMore: () => _onSeeMore(context, index),
                             monthWidget: WeekCardViewEdited(
                               weekRanges: getStatisticsCubit().weekRangeText(),
                               chosenDay: getStatisticsCubit().chosenDay,

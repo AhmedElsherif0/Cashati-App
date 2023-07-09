@@ -9,6 +9,7 @@ import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 
 import '../../../../constants/enum_classes.dart';
+import '../../../router/app_router.dart';
 import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
 import '../statistics_details_screen.dart';
@@ -64,6 +65,15 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     getStatisticsCubit().changeDatePicker(datePicker);
     getStatisticsCubit().getTransactionsByMonth(true);
   }
+  _onSeeMore(context,index)=>
+      Navigator.push(
+          context,
+          AppRouter.pageBuilderRoute(
+            child: StatisticsDetailsScreen(
+                index: index,
+                transactions:
+                context.read<StatisticsCubit>().byDayList),
+          ));
 
   @override
   Widget build(BuildContext context) {
@@ -117,12 +127,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(
-                              onPressSeeMore: () => onNavigateTo(
-                                  context,
-                                  StatisticsDetailsScreen(
-                                      index: index,
-                                      transactions:
-                                          context.read<StatisticsCubit>().byDayList)),
+                              onPressSeeMore: () => _onSeeMore(context,index),
                               priorityName: PriorityType.Important,
                             transactions: getStatisticsCubit().byDayList,
                               index: index,

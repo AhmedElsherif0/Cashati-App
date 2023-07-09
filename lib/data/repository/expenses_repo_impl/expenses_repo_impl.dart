@@ -5,7 +5,6 @@ import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 
 import '../../../business_logic/repository/transactions_repo/transaction_repo.dart';
-import '../../models/transactions/transaction_details_model.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 

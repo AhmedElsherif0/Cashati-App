@@ -48,9 +48,9 @@ class AppRouter {
       case AppRouterNames.rTestAddGoalScreen:
         return pageBuilderRoute(child: AddGoalTestScreen());
       case AppRouterNames.rFetchGoalScreen:
-        return pageBuilderRoute(child: FetchGoalsTestScreen());
+        return pageBuilderRoute(child: const FetchGoalsTestScreen());
       case AppRouterNames.rAddGoal:
-        return pageBuilderRoute(child: AddGoalScreen());
+        return pageBuilderRoute(child: const AddGoalScreen());
       case AppRouterNames.rGetGoals:
         return pageBuilderRoute(child: const GoalsScreen());
       case AppRouterNames.rConfirmToday:
