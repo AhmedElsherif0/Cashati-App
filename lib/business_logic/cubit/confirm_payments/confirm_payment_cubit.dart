@@ -50,7 +50,14 @@ class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
 
   }
 
-
+  Future <void> confirmDeleteTransaction(TransactionModel transactionModel)async{
+    try{
+      await transactionRep.confirmDeleteTransactionFromRepeatedBox(transactionModel: transactionModel);
+      emit(DeleteTransactionSuccessState());
+    }catch(error){
+      emit(DeleteTransactionFailureState(error.toString()));
+    }
+  }
 
 
 

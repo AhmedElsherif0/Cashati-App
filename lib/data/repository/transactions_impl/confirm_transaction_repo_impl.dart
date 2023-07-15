@@ -417,5 +417,19 @@ class ConfirmTransactionImpl
     throw UnimplementedError();
   }
 
+  @override
+  Future<void> confirmDeleteTransactionFromRepeatedBox({required TransactionModel transactionModel})async {
+   try{
+     TransactionRepeatDetailsModel theMatchingRepeatDetailsModel =
+     Hive.box<TransactionRepeatDetailsModel>(AppBoxes.noRepeaTransactionsBoxName)
+         .get(transactionModel.id)!;
+
+     await theMatchingRepeatDetailsModel.delete();
+   }catch (error){
+     print("Error is ${error.toString()}");
+   }
+
+  }
+
 
 }
