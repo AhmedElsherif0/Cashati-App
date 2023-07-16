@@ -9,6 +9,8 @@ import 'custom_painter_dialog.dart';
 import 'buttons/custom_text_button.dart';
 
 mixin AlertDialogMixin {
+
+
   AlertDialog newAmountDialog({required double amount,required Function onUpdate,required BuildContext context,required TextEditingController changedAmountCtrl}){
     return AlertDialog(
       title: Text("Update Paid Amount"),
@@ -283,6 +285,37 @@ mixin AlertDialogMixin {
       backgroundColor: Colors.red,padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),));
   }
 }
+ void yesAndNoDialog({required BuildContext context,
+   required Function onPressedYesFunction,
+   required String infoMessage,
+   required String title,
+ }){
+   _customAlertDialog(
+     context: context,
+     title: title,
+     actionButton: [
+       Wrap(children: [
+         Text(
+           infoMessage,
+           style: const TextStyle(
+               fontWeight: FontWeight.w500, color: AppColor.primaryColor),
+         )
+       ]),
+       Row(
+         children: [
+           CustomTextButton(
+             onPressed: () => Navigator.of(context).pop(false),
+             text: 'Not yet',
+           ),
+           CustomTextButton(
+             onPressed: ()=>onPressedYesFunction,
+             text: 'Yes',
+           )
+         ],
+       )
+     ],
+   );
+ }
 
 /// This uses a platform-appropriate mechanism to show users multiple choices.
 ///

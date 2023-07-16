@@ -24,7 +24,7 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
           scrollDirection: Axis.horizontal,
           itemCount: context.read<ConfirmPaymentCubit>().allTodayList.length,
           itemBuilder: (context, index) {
-            var curentExpense = context.read<ConfirmPaymentCubit>().allTodayList[index];
+            var curentTransaction = context.read<ConfirmPaymentCubit>().allTodayList[index];
             // index++;
             return Row(
               children: [
@@ -32,23 +32,31 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
                   child: ConfirmPayingExpense(
 
                     date: DateTime.now().toString(),
-                    transactionModel:curentExpense,
+                    transactionModel:curentTransaction,
                     onDetails: () {},
-                    amount: curentExpense.amount.toDouble(),
-                    onDelete: () {},
+                    amount: curentTransaction.amount.toDouble(),
+                    onDelete: () {
+                      yesAndNoDialog(title: "Delete Transction",infoMessage: "are you sure you want to delete this transaction permanently?",
+                      context: context,
+                        onPressedYesFunction: (){
+                          context.read<ConfirmPaymentCubit>().confirmDeleteTransaction(curentTransaction);
+                        Navigator.pop(context);
+                        }
+                      );
+                    },
                     onEditAmount: () {
-                      changedAmount.text=curentExpense.amount.toString();
+                      changedAmount.text=curentTransaction.amount.toString();
                       showDialog(context: context, builder: (ctx)=>newAmountDialog(amount: context.read<ConfirmPaymentCubit>().test[index],onUpdate: (){
-                        context.read<ConfirmPaymentCubit>().onChangeAmount(curentExpense.amount.toDouble(),double.parse(changedAmount.text));
-                        curentExpense.amount=double.parse(changedAmount.text);
+                        context.read<ConfirmPaymentCubit>().onChangeAmount(curentTransaction.amount.toDouble(),double.parse(changedAmount.text));
+                        curentTransaction.amount=double.parse(changedAmount.text);
                       },context: ctx,changedAmountCtrl: changedAmount));
                     },
                     index: index,
                     onCancel: (){
-                      context.read<ConfirmPaymentCubit>().onNoConfirmed(theAddedExpense: curentExpense);
+                      context.read<ConfirmPaymentCubit>().onNoConfirmed(theAddedExpense: curentTransaction);
                     },
                     onConfirm: (){
-                      context.read<ConfirmPaymentCubit>().onYesConfirmed(theAddedExpense:curentExpense );
+                      context.read<ConfirmPaymentCubit>().onYesConfirmed(theAddedExpense:curentTransaction );
 
                     },
                     // changedAmount: 10000,

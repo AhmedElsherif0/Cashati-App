@@ -71,6 +71,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
           AppRouter.pageBuilderRoute(
             child: StatisticsDetailsScreen(
                 index: index,
+                //TODO  there is an error as byDay list is not in cubit
                 transactions:
                 context.read<StatisticsCubit>().byDayList),
           ));
