@@ -14,9 +14,8 @@ import '../../../views/card_home.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  void onAddTransaction(BuildContext context) {
+  void onAddTransaction(BuildContext context) =>
     Navigator.of(context).pushNamed(AppRouterNames.rAddExpenseOrIncomeScreen);
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -17,8 +17,8 @@ class FlowChartView extends StatelessWidget {
     this.priorityType = PriorityType.Important,
     this.transactionType = TransactionType.Expense,
     required this.notPriority,
-     this.maxExpenses = 0,
-     this.totalExpenses =0,
+    this.maxExpenses = 0,
+    this.totalExpenses = 0,
     required this.transactionsValues,
   }) : super(key: key);
 
@@ -35,7 +35,8 @@ class FlowChartView extends StatelessWidget {
         header: transactionType.name,
         maxExpenses: maxExpenses.toDouble(),
         totalExpenses: totalExpenses,
-        onPressToHome: () => Navigator.pushNamed(context, AppRouterNames.rHomeRoute));
+        onPressToHome: () =>
+            Navigator.of(context).pushNamed(AppRouterNames.rAddExpenseOrIncomeScreen));
     switch (currentIndex) {
       case 0:
         widget;
@@ -72,7 +73,7 @@ class FlowChartView extends StatelessWidget {
                         PriorityWidget(text: priorityType.name),
                         SizedBox(height: 0.3.h),
                         PriorityWidget(
-                            text: notPriority.name,color: AppColor.pinkishGrey),
+                            text: notPriority.name, color: AppColor.pinkishGrey),
                       ],
                     ),
                   ),
