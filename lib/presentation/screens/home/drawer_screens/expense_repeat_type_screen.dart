@@ -2,83 +2,146 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/data/repository/helper_class.dart';
-import 'package:temp/presentation/widgets/custom_app_bar.dart';
-import 'package:temp/presentation/widgets/expense_repeat_header.dart';
 
 import '../../../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import '../../../../constants/app_icons.dart';
 import '../../../../constants/enum_classes.dart';
 import '../../../router/app_router.dart';
+import '../../../styles/colors.dart';
+import '../../../styles/decorations.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/common_texts/details_text.dart';
+import '../../../widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 import '../statistics_details_screen.dart';
 
-class ExpenseRepeatTypeScreen extends StatelessWidget with HelperClass {
+class ExpenseRepeatTypeScreen extends StatelessWidget {
   const ExpenseRepeatTypeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final expenseCubit = BlocProvider.of<ExpenseRepeatCubit>(context);
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Column(
-          children: [
-            /// Custom AppBar.
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
-                child: CustomAppBar(
-                  title: 'Expense Repeat',
-                  onTapFirstIcon: () => Navigator.of(context).pop(),
-                  textStyle: Theme.of(context).textTheme.headline5,
-                ),
-              ),
-            ),
-            BlocBuilder<ExpenseRepeatCubit, ExpenseRepeatState>(
-              builder: (context, state) => ExpenseRepeatHeader(
-                header: RepeatTypes.values,
-                currentIndex: expenseCubit.currentIndex,
-                repeatCubit: expenseCubit,
-              ),
-            ),
-            Expanded(
-              flex: 12,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4.sp),
-                child: BlocBuilder<ExpenseRepeatCubit, ExpenseRepeatState>(
-                  builder: (context, state) {
-                    return Column(
-                      children: [
-                        const DetailsText(),
-                        SizedBox(height: 2.h),
-                        Expanded(
-                          child: expenseCubit.getExpenseTypeList().isEmpty
-                              ? Image.asset(AppIcons.noDataCate)
-                              : ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  itemCount: expenseCubit.getExpenseTypeList().length,
-                                  itemBuilder: (context, index) {
-                                    final transactionModel =
-                                        expenseCubit.getExpenseTypeList()[index];
-                                    return TabCardViewEdited(
-                                      onPressSeeMore: () => Navigator.push(
-                                          context, AppRouter.pageBuilderRoute(
-                                         child: StatisticsDetailsScreen(
-                                           index: index,
-                                           transactions: expenseCubit.getExpenseTypeList(),
-                                         )
-                                      )),
-                                      transaction: transactionModel,
-                                      isVisible: true,
-                                      isRepeated: false,
-                                      priorityName: PriorityType.Important,
-                                    );
-                                  },
-                                ),
+    return TransactionRepeatWidget(cubit: expenseCubit, appBarText: 'Expense Repeat');
+  }
+}
+
+class TransactionRepeatWidget<T> extends StatefulWidget {
+  const TransactionRepeatWidget(
+      {super.key, required this.cubit, required this.appBarText});
+
+  final T cubit;
+  final String appBarText;
+
+  @override
+  State<TransactionRepeatWidget> createState() => _TransactionRepeatWidgetState();
+}
+
+class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
+    with HelperClass, TickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(length: 4, vsync: this);
+    tabController.animateTo(widget.cubit.currentIndex);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+  void onSwap({required int index}) {
+    tabController.animateTo(index,
+        duration: const Duration(milliseconds: 600), curve: Curves.easeOut);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return DefaultTabController(
+      animationDuration: AppDecorations.duration600ms,
+      length: tabController.length,
+      initialIndex: tabController.index,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            iconSize: 24.sp,
+            padding: EdgeInsets.zero,
+            color: AppColor.pineGreen,
+            icon: Icon(Icons.arrow_back_ios, size: 24.sp),
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: Text(widget.appBarText, style: textTheme.headline3),
+          toolbarHeight: 12.h,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(2.h),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.sp),
+              child: TabBar(
+                onTap: (value) => setState(() => onSwap(index: value)),
+                indicatorWeight: 0,
+                controller: tabController,
+                indicator: AppDecorations.defBoxDecoration,
+                unselectedLabelColor: AppColor.grey,
+                isScrollable: true,
+                tabs: List.generate(RepeatTypes.values.length, (index) {
+                  return Row(
+                    children: [
+                      SizedBox(
+                        width: 25.w,
+                        height: 6.h,
+                        child: TabBarItem(
+                          text: RepeatTypes.values[index].name,
+                          onTap: () => setState(() => onSwap(index: index)),
+                          textColor: (tabController.index  == index)
+                              ?  AppColor.white
+                              : AppColor.primaryColor,
+                          backGroundColor: tabController.index == index
+                              ? AppColor.primaryColor
+                              : AppColor.white,
                         ),
-                      ],
-                    );
+                      ),
+                    ],
+                  );
+                }, growable: false),
+              ),
+            ),
+          ),
+        ),
+        body: Column(
+          children: [
+            SizedBox(height: 1.h),
+            const DetailsText(),
+            SizedBox(height: 2.h),
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: List.generate(
+                  tabController.length,
+                  (generateIndex) {
+                    return widget.cubit.getRepeatTransactions(generateIndex).isEmpty
+                        ? Image.asset(AppIcons.noDataCate)
+                        : ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount:
+                                widget.cubit.getRepeatTransactions(generateIndex).length,
+                            itemBuilder: (context, index) => TabCardViewEdited(
+                              onPressSeeMore: () => Navigator.push(
+                                  context,
+                                  AppRouter.pageBuilderRoute(
+                                      child: StatisticsDetailsScreen(
+                                          index: index,
+                                          transactions: widget.cubit
+                                              .getRepeatTransactions(generateIndex)))),
+                              transaction: widget.cubit
+                                  .getRepeatTransactions(generateIndex)[index],
+                              isVisible: true,
+                              priorityName: PriorityType.Important,
+                            ),
+                          );
                   },
                 ),
               ),

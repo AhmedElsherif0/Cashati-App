@@ -10,6 +10,11 @@ class AppDecorations {
     borderRadius: BorderRadius.circular(12.sp),
     border: Border.all(width: 1.sp, color: AppColor.primaryColor),
   );
+  static BoxDecoration dTabBoxDecoration = BoxDecoration(
+    color: AppColor.white,
+    borderRadius: BorderRadius.circular(12.sp),
+    border: Border.all(width: 1.sp, color: AppColor.white),
+  );
 
   static BoxDecoration languageDecoration = BoxDecoration(
       color: AppColor.veryLightGrey, borderRadius: BorderRadius.circular(16.sp));

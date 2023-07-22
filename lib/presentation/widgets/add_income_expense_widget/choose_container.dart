@@ -28,15 +28,12 @@ class DateChooseContainer extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(1.0),
           child: ListTile(
-            title: dateTime == null
-                ? Text(
-                    'Choose Date',
-                    style: theme.copyWith(fontWeight: FontWeight.w300, fontSize: 13),
-                  )
-                : Text(
-                    '${dateTime?.day} \\ ${dateTime?.month} \\ ${dateTime?.year}',
-                    style: theme.copyWith(fontWeight: FontWeight.w300, fontSize: 13),
-                  ),
+            title: Text(
+              dateTime == null
+                  ? 'Choose Date'
+                  : '${dateTime?.day} \\ ${dateTime?.month} \\ ${dateTime?.year}',
+              style: theme.copyWith(fontWeight: FontWeight.w300, fontSize: 13),
+            ),
             leading: SvgPicture.asset(AppIcons.dateIcon),
           ),
         ),
