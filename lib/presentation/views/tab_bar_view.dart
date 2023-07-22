@@ -57,10 +57,8 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
 
   @override
   Widget build(BuildContext context) {
-    //ExpensesLists expensesLists = ExpensesLists();
-    const duration600ms = Duration(milliseconds: 600);
     return DefaultTabController(
-      animationDuration: duration600ms,
+      animationDuration: AppDecorations.duration600ms,
       length: 3,
       initialIndex: widget.pageController!.initialPage,
       child: Scaffold(
@@ -72,7 +70,7 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
             controller: tabController,
             indicator: AppDecorations.defBoxDecoration,
             unselectedLabelColor: AppColor.grey,
-            labelStyle: Theme.of(context).textTheme.headline6,
+            labelStyle: Theme.of(context).textTheme.headline5,
             tabs: List.generate(
               StatisticsHeader.values.length,
               (index) => TabBarItem(
@@ -105,13 +103,12 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
                             : ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: widget.transactions.length,
-                                itemBuilder: (context, index) {
-                                  return TabCardViewEdited(
-                                    onPressSeeMore: widget.onPressSeeMore,
-                                    isVisible: true,
-                                    transaction: widget.transactions[index],
-                                  );
-                                });
+                                itemBuilder: (context, index) => TabCardViewEdited(
+                                  onPressSeeMore: widget.onPressSeeMore,
+                                  isVisible: true,
+                                  transaction: widget.transactions[index],
+                                ),
+                              );
                       }),
                     ),
                   )

@@ -49,8 +49,9 @@ class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
               height: 15.h,
               child: DataInsidePieChart(
                 header: widget.header,
+                maxExpenses: widget.maxExpenses,
                 valueNotifier: _valueNotifier,
-                totalExpenses: widget.totalExpenses ,
+                totalExpenses: widget.totalExpenses,
                 onPressToHome: widget.onPressToHome,
               ),
             ),

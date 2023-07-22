@@ -1,5 +1,16 @@
 import '../../../constants/app_icons.dart';
-import 'onboarding_data.dart';
+
+class OnBoardingModel {
+  final String image;
+  final String description;
+  final String buttonTitle;
+
+  OnBoardingModel({
+    required this.image,
+    required this.description,
+    required this.buttonTitle,
+  });
+}
 
 class OnBoardingData {
   final List<OnBoardingModel> _myData = [
@@ -33,7 +44,8 @@ class OnBoardingData {
     'SYP',
     'BTC'
   ];
-  List<String> get getCurrency => _currency;
-  List<OnBoardingModel> get getOnBoardingData => _myData;
 
+  List<String> get getCurrency => _currency;
+
+  List<OnBoardingModel> get getOnBoardingData => _myData;
 }
