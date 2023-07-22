@@ -3,6 +3,7 @@ import 'package:temp/constants/app_icons.dart';
 import '../data/models/subcategories_models/expense_subcaegory_model.dart';
 
 class AppConstantList{
+
   final SubCategory addMoreOption= SubCategory.copyWith(
       id: 'feverrsssrr',
       mainCategoryName: 'AddMore',
@@ -71,6 +72,7 @@ class AppConstantList{
     Icons.access_alarm_sharp,
     Icons.add_chart_outlined,
   ];
+
   final List<SubCategory> expensePersonalFixedList=[
     SubCategory.copyWith(
         id: 'ssfsf55',
@@ -121,8 +123,6 @@ class AppConstantList{
       subCategoryIconName: AppIcons.keyAppIcon,
         ),
   ];
-
-
 
   final List<SubCategory> expenseBusinessFixedList=[
     SubCategory.copyWith(
@@ -238,6 +238,5 @@ class AppConstantList{
       subCategoryIconName: AppIcons.buildAppIcon,
     ),
   ];
-
 
 }

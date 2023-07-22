@@ -70,9 +70,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
   showSuccessAndNavigate(BuildContext context) {
     showSuccessfulDialogNoOptions(context, 'Added Successfully', '');
     Future.delayed(const Duration(seconds: 2),
-        () {
-          Navigator.pushNamedAndRemoveUntil(context,AppRouterNames.rHomeRoute,(route)=>false);
-        });
+        () => Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute));
   }
 
   void showDatePick() async {

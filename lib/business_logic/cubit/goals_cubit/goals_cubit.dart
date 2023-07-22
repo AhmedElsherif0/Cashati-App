@@ -13,7 +13,7 @@ class GoalsCubit extends Cubit<GoalsState> {
   String choseRepeat = 'Choose Repeat';
   String choseFilter = 'All';
   DateTime? chosenDate;
-  final DateTime today=DateTime.now();
+  final DateTime today = DateTime.now();
 
   //GoalsRepeatedRepo _goalsRepeatedRepo = GoalsRepeatedImpl();
   GoalsRepository _goalsRepository = GoalsRepoImpl();
@@ -65,7 +65,9 @@ class GoalsCubit extends Cubit<GoalsState> {
             .getGoals()
             .where((element) => element.goalRemainingAmount == 0)
             .toList();
-        registeredGoals = _goalsRepository.fetchRepeatedGoals().where((element) => element.goal.goalRemainingAmount == 0)
+        registeredGoals = _goalsRepository
+            .fetchRepeatedGoals()
+            .where((element) => element.goal.goalRemainingAmount == 0)
             .toList();
 
         break;
@@ -74,7 +76,9 @@ class GoalsCubit extends Cubit<GoalsState> {
             .getGoals()
             .where((element) => element.goalRemainingAmount != 0)
             .toList();
-        registeredGoals = _goalsRepository.fetchRepeatedGoals().where((element) => element.goal.goalRemainingAmount != 0)
+        registeredGoals = _goalsRepository
+            .fetchRepeatedGoals()
+            .where((element) => element.goal.goalRemainingAmount != 0)
             .toList();
         break;
     }
@@ -135,15 +139,19 @@ class GoalsCubit extends Cubit<GoalsState> {
   }
 
   Future<void> deleteGoal(GoalModel goalModel) async {
+    registeredGoals.remove(goalModel);
     await _goalsRepository.deleteGoalFromGoalsBox(goalModel);
     fetchAllGoals();
+    emit(GoalsDelete());
   }
-  num countRemainingAmount(num totalCost , num saveAmount){
-    if(chosenDate!.day==today.day&&chosenDate!.month==today.month&&chosenDate!.year==today.year){
-      return totalCost - saveAmount;
-    }else{
-      return totalCost;
 
+  num countRemainingAmount(num totalCost, num saveAmount) {
+    if (chosenDate!.day == today.day &&
+        chosenDate!.month == today.month &&
+        chosenDate!.year == today.year) {
+      return totalCost - saveAmount;
+    } else {
+      return totalCost;
     }
   }
 }

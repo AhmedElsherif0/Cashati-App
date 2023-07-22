@@ -19,6 +19,4 @@ abstract class ConfirmTransactionRepo {
       { required TransactionModel addedExpense});
   Future<void> onNoConfirmedFromNotifications(
       { required NotificationModel notificationModel});
-  Future<void> confirmDeleteTransactionFromRepeatedBox(
-      { required TransactionModel transactionModel});
 }

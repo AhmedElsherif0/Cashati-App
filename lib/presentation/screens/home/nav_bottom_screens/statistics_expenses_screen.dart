@@ -9,9 +9,11 @@ import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 
 import '../../../../constants/enum_classes.dart';
+import '../../../../data/models/transactions/transaction_model.dart';
 import '../../../router/app_router.dart';
 import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
+import '../part_time_details.dart';
 import '../statistics_details_screen.dart';
 
 class ExpensesStatisticsScreen extends StatefulWidget {
@@ -65,25 +67,24 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     getStatisticsCubit().changeDatePicker(datePicker);
     getStatisticsCubit().getTransactionsByMonth(true);
   }
-  _onSeeMore(context,index)=>
-      Navigator.push(
-          context,
-          AppRouter.pageBuilderRoute(
-            child: StatisticsDetailsScreen(
-                index: index,
-                //TODO  there is an error as byDay list is not in cubit
-                transactions:
-                context.read<StatisticsCubit>().byDayList),
-          ));
+  _onSeeMoreByWeek(context, index) => Navigator.push(
+      context,
+      AppRouter.pageBuilderRoute(
+          child: StatisticsDetailsScreen(
+              index: index, transactions: getStatisticsCubit().byDayList)));
+
+  _onSeeMoreByDay(context, TransactionModel transaction) => Navigator.push(
+      context,
+      AppRouter.pageBuilderRoute(
+          child: PartTimeDetails(transactionModel: transaction)));
+
 
   @override
   Widget build(BuildContext context) {
     int currentIndex = 0;
     return Scaffold(
       body: BlocConsumer<StatisticsCubit, StatisticsState>(
-        listener: (context, state) {
-          if (state is StatisticsInitial) {}
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           return Directionality(
             textDirection: TextDirection.ltr,
@@ -128,17 +129,20 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(
-                              onPressSeeMore: () => _onSeeMore(context,index),
-                              priorityName: PriorityType.Important,
+                            onPressSeeMore: () => _onSeeMoreByDay(
+                                context, getStatisticsCubit().byDayList[index]),
+                            priorityName: PriorityType.Important,
                             transactions: getStatisticsCubit().byDayList,
-                              index: index,
-                              pageController: _controller,
+                            index: index,
+                            pageController: _controller,
                             monthWidget: WeekCardViewEdited(
+                              onSeeMore: () {},
                               weekRanges: getStatisticsCubit().weekRangeText(),
                               chosenDay: getStatisticsCubit().chosenDay,
                               weeksTotals: getStatisticsCubit().totalsWeeks,
                               seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
-                            ),),
+                            ),
+                          ),
                         ),
                       ],
                     ),

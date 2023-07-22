@@ -19,27 +19,24 @@ class GoalsScreen extends StatefulWidget {
 }
 
 class _GoalsScreenState extends State<GoalsScreen> {
-
-
-   @override
+  @override
   void initState() {
+    BlocProvider.of<GoalsCubit>(context).fetchAllGoals();
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final goalCubit = BlocProvider.of<GoalsCubit>(context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.0.w),
         child: RefreshIndicator(
-          onRefresh: ()async=> BlocProvider.of<GoalsCubit>(context).fetchAllGoals(),
+          onRefresh: () async => goalCubit.fetchAllGoals(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 6.h,
-              ),
+              SizedBox(height: 6.h),
               AppBarWithIcon(
                 titleIcon: AppIcons.medalAppBar,
                 titleName: 'Your Goals',
@@ -49,37 +46,34 @@ class _GoalsScreenState extends State<GoalsScreen> {
                     Navigator.of(context).pushNamed(AppRouterNames.rAddGoal),
               ),
               BlocBuilder<GoalsCubit, GoalsState>(
-  builder: (context, state) {
-    return bodyContent(BlocProvider.of<GoalsCubit>(context), context);
-  },
-)
+                builder: (context, state) => Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 4.h),
+                    filterDropDown(goalCubit),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: goalCubit.registeredGoals.length,
+                        itemBuilder: (context, index) {
+                        final  GoalRepeatedDetailsModel goal =
+                              goalCubit.registeredGoals[index];
+                          return GoalCard(
+                            goal: goal.goal,
+                            deleteFunction: () => goalCubit.deleteGoal(goal.goal),
+                            editFunction: () {},
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                )),
+              )
             ],
           ),
         ),
       ),
     );
-  }
-
-  Widget bodyContent(GoalsCubit goalsCubit, context) {
-    return Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 4.h,),
-            filterDropDown(goalsCubit),
-            Expanded(
-              child: ListView.builder(
-                itemCount: goalsCubit.registeredGoals.length,
-                  itemBuilder: (context,index){
-                  GoalRepeatedDetailsModel goal=goalsCubit.registeredGoals[index];
-                return GoalCard(goal: goal.goal,
-                deleteFunction:()=> goalsCubit.deleteGoal(goal.goal),
-                  editFunction: (){},
-                );
-              }),
-            ),
-          ],
-        ));
   }
 
   Widget filterDropDown(GoalsCubit goalsCubit) {
@@ -93,10 +87,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
       leadingIcon: AppIcons.filterGreen,
       arrowIconColor: AppColor.pineGreen,
       hintStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
-          fontWeight: FontWeight.w300,
-          fontSize: 13.sp,
-          color: AppColor.pineGreen),
+          fontWeight: FontWeight.w300, fontSize: 13.sp, color: AppColor.pineGreen),
     );
   }
-
 }
