@@ -67,6 +67,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     getStatisticsCubit().changeDatePicker(datePicker);
     getStatisticsCubit().getTransactionsByMonth(true);
   }
+
   _onSeeMoreByWeek(context, index) => Navigator.push(
       context,
       AppRouter.pageBuilderRoute(
@@ -77,7 +78,6 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
       context,
       AppRouter.pageBuilderRoute(
           child: PartTimeDetails(transactionModel: transaction)));
-
 
   @override
   Widget build(BuildContext context) {

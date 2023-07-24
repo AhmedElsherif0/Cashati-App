@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 
 import '../../constants/enum_classes.dart';
+import '../../presentation/screens/home/part_time_details.dart';
+import '../../presentation/screens/home/statistics_details_screen.dart';
 import '../../presentation/styles/colors.dart';
 import '../../presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import '../../presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
@@ -20,6 +22,18 @@ mixin HelperClass {
       'From 22 \\ $chosenMonth   To  28  \\ $chosenMonth',
       'From 29 \\ $chosenMonth   To  $lastDay \\ $chosenMonth'
     ];
+  }
+
+  Widget onPressDetails(
+      int generateIndex, List<TransactionModel> transactions, builderIndex) {
+    switch (generateIndex) {
+      case 0:
+        return PartTimeDetails(transactionModel: transactions[builderIndex]);
+      case 1:
+        return StatisticsDetailsScreen(
+            index: builderIndex, transactions: transactions);
+    }
+    return StatisticsDetailsScreen(index: builderIndex, transactions: transactions);
   }
 
   Widget switchWidgets(
@@ -66,7 +80,6 @@ mixin HelperClass {
 
   String formatWeekDate(DateTime inputDate) =>
       DateFormat(' MM / yyyy').format(inputDate.toLocal()).replaceFirst('0', '');
-
 
   Future onNavigateTo<T>(context, Widget navigateScreen) =>
       Navigator.push(context, MaterialPageRoute(builder: (context) => navigateScreen));
