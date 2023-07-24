@@ -76,12 +76,7 @@ class HomeScreen extends StatelessWidget {
                     onShow: cubit(context).isExpense
                         ? cubit(context).onShowExpense
                         : cubit(context).onShowIncome,
-                    onTop: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const GeneralModelTestScreen()));
-                    },
+                    onBalance: () {},
                   ),
                 ),
                 const Spacer(),
