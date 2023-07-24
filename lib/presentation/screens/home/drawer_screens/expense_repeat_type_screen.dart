@@ -12,7 +12,6 @@ import '../../../styles/decorations.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/common_texts/details_text.dart';
 import '../../../widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
-import '../statistics_details_screen.dart';
 
 class ExpenseRepeatTypeScreen extends StatelessWidget {
   const ExpenseRepeatTypeScreen({Key? key}) : super(key: key);
@@ -95,8 +94,8 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                         child: TabBarItem(
                           text: RepeatTypes.values[index].name,
                           onTap: () => setState(() => onSwap(index: index)),
-                          textColor: (tabController.index  == index)
-                              ?  AppColor.white
+                          textColor: (tabController.index == index)
+                              ? AppColor.white
                               : AppColor.primaryColor,
                           backGroundColor: tabController.index == index
                               ? AppColor.primaryColor
@@ -126,18 +125,22 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                         ? Image.asset(AppIcons.noDataCate)
                         : ListView.builder(
                             padding: EdgeInsets.zero,
-                            itemCount:
-                                widget.cubit.getRepeatTransactions(generateIndex).length,
-                            itemBuilder: (context, index) => TabCardViewEdited(
+                            itemCount: widget.cubit
+                                .getRepeatTransactions(generateIndex)
+                                .length,
+                            itemBuilder: (context, indexBuilder) => TabCardViewEdited(
                               onPressSeeMore: () => Navigator.push(
-                                  context,
-                                  AppRouter.pageBuilderRoute(
-                                      child: StatisticsDetailsScreen(
-                                          index: index,
-                                          transactions: widget.cubit
-                                              .getRepeatTransactions(generateIndex)))),
+                                context,
+                                AppRouter.pageBuilderRoute(
+                                  child: onPressDetails(
+                                      generateIndex,
+                                      widget.cubit
+                                          .getRepeatTransactions(generateIndex),
+                                      indexBuilder),
+                                ),
+                              ),
                               transaction: widget.cubit
-                                  .getRepeatTransactions(generateIndex)[index],
+                                  .getRepeatTransactions(generateIndex)[indexBuilder],
                               isVisible: true,
                               priorityName: PriorityType.Important,
                             ),
