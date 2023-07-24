@@ -20,7 +20,7 @@ class CardHome extends StatelessWidget {
       required this.onAdd,
       required this.generalStatsModel,
       required this.isExpense,
-      required this.onTop})
+      required this.onBalance})
       : super(key: key);
 
   final String title;
@@ -28,7 +28,7 @@ class CardHome extends StatelessWidget {
   final bool isExpense;
   final Function() onShow;
   final Function() onAdd;
-  final Function() onTop;
+  final Function() onBalance;
 
   String topTransaction(Box<GeneralStatsModel> thisBox) {
     GeneralStatsModel ourGeneral =
@@ -142,7 +142,7 @@ class CardHome extends StatelessWidget {
                         text: ourGeneral.balance == 0
                             ? 'Balance ${0.00.toStringAsFixed(2)}LE'
                             : '${ourGeneral.balance.toStringAsFixed(2)} LE',
-                        onPressed: onTop),
+                        onPressed: onBalance),
                     SizedBox(height: 2.h),
                     DottedButton(
                         icon: AppIcons.addWhite, text: 'Add $title', onPressed: onAdd),
