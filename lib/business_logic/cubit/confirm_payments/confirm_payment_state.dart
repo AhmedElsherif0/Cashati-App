@@ -8,3 +8,5 @@ class ChangeTabIndexState extends ConfirmPaymentState {}
 class ChangedAmountState extends ConfirmPaymentState {}
 class YesConfirmedState extends ConfirmPaymentState {}
 class NoConfirmedState extends ConfirmPaymentState {}
+class DeletedTransactionSucc extends ConfirmPaymentState {}
+class DeletedTransactionFailure extends ConfirmPaymentState {}

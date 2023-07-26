@@ -47,12 +47,12 @@ class NotifyingConfirmPaying extends StatelessWidget {
               children: [
                 Expanded(
                   child: ConfirmPayingTitleCard(
-                      cardTitle: notificationModel.typeName, index: 0),
+                      cardTitle: notificationModel.modelName),
                 ),
 
                 Expanded(
                   child: RowIconWithTitle(
-                    toolTipMessage: "Transaction Category and Subcategory",
+                    toolTipMessage: "Transaction paid amount,you can change it",
 
                     startIcon: AppIcons.poundSterlingSign,
                     title: '${notificationModel.amount.toStringAsFixed(0)} LE',
@@ -65,7 +65,7 @@ class NotifyingConfirmPaying extends StatelessWidget {
                 ),
                 Expanded(
                   child: RowIconWithTitle(
-                      toolTipMessage: "Transaction Category and Subcategory",
+                      toolTipMessage: "Transaction Date",
 
                       startIcon: AppIcons.calender, title: DateFormat.yMMMd().format(notificationModel.checkedDate)),
                 ),

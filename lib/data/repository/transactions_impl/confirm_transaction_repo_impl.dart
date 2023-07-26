@@ -417,5 +417,12 @@ class ConfirmTransactionImpl
     throw UnimplementedError();
   }
 
+  @override
+  Future<void> deleteTransactionPermanently(TransactionModel transactionModel)async {
+    await deleteTransactionRepeatedModelByTransactionId(transactionModel);
+
+
+  }
+
 
 }

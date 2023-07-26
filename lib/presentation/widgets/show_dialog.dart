@@ -32,6 +32,23 @@ mixin AlertDialogMixin {
       ],
     );
   }
+  AlertDialog showYesOrNoDialog({required String title,required String message,required Function onYes,required Function onNo ,required BuildContext context}){
+    return AlertDialog(
+      title: Text(title),
+      content:Text(message),
+      actions: [
+        CustomElevatedButton(onPressed: (){
+          Navigator.of(context).pop();
+          onYes();
+        }, text: "Yes"),
+        CustomElevatedButton(onPressed: (){
+          onNo();
+          Navigator.of(context).pop();
+        }, text: "No"),
+      ],
+    );
+
+  }
 
   void showSuccessfulDialog(
       BuildContext context, String title, String message) {

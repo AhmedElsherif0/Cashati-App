@@ -19,4 +19,6 @@ abstract class ConfirmTransactionRepo {
       { required TransactionModel addedExpense});
   Future<void> onNoConfirmedFromNotifications(
       { required NotificationModel notificationModel});
+
+  Future<void> deleteTransactionPermanently(TransactionModel transactionModel);
 }

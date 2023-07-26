@@ -147,4 +147,35 @@ mixin MixinTransaction {
       case "Income":
     }
   }
+  deleteTransactionRepeatedModelByTransactionId(TransactionModel transactionModel)async{
+
+     TransactionRepeatDetailsModel? theMatchingRepeatedModel;
+    try {
+      if (transactionModel.repeatType == 'Daily') {
+         theMatchingRepeatedModel =Hive.box<TransactionRepeatDetailsModel>(AppBoxes.dailyTransactionsBoxName).get(transactionModel.id)!;
+        // print('After Edit Daily ${theMatchingDailyExpense.lastConfirmationDate}');
+      }
+      if (transactionModel.repeatType == 'Weekly') {
+        theMatchingRepeatedModel =Hive.box<TransactionRepeatDetailsModel>(AppBoxes.weeklyTransactionsBoxName).get(transactionModel.id)!;
+
+      }
+      if (transactionModel.repeatType == 'Monthly') {
+         theMatchingRepeatedModel =Hive.box<TransactionRepeatDetailsModel>(AppBoxes.monthlyGoalModel).get(transactionModel.id)!;
+      }
+      if (transactionModel.repeatType == 'No Repeat') {
+        theMatchingRepeatedModel = Hive.box<TransactionRepeatDetailsModel>(AppBoxes.noRepeaTransactionsBoxName).get(transactionModel.id)!;
+
+      }
+      if(theMatchingRepeatedModel!=null){
+        await theMatchingRepeatedModel.delete();
+      }else{
+        print("the matching repeated model is null  value is $theMatchingRepeatedModel");
+      }
+
+    } catch (error) {
+      print('error on yes is $error');
+    }
+     print("the matching repeated model value is $theMatchingRepeatedModel");
+
+  }
 }

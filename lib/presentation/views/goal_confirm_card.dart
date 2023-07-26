@@ -29,7 +29,8 @@ class GoalConfirmCard extends StatelessWidget with AlertDialogMixin {
                 child: ConfirmPayingGoals(
                   goalModel: context.read<ConfirmPaymentCubit>().allTodayGoals[index],
                   amount: currentGoal.goalSaveAmount.toDouble(),
-                  onDelete: () {},
+                  onDelete: () {
+                  },
                   onEditAmount: () {
                     changedAmount.text=currentGoal.goalSaveAmount.toString();
                     showDialog(context: context, builder: (ctx)=>newAmountDialog(amount: context.read<ConfirmPaymentCubit>().test[index],onUpdate: (){

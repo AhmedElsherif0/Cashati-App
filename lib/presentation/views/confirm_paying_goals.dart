@@ -53,7 +53,7 @@ class ConfirmPayingGoals extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child:
-                      ConfirmPayingTitleCard(cardTitle: 'Goals', index: index),
+                      ConfirmPayingTitleCard(cardTitle: 'Goals'),
                 ),
                  Expanded(
                   flex: 3,
