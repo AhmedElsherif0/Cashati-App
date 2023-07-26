@@ -5,7 +5,6 @@ import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
 import 'package:temp/business_logic/cubit/home_cubit/home_state.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/views/confirm_paying_expense.dart';
 import 'package:temp/presentation/views/custom_notification_tile.dart';
 import 'package:temp/presentation/widgets/notification_confirm.dart';
 
@@ -17,6 +16,8 @@ class NotificationTestScreen extends StatefulWidget {
   @override
   State<NotificationTestScreen> createState() => _NotificationTestScreenState();
 }
+
+//TODO make this as main notification screen and delete other screen
 
 class _NotificationTestScreenState extends State<NotificationTestScreen> {
   @override
@@ -68,6 +69,8 @@ class _NotificationTestScreenState extends State<NotificationTestScreen> {
 
                             child: NotifyingConfirmPaying(
                                 onEditAmount: (){
+                                  //TODO edit notification amount paid on that day
+
                                   // BlocProvider.of<HomeCubit>(context).notificationList![index].amount = amount;
                                 },
                                 onDetails: (){},

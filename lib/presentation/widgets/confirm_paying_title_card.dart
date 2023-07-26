@@ -7,11 +7,9 @@ class ConfirmPayingTitleCard extends StatelessWidget {
   const ConfirmPayingTitleCard({
     Key? key,
     required this.cardTitle,
-    required this.index,
   }) : super(key: key);
 
   final String cardTitle;
-  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +25,9 @@ class ConfirmPayingTitleCard extends StatelessWidget {
         child: Align(
           alignment: Alignment.center,
           child: Text(
-            '$cardTitle $index',
+            '$cardTitle',
             style: textTheme.headline5?.copyWith(color: AppColor.white),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),

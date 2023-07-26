@@ -30,6 +30,7 @@ class RowIconWithTitle extends StatelessWidget {
                 flex: 3,
                 child:
                     Tooltip(
+
                         message: toolTipMessage,
                         child: SvgPicture.asset(startIcon, color: AppColor.primaryColor)),
               ),

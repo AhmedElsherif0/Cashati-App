@@ -50,7 +50,7 @@ class ConfirmPayingExpense extends StatelessWidget {
               children: [
                 Expanded(
                   child: ConfirmPayingTitleCard(
-                      cardTitle: '${transactionModel.isExpense?"Expense":"Income"}', index: index),
+                      cardTitle: '${transactionModel.name}'),
                 ),
                  Expanded(
                   child: RowIconWithTitle(
@@ -59,7 +59,7 @@ class ConfirmPayingExpense extends StatelessWidget {
                 ),
                 Expanded(
                   child: RowIconWithTitle(
-                    toolTipMessage: "Transaction Category and Subcategory",
+                    toolTipMessage: "Paid amount , you can edit it.",
                     startIcon: AppIcons.poundSterlingSign,
                     title: '${amount.toStringAsFixed(0)} LE',
                     endIcon: InkWell(
