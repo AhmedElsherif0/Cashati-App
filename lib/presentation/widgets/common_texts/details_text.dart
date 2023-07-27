@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class DetailsText extends StatelessWidget {
-  const DetailsText({Key? key}) : super(key: key);
+  const DetailsText({Key? key, this.text = 'Details'}) : super(key: key);
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +12,7 @@ class DetailsText extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12.sp),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text('Details', style: Theme.of(context).textTheme.headline3),
+        child: Text(text, style: Theme.of(context).textTheme.headline3),
       ),
     );
   }

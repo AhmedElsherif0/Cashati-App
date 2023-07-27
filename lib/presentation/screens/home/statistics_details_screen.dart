@@ -27,7 +27,7 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
       body: SafeArea(
         child: Column(
           children: [
-            const CustomAppBar(title: 'Day Expense', isEndIconVisible: false),
+            CustomAppBar(title: '${transactions[index].repeatType} Expense', isEndIconVisible: false),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -58,18 +58,15 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
               child: ListView.builder(
                 itemCount: transactions.length,
                 itemBuilder: (_, currIndex) => TransactionsCard(
-                  onSeeMore: () => Navigator.push(
-                      context,
-                      AppRouter.pageBuilderRoute(
-                          child:
-                              PartTimeDetails(transactionModel: transactions[index]))),
                   index: index,
-                  switchWidget: SwitchWidgets.seeMore,
                   isRepeated: false,
-                  isVisible: true,
+                  isSeeMore: true,
                   transactionModel: transactions[index],
                   priorityName:
                       transactions[index].isPriority ? 'Important' : 'Not Important',
+
+                  /// check if this is the higherExpense so show it.
+                  switchWidget: SwitchWidgets.higherExpenses,
                 ),
               ),
             )

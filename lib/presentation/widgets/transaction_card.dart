@@ -12,20 +12,20 @@ class TransactionsCard extends StatelessWidget with HelperClass {
     Key? key,
     required this.transactionModel,
     required this.index,
-    required this.isVisible,
+    this.isSeeMore = false,
     required this.isRepeated,
     required this.priorityName,
     this.switchWidget = SwitchWidgets.higherExpenses,
-    required this.onSeeMore,
+    this.onSeeMore,
   }) : super(key: key);
 
   final TransactionModel transactionModel;
   final String priorityName;
   final int index;
-  final bool isVisible;
+  final bool isSeeMore;
   final bool isRepeated;
   final SwitchWidgets switchWidget;
-  final void Function() onSeeMore;
+  final void Function()? onSeeMore;
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +84,9 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                           ),
                         ),
                         Visibility(
-                          visible: isVisible,
+                          visible: isSeeMore,
                           child: switchWidgets(
-                              onPress: onSeeMore,
+                              onPress: onSeeMore ?? () {},
                               switchWidgets: switchWidget,
                               transaction: transactionModel),
                         ),
