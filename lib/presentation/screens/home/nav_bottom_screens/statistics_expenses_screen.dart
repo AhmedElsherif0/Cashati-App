@@ -13,6 +13,7 @@ import '../../../../data/models/transactions/transaction_model.dart';
 import '../../../router/app_router.dart';
 import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
+import '../../../widgets/common_texts/details_text.dart';
 import '../part_time_details.dart';
 import '../statistics_details_screen.dart';
 
@@ -125,7 +126,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                         ),
 
                         /// TabBarView Widgets.
-
+                        const DetailsText(text: 'Filtered By'),
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(

@@ -13,6 +13,7 @@ import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import '../../../../constants/enum_classes.dart';
 import '../../../router/app_router.dart';
 import '../../../views/tab_bar_view.dart';
+import '../../../widgets/common_texts/details_text.dart';
 import '../part_time_details.dart';
 import '../statistics_details_screen.dart';
 
@@ -123,6 +124,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                           notPriority: PriorityType.NotFixed,
                           transactionsValues: getStatisticsCubit().transactionsValues,
                         ),
+                        const DetailsText(text: 'Filtered By'),
 
                         /// TabBarView Widgets.
                         Expanded(
