@@ -39,7 +39,11 @@ class AppTheme {
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10))),
           backgroundColor: AppColor.primaryColor,
-          textStyle: const TextStyle(color: AppColor.white),
+          textStyle:  TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+              color: AppColor.white,
+              letterSpacing: -0.3),
         ),
       )
       // inputDecorationTheme: const InputDecorationTheme(

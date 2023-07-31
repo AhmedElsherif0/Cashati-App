@@ -19,8 +19,9 @@ class SubCategoryFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubitSubCategory = BlocProvider.of<AddSubcategoryCubit>(context);
     return SizedBox(
-      height: 28.h,
+      height: 30.h,
       child: GridView.builder(
           itemCount: subCatsList.length,
           scrollDirection: Axis.horizontal,

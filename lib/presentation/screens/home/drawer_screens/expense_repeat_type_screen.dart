@@ -9,7 +9,7 @@ import '../../../../constants/enum_classes.dart';
 import '../../../router/app_router.dart';
 import '../../../styles/colors.dart';
 import '../../../styles/decorations.dart';
-import '../../../views/tab_bar_view.dart';
+import '../../../views/transaction_card.dart';
 import '../../../widgets/common_texts/details_text.dart';
 import '../../../widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 
@@ -128,7 +128,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                             itemCount: widget.cubit
                                 .getRepeatTransactions(generateIndex)
                                 .length,
-                            itemBuilder: (context, indexBuilder) => TabCardViewEdited(
+                            itemBuilder: (context, indexBuilder) => TransactionCardView(
                               onPressSeeMore: () => Navigator.push(
                                 context,
                                 AppRouter.pageBuilderRoute(

@@ -15,16 +15,16 @@ class OnBoardingModel {
 class OnBoardingData {
   final List<OnBoardingModel> _myData = [
     OnBoardingModel(
-      description: "All- in -one finance tracker \n gain points.",
+      description: "All- in -one finance tracker",
       image: AppIcons.onBoarding1,
       buttonTitle: 'Next',
     ),
     OnBoardingModel(
-        description: "Save your money and \n daily expenses.",
+        description: "Save your money and \n gain points.",
         image: AppIcons.onBoarding2,
         buttonTitle: 'Next'),
     OnBoardingModel(
-        description: "Track and analysis your",
+        description: "Track and analysis your \n  daily expenses.",
         image: AppIcons.onBoarding3,
         buttonTitle: 'Start'),
   ];

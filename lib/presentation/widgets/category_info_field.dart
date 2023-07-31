@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:temp/presentation/styles/colors.dart';
 
 import '../../constants/app_icons.dart';
 
@@ -18,19 +18,14 @@ class _CategoryInfoFieldState extends State<CategoryInfoField> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.blueGrey.withOpacity(.2),
+          color: AppColor.dividerColor.withOpacity(0.3),
           borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: ListTile(
-          title: Text(
-            widget.mainCategoryName,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(fontWeight: FontWeight.w300),
-          ),
-          leading: SvgPicture.asset(AppIcons.editCategoryIcon),
+          title: Text(widget.mainCategoryName,
+              style: Theme.of(context).textTheme.bodyText2!),
+          leading: SvgPicture.asset(AppIcons.categoryIcon),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 
 import '../../../business_logic/repository/transactions_repo/transaction_repo.dart';
+import '../../local/hive/app_boxes.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
@@ -79,5 +80,12 @@ class ExpensesRepositoryImpl
         .cast<TransactionModel>()
         .where((element) => element.isExpense == isExpense)
         .toList();
+  }
+
+  @override
+  Future<void> deleteTransactionRepo(TransactionModel transaction) async {
+    await hiveDatabase.deleteBox(boxName: hiveDatabase.getBoxName<TransactionModel>(
+            boxName: AppBoxes.transactionBox),
+        dataModel: transaction);
   }
 }

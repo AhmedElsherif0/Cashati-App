@@ -1,18 +1,15 @@
-
 import '../../../data/models/transactions/transaction_details_model.dart';
 import '../../../data/models/transactions/transaction_model.dart';
 
 abstract class TransactionRepo {
+  Future<void> addTransactionToTransactionBox(
+      {required TransactionModel transactionModel});
 
-  Future<void> addTransactionToTransactionBox({
-    required TransactionModel transactionModel
-  });
+  void addTransactions({required TransactionModel transaction});
 
-  void addTransactions(
-      {required TransactionModel transaction});
+  List<TransactionModel> getTransactionTypeList(int currentIndex);
 
- List<TransactionModel> getTransactionTypeList(int currentIndex);
+  List<TransactionModel> getTransactionFromTransactionBox({bool isExpense});
 
- List<TransactionModel> getTransactionFromTransactionBox({bool isExpense});
-
+  Future<void> deleteTransactionRepo(TransactionModel transaction);
 }

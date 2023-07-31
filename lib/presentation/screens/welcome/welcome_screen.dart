@@ -6,7 +6,7 @@ import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
 import 'package:temp/data/models/onbaording/onbaording_list_of_data.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/decorations.dart';
-import 'package:temp/presentation/widgets/decorated_text.dart';
+import 'package:temp/presentation/widgets/common_texts/decorated_text.dart';
 
 import '../../../constants/app_icons.dart';
 import '../../../data/local/cache_helper.dart';
@@ -27,6 +27,7 @@ class WelcomeScreen extends StatelessWidget {
     final textTheme = Theme
         .of(context)
         .textTheme;
+    final headLine3 = textTheme.headline3?.copyWith(fontSize: 18.sp);
     return GradiantBackground(
       stops: const [0.0, 0.087, 0.90, 1.5],
       child: Padding(
@@ -41,8 +42,9 @@ class WelcomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('Welcome To', style: textTheme.headline1),
+                    SizedBox(height: 2.h),
                     SizedBox(
-                        width: 40.w, child: SvgPicture.asset(AppIcons.cashatiLogoSVG)),
+                        width: 50.w, child: SvgPicture.asset(AppIcons.cashatiLogoSVG)),
                   ],
                 ),
               ),
@@ -56,7 +58,7 @@ class WelcomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Language', style: textTheme.headline2),
+                        Text('Language', style: headLine3),
                         SizedBox(height: 2.h),
                         DecoratedBox(
                           decoration: AppDecorations.languageDecoration,
@@ -97,7 +99,7 @@ class WelcomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Currency', style: textTheme.headline2),
+                    Text('Currency', style: headLine3),
                     SizedBox(height: 2.h),
                     DefaultDropDownButton(
                       items: OnBoardingData().getCurrency,

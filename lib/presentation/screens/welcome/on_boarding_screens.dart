@@ -99,23 +99,17 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
                       flex: 3,
                       child: Column(
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Welcome to ', style: textTheme.headline3),
-                                const LogoName(),
-                              ],
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Welcome to ', style: textTheme.headline3),
+                              const LogoName(),
+                            ],
                           ),
-                          Expanded(
-                            flex: 3,
-                            child: Text(
-                              myData[index].description,
-                              style: textTheme.subtitle2,
-                              textAlign: TextAlign.center,
-                            ),
+                          Text(
+                            myData[index].description,
+                            style: textTheme.subtitle2,
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),

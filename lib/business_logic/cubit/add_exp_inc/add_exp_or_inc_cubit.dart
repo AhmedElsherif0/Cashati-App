@@ -33,8 +33,8 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   List<MaterialColor> lastColorList = [];
   bool isExpense = true;
-  List<String> expMainCats = ['Personal', 'Home', 'Business'];
-  List<String> expMainIcons = [AppIcons.person, AppIcons.home, AppIcons.business];
+  List<String> expMainCats = ['Home','Personal', 'Business'];
+  List<String> expMainIcons = [AppIcons.home, AppIcons.person, AppIcons.business];
   List<String> incomeMainCats = ['Fixed', 'Variable'];
   List<String> incomeMainIcons = [AppIcons.fixed, AppIcons.variable];
   List<SubCategory> personalSubCatsList = [];
@@ -56,6 +56,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     DropdownMenuItem(value: AppStrings.weekly, child: Text(AppStrings.weekly)),
     DropdownMenuItem(value: AppStrings.monthly, child: Text(AppStrings.monthly))
   ];
+  List<DropdownMenuItem<String>> dropNoRepeat= const [
+    DropdownMenuItem(value: AppStrings.noRepeat, child: Text(AppStrings.noRepeat)),
+  ];
 
   final TransactionRepo _expensesRepository;
   final TransactionRepo _incomeRepository;
@@ -74,12 +77,12 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   }
 
   chooseRepeat(String value) {
-    choseRepeat = value;
+    choseRepeat = (isRepeat ?  value : 'No Repeat');
     emit(ChoosedRepeatState());
   }
 
   void isRepeatOrNo(bool? value) {
-    isRepeat = value ?? false;
+    isRepeat = value??false;
     emit(ChoosedRepeatState());
   }
 

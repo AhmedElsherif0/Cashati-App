@@ -5,7 +5,7 @@ import '../../../data/models/subcategories_models/expense_subcaegory_model.dart'
 import '../../styles/colors.dart';
 
 class SubCategoryChoice extends StatefulWidget {
-   SubCategoryChoice(
+   const SubCategoryChoice(
       {Key? key,
       required this.subCategory,
       required this.currentID,

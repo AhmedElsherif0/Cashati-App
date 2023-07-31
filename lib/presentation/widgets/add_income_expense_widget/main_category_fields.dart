@@ -118,21 +118,11 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 4.5.h),
+                  SizedBox(height: 2.h),
                   SubCategoryFields(
                       subCatsList: widget.subCategoriesList,
                       addExpOrIncCubit: widget.addExpOrIncCubit),
-                  SizedBox(height: 1.2.h),
-                  SizedBox(
-                    width: 65.w,
-                    child: EditableInfoField(
-                      textEditingController: nameCtrl,
-                      hint: _checkTheCurrentTab() ? 'Expense Name' : 'Income Name',
-                      iconName: AppIcons.descriptionIcon,
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                  SizedBox(height: 1.5.h),
+                  SizedBox(height: 2.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -156,7 +146,17 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                     ],
                   ),
                   SizedBox(height: 1.5.h),
-                  Container(
+                  SizedBox(
+                    width: 65.w,
+                    child: EditableInfoField(
+                      textEditingController: nameCtrl,
+                      hint: _checkTheCurrentTab() ? 'Expense Name' : 'Income Name',
+                      iconName: AppIcons.descriptionIcon,
+                      keyboardType: TextInputType.text,
+                    ),
+                  ),
+                  SizedBox(height: 1.5.h),
+                  SizedBox(
                       width: 65.w,
                       child: DateChooseContainer(
                         onTap: () async => showDatePick(),
@@ -173,61 +173,70 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                     ),
                   ),
                   SizedBox(height: 1.5.h),
-                  CustomCheckBox(
-                      isImportant: widget.addExpOrIncCubit.isImportant,
-                      text: _checkTheCurrentTab() ? 'Important' : 'Fixed',
-                      onChanged: widget.addExpOrIncCubit.isImportantOrNo),
-                  SizedBox(height: 1.5.h),
-                  CustomCheckBox(
-                      isImportant: widget.addExpOrIncCubit.isRepeat,
-                      onChanged: widget.addExpOrIncCubit.isRepeatOrNo,
-                      text: AppStrings.repeat),
-                  SizedBox(height: 1.2.h),
-                  Visibility(
-                    visible: widget.addExpOrIncCubit.isRepeat,
-                    replacement: const SizedBox.shrink(),
-                    child: SizedBox(
-                      width: 65.w,
-                      child: DropDownCustomWidget(
-                          leadingIcon: '',
-                          dropDownList: widget.addExpOrIncCubit.dropDownChannelItems,
-                          hint: widget.addExpOrIncCubit.choseRepeat,
-                          onChangedFunc: widget.addExpOrIncCubit.chooseRepeat),
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    CustomCheckBox(
+                        isImportant: widget.addExpOrIncCubit.isImportant,
+                        text: _checkTheCurrentTab() ? 'Important' : 'Fixed',
+                        onChanged: widget.addExpOrIncCubit.isImportantOrNo),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomCheckBox(
+                            isImportant: widget.addExpOrIncCubit.isRepeat,
+                            onChanged: (value) =>
+                                widget.addExpOrIncCubit.isRepeatOrNo(value),
+                            text: AppStrings.repeat),
+                        CustomElevatedButton(
+                          onPressed: () {
+                            widget.addExpOrIncCubit.validateields(
+                              context,
+                              TransactionModel.expense(
+                                  id: GUIDGen.generate(),
+                                  name: nameCtrl.text.trimLeft(),
+                                  amount: amountCtrl.text.isNotEmpty
+                                      ? double.parse(amountCtrl.text)
+                                      : 0,
+                                  description: descriptionCtrl.text,
+                                  comment: amountCtrl.text,
+                                  repeatType: widget.addExpOrIncCubit.choseRepeat,
+                                  mainCategory: widget.addExpOrIncCubit.currentMainCat,
+                                  isAddAuto: false,
+                                  isPriority: widget.addExpOrIncCubit.isImportant,
+                                  subCategory: widget.addExpOrIncCubit.subCatName,
+                                  isExpense: widget.addExpOrIncCubit.isExpense =
+                                      _checkTheCurrentTab()
+                                          ? widget.addExpOrIncCubit.isExpense = true
+                                          : widget.addExpOrIncCubit.isExpense = false,
+                                  isProcessing: false,
+                                  createdDate:
+                                      getAddExpOrIncCubit().chosenDate as DateTime,
+                                  paymentDate:
+                                      widget.addExpOrIncCubit.chosenDate as DateTime),
+                            );
+                            print(
+                                "chooosen daaaaate is ${widget.addExpOrIncCubit.chosenDate}");
+                          },
+                          text: 'Add',
+                        ),
+                      ],
                     ),
-                  ),
+                    SizedBox(height: 1.h),
+                    Visibility(
+                      visible: widget.addExpOrIncCubit.isRepeat,
+                      replacement: const SizedBox.shrink(),
+                      child: SizedBox(
+                        width: 65.w,
+                        child: DropDownCustomWidget(
+                            leadingIcon: '',
+                            dropDownList: widget.addExpOrIncCubit.isRepeat
+                                ? widget.addExpOrIncCubit.dropDownChannelItems
+                                : widget.addExpOrIncCubit.dropNoRepeat,
+                            hint: widget.addExpOrIncCubit.choseRepeat,
+                            onChangedFunc: widget.addExpOrIncCubit.chooseRepeat),
+                      ),
+                    ),
+                  ]),
                   SizedBox(height: 1.2.h),
-                  CustomElevatedButton(
-                    onPressed: () {
-                      widget.addExpOrIncCubit.validateields(
-                        context,
-                        TransactionModel.expense(
-                            id: GUIDGen.generate(),
-                            name: nameCtrl.text.trimLeft(),
-                            amount: amountCtrl.text.isNotEmpty
-                                ? double.parse(amountCtrl.text)
-                                : 0,
-                            description: descriptionCtrl.text,
-                            comment: amountCtrl.text,
-                            repeatType: widget.addExpOrIncCubit.choseRepeat,
-                            mainCategory: widget.addExpOrIncCubit.currentMainCat,
-                            isAddAuto: false,
-                            isPriority: widget.addExpOrIncCubit.isImportant,
-                            subCategory: widget.addExpOrIncCubit.subCatName,
-                            isExpense: widget.addExpOrIncCubit.isExpense =
-                                _checkTheCurrentTab()
-                                    ? widget.addExpOrIncCubit.isExpense = true
-                                    : widget.addExpOrIncCubit.isExpense = false,
-                            //isPaid: choosedDate!.day==DateTime.now()?true:false,
-                            isProcessing: false,
-                            createdDate: getAddExpOrIncCubit().chosenDate as DateTime,
-                            paymentDate:
-                                widget.addExpOrIncCubit.chosenDate as DateTime),
-                      );
-                      print(
-                          "chooosen daaaaate is ${widget.addExpOrIncCubit.chosenDate}");
-                    },
-                    text: 'Add',
-                  ),
                 ],
               ),
             ),

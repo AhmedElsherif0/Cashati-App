@@ -19,7 +19,7 @@ class _EditableSubCategFieldState extends State<EditableSubCategField> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.blueGrey.withOpacity(.2),
+          color: AppColor.dividerColor.withOpacity(0.3),
           borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(1.0),
@@ -48,7 +48,7 @@ class _EditableSubCategFieldState extends State<EditableSubCategField> {
                     .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
                 border: InputBorder.none),
           ),
-          leading:  SvgPicture.asset(AppIcons.editCategoryIcon),
+          leading:  SvgPicture.asset(AppIcons.categories),
         ),
       ),
     );
