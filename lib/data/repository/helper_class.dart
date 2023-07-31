@@ -28,7 +28,8 @@ mixin HelperClass {
       int generateIndex, List<TransactionModel> transactions, builderIndex) {
     switch (generateIndex) {
       case 0:
-        return PartTimeDetails(transactionModel: transactions[builderIndex]);
+        return PartTimeDetails(
+            transactionModel: transactions[builderIndex], insideIndex: builderIndex);
       case 1:
         return StatisticsDetailsScreen(
             index: builderIndex, transactions: transactions);
@@ -50,8 +51,9 @@ mixin HelperClass {
         );
       case SwitchWidgets.seeMore:
         return UnderLineTextButton(onPressed: onPress, text: 'see more');
+      case SwitchWidgets.defaultWidget:
+        return const SizedBox.shrink();
       default:
-        const SizedBox.shrink();
     }
     return const SizedBox.shrink();
   }

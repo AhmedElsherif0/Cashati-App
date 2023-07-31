@@ -80,6 +80,15 @@ class AppIcons {
   static const String person = '$icons/home/person.svg';
   static const String variable = '$icons/home/variable.svg';
 
+  /// add Sub Category Icon List.
+  static const String cap = "$icons/sub_categories/cap.svg";
+  static const String cellPhone = "$icons/sub_categories/cellPhone.svg";
+  static const String glass = "$icons/sub_categories/glass.svg";
+  static const String roll = "$icons/sub_categories/roll.svg";
+  static const String star = "$icons/sub_categories/star.svg";
+  static const String sun = "$icons/sub_categories/sun.svg";
+  static const String boiler = "$icons/sub_categories/boiler.svg";
+
   /// Fixed App Icons
   static const String fbAppIcon = "fb";
   static const String keyAppIcon = "key";

@@ -19,13 +19,15 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   List<num> totalsWeeks = List.from([0, 0, 0, 0, 0]);
   DateTime chosenDay = DateTime.now();
   int currentIndex = 0;
+  int transactionIndex =0;
 
   /// 1- count the total.\
 
   num getTotalExpense({bool isExpense = true}) {
-    return (isExpense ? getExpenses() : getIncome())
+    num result = (isExpense ? getExpenses() : getIncome())
         .where(checkSameDay)
-        .fold(0, (total, transaction) => total + transaction.amount);
+        .fold(0, (total, transaction) => total += transaction.amount);
+    return result;
   }
 
   /// 2- filter the amount based on the important.
@@ -37,11 +39,19 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
             .where((transaction) =>
                 (checkSameDay(transaction) && transaction.isPriority == true))
             .toList();
-    return importantExpense.fold(0, (value, element) => value += element.amount);
+    double result =
+        importantExpense.fold(0, (value, element) => value += element.amount);
+    return result;
   }
 
   List<TransactionModel> getExpenses() {
-    return _expensesRepository.getTransactionFromTransactionBox();
+    return  _expensesRepository.getTransactionFromTransactionBox();;
+  }
+
+  Future<void> deleteTransaction(TransactionModel transaction) async {
+    byDayList.removeAt(transactionIndex);
+    await _expensesRepository.deleteTransactionRepo(transaction);
+    emit(StatisticsDeleteTransaction());
   }
 
   List<TransactionModel> getIncome() {

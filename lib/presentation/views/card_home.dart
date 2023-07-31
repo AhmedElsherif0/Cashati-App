@@ -53,7 +53,7 @@ class CardHome extends StatelessWidget {
             children: [
               /// Show Expense or Income.
               Padding(
-                padding: EdgeInsets.only(top: 45.sp),
+                padding: EdgeInsets.only(top: 42.sp),
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: AppColor.primaryColor,
@@ -93,6 +93,7 @@ class CardHome extends StatelessWidget {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
+                    SizedBox(height: 1.h),
                     FittedBox(
                       child: DecoratedBox(
                         decoration: BoxDecoration(
@@ -126,11 +127,11 @@ class CardHome extends StatelessWidget {
                           ),
                         ),
                       ),
+
                     ),
                   ],
                 ),
               ),
-
               /// Dotted Widget
               Padding(
                 padding: EdgeInsets.only(top: 22.h),

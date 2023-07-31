@@ -118,6 +118,10 @@ mixin MixinTransaction {
         return getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName)
             .where((element) => element.transactionModel.isExpense == isExpense)
             .toList();
+      case (AppStrings.noRepeat):
+        return getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
+            .where((element) => element.transactionModel.isExpense == isExpense)
+            .toList();
       default:
         return getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
             .where((element) => element.transactionModel.isExpense == isExpense)
@@ -162,7 +166,7 @@ mixin MixinTransaction {
       if (transactionModel.repeatType == 'Monthly') {
          theMatchingRepeatedModel =Hive.box<TransactionRepeatDetailsModel>(AppBoxes.monthlyGoalModel).get(transactionModel.id)!;
       }
-      if (transactionModel.repeatType == 'No Repeat') {
+      if (transactionModel.repeatType == 'NoRepeat') {
         theMatchingRepeatedModel = Hive.box<TransactionRepeatDetailsModel>(AppBoxes.noRepeaTransactionsBoxName).get(transactionModel.id)!;
 
       }

@@ -197,8 +197,8 @@ class AppConstantList{
   ];
 
   final Map<String,IconData> iconsOfApp = {
-    AppIcons.fbAppIcon:Icons.facebook,
-    AppIcons.keyAppIcon:Icons.key,
+    AppIcons.fbAppIcon:Icons.fastfood,
+    AppIcons.keyAppIcon:Icons.car_crash_outlined,
     AppIcons.sevenAppIcon:Icons.seven_k,
     AppIcons.titleAppIcon:Icons.title,
     AppIcons.buildAppIcon:Icons.build,

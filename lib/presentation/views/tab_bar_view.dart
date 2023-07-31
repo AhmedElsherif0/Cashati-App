@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
+import 'package:temp/presentation/views/transaction_card.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 
 import '../../constants/app_icons.dart';
@@ -9,7 +12,6 @@ import '../../constants/enum_classes.dart';
 import '../../data/repository/helper_class.dart';
 import '../styles/decorations.dart';
 import '../widgets/common_texts/details_text.dart';
-import '../widgets/expenses_and_income_widgets/important_or_fixed.dart';
 
 class CustomTabBarViewEdited extends StatefulWidget {
   const CustomTabBarViewEdited({
@@ -27,7 +29,7 @@ class CustomTabBarViewEdited extends StatefulWidget {
   final List<TransactionModel> transactions;
   final PageController? pageController;
   final Widget monthWidget;
-  final void Function() onPressSeeMore;
+  final void Function(int) onPressSeeMore;
 
   @override
   State<CustomTabBarViewEdited> createState() => _CustomTabBarViewEditedState();
@@ -103,11 +105,17 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
                             : ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: widget.transactions.length,
-                                itemBuilder: (context, index) => TabCardViewEdited(
-                                  onPressSeeMore: widget.onPressSeeMore,
-                                  isVisible: true,
-                                  transaction: widget.transactions[index],
-                                ),
+                                itemBuilder: (context, index) {
+                                  return TransactionCardView(
+                                    onPressSeeMore: () => widget.onPressSeeMore(index),
+                                    isVisible: true,
+                                    isRepeated: 'No Repeat' !=
+                                            widget.transactions[index].repeatType
+                                        ? true
+                                        : false,
+                                    transaction: widget.transactions[index],
+                                  );
+                                },
                               );
                       }),
                     ),
@@ -116,120 +124,6 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
           ],
         ),
       ),
-    );
-  }
-}
-
-class TabCardViewEdited extends StatelessWidget with HelperClass {
-  const TabCardViewEdited(
-      {Key? key,
-      required this.transaction,
-      required this.onPressSeeMore,
-      this.priorityName = PriorityType.Important,
-      required this.isVisible,
-      this.seeMoreOrDetailsOrHighest,
-      this.isRepeated = false,
-      this.priorityColor = AppColor.secondColor})
-      : super(key: key);
-
-  final bool isVisible;
-  final bool isRepeated;
-  final TransactionModel transaction;
-  final PriorityType priorityName;
-  final Color priorityColor;
-  final void Function() onPressSeeMore;
-  final SwitchWidgets? seeMoreOrDetailsOrHighest;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Column(
-      children: [
-        Card(
-          margin: EdgeInsets.symmetric(horizontal: 16.sp),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.sp),
-          ),
-          elevation: 4.sp,
-          color: AppColor.lightGrey,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      flex: 5,
-                      child: Text(transaction.name,
-                          overflow: TextOverflow.ellipsis, style: textTheme.headline5),
-                    ),
-                    Text(
-                      '${transaction.amount} LE',
-                      style: textTheme.headline5?.copyWith(
-                          color: transaction.isExpense
-                              ? AppColor.red
-                              : AppColor.secondColor),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 1.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    formatDayDate(transaction.createdDate),
-                    style: textTheme.subtitle1,
-                  ),
-                ),
-                SizedBox(height: 1.h),
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        Visibility(
-                          visible: isRepeated,
-                          child: Column(
-                            children: [
-                              SizedBox(height: 2.h),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(transaction.repeatType,
-                                    style: textTheme.subtitle1),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Visibility(
-                          visible: isVisible,
-                          child: switchWidgets(
-                              onPress: onPressSeeMore,
-                              switchWidgets: SwitchWidgets.seeMore,
-                              transaction: transaction),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          const Spacer(),
-                          PriorityWidget(
-                            color: transaction.isPriority
-                                ? AppColor.secondColor
-                                : AppColor.pinkishGrey,
-                            text: priorityNames(
-                                transaction.isExpense, transaction.isPriority),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 3.h)
-      ],
     );
   }
 }

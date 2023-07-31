@@ -81,4 +81,12 @@ class IncomeRepositoryImpl
 
     return expenseTypesList[currentIndex];
   }
+
+  @override
+  Future<void> deleteTransactionRepo(TransactionModel transaction) async {
+  await  hiveDatabase.deleteBox(
+        boxName: hiveDatabase.getBoxName<TransactionModel>(
+            boxName: AppBoxes.transactionBox),
+        dataModel: transaction);
+  }
 }

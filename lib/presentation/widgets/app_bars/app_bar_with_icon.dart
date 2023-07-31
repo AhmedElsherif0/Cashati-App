@@ -33,46 +33,41 @@ class AppBarWithIcon extends StatelessWidget {
           flex: 1,
           child: firstIcon == Icons.arrow_back_ios
               ? IconButton(
-            iconSize: 24.sp,
-            padding: EdgeInsets.zero,
-            color: AppColor.pineGreen,
-            icon: Icon(firstIcon, size: 24.sp),
-            onPressed: onTapFirstIcon ?? () => Navigator.pop(context),
-          )
+                  iconSize: 24.sp,
+                  padding: EdgeInsets.zero,
+                  color: AppColor.pineGreen,
+                  icon: Icon(firstIcon, size: 24.sp),
+                  onPressed: onTapFirstIcon ?? () => Navigator.pop(context))
               : InkWell(
-            borderRadius: BorderRadius.zero,
-            radius: 0.0,
-            onTap: onTapFirstIcon,
-            child: SvgPicture.asset('assets/icons/stair_menu.svg',
-                height: 22.sp, width: 22.sp),
-          ),
+                  borderRadius: BorderRadius.zero,
+                  radius: 0.0,
+                  onTap: onTapFirstIcon,
+                  child: SvgPicture.asset('assets/icons/stair_menu.svg',
+                      height: 22.sp, width: 22.sp)),
         ),
-        Spacer(),
+        const Spacer(),
         Center(
           child: Row(
             children: [
               Text(titleName,
                   style: textStyle ?? Theme.of(context).textTheme.headline3),
-              SizedBox(
-                width: 1.w,
-              ),
-              SvgPicture.asset(titleIcon, height: 22.sp, width: 24.sp,)
-
+              SizedBox(width: 1.w),
+              SvgPicture.asset(titleIcon, height: 22.sp, width: 24.sp)
             ],
-          ),),
-        Spacer(),
+          ),
+        ),
+        const Spacer(),
         Expanded(
           flex: 1,
-          child:  Visibility(
+          child: Visibility(
             visible: actionIcon.isNotEmpty,
             replacement: const SizedBox(),
             child: InkWell(
-              onTap: actionIconFunction,
+                onTap: actionIconFunction,
                 child: SvgPicture.asset(actionIcon, height: 22.sp, width: 22.sp)),
           ),
         )
       ],
     );
   }
-
 }

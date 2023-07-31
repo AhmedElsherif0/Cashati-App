@@ -45,7 +45,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                 actionIconFunction: () =>
                     Navigator.of(context).pushNamed(AppRouterNames.rAddGoal),
               ),
-              BlocBuilder<GoalsCubit, GoalsState>(
+             BlocBuilder<GoalsCubit, GoalsState>(
                 builder: (context, state) => Expanded(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -31,7 +31,7 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
             CustomAppBar(
               title: 'Add Transaction',
               onTapNotification: () =>
-                  Navigator.pushNamed(context, AppRouterNames.rAddSubCategory),
+                  Navigator.pushNamed(context, AppRouterNames.rNotification),
             ),
             SizedBox(height: 1.h),
             TabBar(

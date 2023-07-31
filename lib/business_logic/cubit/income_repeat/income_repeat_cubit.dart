@@ -18,6 +18,9 @@ class IncomeRepeatCubit extends Cubit<IncomeRepeatCubitStates> {
     return _incomeRepository.getTransactionTypeList(currentIndex);
   }
 
+  num highestTransaction() => getRepeatTransactions(currentIndex)
+      .reduce((current, next) => current.amount > next.amount ? current : next).amount;
+
   void changePage({required int index}) {
     currentIndex = index;
     emit(IncomeRepeatScreenState());

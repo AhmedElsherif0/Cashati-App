@@ -18,15 +18,13 @@ class AddSubcategoryCubit extends Cubit<AddSubcategoryState> {
 
   late String currentMainCategory;
   late String transactionType;
+  String currentIconName = AppIcons.home;
   CategoryTransactionRepo expenseSubCategoryRepo = ExpenseSubCategoryImpl();
   CategoryTransactionRepo incomeSubcategoryRepo = IncomeSubcategoryImpl();
   final AppConstantList appList = AppConstantList();
 
-  String currentIconName = AppIcons.addAppIcon;
-
   chooseSubCategory(String iconName) {
     currentIconName = iconName;
-
     emit(ChoseSubCategory());
   }
 
@@ -53,11 +51,11 @@ class AddSubcategoryCubit extends Cubit<AddSubcategoryState> {
     try {
       await expenseSubCategoryRepo.addSubCategories(
           subCategory: SubCategory.copyWith(
-              mainCategoryName: currentMainCategory,
-              id: GUIDGen.generate(),
-              subCategoryName: subCategoryName,
-              subCategoryIconName: currentIconName,
-              ));
+        mainCategoryName: currentMainCategory,
+        id: GUIDGen.generate(),
+        subCategoryName: subCategoryName,
+        subCategoryIconName: currentIconName,
+      ));
     } catch (e) {
       print('Error Adding Expense subcat is $e');
     }

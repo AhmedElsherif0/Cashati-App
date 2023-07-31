@@ -51,14 +51,6 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
         ),
         hint: Visibility(
           visible: widget.leadingIcon!.isEmpty,
-          child: Text(
-            widget.hint,
-            style: widget.hintStyle ??
-                Theme.of(context)
-                    .textTheme
-                    .bodyText2!
-                    .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
-          ),
           replacement: Row(
             children: [
               SvgPicture.asset(widget.leadingIcon ?? AppIcons.filterGreen),
@@ -72,6 +64,14 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
                         .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
               )
             ],
+          ),
+          child: Text(
+            widget.hint,
+            style: widget.hintStyle ??
+                Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
           ),
         ),
         value: widget.value,

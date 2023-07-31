@@ -36,6 +36,21 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    getStatisticsCubit().getExpenses();
+    getStatisticsCubit().getTodayExpenses(true);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant ExpensesStatisticsScreen oldWidget) {
+    context.read<StatisticsCubit>().getTotalExpense();
+    context.read<StatisticsCubit>().totalImportantExpenses();
+
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void initState() {
     getStatisticsCubit().getExpenses();
     getStatisticsCubit().getTransactionsByMonth(true);
@@ -75,10 +90,14 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
           child: StatisticsDetailsScreen(
               index: index, transactions: getStatisticsCubit().byDayList)));
 
-  _onSeeMoreByDay(context, TransactionModel transaction) => Navigator.push(
-      context,
-      AppRouter.pageBuilderRoute(
-          child: PartTimeDetails(transactionModel: transaction)));
+  _onSeeMoreByDay(context, TransactionModel transaction, insideIndex) =>
+      Navigator.push(
+          context,
+          AppRouter.pageBuilderRoute(
+              child: PartTimeDetails(
+            transactionModel: transaction,
+            insideIndex: insideIndex,
+          )));
 
   @override
   Widget build(BuildContext context) {
@@ -130,8 +149,10 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(
-                            onPressSeeMore: () => _onSeeMoreByDay(
-                                context, getStatisticsCubit().byDayList[index]),
+                            onPressSeeMore: (int insideIndex) => _onSeeMoreByDay(
+                                context,
+                                getStatisticsCubit().byDayList[insideIndex],
+                                insideIndex),
                             priorityName: PriorityType.Important,
                             transactions: getStatisticsCubit().byDayList,
                             index: index,
