@@ -11,38 +11,40 @@ import 'package:temp/presentation/widgets/show_dialog.dart';
 import '../../../views/confirm_paying_goals.dart';
 import '../../../views/confirm_payment_tab_bar.dart';
 
-class ConfirmPayingScreen extends StatefulWidget  {
+class ConfirmPayingScreen extends StatefulWidget {
   const ConfirmPayingScreen({Key? key}) : super(key: key);
 
   @override
   State<ConfirmPayingScreen> createState() => _ConfirmPayingScreenState();
 }
 
-class _ConfirmPayingScreenState extends State<ConfirmPayingScreen> with AlertDialogMixin {
-  final TextEditingController changedAmount=TextEditingController();
+class _ConfirmPayingScreenState extends State<ConfirmPayingScreen>
+    with AlertDialogMixin {
+  final TextEditingController changedAmount = TextEditingController();
+
   @override
   void initState() {
-    context.read<ConfirmPaymentCubit>().allTodayList=List.from(context
-        .read<ConfirmPaymentCubit>().transactionRep.getTodayPayments(isExpense: true));
-    print('all expenses are ${context
-        .read<ConfirmPaymentCubit>().allTodayList}');
-    context
-        .read<ConfirmPaymentCubit>().allTodayListIncome=List.from(context
-        .read<ConfirmPaymentCubit>().transactionRep.getTodayPayments(isExpense: false));
-    print('all income are ${context
-        .read<ConfirmPaymentCubit>().allTodayListIncome}');
-    context
-        .read<ConfirmPaymentCubit>().allTodayGoals=List.from(context
-        .read<ConfirmPaymentCubit>().goalsRepository.getTodayGoals());
-    print('all Today Goals are ${context
-        .read<ConfirmPaymentCubit>().allTodayGoals}');
+    context.read<ConfirmPaymentCubit>().allTodayList = List.from(context
+        .read<ConfirmPaymentCubit>()
+        .transactionRep
+        .getTodayPayments(isExpense: true));
+    print('all expenses are ${context.read<ConfirmPaymentCubit>().allTodayList}');
+    context.read<ConfirmPaymentCubit>().allTodayListIncome = List.from(context
+        .read<ConfirmPaymentCubit>()
+        .transactionRep
+        .getTodayPayments(isExpense: false));
+    print('all income are ${context.read<ConfirmPaymentCubit>().allTodayListIncome}');
+    context.read<ConfirmPaymentCubit>().allTodayGoals =
+        List.from(context.read<ConfirmPaymentCubit>().goalsRepository.getTodayGoals());
+    print('all Today Goals are ${context.read<ConfirmPaymentCubit>().allTodayGoals}');
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     body: BlocBuilder<ConfirmPaymentCubit, ConfirmPaymentState>(
+      body: BlocBuilder<ConfirmPaymentCubit, ConfirmPaymentState>(
         builder: (context, state) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -53,11 +55,10 @@ class _ConfirmPayingScreenState extends State<ConfirmPayingScreen> with AlertDia
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.sp),
                   child: ConfirmPaymentTabBar(
-                    tabBarIndex: context
-                        .read<ConfirmPaymentCubit>()
-                        .currentIndex, onChangeIndex: (index) {
-                    context.read<ConfirmPaymentCubit>().onChangeIndex(index);
-                  },
+                    tabBarIndex: context.read<ConfirmPaymentCubit>().currentIndex,
+                    onChangeIndex: (index) {
+                      context.read<ConfirmPaymentCubit>().onChangeIndex(index);
+                    },
                   ),
                 ),
               ),
@@ -66,12 +67,9 @@ class _ConfirmPayingScreenState extends State<ConfirmPayingScreen> with AlertDia
                 child: SizedBox(
                   width: 95.w,
                   child: Visibility(
-                    visible: context.read<ConfirmPaymentCubit>().currentIndex!=2,
-                    child: TransactionConfirmCard(
-
-                      changedAmount: changedAmount,
-                    ),
-                    replacement: GoalConfirmCard(changedAmount: changedAmount,),
+                    visible: context.read<ConfirmPaymentCubit>().currentIndex != 2,
+                    replacement: GoalConfirmCard(changedAmount: changedAmount),
+                    child: TransactionConfirmCard(changedAmount: changedAmount),
                   ),
                 ),
               ),

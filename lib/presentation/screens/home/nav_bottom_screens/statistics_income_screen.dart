@@ -36,6 +36,20 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    getStatisticsCubit().getExpenses();
+    getStatisticsCubit().getTodayExpenses(true);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant IncomeStatisticsScreen oldWidget) {
+    context.read<StatisticsCubit>().getTotalExpense();
+    context.read<StatisticsCubit>().totalImportantExpenses();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void initState() {
     getStatisticsCubit().getIncome();
     getStatisticsCubit().getTransactionsByMonth(false);
@@ -74,10 +88,12 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
           child: StatisticsDetailsScreen(
               index: index, transactions: getStatisticsCubit().byDayList)));
 
-  _onSeeMoreByDay(context, TransactionModel transaction,insideIndex) => Navigator.push(
-      context,
-      AppRouter.pageBuilderRoute(
-          child: PartTimeDetails(transactionModel: transaction, insideIndex: insideIndex)));
+  _onSeeMoreByDay(context, TransactionModel transaction, insideIndex) =>
+      Navigator.push(
+          context,
+          AppRouter.pageBuilderRoute(
+              child: PartTimeDetails(
+                  transactionModel: transaction, insideIndex: insideIndex)));
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +149,9 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                             priorityName: PriorityType.Fixed,
                             transactions: getStatisticsCubit().byDayList,
                             onPressSeeMore: (int insideIndex) => _onSeeMoreByDay(
-                                context, getStatisticsCubit().byDayList[insideIndex],insideIndex),
+                                context,
+                                getStatisticsCubit().byDayList[insideIndex],
+                                insideIndex),
                             index: index,
                             pageController: _controller,
                             monthWidget: WeekCardViewEdited(

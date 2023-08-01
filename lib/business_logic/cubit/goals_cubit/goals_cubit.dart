@@ -128,14 +128,17 @@ class GoalsCubit extends Cubit<GoalsState> {
     emit(ChoseDateState());
   }
 
+  String dialogMessage({required num cost, required num dailySaving}) {
+    final repeat = choseRepeat == 'Daily'
+        ? 'Days'
+        : (choseRepeat == 'Weekly' ? 'Weeks' : 'Months');
+    return '${cost ~/ dailySaving} $repeat';
+  }
+
   String transferDateToString(GoalModel goalModel) {
     final completionDate = countCompletionDate(goalModel.goalSaveAmountRepeat,
         goalModel.goalStartSavingDate, goalModel.goalRemainingPeriod);
     return '${completionDate.day}\\${completionDate.month}\\${completionDate.year}';
-  }
-
-  String dialogMessage(GoalModel goalModel) {
-    return 'You Will Achieve your Goal On ${transferDateToString(goalModel)} ';
   }
 
   Future<void> deleteGoal(GoalModel goalModel) async {

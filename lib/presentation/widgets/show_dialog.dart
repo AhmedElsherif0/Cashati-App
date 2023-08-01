@@ -4,54 +4,67 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
+import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
 import 'custom_painter_dialog.dart';
 import 'buttons/custom_text_button.dart';
 
 mixin AlertDialogMixin {
-  AlertDialog newAmountDialog({required double amount,required Function onUpdate,required BuildContext context,required TextEditingController changedAmountCtrl}){
+  AlertDialog newAmountDialog(
+      {required double amount,
+      required Function onUpdate,
+      required BuildContext context,
+      required TextEditingController changedAmountCtrl}) {
     return AlertDialog(
       title: Text("Update Paid Amount"),
-      content:TextFormField(
+      content: TextFormField(
         keyboardType: TextInputType.number,
         controller: changedAmountCtrl,
-        decoration: InputDecoration(
-            hintText: "$amount",
-            labelText: "Paid Amount"
-        ),
+        decoration: InputDecoration(hintText: "$amount", labelText: "Paid Amount"),
       ),
       actions: [
-        CustomElevatedButton(onPressed: (){
-          Navigator.of(context).pop();
-
-        }, text: "Cancel"),
-        CustomElevatedButton(onPressed: (){
-          onUpdate();
-          Navigator.of(context).pop();
-        }, text: "Update"),
+        CustomElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            text: "Cancel"),
+        CustomElevatedButton(
+            onPressed: () {
+              onUpdate();
+              Navigator.of(context).pop();
+            },
+            text: "Update"),
       ],
     );
   }
-  AlertDialog showYesOrNoDialog({required String title,required String message,required Function onYes,required Function onNo ,required BuildContext context}){
+
+  AlertDialog showYesOrNoDialog(
+      {required String title,
+      required String message,
+      required Function onYes,
+      required Function onNo,
+      required BuildContext context}) {
     return AlertDialog(
       title: Text(title),
-      content:Text(message),
+      content: Text(message),
       actions: [
-        CustomElevatedButton(onPressed: (){
-          Navigator.of(context).pop();
-          onYes();
-        }, text: "Yes"),
-        CustomElevatedButton(onPressed: (){
-          onNo();
-          Navigator.of(context).pop();
-        }, text: "No"),
+        CustomElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              onYes();
+            },
+            text: "Yes"),
+        CustomElevatedButton(
+            onPressed: () {
+              onNo();
+              Navigator.of(context).pop();
+            },
+            text: "No"),
       ],
     );
-
   }
 
-  void showSuccessfulDialog(
-      BuildContext context, String title, String message) {
+  void showSuccessfulDialog(BuildContext context, String title, String message) {
     _customAlertDialog(
       context: context,
       title: title,
@@ -66,16 +79,14 @@ mixin AlertDialogMixin {
                 children: [
                   Expanded(
                     flex: 4,
-                    child:
-                        SvgPicture.asset('assets/icons/successfully_added.svg'),
+                    child: SvgPicture.asset('assets/icons/successfully_added.svg'),
                   ),
                   const Spacer(flex: 3),
                   Expanded(
                     flex: 4,
                     child: Wrap(
                       children: [
-                        Text(message,
-                            style: Theme.of(context).textTheme.headline4)
+                        Text(message, style: Theme.of(context).textTheme.headline4)
                       ],
                     ),
                   ),
@@ -93,9 +104,9 @@ mixin AlertDialogMixin {
       ],
     );
   }
+
   void showSuccessfulDialogNoOptions(
       BuildContext context, String title, String message) {
-
     _customAlertDialog(
       context: context,
       title: title,
@@ -103,7 +114,7 @@ mixin AlertDialogMixin {
         DecoratedBox(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.sp)),
           child: AnimatedContainer(
-          //  transform: Matrix4.rotationY(30),
+            //  transform: Matrix4.rotationY(30),
             duration: Duration(milliseconds: 400),
             curve: Curves.easeInToLinear,
             height: 30.h,
@@ -113,16 +124,14 @@ mixin AlertDialogMixin {
                 children: [
                   Expanded(
                     flex: 3,
-                    child:
-                    SvgPicture.asset('assets/icons/successfully_added.svg'),
+                    child: SvgPicture.asset('assets/icons/successfully_added.svg'),
                   ),
                   const Spacer(flex: 2),
                   Expanded(
                     flex: 3,
                     child: Wrap(
                       children: [
-                        Text(message,
-                            style: Theme.of(context).textTheme.headline4)
+                        Text(message, style: Theme.of(context).textTheme.headline4)
                       ],
                     ),
                   ),
@@ -145,15 +154,14 @@ mixin AlertDialogMixin {
     showGeneralDialog(
         context: context,
         barrierDismissible: true,
-        barrierLabel:
-            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
         barrierColor: Colors.black45,
         transitionDuration: const Duration(milliseconds: 200),
         pageBuilder: (BuildContext buildContext, Animation animation,
             Animation secondaryAnimation) {
           return Center(
             child: Container(
-            //  width: MediaQuery.of(context).size.width/2,
+              //  width: MediaQuery.of(context).size.width/2,
               //height: MediaQuery.of(context).size.height,
               color: Colors.white,
               child: Center(
@@ -211,15 +219,13 @@ mixin AlertDialogMixin {
   /// Goals Dialog ely taaalaaaa3 3eeein omy.
   Future<void> showGoalsDialog(
       {required BuildContext context,
-        required Function onPressedYesFunction,
-        required Function onPressedNoFunction,
-      required String infoMessage
-      })async {
+      required Function onPressedYesFunction,
+      required Function onPressedNoFunction,
+      required String infoMessage}) async {
     showGeneralDialog(
         context: context,
         barrierDismissible: true,
-        barrierLabel:
-            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
         barrierColor: Colors.black45,
         transitionDuration: const Duration(milliseconds: 600),
         pageBuilder: (BuildContext buildContext, Animation animation,
@@ -235,24 +241,34 @@ mixin AlertDialogMixin {
                 painter: RPSCustomPainter(),
                 child: Center(
                     child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0.sp),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                          flex: 3,
-                          child: SvgPicture.asset(
-                              'assets/icons/Hello-rafiki.svg')),
+                      Expanded(flex: 4, child: SvgPicture.asset(AppIcons.helloRafiki)),
                       Flexible(
-                        child: Text(infoMessage,
-                            style: textTheme.subtitle2),
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: 'You Will Achieve Your',
+                                  style: textTheme.subtitle2
+                                      ?.copyWith(color: AppColor.black)),
+                              TextSpan(text: ' Goal ', style: textTheme.headline4),
+                              TextSpan(
+                                text: 'After $infoMessage ',
+                                style: textTheme.subtitle2
+                                    ?.copyWith(color: AppColor.black),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                      Flexible(
-                        child: Text('Are You Ready to Start Saving Your Money ?',
-                            style: textTheme.headline6),
-                      ),
+                      const Spacer(),
+                      Text('Are You Ready to Start Save Your Money?',
+                          style: textTheme.headline6),
                       Expanded(
-                        flex: 2,
+                        flex: 4,
                         child: Row(
                           children: [
                             const Spacer(),
@@ -264,16 +280,11 @@ mixin AlertDialogMixin {
                                 isVisible: false,
                                 textStyle: textTheme.headline6
                                     ?.copyWith(color: AppColor.grey)),
-                            const Spacer(
-                              flex: 2,
-                            ),
+                            const Spacer(flex: 2),
                             Expanded(
                                 flex: 9,
-                                child: SvgPicture.asset(
-                                    'assets/icons/magnatic_icon.svg')),
-                            const Spacer(
-                              flex: 2,
-                            ),
+                                child: SvgPicture.asset(AppIcons.magneticIcon)),
+                            const Spacer(flex: 2),
                             CustomTextButton(
                                 onPressed: () {
                                   onPressedYesFunction();
@@ -293,11 +304,16 @@ mixin AlertDialogMixin {
         });
   }
 
-  errorSnackBar({required BuildContext context,required String message}){
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message,
-      style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColor.white),
-    ),duration: Duration(seconds: 2),
-      backgroundColor: Colors.red,padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),));
+  errorSnackBar({required BuildContext context, required String message}) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        message,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColor.white),
+      ),
+      duration: Duration(seconds: 2),
+      backgroundColor: Colors.red,
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+    ));
   }
 }
 
@@ -318,8 +334,7 @@ void _customAlertDialog(
         builder: (BuildContext context) => Center(
           child: SingleChildScrollView(
             child: AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(1)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(1)),
               titleTextStyle: const TextStyle(color: Colors.black),
               title: title.isEmpty
                   ? null
@@ -361,7 +376,4 @@ void _customAlertDialog(
     default:
       assert(false, 'Unexpected platform $defaultTargetPlatform');
   }
-
-
-
 }
