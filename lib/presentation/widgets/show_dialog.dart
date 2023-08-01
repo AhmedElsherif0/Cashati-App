@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
@@ -16,7 +16,7 @@ mixin AlertDialogMixin {
       required BuildContext context,
       required TextEditingController changedAmountCtrl}) {
     return AlertDialog(
-      title: Text("Update Paid Amount"),
+      title: const Text("Update Paid Amount"),
       content: TextFormField(
         keyboardType: TextInputType.number,
         controller: changedAmountCtrl,
@@ -70,7 +70,7 @@ mixin AlertDialogMixin {
       title: title,
       actionButton: [
         DecoratedBox(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.sp)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.dp)),
           child: SizedBox(
             height: 40.h,
             width: 80.w,
@@ -112,7 +112,7 @@ mixin AlertDialogMixin {
       title: title,
       actionButton: [
         DecoratedBox(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.sp)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.dp)),
           child: AnimatedContainer(
             //  transform: Matrix4.rotationY(30),
             duration: Duration(milliseconds: 400),
@@ -241,7 +241,7 @@ mixin AlertDialogMixin {
                 painter: RPSCustomPainter(),
                 child: Center(
                     child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0.sp),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

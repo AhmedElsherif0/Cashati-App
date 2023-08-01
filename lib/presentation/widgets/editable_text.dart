@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 import '../styles/colors.dart';
 
 class EditableInfoField extends StatefulWidget {
@@ -13,7 +13,7 @@ class EditableInfoField extends StatefulWidget {
       this.trailing,
       this.keyboardType,
       this.maxLines = 1,
-      this.header = ''})
+      this.header = '',  this.backGroundColor })
       : super(key: key);
   final TextEditingController textEditingController;
   final String hint;
@@ -23,6 +23,7 @@ class EditableInfoField extends StatefulWidget {
   final double? containerWidth;
   final Widget? trailing;
   final int maxLines;
+  final Color? backGroundColor;
 
   @override
   _EditableInfoFieldState createState() => _EditableInfoFieldState();
@@ -33,11 +34,12 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     return Container(
+      height: 6.h,
       width: widget.containerWidth,
       decoration: BoxDecoration(
-          color: AppColor.primaryColor.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(20)),
-      padding: EdgeInsets.symmetric(horizontal: 8.sp),
+          color: widget.backGroundColor ?? AppColor.primaryColor.withOpacity(0.3) ,
+          borderRadius: BorderRadius.circular(16.dp)),
+      padding: EdgeInsets.symmetric(horizontal: 8.dp),
       child: ListTile(
         title: Column(
           children: [
@@ -63,7 +65,7 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
                   hintText: widget.hint,
                   hintStyle: theme.bodyText2!.copyWith(
                     fontWeight: FontWeight.w300,
-                    fontSize: 12.sp ,
+                    fontSize: 12.dp ,
                     color: AppColor.primaryColor,
                   ),
                   border: InputBorder.none),

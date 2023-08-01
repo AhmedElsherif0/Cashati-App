@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
@@ -23,6 +23,7 @@ import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/screens/add_exp_inc_screen.dart';
+import 'package:temp/presentation/screens/welcome/welcome_screen.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
 import 'package:temp/presentation/widgets/status_bar_configuration.dart';
@@ -127,7 +128,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
       child: BlocConsumer<GlobalCubit, GlobalState>(
         listener: (context, state) {},
         builder: (context, state) {
-          return Sizer(
+          return FlutterSizer(
             builder: (context, orientation, deviceType) {
               return LayoutBuilder(
                 builder: (context, constraints) {
@@ -142,9 +143,9 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
                     locale: translator.activeLocale,
                     // Active locale
                     supportedLocales: translator.locals(),
-                    //home: const AddSubCategoryScreen(), // Locals list
-                      initialRoute: AppRouterNames.rSplashScreen,
-                  onGenerateRoute: widget.appRouter.onGenerateRoute,
+                    //home: const WelcomeScreen(), // Locals list
+                    initialRoute: AppRouterNames.rSplashScreen,
+                    onGenerateRoute: widget.appRouter.onGenerateRoute,
                   );
                 },
               );

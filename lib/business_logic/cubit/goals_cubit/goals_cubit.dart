@@ -16,26 +16,20 @@ class GoalsCubit extends Cubit<GoalsState> {
   final DateTime today = DateTime.now();
 
   //GoalsRepeatedRepo _goalsRepeatedRepo = GoalsRepeatedImpl();
-  GoalsRepository _goalsRepository = GoalsRepoImpl();
+  final GoalsRepository _goalsRepository = GoalsRepoImpl();
   List<GoalModel> goals = [];
   List<GoalRepeatedDetailsModel> goalsRepeated = [];
   List<GoalRepeatedDetailsModel> registeredGoals = [];
 
-  List<DropdownMenuItem<String>> dropDownChannelItems = [
-    DropdownMenuItem(child: Text('Daily'), value: 'Daily'),
-    DropdownMenuItem(child: Text('Weekly'), value: 'Weekly'),
-    DropdownMenuItem(
-      child: Text('Monthly'),
-      value: 'Monthly',
-    ),
+  List<DropdownMenuItem<String>> dropDownChannelItems = const [
+    DropdownMenuItem(value: 'Daily', child: Text('Daily')),
+    DropdownMenuItem(value: 'Weekly', child: Text('Weekly')),
+    DropdownMenuItem(value: 'Monthly', child: Text('Monthly')),
   ];
-  List<DropdownMenuItem<String>> goalsFilterDropDown = [
-    DropdownMenuItem(child: Text('Completed'), value: 'Completed'),
-    DropdownMenuItem(child: Text('UnCompleted'), value: 'UnCompleted'),
-    DropdownMenuItem(
-      child: Text('All'),
-      value: 'All',
-    ),
+  List<DropdownMenuItem<String>> goalsFilterDropDown = const [
+    DropdownMenuItem(value: 'Completed', child: Text('Completed')),
+    DropdownMenuItem(value: 'UnCompleted', child: Text('UnCompleted')),
+    DropdownMenuItem(value: 'All', child: Text('All')),
   ];
 
   chooseRepeat(String value) {

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
 class CustomTextButton extends StatelessWidget {
@@ -30,7 +30,7 @@ class CustomTextButton extends StatelessWidget {
         children: [
           Visibility(
             visible: isVisible,
-            child: Icon(icon, color: AppColor.primaryColor, size: 16.sp),
+            child: Icon(icon, color: AppColor.primaryColor, size: 16.dp),
           ),
           TextButton(
             onPressed: onPressed,

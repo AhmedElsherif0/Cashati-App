@@ -80,6 +80,9 @@ mixin HelperClass {
   String formatDayDate(DateTime inputDate) =>
       DateFormat('d / MM/ yyyy').format(inputDate.toLocal());
 
+  String formatDayWeek(DateTime inputDate) =>
+      DateFormat('EEE').format(inputDate.toLocal());
+
   String formatWeekDate(DateTime inputDate) =>
       DateFormat(' MM / yyyy').format(inputDate.toLocal()).replaceFirst('0', '');
 

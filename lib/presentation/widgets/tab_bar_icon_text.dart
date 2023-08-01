@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/constants/enum_classes.dart';
 
 import '../styles/colors.dart';
@@ -25,8 +25,8 @@ class TabBarIconText extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         SvgPicture.asset(svgIcon,
-            height: 40.sp,
-            width: 40.sp,
+            height: 40.dp,
+            width: 40.dp,
             color: isClicked ? AppColor.primaryColor : AppColor.pinkishGrey),
         Text(transactionType.name,
             style: isClicked

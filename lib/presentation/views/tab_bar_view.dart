@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
-import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/transaction_card.dart';

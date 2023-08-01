@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 
 import '../../widgets/custom_app_bar.dart';
 import '../../views/custom_notification_tile.dart';

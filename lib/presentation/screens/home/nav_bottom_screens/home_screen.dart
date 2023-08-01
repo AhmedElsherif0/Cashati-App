@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
-import 'package:temp/presentation/screens/test_screens/general_model_test_screen.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
+
 import '../../../../business_logic/cubit/home_cubit/home_cubit.dart';
 import '../../../../business_logic/cubit/home_cubit/home_state.dart';
 import '../../../router/app_router_names.dart';
@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is HomeInitial || state is ModelExistsFailState) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         } else {
@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 14.0.sp),
+                    padding: EdgeInsets.symmetric(horizontal: 14.dp),
                     child: ExpensesAndIncomeHeader(
                         onPressedIncome: () => cubit(context).isExpense
                             ? cubit(context).isItExpense()

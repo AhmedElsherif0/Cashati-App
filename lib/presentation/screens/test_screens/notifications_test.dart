@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
 import 'package:temp/business_logic/cubit/home_cubit/home_state.dart';
 import 'package:temp/presentation/styles/colors.dart';

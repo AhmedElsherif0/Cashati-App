@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
 
 import 'package:temp/presentation/views/confirm_paying_expense.dart';
@@ -19,7 +19,7 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
       child: Visibility(
         visible: context.read<ConfirmPaymentCubit>().allTodayList.isNotEmpty,
         child: ListView.builder(
-          padding: EdgeInsets.symmetric(vertical: 4.sp),
+          padding: EdgeInsets.symmetric(vertical: 4.dp),
           itemExtent: 85.w,
           scrollDirection: Axis.horizontal,
           itemCount: context.read<ConfirmPaymentCubit>().allTodayList.length,
@@ -104,7 +104,7 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
         visible:
             context.read<ConfirmPaymentCubit>().allTodayListIncome.isNotEmpty,
         child: ListView.builder(
-          padding: EdgeInsets.symmetric(vertical: 4.sp),
+          padding: EdgeInsets.symmetric(vertical: 4.dp),
           itemExtent: 85.w,
           scrollDirection: Axis.horizontal,
           itemCount:

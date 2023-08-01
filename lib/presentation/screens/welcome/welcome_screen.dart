@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
 import 'package:temp/data/models/onbaording/onbaording_list_of_data.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
@@ -27,11 +27,11 @@ class WelcomeScreen extends StatelessWidget {
     final textTheme = Theme
         .of(context)
         .textTheme;
-    final headLine3 = textTheme.headline3?.copyWith(fontSize: 18.sp);
+    final headLine3 = textTheme.headline3?.copyWith(fontSize: 18.dp);
     return GradiantBackground(
       stops: const [0.0, 0.087, 0.90, 1.5],
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0.sp),
+        padding: EdgeInsets.symmetric(horizontal: 20.0.dp),
         child: Center(
           child: Column(
             children: [
@@ -63,7 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                         DecoratedBox(
                           decoration: AppDecorations.languageDecoration,
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12.0.sp),
+                            padding: EdgeInsets.symmetric(vertical: 12.0.dp),
                             child: Row(
                               children: [
                                 const Spacer(flex: 2),
@@ -98,6 +98,7 @@ class WelcomeScreen extends StatelessWidget {
                 flex: 8,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('Currency', style: headLine3),
                     SizedBox(height: 2.h),
@@ -111,7 +112,7 @@ class WelcomeScreen extends StatelessWidget {
               CustomElevatedButton(
                 onPressed: () => onPressNext(context),
                 text: 'Next',
-                borderRadius: 6.sp,
+                borderRadius: 6.dp,
                 width: 80.w,
                 height: 6.h,
               ),

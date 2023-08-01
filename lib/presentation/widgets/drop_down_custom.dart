@@ -36,12 +36,12 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
           color: widget.backgroundColor ?? Colors.blueGrey.withOpacity(.2),
           borderRadius: BorderRadius.circular(20)),
       child: DropdownButton<String>(
-        style: TextStyle(color: AppColor.primaryColor),
+        style: const TextStyle(color: AppColor.primaryColor),
         elevation: 0,
         isExpanded: widget.isExpanded ?? true,
         dropdownColor: Colors.white,

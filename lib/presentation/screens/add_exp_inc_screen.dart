@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/add_income_widget.dart';
 import 'package:temp/presentation/widgets/custom_app_bar.dart';
@@ -39,9 +39,9 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
                 unselectedLabelColor: AppColor.grey,
                 labelColor: AppColor.primaryColor,
                 labelStyle:
-                    Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 15.sp),
+                    Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 15.dp),
                 unselectedLabelStyle:
-                    Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 15.sp),
+                    Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 15.dp),
                 //  padding: EdgeInsets.symmetric(horizontal: 24.0),
                 indicatorSize: TabBarIndicatorSize.label,
                 indicatorColor: AppColor.primaryColor,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import '../../widgets/show_dialog.dart';
@@ -19,7 +19,7 @@ class _LoadingScreenState extends State<LoadingScreen> with AlertDialogMixin {
         width: 22.w,
         height: 8.h,
         child: CircularProgressIndicator(
-          strokeWidth: 4.5.sp,
+          strokeWidth: 4.5.dp,
           color: AppColor.mintGreen,
           backgroundColor: AppColor.pineGreen,
         ),

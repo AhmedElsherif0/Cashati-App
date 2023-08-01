@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
@@ -25,7 +25,7 @@ class IncomeRepeatHeader extends StatelessWidget {
       width: double.infinity,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp),
+        padding: EdgeInsets.symmetric(horizontal: 16.dp, vertical: 12.dp),
         children: List.generate(
             header.length,
             (index) => Row(

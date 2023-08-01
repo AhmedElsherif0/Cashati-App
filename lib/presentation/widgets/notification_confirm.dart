@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
@@ -39,10 +39,10 @@ class NotifyingConfirmPaying extends StatelessWidget {
         /// must be child for a Expanded Widget.
         Expanded(
           child: Card(
-            elevation: 8.sp,
+            elevation: 8.dp,
             color: AppColor.white,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24.sp)),
+                borderRadius: BorderRadius.circular(24.dp)),
             child: Column(
               children: [
                 Expanded(

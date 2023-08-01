@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
@@ -71,11 +71,11 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
           builder: (context, state) {
             return Column(
               children: [
-                SizedBox(height: 15.sp),
+                SizedBox(height: 15.dp),
                 CustomAppBar(
                     title: '${widget.transactionModel.mainCategory} Expense Details',
                     isEndIconVisible: false),
-                SizedBox(height: 40.sp),
+                SizedBox(height: 40.dp),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
@@ -88,21 +88,21 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
                                 onTap: () async => showDatePick(),
                                 dateTime: widget.transactionModel.createdDate,
                               )),
-                          SizedBox(height: 15.sp),
+                          SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: mainCategoryController,
                             hint: widget.transactionModel.mainCategory,
                             iconName: AppIcons.categoryIcon,
                             keyboardType: TextInputType.text,
                           ),
-                          SizedBox(height: 15.sp),
+                          SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: subCategoryController,
                             hint: widget.transactionModel.subCategory,
                             iconName: AppIcons.categories,
                             keyboardType: TextInputType.text,
                           ),
-                          SizedBox(height: 15.sp),
+                          SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: amountController,
                             hint: '${widget.transactionModel.amount}LE',
@@ -116,14 +116,14 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
                                       int.parse(amountController.text);
                                 }),
                           ),
-                          SizedBox(height: 15.sp),
+                          SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: dateController,
                             hint: widget.transactionModel.repeatType,
                             iconName: AppIcons.change,
                             keyboardType: TextInputType.text,
                           ),
-                          SizedBox(height: 15.sp),
+                          SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: descriptionController,
                             header: 'Description',
@@ -133,7 +133,7 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
                             iconName: '',
                             keyboardType: TextInputType.multiline,
                           ),
-                          SizedBox(height: 30.sp),
+                          SizedBox(height: 30.dp),
                           Row(
                             children: [
                               const Expanded(child: SizedBox()),

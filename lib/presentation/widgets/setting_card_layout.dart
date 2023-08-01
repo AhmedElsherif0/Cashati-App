@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-
+import 'package:flutter_sizer/flutter_sizer.dart';
 import '../styles/colors.dart';
 
 class SettingCardLayout extends StatelessWidget {
@@ -14,16 +13,16 @@ class SettingCardLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15.sp),
+      padding: EdgeInsets.symmetric(vertical: 15.dp),
       decoration: BoxDecoration(
           color: AppColor.white,
           border: Border.all(color: AppColor.grey.withOpacity(.4)),
-          borderRadius: BorderRadius.circular(24.sp),
+          borderRadius: BorderRadius.circular(24.dp),
           boxShadow: [
             BoxShadow(
               blurRadius: 10,
               spreadRadius: 0,
-              offset: Offset(0, 1),
+              offset: const Offset(0, 1),
               color: AppColor.grey.withOpacity(0.4),
             ),
           ]),

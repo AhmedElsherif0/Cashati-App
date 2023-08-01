@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/presentation/styles/decorations.dart';
 
 import '../../styles/colors.dart';
@@ -39,7 +39,7 @@ class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
             : AppColor.white,
         shape: AppDecorations.dropDownCurrency,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.sp),
+          padding: EdgeInsets.symmetric(horizontal: 20.dp),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
               isExpanded: widget.isExpanded,
@@ -48,14 +48,14 @@ class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
               iconEnabledColor: AppColor.primaryColor,
               disabledHint: Text(widget.items[0]),
               isDense: true,
-              borderRadius: BorderRadius.circular(12.sp),
+              borderRadius: BorderRadius.circular(12.dp),
               focusColor: AppColor.primaryColor,
               iconDisabledColor: AppColor.primaryColor,
               dropdownColor:
                   widget.isExpanded ? AppColor.primaryColor : AppColor.white,
               style: textTheme.bodyText2,
               icon: Icon(
-                  size: 34.sp,
+                  size: 34.dp,
                   widget.isExpanded
                       ? Icons.keyboard_arrow_down
                       : Icons.keyboard_arrow_right,

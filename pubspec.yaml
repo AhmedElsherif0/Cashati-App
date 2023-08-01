@@ -33,7 +33,7 @@ dependencies:
 
   cupertino_icons: ^1.0.5
   dio: ^4.0.6
-  sizer: ^2.0.15
+  flutter_sizer: ^1.0.5
   bloc: ^8.1.0
   flutter_bloc: ^8.1.1
   shared_preferences: ^2.0.15

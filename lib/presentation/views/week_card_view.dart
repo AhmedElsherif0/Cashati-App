@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
-import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
 import '../../constants/app_icons.dart';
 
@@ -40,11 +38,11 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
               return Column(
                 children: [
                   Card(
-                    margin: EdgeInsets.symmetric(horizontal: 16.sp),
+                    margin: EdgeInsets.symmetric(horizontal: 16.dp),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.sp),
+                      borderRadius: BorderRadius.circular(12.dp),
                     ),
-                    elevation: 4.sp,
+                    elevation: 4.dp,
                     color: AppColor.lightGrey,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),

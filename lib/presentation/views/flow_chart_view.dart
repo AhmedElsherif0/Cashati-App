@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-import 'package:temp/data/models/statistics/expenses_lists.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 
 import '../../constants/enum_classes.dart';
-import '../../data/models/statistics/expenses_model.dart';
 import '../router/app_router_names.dart';
 import '../styles/colors.dart';
 import '../widgets/expenses_and_income_widgets/circle_progress_bar_chart.dart';
@@ -54,7 +52,7 @@ class FlowChartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 22,
+      flex: 24,
       child: Column(
         children: [
           /// Chart widgets

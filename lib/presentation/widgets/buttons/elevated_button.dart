@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
 import '../common_texts/elevated_text_button.dart';
@@ -42,18 +42,18 @@ class CustomElevatedButton extends StatelessWidget {
           alignment: alignment,
           backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? 20.0.sp),
+            borderRadius: BorderRadius.circular(borderRadius ?? 20.0.dp),
           ),
         ),
         onPressed: onPressed,
         child: Padding(
-          padding: EdgeInsets.all(4.sp),
+          padding: EdgeInsets.all(4.dp),
           child: icon != null
               ? Row(
                   children: [
                     Expanded(
                         child: Icon(icon,
-                            size: 20.sp, color: iconColor ?? AppColor.white)),
+                            size: 20.dp, color: iconColor ?? AppColor.white)),
                     const Spacer(),
                     Expanded(
                       flex: 4,

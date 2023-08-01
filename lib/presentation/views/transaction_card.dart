@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-
+import 'package:flutter_sizer/flutter_sizer.dart';
 import '../../constants/enum_classes.dart';
 import '../../data/models/transactions/transaction_model.dart';
 import '../../data/repository/helper_class.dart';
@@ -32,11 +30,11 @@ class TransactionCardView extends StatelessWidget with HelperClass {
     return Column(
       children: [
         Card(
-          margin: EdgeInsets.symmetric(horizontal: 16.sp),
+          margin: EdgeInsets.symmetric(horizontal: 16.dp),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.sp),
+            borderRadius: BorderRadius.circular(12.dp),
           ),
-          elevation: 4.sp,
+          elevation: 4.dp,
           color: AppColor.lightGrey,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
@@ -67,25 +65,17 @@ class TransactionCardView extends StatelessWidget with HelperClass {
                     style: textTheme.subtitle1,
                   ),
                 ),
-                SizedBox(height: isRepeated? 3.h: 1.h),
+                SizedBox(height: isRepeated ? 3.h : 1.h),
                 Row(
                   children: [
                     Visibility(
                       visible: isRepeated,
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Text('Repeated',
-                            style: textTheme.subtitle1),
+                        child: Text('Repeated', style: textTheme.subtitle1),
                       ),
                     ),
-                    const Spacer(),
-                    PriorityWidget(
-                      color: transaction.isPriority
-                          ? AppColor.secondColor
-                          : AppColor.pinkishGrey,
-                      text:
-                      priorityNames(transaction.isExpense, transaction.isPriority),
-                    ),
+                    const Spacer()
                   ],
                 ),
                 Row(
@@ -96,6 +86,14 @@ class TransactionCardView extends StatelessWidget with HelperClass {
                           onPress: onPressSeeMore,
                           switchWidgets: SwitchWidgets.seeMore,
                           transaction: transaction),
+                    ),
+                    const Spacer(),
+                    PriorityWidget(
+                      color: transaction.isPriority
+                          ? AppColor.secondColor
+                          : AppColor.pinkishGrey,
+                      text:
+                          priorityNames(transaction.isExpense, transaction.isPriority),
                     ),
                   ],
                 ),
@@ -108,4 +106,3 @@ class TransactionCardView extends StatelessWidget with HelperClass {
     );
   }
 }
-
