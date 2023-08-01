@@ -24,9 +24,7 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme
-        .of(context)
-        .textTheme;
+    final textTheme = Theme.of(context).textTheme;
     final headLine3 = textTheme.headline3?.copyWith(fontSize: 18.dp);
     return GradiantBackground(
       stops: const [0.0, 0.087, 0.90, 1.5],
@@ -56,7 +54,6 @@ class WelcomeScreen extends StatelessWidget {
                     BlocProvider.of<GlobalCubit>(context);
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Language', style: headLine3),
                         SizedBox(height: 2.h),
@@ -66,7 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(vertical: 12.0.dp),
                             child: Row(
                               children: [
-                                const Spacer(flex: 2),
+                                const Spacer(flex:2),
                                 DecoratedText(
                                     text: 'English',
                                     onPress: () =>
@@ -98,7 +95,6 @@ class WelcomeScreen extends StatelessWidget {
                 flex: 8,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('Currency', style: headLine3),
                     SizedBox(height: 2.h),
@@ -113,7 +109,7 @@ class WelcomeScreen extends StatelessWidget {
                 onPressed: () => onPressNext(context),
                 text: 'Next',
                 borderRadius: 6.dp,
-                width: 80.w,
+                width: 85.w,
                 height: 6.h,
               ),
               const Spacer()

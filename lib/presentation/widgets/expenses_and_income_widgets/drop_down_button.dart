@@ -32,7 +32,7 @@ class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
     final textTheme = Theme.of(context).textTheme;
     return SizedBox(
       height: 8.h,
-      width: 90.w,
+      width: 100.w,
       child: Card(
         color: widget.selectedValue != 'Choose Currency'
             ? AppColor.primaryColor
