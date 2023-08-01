@@ -70,6 +70,8 @@ class AppIcons {
   static const String goalCompleteDollar = '$icons/goalCompleteDollar.svg';
   static const String completedGoal = '$icons/completedGoal.svg';
   static const String addIcon = '$icons/addIcon.svg';
+  static const String helloRafiki = '$icons/Hello-rafiki.svg';
+  static const String magneticIcon = '$icons/magnetic_icon.svg';
 
   ///Home Icons...
   static const String balance = '$icons/home/balance.svg';

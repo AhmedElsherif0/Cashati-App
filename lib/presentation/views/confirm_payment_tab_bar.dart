@@ -6,9 +6,11 @@ import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
 
 class ConfirmPaymentTabBar extends StatefulWidget {
-   ConfirmPaymentTabBar({Key? key, required this.tabBarIndex, required this.onChangeIndex}) : super(key: key);
-   late int tabBarIndex ;
-   final Function(int index) onChangeIndex;
+  const ConfirmPaymentTabBar(
+      {Key? key, required this.tabBarIndex, required this.onChangeIndex})
+      : super(key: key);
+  final int tabBarIndex;
+  final Function(int index) onChangeIndex;
 
   @override
   State<ConfirmPaymentTabBar> createState() => _ConfirmPaymentTabBarState();
@@ -18,11 +20,10 @@ class _ConfirmPaymentTabBarState extends State<ConfirmPaymentTabBar>
     with SingleTickerProviderStateMixin {
   late final TabController _controller = TabController(length: 3, vsync: this);
 
-
   @override
   void initState() {
     // TODO: implement initState
-    _controller.index=widget.tabBarIndex;
+    _controller.index = widget.tabBarIndex;
     super.initState();
   }
 
@@ -31,7 +32,6 @@ class _ConfirmPaymentTabBarState extends State<ConfirmPaymentTabBar>
     _controller.dispose();
     super.dispose();
   }
-
 
   List<String> _iconList(index) =>
       [AppIcons.expense, AppIcons.incomeDrawer, AppIcons.goals];
@@ -53,11 +53,11 @@ class _ConfirmPaymentTabBarState extends State<ConfirmPaymentTabBar>
         // setState(() => _controller.index == index);
         // widget.tabBarIndex = index;
       },
-      indicatorWeight: 2.sp,
+
+      indicatorWeight: 0.00005,
       controller: _controller,
       labelStyle: textTheme.headline6,
       unselectedLabelColor: AppColor.pinkishGrey,
-      indicatorColor: AppColor.primaryColor,
       dividerColor: AppColor.primaryColor,
       overlayColor: MaterialStateProperty.all(Colors.transparent),
     );

@@ -37,7 +37,7 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
       decoration: BoxDecoration(
           color: AppColor.primaryColor.withOpacity(0.3),
           borderRadius: BorderRadius.circular(20)),
-      padding: EdgeInsets.symmetric(horizontal: 8.sp,vertical: 4.sp),
+      padding: EdgeInsets.symmetric(horizontal: 8.sp),
       child: ListTile(
         title: Column(
           children: [

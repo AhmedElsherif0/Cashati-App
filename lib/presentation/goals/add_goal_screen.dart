@@ -32,29 +32,28 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
     GoalsCubit goalsCubit = BlocProvider.of<GoalsCubit>(context);
 
     return Scaffold(
-      body: Form(
-        key: _addGoalKey,
-        autovalidateMode: AutovalidateMode.disabled,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 6.h,
-              ),
-              AppBarWithIcon(
-                titleIcon: AppIcons.moneyAppBar,
-                titleName: 'Time to save money',
-                firstIcon: Icons.arrow_back_ios,
-                actionIcon: '',
-              ),
-              bodyContent(goalsCubit, context)
-            ],
-          ),
+        body: Form(
+      key: _addGoalKey,
+      autovalidateMode: AutovalidateMode.disabled,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 6.h,
+            ),
+            const AppBarWithIcon(
+              titleIcon: AppIcons.moneyAppBar,
+              titleName: 'Time to save money',
+              firstIcon: Icons.arrow_back_ios,
+              actionIcon: '',
+            ),
+            bodyContent(goalsCubit, context)
+          ],
         ),
-      )
-    );
+      ),
+    ));
   }
 
   Widget bodyContent(GoalsCubit goalsCubit, BuildContext context) {
@@ -62,97 +61,72 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 4.0.h,
-                      ),
-                      const GoalNote(),
-                      SizedBox(
-                        height: 1.0.h,
-                      ),
-                      Center(
-                        child: Image.asset(AppIcons.savingMoney, height: 25.h, width: 70.w)
-                      ),
-                      SizedBox(
-                        height: 2.0.h,
-                      ),
-                      GreenText(text: 'Goal'),
-                      SizedBox(
-                        height: 1.0.h,
-                      ),
-                      EditableInfoField(
-                          textEditingController: goalNameCtrl,
-                          hint: 'Buy New Mobile',
+          children: [
+            SizedBox(height: 4.0.h),
+            const GoalNote(),
+            SizedBox(height: 1.0.h),
+            Center(
+                child: Image.asset(AppIcons.savingMoney, height: 25.h, width: 70.w)),
+            SizedBox(height: 2.0.h),
+            const GreenText(text: 'Goal'),
+            SizedBox(height: 1.0.h),
+            EditableInfoField(
+                textEditingController: goalNameCtrl,
+                hint: 'Buy New Mobile',
 
-                         // containerWidth: double.infinity,
-                          iconName: AppIcons.medalStar),
-                      SizedBox(
-                        height: 2.0.h,
-                      ),
-                      GreenText(text: 'Goal Cost'),
-                      SizedBox(
-                        height: 1.0.h,
-                      ),
-                      EditableInfoField(
-                          textEditingController: goalCostCtrl,
-                          keyboardType: TextInputType.number,
-                          hint: '2000 LE',
-                         // containerWidth: double.infinity,
-                          iconName: AppIcons.dollarCircle),
-                      SizedBox(
-                        height: 2.0.h,
-                      ),
-                      GreenText(text: 'Saving Style'),
-                      SizedBox(
-                        height: 1.0.h,
-                      ),
-                      BlocBuilder<GoalsCubit, GoalsState>(
-                        builder: (context, state) {
-                          return EditableInfoField(
-                            textEditingController: goalSaveRepeatAmount,
-                            keyboardType: TextInputType.number,
-                            hint: '15 LE',
-                           // containerWidth: double.infinity,
-                            iconName: AppIcons.cartAdd,
-                            trailing: DropDownCustomWidget(
-                              leadingIcon: '',
-                              dropDownList: goalsCubit.dropDownChannelItems,
-                              hint: goalsCubit.choseRepeat,
-                              isExpanded: false,
-                              backgroundColor: Colors.transparent,
-                              icon: AppIcons.forwardArrow,
-                              onChangedFunc: goalsCubit.chooseRepeat,
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 2.0.h,
-                      ),
-                      GreenText(text: 'First Saving Day'),
-                      SizedBox(
-                        height: 1.0.h,
-                      ),
-                      chooseDateWidget(goalsCubit),
-                      SizedBox(
-                        height: 2.0.h,
-                      ),
-                      Container(
-                          width: double.infinity,
-                          height: 6.h,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                await validateAndAddGoal(context, goalsCubit);
-                              },
-                              child: Text(
-                                'Save',
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ))),
-                      SizedBox(
-                        height: 2.0.h,
-                      ),
-                    ],
+                // containerWidth: double.infinity,
+                iconName: AppIcons.medalStar),
+            SizedBox(height: 2.0.h),
+            const GreenText(text: 'Goal Cost'),
+            SizedBox(height: 1.0.h),
+            EditableInfoField(
+                textEditingController: goalCostCtrl,
+                keyboardType: TextInputType.number,
+                hint: '2000 LE',
+                // containerWidth: double.infinity,
+                iconName: AppIcons.dollarCircle),
+            SizedBox(height: 2.0.h),
+            const GreenText(text: 'Saving Style'),
+            SizedBox(height: 1.0.h),
+            BlocBuilder<GoalsCubit, GoalsState>(
+              builder: (context, state) {
+                return EditableInfoField(
+                  textEditingController: goalSaveRepeatAmount,
+                  keyboardType: TextInputType.number,
+                  hint: '15 LE',
+                  // containerWidth: double.infinity,
+                  iconName: AppIcons.cartAdd,
+                  trailing: DropDownCustomWidget(
+                    leadingIcon: '',
+                    dropDownList: goalsCubit.dropDownChannelItems,
+                    hint: goalsCubit.choseRepeat,
+                    isExpanded: false,
+                    backgroundColor: Colors.transparent,
+                    icon: AppIcons.forwardArrow,
+                    onChangedFunc: goalsCubit.chooseRepeat,
                   ),
+                );
+              },
+            ),
+            SizedBox(height: 2.0.h),
+            const GreenText(text: 'First Saving Day'),
+            SizedBox(height: 1.0.h),
+            chooseDateWidget(goalsCubit),
+            SizedBox(height: 2.0.h),
+            Container(
+                width: double.infinity,
+                height: 6.h,
+                child: ElevatedButton(
+                    onPressed: () async {
+                      await validateAndAddGoal(context, goalsCubit);
+                    },
+                    child: Text(
+                      'Save',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ))),
+            SizedBox(height: 2.0.h),
+          ],
+        ),
       ),
     );
   }
@@ -163,27 +137,23 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
         return InkWell(
           onTap: () async {
             goalCubit.changeDate(context);
-
             print('Choosed Date is ${goalCubit.chosenDate}');
           },
           child: Container(
             decoration: BoxDecoration(
                 color: Colors.blueGrey.withOpacity(.2),
                 borderRadius: BorderRadius.circular(20)),
-            child: Padding(
-              padding: const EdgeInsets.all(1.0),
-              child: ListTile(
-                title: Text(
-                  goalCubit.chosenDate == null
-                      ? 'Choose Date'
-                      : '${goalCubit.chosenDate!.day} \\ ${goalCubit.chosenDate!.month} \\ ${goalCubit.chosenDate!.year}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
-                ),
-                leading: SvgPicture.asset(AppIcons.dateIcon),
+            child: ListTile(
+              title: Text(
+                goalCubit.chosenDate == null
+                    ? 'Choose Date'
+                    : '${goalCubit.chosenDate!.day} \\ ${goalCubit.chosenDate!.month} \\ ${goalCubit.chosenDate!.year}',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
               ),
+              leading: SvgPicture.asset(AppIcons.dateIcon),
             ),
           ),
         );
@@ -222,22 +192,19 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
               showDialogAndNavigate(context);
             });
           },
-          onPressedNoFunction: () {
-            Navigator.of(context).pop();
-          },
-          infoMessage: goalCubit.dialogMessage(goalModel));
+          onPressedNoFunction: () => Navigator.of(context).pop(),
+          infoMessage: goalCubit.dialogMessage(
+              cost: num.tryParse(goalCostCtrl.text)!,
+              dailySaving: num.tryParse(goalSaveRepeatAmount.text)!));
     }
   }
 
   showDialogAndNavigate(BuildContext context) {
     Navigator.pop(context);
     showSuccessfulDialog(context, 'Goal Added', 'You have successfully added goal');
-    Future.delayed(
-      Duration(seconds: 1),
-      () {
-        // Navigator.pop(context);
-        Navigator.pushReplacementNamed(context, AppRouterNames.rGetGoals);
-      },
-    );
+    Future.delayed(const Duration(seconds: 1), () {
+      // Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, AppRouterNames.rGetGoals);
+    });
   }
 }

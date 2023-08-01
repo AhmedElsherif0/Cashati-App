@@ -25,27 +25,26 @@ class ControlScreen extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
                   child: CustomAppBar(
-                    title: _cubit(context)
-                        .appBarTitle[_cubit(context).currentIndex],
+                    title: _cubit(context).appBarTitle[_cubit(context).currentIndex],
                     onTapFirstIcon: () => _cubit(context).emitDrawer(context),
                     // onTapNotification: () {
                     //   print('notification tapped');
                     //   Navigator.pushNamed(context, AppRouterNames.rNotificationTest);
                     // },
-                    isEndIconVisible:
-                        _cubit(context).currentIndex == 4 ? false : true,
+                    isEndIconVisible: _cubit(context).currentIndex == 4 ? false : true,
                     firstIcon: Icons.menu,
                     textStyle: _cubit(context).currentIndex == 1
                         ? Theme.of(context)
-                            .textTheme.headline3?.copyWith(fontSize: 15.sp)
+                            .textTheme
+                            .headline3
+                            ?.copyWith(fontSize: 15.sp)
                         : null,
                   ),
                 ),
               ),
               Expanded(
                   flex: 19,
-                  child: _cubit(context)
-                      .nextPage[_cubit(context).currentIndex]),
+                  child: _cubit(context).nextPage[_cubit(context).currentIndex]),
             ],
           );
         },
