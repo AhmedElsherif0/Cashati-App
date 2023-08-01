@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
+import 'package:temp/data/repository/helper_class.dart';
 
 import 'package:temp/presentation/views/confirm_paying_expense.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
-class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
+class TransactionConfirmCard extends StatelessWidget
+    with AlertDialogMixin, HelperClass {
   const TransactionConfirmCard({Key? key, required this.changedAmount})
       : super(key: key);
   final TextEditingController changedAmount;
@@ -31,7 +33,7 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
               children: [
                 Expanded(
                   child: ConfirmPayingExpense(
-                    date: DateTime.now().toString(),
+                    date: formatDayDate(curentExpense.createdDate),
                     transactionModel: curentExpense,
                     onDetails: () {},
                     amount: curentExpense.amount.toDouble(),
@@ -42,32 +44,24 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
                               title: "Delete Expense",
                               message:
                                   "Are you sure you want to delete ${curentExpense.name} permanently ?",
-                              onYes: (){
+                              onYes: () {
                                 context
                                     .read<ConfirmPaymentCubit>()
                                     .onDeleteTransaction(curentExpense, context);
-
                               },
-                              onNo: () {
-
-                              },
+                              onNo: () {},
                               context: context));
-
                     },
                     onEditAmount: () {
                       changedAmount.text = curentExpense.amount.toString();
                       showDialog(
                           context: context,
                           builder: (ctx) => newAmountDialog(
-                              amount: context
-                                  .read<ConfirmPaymentCubit>()
-                                  .test[index],
+                              amount: context.read<ConfirmPaymentCubit>().test[index],
                               onUpdate: () {
-                                context
-                                    .read<ConfirmPaymentCubit>()
-                                    .onChangeAmount(
-                                        curentExpense.amount.toDouble(),
-                                        double.parse(changedAmount.text));
+                                context.read<ConfirmPaymentCubit>().onChangeAmount(
+                                    curentExpense.amount.toDouble(),
+                                    double.parse(changedAmount.text));
                                 curentExpense.amount =
                                     double.parse(changedAmount.text);
                               },
@@ -101,14 +95,12 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
         ),
       ),
       replacement: Visibility(
-        visible:
-            context.read<ConfirmPaymentCubit>().allTodayListIncome.isNotEmpty,
+        visible: context.read<ConfirmPaymentCubit>().allTodayListIncome.isNotEmpty,
         child: ListView.builder(
           padding: EdgeInsets.symmetric(vertical: 4.dp),
           itemExtent: 85.w,
           scrollDirection: Axis.horizontal,
-          itemCount:
-              context.read<ConfirmPaymentCubit>().allTodayListIncome.length,
+          itemCount: context.read<ConfirmPaymentCubit>().allTodayListIncome.length,
           itemBuilder: (context, index) {
             var curentIncome =
                 context.read<ConfirmPaymentCubit>().allTodayListIncome[index];
@@ -122,42 +114,31 @@ class TransactionConfirmCard extends StatelessWidget with AlertDialogMixin {
                     onDetails: () {},
                     amount: curentIncome.amount.toDouble(),
                     onDelete: () {
-
                       showDialog(
                           context: context,
                           builder: (ctx) => showYesOrNoDialog(
                               title: "Delete Income",
                               message:
-                              "Are you sure you want to delete ${curentIncome.name} permanently ? \n you can press cancel on the card to confirm not receiving the transaction",
-                              onYes: (){
-
+                                  "Are you sure you want to delete ${curentIncome.name} permanently ? \n you can press cancel on the card to confirm not receiving the transaction",
+                              onYes: () {
                                 context
                                     .read<ConfirmPaymentCubit>()
                                     .onDeleteTransaction(curentIncome, context);
-
                               },
-                              onNo: () {
-
-                              },
+                              onNo: () {},
                               context: context));
-
                     },
                     onEditAmount: () {
                       changedAmount.text = curentIncome.amount.toString();
                       showDialog(
                           context: context,
                           builder: (ctx) => newAmountDialog(
-                              amount: context
-                                  .read<ConfirmPaymentCubit>()
-                                  .test[index],
+                              amount: context.read<ConfirmPaymentCubit>().test[index],
                               onUpdate: () {
-                                context
-                                    .read<ConfirmPaymentCubit>()
-                                    .onChangeAmount(
-                                        curentIncome.amount.toDouble(),
-                                        double.parse(changedAmount.text));
-                                curentIncome.amount =
-                                    double.parse(changedAmount.text);
+                                context.read<ConfirmPaymentCubit>().onChangeAmount(
+                                    curentIncome.amount.toDouble(),
+                                    double.parse(changedAmount.text));
+                                curentIncome.amount = double.parse(changedAmount.text);
                               },
                               context: ctx,
                               changedAmountCtrl: changedAmount));

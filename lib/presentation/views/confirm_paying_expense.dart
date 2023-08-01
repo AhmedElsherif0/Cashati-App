@@ -91,7 +91,7 @@ class ConfirmPayingExpense extends StatelessWidget {
                                   AppIcons.exclamationMark,
                                   color: AppColor.primaryColor,
                                 ),
-                                SizedBox(width: 4.w),
+                                SizedBox(width: 2.w),
                                 UnderLineTextButton(
                                     onPressed: onDetails,
                                     text: 'Details',

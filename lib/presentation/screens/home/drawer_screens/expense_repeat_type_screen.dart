@@ -126,8 +126,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                         : ListView.builder(
                             padding: EdgeInsets.zero,
                             itemCount: widget.cubit
-                                .getRepeatTransactions(generateIndex)
-                                .length,
+                                .getRepeatTransactions(generateIndex).length,
                             itemBuilder: (context, indexBuilder) => TransactionCardView(
                               onPressSeeMore: () => Navigator.push(
                                 context,

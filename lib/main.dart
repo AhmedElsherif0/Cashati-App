@@ -143,7 +143,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
                     locale: translator.activeLocale,
                     // Active locale
                     supportedLocales: translator.locals(),
-                    //home: const WelcomeScreen(), // Locals list
+                   // home: const WelcomeScreen(), // Locals list
                     initialRoute: AppRouterNames.rSplashScreen,
                     onGenerateRoute: widget.appRouter.onGenerateRoute,
                   );
