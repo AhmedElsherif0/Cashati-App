@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 import '../../../constants/app_icons.dart';
 import '../../styles/colors.dart';
 import '../buttons/custom_text_button.dart';
@@ -40,8 +40,8 @@ class ExpensesAndIncomeHeader extends StatelessWidget {
                 Align(
                   alignment: alignmentExpense,
                   child: SvgPicture.asset(AppIcons.expense,
-                      height: 40.sp,
-                      width: 40.sp,
+                      height: 40.dp,
+                      width: 40.dp,
                       color: AppColor.primaryColor),
                 ),
               CustomTextButton(
@@ -57,7 +57,7 @@ class ExpensesAndIncomeHeader extends StatelessWidget {
               Divider(
                   color: isExpense ? AppColor.primaryColor : Colors.transparent,
                   height: 1.5.h,
-                  thickness: 2.sp,
+                  thickness: 2.dp,
                   indent: 0,
                   endIndent: 0)
             ],
@@ -75,8 +75,8 @@ class ExpensesAndIncomeHeader extends StatelessWidget {
                   alignment: alignmentIncomeOrGoals,
                   child: SvgPicture.asset(AppIcons.goals,
                       color: AppColor.primaryColor,
-                      height: 40.sp,
-                      width: 40.sp),
+                      height: 40.dp,
+                      width: 40.dp),
                 ),
               CustomTextButton(
                   alignment: alignmentIncomeOrGoals,
@@ -90,9 +90,9 @@ class ExpensesAndIncomeHeader extends StatelessWidget {
               Divider(
                   color: isExpense ? Colors.transparent : AppColor.primaryColor,
                   height: 1.5.h,
-                  thickness: 2.sp,
-                  indent: 0.sp,
-                  endIndent: 0.sp)
+                  thickness: 2.dp,
+                  indent: 0.dp,
+                  endIndent: 0.dp)
             ],
           ),
         ),

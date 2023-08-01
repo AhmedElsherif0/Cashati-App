@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 
 import '../styles/colors.dart';
@@ -32,10 +32,10 @@ class CustomAppBar extends StatelessWidget {
           flex: 1,
           child: firstIcon == Icons.arrow_back_ios
               ? IconButton(
-                  iconSize: 24.sp,
+                  iconSize: 24.dp,
                   padding: EdgeInsets.zero,
                   color: AppColor.pineGreen,
-                  icon: Icon(firstIcon, size: 24.sp),
+                  icon: Icon(firstIcon, size: 24.dp),
                   onPressed: onTapFirstIcon ?? () => Navigator.pop(context),
                 )
               : InkWell(
@@ -43,7 +43,7 @@ class CustomAppBar extends StatelessWidget {
                   radius: 0.0,
                   onTap: onTapFirstIcon,
                   child: SvgPicture.asset('assets/icons/stair_menu.svg',
-                      height: 24.sp, width: 24.sp),
+                      height: 24.dp, width: 24.dp),
                 ),
         ),
         Expanded(

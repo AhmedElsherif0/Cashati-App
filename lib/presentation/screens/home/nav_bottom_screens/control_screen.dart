@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/presentation/views/app_drawer.dart';
 
 import '../../../../business_logic/cubit/global_cubit/global_cubit.dart';
@@ -23,7 +23,7 @@ class ControlScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
+                  padding: EdgeInsets.symmetric(horizontal: 12.0.dp),
                   child: CustomAppBar(
                     title: _cubit(context).appBarTitle[_cubit(context).currentIndex],
                     onTapFirstIcon: () => _cubit(context).emitDrawer(context),
@@ -37,7 +37,7 @@ class ControlScreen extends StatelessWidget {
                         ? Theme.of(context)
                             .textTheme
                             .headline3
-                            ?.copyWith(fontSize: 15.sp)
+                            ?.copyWith(fontSize: 15.dp)
                         : null,
                   ),
                 ),

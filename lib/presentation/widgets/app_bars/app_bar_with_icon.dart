@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 
 import '../../styles/colors.dart';
 
@@ -33,17 +33,17 @@ class AppBarWithIcon extends StatelessWidget {
           flex: 1,
           child: firstIcon == Icons.arrow_back_ios
               ? IconButton(
-                  iconSize: 24.sp,
+                  iconSize: 24.dp,
                   padding: EdgeInsets.zero,
                   color: AppColor.pineGreen,
-                  icon: Icon(firstIcon, size: 24.sp),
+                  icon: Icon(firstIcon, size: 24.dp),
                   onPressed: onTapFirstIcon ?? () => Navigator.pop(context))
               : InkWell(
                   borderRadius: BorderRadius.zero,
                   radius: 0.0,
                   onTap: onTapFirstIcon,
                   child: SvgPicture.asset('assets/icons/stair_menu.svg',
-                      height: 22.sp, width: 22.sp)),
+                      height: 22.dp, width: 22.dp)),
         ),
         const Spacer(),
         Center(
@@ -52,7 +52,7 @@ class AppBarWithIcon extends StatelessWidget {
               Text(titleName,
                   style: textStyle ?? Theme.of(context).textTheme.headline3),
               SizedBox(width: 1.w),
-              SvgPicture.asset(titleIcon, height: 22.sp, width: 24.sp)
+              SvgPicture.asset(titleIcon, height: 22.dp, width: 24.dp)
             ],
           ),
         ),
@@ -64,7 +64,7 @@ class AppBarWithIcon extends StatelessWidget {
             replacement: const SizedBox(),
             child: InkWell(
                 onTap: actionIconFunction,
-                child: SvgPicture.asset(actionIcon, height: 22.sp, width: 22.sp)),
+                child: SvgPicture.asset(actionIcon, height: 22.dp, width: 22.dp)),
           ),
         )
       ],

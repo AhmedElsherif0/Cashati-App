@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/screens/test_screens/add_goal_test_screen.dart';
@@ -17,8 +17,8 @@ class AppDrawer extends StatelessWidget {
       width: 65.w,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(20.sp),
-              topRight: Radius.circular(20.sp))),
+              bottomRight: Radius.circular(20.dp),
+              topRight: Radius.circular(20.dp))),
       child: Column(
         children: [
           const Spacer(flex: 2),

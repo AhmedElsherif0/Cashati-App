@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/constants/enum_classes.dart';
-import 'package:temp/data/repository/helper_class.dart';
 
 import '../../styles/colors.dart';
 
@@ -33,7 +32,7 @@ class PriorityWidget extends StatelessWidget {
     return Row(
       children: [
         Icon(Icons.circle,
-            color: color , size: 10.sp),
+            color: color , size: 10.dp),
         SizedBox(width: 0.5.w),
         Text(text,
             style: Theme.of(context).textTheme.caption,

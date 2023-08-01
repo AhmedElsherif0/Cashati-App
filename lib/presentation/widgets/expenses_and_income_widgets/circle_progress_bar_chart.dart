@@ -1,6 +1,6 @@
 import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/data_inside_pie_chart.dart';
 
@@ -32,8 +32,8 @@ class _CircularProgressBarChartState extends State<CircularProgressBarChart> {
         child: DashedCircularProgressBar.aspectRatio(
           aspectRatio: 1.95,
           startAngle: -80,
-          backgroundStrokeWidth: 10.sp,
-          foregroundStrokeWidth: 10.sp,
+          backgroundStrokeWidth: 10.dp,
+          foregroundStrokeWidth: 10.dp,
           animationDuration: const Duration(seconds: 3),
           animation: true,
           ltr: false,

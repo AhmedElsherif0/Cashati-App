@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_month_picker/flutter_month_picker.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
@@ -129,7 +129,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                             textStyle: Theme.of(context).textTheme.subtitle1,
                             backgroundColor: AppColor.white,
                             width: 40.w,
-                            borderRadius: 8.sp,
+                            borderRadius: 8.dp,
                           ),
                         ),
                         const Spacer(),

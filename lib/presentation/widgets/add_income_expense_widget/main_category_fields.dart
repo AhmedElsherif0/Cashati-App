@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/custom_check_box.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/sub_category_fields.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';

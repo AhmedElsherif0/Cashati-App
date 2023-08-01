@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
@@ -53,23 +53,23 @@ class CardHome extends StatelessWidget {
             children: [
               /// Show Expense or Income.
               Padding(
-                padding: EdgeInsets.only(top: 42.sp),
+                padding: EdgeInsets.only(top: 42.dp),
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: AppColor.primaryColor,
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40.sp),
-                      topRight: Radius.circular(40.sp),
+                      topLeft: Radius.circular(40.dp),
+                      topRight: Radius.circular(40.dp),
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.only(right: 14.sp, bottom: 8.sp),
+                    padding: EdgeInsets.only(right: 14.dp, bottom: 8.dp),
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: UnderLineTextButton(
                         text: 'Show $title',
                         onPressed: onShow,
-                        textStyle: TextStyle(fontSize: 14.sp, color: AppColor.white),
+                        textStyle: TextStyle(fontSize: 14.dp, color: AppColor.white),
                         decorationColor: AppColor.white,
                       ),
                     ),
@@ -98,7 +98,7 @@ class CardHome extends StatelessWidget {
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(16.sp),
+                          borderRadius: BorderRadius.circular(16.dp),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
@@ -110,28 +110,25 @@ class CardHome extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: 14.sp, right: 10.sp, left: 10.sp, bottom: 14.sp),
+                              top: 14.dp, right: 10.dp, left: 10.dp, bottom: 14.dp),
                           child: Column(
                             children: [
                               SvgPicture.asset('assets/icons/download.svg',
-                                  height: 20.sp, width: 20.sp),
+                                  height: 20.dp, width: 20.dp),
                               SizedBox(height: 2.h),
                               Center(
-                                child: Text(
-                                  topTransaction(box),
-                                  style: textTheme.headline6,
-                                  maxLines: 1,
-                                ),
+                                child: Text(topTransaction(box),
+                                    style: textTheme.headline6, maxLines: 1),
                               ),
                             ],
                           ),
                         ),
                       ),
-
                     ),
                   ],
                 ),
               ),
+
               /// Dotted Widget
               Padding(
                 padding: EdgeInsets.only(top: 22.h),

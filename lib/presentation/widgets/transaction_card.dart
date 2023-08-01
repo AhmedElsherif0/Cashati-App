@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/data/repository/helper_class.dart';
-
 import '../../constants/enum_classes.dart';
 import '../../data/models/transactions/transaction_model.dart';
 import '../styles/colors.dart';
@@ -33,11 +32,11 @@ class TransactionsCard extends StatelessWidget with HelperClass {
     return Column(
       children: [
         Card(
-          margin: EdgeInsets.symmetric(horizontal: 16.sp),
+          margin: EdgeInsets.symmetric(horizontal: 16.dp),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.sp),
+            borderRadius: BorderRadius.circular(12.dp),
           ),
-          elevation: 4.sp,
+          elevation: 4.dp,
           color: AppColor.lightGrey,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
@@ -66,23 +65,23 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                   ),
                 ),
                 SizedBox(height: 1.h),
-                Row(
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        Visibility(
-                          visible: isRepeated,
-                          child: Column(
-                            children: [
-                              SizedBox(height: 2.h),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(transactionModel.repeatType,
-                                    style: textTheme.subtitle1),
-                              ),
-                            ],
+                    Visibility(
+                      visible: isRepeated,
+                      child: Column(
+                        children: [
+                          SizedBox(height: 2.h),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(transactionModel.repeatType,
+                                style: textTheme.subtitle1),
                           ),
-                        ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
                         Visibility(
                           visible: isSeeMore,
                           child: switchWidgets(
@@ -90,20 +89,21 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                               switchWidgets: switchWidget,
                               transaction: transactionModel),
                         ),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Spacer(),
+                              PriorityWidget(
+                                  text: priorityNames(transactionModel.isExpense,
+                                      transactionModel.isPriority),
+                                  color: transactionModel.isPriority
+                                      ? AppColor.secondColor
+                                      : AppColor.pinkishGrey),
+                            ],
+                          ),
+                        ),
+
                       ],
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          const Spacer(),
-                          PriorityWidget(
-                              text: priorityNames(transactionModel.isExpense,
-                                  transactionModel.isPriority),
-                              color: transactionModel.isPriority
-                                  ? AppColor.secondColor
-                                  : AppColor.pinkishGrey),
-                        ],
-                      ),
                     ),
                   ],
                 )

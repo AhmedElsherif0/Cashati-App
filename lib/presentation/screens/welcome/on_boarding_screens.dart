@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -77,7 +77,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
           itemBuilder: (context, index) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                padding: EdgeInsets.symmetric(horizontal: 20.dp),
                 child: Column(
                   children: [
                     const Spacer(),
@@ -123,14 +123,14 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
                             children: List.generate(
                               myData.length,
                               (index) => Container(
-                                margin: EdgeInsets.only(right: 4.sp),
+                                margin: EdgeInsets.only(right: 4.dp),
                                 height: 1.2.h,
                                 width: _currentIndex == index ? 12.w : 3.w,
                                 decoration: BoxDecoration(
                                   color: _currentIndex == index
                                       ? AppColor.primaryColor
                                       : AppColor.grey,
-                                  borderRadius: BorderRadius.circular(20.0.sp),
+                                  borderRadius: BorderRadius.circular(20.0.dp),
                                 ),
                               ),
                             ),
@@ -139,7 +139,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
                           CustomElevatedButton(
                             onPressed: () => onNext(context),
                             text: myData[index].buttonTitle,
-                            borderRadius: 6.sp,
+                            borderRadius: 6.dp,
                             width: 80.w,
                             height: 6.h,
                           ),
@@ -169,7 +169,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
           itemBuilder: (context, index) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                padding: EdgeInsets.symmetric(horizontal: 20.dp),
                 child: Column(
                   children: [
                     const Spacer(),
@@ -232,14 +232,14 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
                             children: List.generate(
                               myData.length,
                               (index) => Container(
-                                margin: EdgeInsets.only(right: 4.sp),
+                                margin: EdgeInsets.only(right: 4.dp),
                                 height: 1.2.h,
                                 width: _currentIndex == index ? 12.w : 3.w,
                                 decoration: BoxDecoration(
                                   color: _currentIndex == index
                                       ? AppColor.primaryColor
                                       : AppColor.grey,
-                                  borderRadius: BorderRadius.circular(20.0.sp),
+                                  borderRadius: BorderRadius.circular(20.0.dp),
                                 ),
                               ),
                             ),
@@ -248,7 +248,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
                           CustomElevatedButton(
                             onPressed: () => onStart(context),
                             text: myData[index].buttonTitle,
-                            borderRadius: 5.5.sp,
+                            borderRadius: 5.5.dp,
                             width: 80.w,
                             height: 8.h,
                           ),

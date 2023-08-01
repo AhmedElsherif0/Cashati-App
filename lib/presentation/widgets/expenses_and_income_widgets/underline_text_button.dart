@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 
 import '../../styles/colors.dart';
 
@@ -24,10 +24,10 @@ class UnderLineTextButton extends StatelessWidget {
     return TextButton(
       style: TextButton.styleFrom(
         foregroundColor: decorationColor,
-        padding: padding ?? EdgeInsets.only(right: 8.sp),
+        padding: padding ?? EdgeInsets.only(right: 8.dp),
         textStyle: TextStyle(
           color: AppColor.pineGreen,
-          fontSize: 12.4.sp,
+          fontSize: 12.4.dp,
           fontWeight: FontWeight.w400,
           decoration: TextDecoration.underline,
           decorationStyle: TextDecorationStyle.solid,

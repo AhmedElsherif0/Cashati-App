@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 
 import '../../constants/app_icons.dart';
@@ -44,10 +44,10 @@ class ConfirmPayingGoals extends StatelessWidget {
         /// must be child for a Expanded Widget.
         Expanded(
           child: Card(
-            elevation: 4.sp,
+            elevation: 4.dp,
             color: AppColor.white,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24.sp)),
+                borderRadius: BorderRadius.circular(24.dp)),
             child: Column(
               children: [
                 Expanded(

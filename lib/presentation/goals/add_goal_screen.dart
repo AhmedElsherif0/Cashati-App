@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
+import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/app_bars/app_bar_with_icon.dart';
+import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import 'package:temp/presentation/widgets/common_texts/green_text.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
 import 'package:temp/presentation/widgets/editable_text.dart';
@@ -49,86 +51,78 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
               firstIcon: Icons.arrow_back_ios,
               actionIcon: '',
             ),
-            bodyContent(goalsCubit, context)
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 2.0.h),
+                    const GoalNote(),
+                    SizedBox(height: 1.0.h),
+                    Center(
+                        child: Image.asset(AppIcons.savingMoney,
+                            height: 25.h, width: 70.w)),
+                    SizedBox(height: 2.0.h),
+                    const GreenText(text: 'Goal'),
+                    SizedBox(height: 1.0.h),
+                    EditableInfoField(
+                        textEditingController: goalNameCtrl,
+                        hint: 'Buy New Mobile',
+                        backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
+                        iconName: AppIcons.medalStar),
+                    SizedBox(height: 2.0.h),
+                    const GreenText(text: 'Goal Cost'),
+                    SizedBox(height: 1.0.h),
+                    EditableInfoField(
+                        textEditingController: goalCostCtrl,
+                        keyboardType: TextInputType.number,
+                        hint: '2000 LE',
+                        backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
+                        iconName: AppIcons.dollarCircle),
+                    SizedBox(height: 2.0.h),
+                    const GreenText(text: 'Saving Style'),
+                    SizedBox(height: 1.0.h),
+                    BlocBuilder<GoalsCubit, GoalsState>(
+                      builder: (context, state) {
+                        return EditableInfoField(
+                          textEditingController: goalSaveRepeatAmount,
+                          keyboardType: TextInputType.number,
+                          hint: '15 LE',
+                          backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
+                          iconName: AppIcons.cartAdd,
+                          trailing: DropDownCustomWidget(
+                            leadingIcon: '',
+                            dropDownList: goalsCubit.dropDownChannelItems,
+                            hint: 'Choose Repeat',
+                            isExpanded: false,
+                            backgroundColor: Colors.transparent,
+                            icon: AppIcons.forwardArrow,
+                            onChangedFunc: goalsCubit.chooseRepeat,
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 2.0.h),
+                    const GreenText(text: 'First Saving Day'),
+                    SizedBox(height: 1.0.h),
+                    chooseDateWidget(goalsCubit),
+                    SizedBox(height: 2.0.h),
+                    CustomElevatedButton(
+                        height: 6.h,
+                        width: 90.w,
+                        borderRadius: 8.dp,
+                        onPressed: () async =>
+                            await validateAndAddGoal(context, goalsCubit),
+                        text: 'Save'),
+                    SizedBox(height: 2.0.h),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
     ));
-  }
-
-  Widget bodyContent(GoalsCubit goalsCubit, BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 4.0.h),
-            const GoalNote(),
-            SizedBox(height: 1.0.h),
-            Center(
-                child: Image.asset(AppIcons.savingMoney, height: 25.h, width: 70.w)),
-            SizedBox(height: 2.0.h),
-            const GreenText(text: 'Goal'),
-            SizedBox(height: 1.0.h),
-            EditableInfoField(
-                textEditingController: goalNameCtrl,
-                hint: 'Buy New Mobile',
-
-                // containerWidth: double.infinity,
-                iconName: AppIcons.medalStar),
-            SizedBox(height: 2.0.h),
-            const GreenText(text: 'Goal Cost'),
-            SizedBox(height: 1.0.h),
-            EditableInfoField(
-                textEditingController: goalCostCtrl,
-                keyboardType: TextInputType.number,
-                hint: '2000 LE',
-                // containerWidth: double.infinity,
-                iconName: AppIcons.dollarCircle),
-            SizedBox(height: 2.0.h),
-            const GreenText(text: 'Saving Style'),
-            SizedBox(height: 1.0.h),
-            BlocBuilder<GoalsCubit, GoalsState>(
-              builder: (context, state) {
-                return EditableInfoField(
-                  textEditingController: goalSaveRepeatAmount,
-                  keyboardType: TextInputType.number,
-                  hint: '15 LE',
-                  // containerWidth: double.infinity,
-                  iconName: AppIcons.cartAdd,
-                  trailing: DropDownCustomWidget(
-                    leadingIcon: '',
-                    dropDownList: goalsCubit.dropDownChannelItems,
-                    hint: goalsCubit.choseRepeat,
-                    isExpanded: false,
-                    backgroundColor: Colors.transparent,
-                    icon: AppIcons.forwardArrow,
-                    onChangedFunc: goalsCubit.chooseRepeat,
-                  ),
-                );
-              },
-            ),
-            SizedBox(height: 2.0.h),
-            const GreenText(text: 'First Saving Day'),
-            SizedBox(height: 1.0.h),
-            chooseDateWidget(goalsCubit),
-            SizedBox(height: 2.0.h),
-            Container(
-                width: double.infinity,
-                height: 6.h,
-                child: ElevatedButton(
-                    onPressed: () async {
-                      await validateAndAddGoal(context, goalsCubit);
-                    },
-                    child: Text(
-                      'Save',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ))),
-            SizedBox(height: 2.0.h),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget chooseDateWidget(GoalsCubit goalCubit) {
@@ -141,7 +135,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
           },
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.blueGrey.withOpacity(.2),
+                color: AppColor.pinkishGrey.withOpacity(0.25),
                 borderRadius: BorderRadius.circular(20)),
             child: ListTile(
               title: Text(

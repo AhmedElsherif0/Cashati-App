@@ -1,7 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sizer/sizer.dart';
 
 class DottedButton extends StatelessWidget {
   const DottedButton({
@@ -27,8 +27,8 @@ class DottedButton extends StatelessWidget {
           dashPattern: const [3, 7],
           borderType: BorderType.RRect,
           strokeWidth: 2,
-          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: 18.sp),
-          radius: Radius.circular(4.sp),
+          padding: EdgeInsets.symmetric(horizontal: 30.dp, vertical: 18.dp),
+          radius: Radius.circular(4.dp),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

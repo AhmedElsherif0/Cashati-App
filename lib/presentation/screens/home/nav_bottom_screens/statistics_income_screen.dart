@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_month_picker/flutter_month_picker.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
@@ -38,14 +38,14 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
   @override
   void didChangeDependencies() {
     getStatisticsCubit().getExpenses();
-    getStatisticsCubit().getTodayExpenses(true);
+    getStatisticsCubit().getTodayExpenses(false);
     super.didChangeDependencies();
   }
 
   @override
   void didUpdateWidget(covariant IncomeStatisticsScreen oldWidget) {
-    context.read<StatisticsCubit>().getTotalExpense();
-    context.read<StatisticsCubit>().totalImportantExpenses();
+    context.read<StatisticsCubit>().getTotalExpense(isExpense: false);
+    context.read<StatisticsCubit>().totalImportantExpenses(isExpense: false);
     super.didUpdateWidget(oldWidget);
   }
 
@@ -124,7 +124,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                             textStyle: Theme.of(context).textTheme.subtitle1,
                             backgroundColor: AppColor.white,
                             width: 40.w,
-                            borderRadius: 8.sp,
+                            borderRadius: 8.dp,
                           ),
                         ),
                         const Spacer(),
@@ -144,7 +144,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
 
                         /// TabBarView Widgets.
                         Expanded(
-                          flex: 36,
+                          flex: 32,
                           child: CustomTabBarViewEdited(
                             priorityName: PriorityType.Fixed,
                             transactions: getStatisticsCubit().byDayList,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/data/repository/helper_class.dart';
 
 import '../../../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
@@ -66,10 +66,10 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            iconSize: 24.sp,
+            iconSize: 24.dp,
             padding: EdgeInsets.zero,
             color: AppColor.pineGreen,
-            icon: Icon(Icons.arrow_back_ios, size: 24.sp),
+            icon: Icon(Icons.arrow_back_ios, size: 24.dp),
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(widget.appBarText, style: textTheme.headline3),
@@ -77,7 +77,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(2.h),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.sp),
+              padding: EdgeInsets.symmetric(horizontal: 16.dp),
               child: TabBar(
                 onTap: (value) => setState(() => onSwap(index: value)),
                 indicatorWeight: 0,

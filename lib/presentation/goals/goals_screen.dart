@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
@@ -87,7 +87,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
       leadingIcon: AppIcons.filterGreen,
       arrowIconColor: AppColor.pineGreen,
       hintStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
-          fontWeight: FontWeight.w300, fontSize: 13.sp, color: AppColor.pineGreen),
+          fontWeight: FontWeight.w300, fontSize: 13.dp, color: AppColor.pineGreen),
     );
   }
 }

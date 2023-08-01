@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
+
 import '../styles/colors.dart';
 
 class CustomNotificationTile extends StatelessWidget {
@@ -28,10 +28,10 @@ class CustomNotificationTile extends StatelessWidget {
       child: InkWell(
         onTap: onPressedNotification,
         child: Card(
-          margin: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 12.sp),
+          margin: EdgeInsets.symmetric(horizontal: 12.dp, vertical: 12.dp),
           elevation: 2,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16.sp))),
+              borderRadius: BorderRadius.all(Radius.circular(16.dp))),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -39,7 +39,7 @@ class CustomNotificationTile extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.topRight,
-                  child: Text('$dateTime',
+                  child: Text(dateTime,
                       style: Theme.of(context).textTheme.overline,
                       overflow: TextOverflow.ellipsis),
                 ),
@@ -57,7 +57,7 @@ class CustomNotificationTile extends StatelessWidget {
                             onPressed: onPressedNotification,
                             icon: firstIcon!,
                             color: Colors.green,
-                            iconSize: 36.sp,
+                            iconSize: 36.dp,
                           ),
                         ),
                       ),

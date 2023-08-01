@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sizer/sizer.dart';
 import 'package:temp/data/models/notifications.dart';
 import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/widgets/gradiant_background.dart';

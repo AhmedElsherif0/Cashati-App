@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import '../../styles/colors.dart';
 
 class ChartBar extends StatefulWidget {
@@ -41,7 +41,7 @@ class _ChartBarState extends State<ChartBar> {
   @override
   Widget build(BuildContext context) {
     final textTheme =
-        Theme.of(context).textTheme.headline6?.copyWith(fontSize: 8.5.sp);
+        Theme.of(context).textTheme.headline6?.copyWith(fontSize: 8.5.dp);
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.end,
@@ -69,7 +69,7 @@ class _ChartBarState extends State<ChartBar> {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: AppColor.primaryColor,
-                  borderRadius: BorderRadius.circular(12.sp),
+                  borderRadius: BorderRadius.circular(12.dp),
                 ),
               ),
             ),

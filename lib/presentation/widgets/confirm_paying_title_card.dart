@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 
 import '../styles/colors.dart';
 
@@ -20,8 +20,8 @@ class ConfirmPayingTitleCard extends StatelessWidget {
         decoration: BoxDecoration(
             color: AppColor.primaryColor,
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24.sp),
-                topRight: Radius.circular(24.sp))),
+                topLeft: Radius.circular(24.dp),
+                topRight: Radius.circular(24.dp))),
         child: Align(
           alignment: Alignment.center,
           child: Text(

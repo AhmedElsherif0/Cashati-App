@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
 import 'package:temp/presentation/views/confirm_paying_expense.dart';
 import 'package:temp/presentation/views/goal_confirm_card.dart';
@@ -53,7 +53,7 @@ class _ConfirmPayingScreenState extends State<ConfirmPayingScreen>
               Expanded(
                 flex: 3,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.sp),
+                  padding: EdgeInsets.symmetric(horizontal: 12.dp),
                   child: ConfirmPaymentTabBar(
                     tabBarIndex: context.read<ConfirmPaymentCubit>().currentIndex,
                     onChangeIndex: (index) {
