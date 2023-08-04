@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
@@ -16,24 +17,24 @@ mixin AlertDialogMixin {
       required BuildContext context,
       required TextEditingController changedAmountCtrl}) {
     return AlertDialog(
-      title: const Text("Update Paid Amount"),
+      title: const Text(AppPresentationStrings.updatePaidAmountEng),
       content: TextFormField(
         keyboardType: TextInputType.number,
         controller: changedAmountCtrl,
-        decoration: InputDecoration(hintText: "$amount", labelText: "Paid Amount"),
+        decoration: InputDecoration(hintText: "$amount", labelText: AppPresentationStrings.paidAmountEng),
       ),
       actions: [
         CustomElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            text: "Cancel"),
+            text: AppPresentationStrings.cancelEng),
         CustomElevatedButton(
             onPressed: () {
               onUpdate();
               Navigator.of(context).pop();
             },
-            text: "Update"),
+            text: AppPresentationStrings.updateEng),
       ],
     );
   }
@@ -94,7 +95,7 @@ mixin AlertDialogMixin {
                     alignment: Alignment.bottomRight,
                     icon: Icons.arrow_back_ios,
                     onPressed: () => Navigator.of(context).pop(),
-                    text: 'Back',
+                    text: AppPresentationStrings.backEng,
                   ),
                 ],
               ),
@@ -169,7 +170,7 @@ mixin AlertDialogMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Loading",
+                      AppPresentationStrings.loadingEng,
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -177,7 +178,7 @@ mixin AlertDialogMixin {
                     ),
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Back'),
+                      child: const Text(AppPresentationStrings.backEng),
                     ),
                   ],
                 ),
@@ -204,11 +205,11 @@ mixin AlertDialogMixin {
           children: [
             CustomTextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              text: 'Not yet',
+              text: AppPresentationStrings.notYetEng,
             ),
             CustomTextButton(
               onPressed: onPressed,
-              text: 'Sure',
+              text: AppPresentationStrings.sureEng,
             )
           ],
         )
@@ -251,12 +252,12 @@ mixin AlertDialogMixin {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                  text: 'You Will Achieve Your',
+                                  text: AppPresentationStrings.youWillAchieveYourEng,
                                   style: textTheme.subtitle2
                                       ?.copyWith(color: AppColor.black)),
-                              TextSpan(text: ' Goal ', style: textTheme.headline4),
+                              TextSpan(text: AppPresentationStrings.goalEng, style: textTheme.headline4),
                               TextSpan(
-                                text: 'After $infoMessage ',
+                                text: '${AppPresentationStrings.afterEng} $infoMessage ',
                                 style: textTheme.subtitle2
                                     ?.copyWith(color: AppColor.black),
                               )
@@ -265,7 +266,7 @@ mixin AlertDialogMixin {
                         ),
                       ),
                       const Spacer(),
-                      Text('Are You Ready to Start Save Your Money?',
+                      Text(AppPresentationStrings.areYouReadySaveMoneyEng,
                           style: textTheme.headline6),
                       Expanded(
                         flex: 4,
@@ -276,7 +277,7 @@ mixin AlertDialogMixin {
                                 onPressed: () {
                                   onPressedNoFunction();
                                 },
-                                text: 'No',
+                                text: AppPresentationStrings.noEng,
                                 isVisible: false,
                                 textStyle: textTheme.headline6
                                     ?.copyWith(color: AppColor.grey)),
@@ -289,7 +290,7 @@ mixin AlertDialogMixin {
                                 onPressed: () {
                                   onPressedYesFunction();
                                 },
-                                text: 'Yes',
+                                text: AppPresentationStrings.yesEng,
                                 isVisible: false),
                             const Spacer(),
                           ],

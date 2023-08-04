@@ -17,6 +17,7 @@ class AppStrings {
   static const String languageSetting = 'Language';
   static const String englishSettingUsa = 'English(united states)';
   static const String currencySetting = 'Currency';
+  static const String savedCurrency = 'savedCurrency';
   static const String currencyEgp = 'EGP - Egyptian Pound';
   static const String moreInfoSetting = 'More Settings';
   static const String appInfoSetting = 'App Info';

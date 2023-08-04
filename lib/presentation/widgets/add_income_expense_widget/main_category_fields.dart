@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/custom_check_box.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/sub_category_fields.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
@@ -68,7 +69,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
       .any((element) => element == widget.mainCategoryName);
 
   showSuccessAndNavigate(BuildContext context) {
-    showSuccessfulDialogNoOptions(context, 'Added Successfully', '');
+    showSuccessfulDialogNoOptions(context, AppPresentationStrings.addedSuccessfullyEng, '');
     Future.delayed(const Duration(seconds: 2),
         () => Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute));
   }
@@ -95,7 +96,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
           BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
         } else if (state is AddExpOrIncError) {
           errorSnackBar(
-              context: context, message: 'Kindly Try again , and contact us !');
+              context: context, message: AppPresentationStrings.kindlyTryNContactUsEng);
         }
       },
       builder: (context, state) {
@@ -131,7 +132,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                         width: 65.w,
                         child: EditableInfoField(
                           textEditingController: amountCtrl,
-                          hint: 'Amount',
+                          hint: AppPresentationStrings.amountEng,
                           iconName: AppIcons.amountIcon,
                           keyboardType: TextInputType.number,
                         ),
@@ -150,7 +151,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                     width: 65.w,
                     child: EditableInfoField(
                       textEditingController: nameCtrl,
-                      hint: _checkTheCurrentTab() ? 'Expense Name' : 'Income Name',
+                      hint: _checkTheCurrentTab() ? AppPresentationStrings.expenseNameEng : AppPresentationStrings.incomeNameEng,
                       iconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
@@ -167,7 +168,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                     width: 65.w,
                     child: EditableInfoField(
                       textEditingController: descriptionCtrl,
-                      hint: 'Write Description',
+                      hint: AppPresentationStrings.writeDescriptionEng,
                       iconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
@@ -176,7 +177,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                   Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     CustomCheckBox(
                         isImportant: widget.addExpOrIncCubit.isImportant,
-                        text: _checkTheCurrentTab() ? 'Important' : 'Fixed',
+                        text: _checkTheCurrentTab() ? AppPresentationStrings.importantEng : AppPresentationStrings.fixedEng,
                         onChanged: widget.addExpOrIncCubit.isImportantOrNo),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -216,7 +217,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                             print(
                                 "chooosen daaaaate is ${widget.addExpOrIncCubit.chosenDate}");
                           },
-                          text: 'Add',
+                          text: AppPresentationStrings.addEng,
                         ),
                       ],
                     ),

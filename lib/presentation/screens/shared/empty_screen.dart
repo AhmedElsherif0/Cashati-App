@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../constants/app_presentation_strings.dart';
 import '../../widgets/buttons/elevated_button.dart';
 
 
@@ -21,7 +22,7 @@ class EmptyScreen extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                'No Expenses yet',
+                AppPresentationStrings.noExpensesYetEng,
                 style: Theme.of(context).textTheme.headline3,
               ),
             ),
@@ -29,7 +30,7 @@ class EmptyScreen extends StatelessWidget {
             Expanded(
               flex: 2,
               child: CustomElevatedButton(
-                text: 'Back',
+                text: AppPresentationStrings.backEng,
                 onPressed: () {},
                 icon: Icons.arrow_back_ios,
               ),
@@ -38,7 +39,7 @@ class EmptyScreen extends StatelessWidget {
             Expanded(
               flex: 2,
               child: CustomElevatedButton(
-                text: 'Add',
+                text: AppPresentationStrings.addEng,
                 onPressed: () {},
                 icon: Icons.add,
               ),

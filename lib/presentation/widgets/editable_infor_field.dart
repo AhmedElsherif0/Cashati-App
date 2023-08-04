@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
 import '../../constants/app_icons.dart';
@@ -28,7 +29,7 @@ class _EditableSubCategFieldState extends State<EditableSubCategField> {
             controller:widget.subCategoryName,
             validator: (value){
               if(value!.isEmpty){
-                return 'This field can\'t be empty';
+                return AppPresentationStrings.thisFieldCantBeEmptyEng;
               }else{
                // widget.subCategoryName=value;
               }
@@ -41,7 +42,7 @@ class _EditableSubCategFieldState extends State<EditableSubCategField> {
                 .bodyText2!
                 .copyWith(fontWeight: FontWeight.w300,),
             decoration: InputDecoration(
-                hintText: 'write subcategory name',
+                hintText: AppPresentationStrings.writeSubCategoryNameEng,
                 hintStyle: Theme.of(context)
                     .textTheme
                     .bodyText2!
