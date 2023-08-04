@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
 class GoalNote extends StatelessWidget {
@@ -23,7 +22,7 @@ class GoalNote extends StatelessWidget {
           Image.asset(AppIcons.goalNote,height: 10.h,width: 10.w,),
           SizedBox(width: 2.w,),
           Flexible(
-            child: Text(AppPresentationStrings.takeCareNeedsEng,
+            child: Text('Take care of your basic needs !',
             style: Theme.of(context).textTheme.bodyText1,
             ),
           )

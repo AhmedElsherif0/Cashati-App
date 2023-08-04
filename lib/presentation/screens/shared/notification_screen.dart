@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
-import '../../../constants/app_presentation_strings.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../views/custom_notification_tile.dart';
 
@@ -17,19 +16,19 @@ class NotificationScreen extends StatelessWidget {
           const CustomAppBar(
               firstIcon: Icons.arrow_back_ios,
               isEndIconVisible: false,
-              title: AppPresentationStrings.notificationsEng),
+              title: 'Notofications'),
           Expanded(
             child: ListView.builder(
               itemCount: 8,
               itemBuilder: (_, index) => CustomNotificationTile(
                   isActionTaken:false ,
 
-                  dateTime: AppPresentationStrings.threeHoursEng,
+                  dateTime: '3h',
                   firstIcon: const Icon(Icons.check_circle_outline),
                   onPressedNotification: () {},
-                  title: AppPresentationStrings.goalConfirmationSuccessEng,
+                  title: 'Goal Confirmation Success',
                   subTitle:
-                      AppPresentationStrings.youHaveSuccConfirmedYourExpForFoodEng),
+                      'You have Successfully confirmed your expense for food'),
             ),
           ),
         ],

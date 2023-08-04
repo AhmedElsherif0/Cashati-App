@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import '../../widgets/show_dialog.dart';
 
@@ -50,7 +49,7 @@ class _LoadingScreenState extends State<LoadingScreen> with AlertDialogMixin {
                       gaplessPlayback: true,
                     ),
                     Text(
-                      '${AppPresentationStrings.loadingEng}...',
+                      'Loading...',
                       style: Theme.of(context).textTheme.headline2,
                     ),
                   ],

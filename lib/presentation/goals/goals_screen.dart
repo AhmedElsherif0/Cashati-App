@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
@@ -40,7 +39,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
               SizedBox(height: 6.h),
               AppBarWithIcon(
                 titleIcon: AppIcons.medalAppBar,
-                titleName: AppPresentationStrings.yourGoalsEng,
+                titleName: 'Your Goals',
                 firstIcon: Icons.arrow_back_ios,
                 actionIcon: AppIcons.addIcon,
                 actionIconFunction: () =>

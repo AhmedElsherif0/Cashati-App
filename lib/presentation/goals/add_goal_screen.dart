@@ -4,7 +4,6 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
@@ -48,7 +47,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
             ),
             const AppBarWithIcon(
               titleIcon: AppIcons.moneyAppBar,
-              titleName: AppPresentationStrings.timeToSaveMoneyEng,
+              titleName: 'Time to save money',
               firstIcon: Icons.arrow_back_ios,
               actionIcon: '',
             ),
@@ -64,20 +63,20 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
                         child: Image.asset(AppIcons.savingMoney,
                             height: 25.h, width: 70.w)),
                     SizedBox(height: 2.0.h),
-                    const GreenText(text: AppPresentationStrings.goalEng),
+                    const GreenText(text: 'Goal'),
                     SizedBox(height: 1.0.h),
                     EditableInfoField(
                         textEditingController: goalNameCtrl,
-                        hint: AppPresentationStrings.buyNewMobileEng,
+                        hint: 'Buy New Mobile',
                         backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
                         iconName: AppIcons.medalStar),
                     SizedBox(height: 2.0.h),
-                    const GreenText(text: AppPresentationStrings.goalCostEng),
+                    const GreenText(text: 'Goal Cost'),
                     SizedBox(height: 1.0.h),
                     EditableInfoField(
                         textEditingController: goalCostCtrl,
                         keyboardType: TextInputType.number,
-                        hint: '${AppPresentationStrings.twoThousandEng} LE',
+                        hint: '2000 LE',
                         backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
                         iconName: AppIcons.dollarCircle),
                     SizedBox(height: 2.0.h),
@@ -88,13 +87,13 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
                         return EditableInfoField(
                           textEditingController: goalSaveRepeatAmount,
                           keyboardType: TextInputType.number,
-                          hint: '${AppPresentationStrings.fifteenEng} LE',
+                          hint: '15 LE',
                           backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
                           iconName: AppIcons.cartAdd,
                           trailing: DropDownCustomWidget(
                             leadingIcon: '',
                             dropDownList: goalsCubit.dropDownChannelItems,
-                            hint: AppPresentationStrings.chooseRepeatEng,
+                            hint: 'Choose Repeat',
                             isExpanded: false,
                             backgroundColor: Colors.transparent,
                             icon: AppIcons.forwardArrow,
@@ -104,7 +103,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
                       },
                     ),
                     SizedBox(height: 2.0.h),
-                    const GreenText(text: AppPresentationStrings.firstSavingDayEng),
+                    const GreenText(text: 'First Saving Day'),
                     SizedBox(height: 1.0.h),
                     chooseDateWidget(goalsCubit),
                     SizedBox(height: 2.0.h),
@@ -114,7 +113,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
                         borderRadius: 8.dp,
                         onPressed: () async =>
                             await validateAndAddGoal(context, goalsCubit),
-                        text: AppPresentationStrings.saveEng),
+                        text: 'Save'),
                     SizedBox(height: 2.0.h),
                   ],
                 ),
@@ -141,7 +140,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
             child: ListTile(
               title: Text(
                 goalCubit.chosenDate == null
-                    ? AppPresentationStrings.chooseDateEng
+                    ? 'Choose Date'
                     : '${goalCubit.chosenDate!.day} \\ ${goalCubit.chosenDate!.month} \\ ${goalCubit.chosenDate!.year}',
                 style: Theme.of(context)
                     .textTheme
@@ -158,7 +157,6 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
 
   validateAndAddGoal(BuildContext context, GoalsCubit goalCubit) async {
     if (_addGoalKey.currentState!.validate()) {
-      //TODO put goal comment text form field
       final GoalModel goalModel = GoalModel.copyWith(
           goalComment: 'goalComment',
           goalCreatedDay: DateTime.now(),
@@ -197,7 +195,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> with AlertDialogMixin {
 
   showDialogAndNavigate(BuildContext context) {
     Navigator.pop(context);
-    showSuccessfulDialog(context, AppPresentationStrings.goalAddedEng, AppPresentationStrings.youHaveSuccessfullyAddedGoalEng);
+    showSuccessfulDialog(context, 'Goal Added', 'You have successfully added goal');
     Future.delayed(const Duration(seconds: 1), () {
       // Navigator.pop(context);
       Navigator.pushReplacementNamed(context, AppRouterNames.rGetGoals);

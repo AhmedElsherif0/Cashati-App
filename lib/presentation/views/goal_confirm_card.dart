@@ -6,8 +6,6 @@ import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/presentation/views/confirm_paying_goals.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
-import '../../constants/app_presentation_strings.dart';
-
 class GoalConfirmCard extends StatelessWidget with AlertDialogMixin {
   const GoalConfirmCard({Key? key, required this.changedAmount}) : super(key: key);
   final TextEditingController changedAmount;
@@ -59,7 +57,7 @@ class GoalConfirmCard extends StatelessWidget with AlertDialogMixin {
           );
         },
       ),
-      replacement: Center(child: Text(AppPresentationStrings.noGoalsToConfirmEng,),),
+      replacement: Center(child: Text("No Goals To confirm",),),
 
     );
   }

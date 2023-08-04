@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -88,7 +87,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
                         alignment: Alignment.topRight,
                         child: TextButton(
                           onPressed: () => onStart(context),
-                          child: Text(AppPresentationStrings.skipEng,
+                          child: Text('Skip',
                               style: textTheme.bodyText2?.copyWith(letterSpacing: 2)),
                         ),
                       ),
@@ -103,7 +102,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('${AppPresentationStrings.welcomeToEng} ', style: textTheme.headline3),
+                              Text('Welcome to ', style: textTheme.headline3),
                               const LogoName(),
                             ],
                           ),
@@ -180,7 +179,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
                         alignment: Alignment.topRight,
                         child: TextButton(
                           onPressed: () => onStart(context),
-                          child: Text(AppPresentationStrings.skipEng,
+                          child: Text('Skip',
                               style: textTheme.bodyText2?.copyWith(letterSpacing: 2)),
                         ),
                       ),

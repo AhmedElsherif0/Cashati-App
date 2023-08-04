@@ -3,7 +3,6 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
@@ -68,7 +67,7 @@ class CardHome extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: UnderLineTextButton(
-                        text: '${AppPresentationStrings.showEng} $title',
+                        text: 'Show $title',
                         onPressed: onShow,
                         textStyle: TextStyle(fontSize: 14.dp, color: AppColor.white),
                         decorationColor: AppColor.white,
@@ -86,11 +85,11 @@ class CardHome extends StatelessWidget {
                     Visibility(
                       visible: isExpense,
                       replacement: Text(
-                       AppPresentationStrings.topIncomeOfTheMonthEng,
+                        'Top Income Of the month',
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       child: Text(
-                        AppPresentationStrings.topExpenseOfTheMonthEng,
+                        'Top Expense Of this month',
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
@@ -139,12 +138,12 @@ class CardHome extends StatelessWidget {
                     DottedButton(
                         icon: AppIcons.balance,
                         text: ourGeneral.balance == 0
-                            ? '${AppPresentationStrings.balanceEng} ${0.00.toStringAsFixed(2)}LE'
+                            ? 'Balance ${0.00.toStringAsFixed(2)}LE'
                             : '${ourGeneral.balance.toStringAsFixed(2)} LE',
                         onPressed: onBalance),
                     SizedBox(height: 2.h),
                     DottedButton(
-                        icon: AppIcons.addWhite, text: '${AppPresentationStrings.addEng} $title', onPressed: onAdd),
+                        icon: AppIcons.addWhite, text: 'Add $title', onPressed: onAdd),
                   ],
                 ),
               ),

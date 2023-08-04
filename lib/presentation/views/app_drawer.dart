@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/screens/test_screens/add_goal_test_screen.dart';
 import 'package:temp/presentation/screens/test_screens/fetch_goals_test.dart';
@@ -34,7 +33,7 @@ class AppDrawer extends StatelessWidget {
             flex: 3,
             child: DrawerItem(
               icon: AppIcons.expenseDrawer,
-              text: AppPresentationStrings.expenseTypesEng,
+              text: 'Expense Types',
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRouterNames.rExpenseRepeatType),
             ),
@@ -43,7 +42,7 @@ class AppDrawer extends StatelessWidget {
             flex: 3,
             child: DrawerItem(
                 icon: AppIcons.incomeDrawer,
-                text: AppPresentationStrings.incomeTypesEng,
+                text: 'Income Types',
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRouterNames.rIncomeRepeatType),),
           ),
@@ -63,7 +62,7 @@ class AppDrawer extends StatelessWidget {
           Expanded(
             flex: 3,
             child: DrawerItem(
-                icon: AppIcons.goalsDrawer, text: AppPresentationStrings.goalsEng, onTap: () {
+                icon: AppIcons.goalsDrawer, text: 'Goals', onTap: () {
               Navigator.pushNamed(context, AppRouterNames.rGetGoals);
 
             }),
@@ -71,7 +70,7 @@ class AppDrawer extends StatelessWidget {
           Expanded(
             flex: 3,
             child: DrawerItem(
-                icon: AppIcons.exportDrawer, text: AppPresentationStrings.exportDataEng, onTap: () {}),
+                icon: AppIcons.exportDrawer, text: 'Export Data', onTap: () {}),
           ),
           Expanded(
             flex: 3,

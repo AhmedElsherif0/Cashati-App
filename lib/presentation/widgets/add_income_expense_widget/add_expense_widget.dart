@@ -16,12 +16,14 @@ class _AddExpenseWidgetState extends State<AddExpenseWidget> {
     // TODO: implement initState
     super.initState();
     BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList();
+    print('Icon Add Code Point ${Icons.add.codePoint}, Color ${Colors.indigo.value}');
   }
 
   @override
   Widget build(BuildContext context) {
     AddExpOrIncCubit addExpOrIncCubit = BlocProvider.of<AddExpOrIncCubit>(context);
     BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList();
+    print('Built Exp');
 
     return ListView.builder(
       itemCount: addExpOrIncCubit.expMainCats.length,

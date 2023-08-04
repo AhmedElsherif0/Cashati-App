@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
 import 'package:temp/business_logic/cubit/home_cubit/home_state.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/custom_notification_tile.dart';
 import 'package:temp/presentation/widgets/notification_confirm.dart';
@@ -41,7 +40,7 @@ class _NotificationTestScreenState extends State<NotificationTestScreen> {
           const CustomAppBar(
               firstIcon: Icons.arrow_back_ios,
               isEndIconVisible: false,
-              title: AppPresentationStrings.notificationsEng),
+              title: 'Notifications'),
           BlocBuilder<HomeCubit, HomeState>(
   builder: (context, state) {
     return Expanded(

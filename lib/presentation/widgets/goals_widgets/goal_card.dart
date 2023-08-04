@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -40,22 +39,22 @@ class GoalCard extends StatelessWidget with HelperClass {
                 children: [
                   goalName(context, goal.goalName),
                   GoalsRichText(
-                      title: AppPresentationStrings.goalCostEng,
+                      title: 'Goal Cost',
                       subTitle: '${goal.goalRemainingAmount} LE'),
                   GoalsRichText(
-                      title:  AppPresentationStrings.yourSavingEng,
+                      title: 'Your Saving',
                       subTitle:
                           '${goal.goalSaveAmount} LE, ${goal.goalSaveAmountRepeat}'),
                   GoalsRichText(
-                      title:  AppPresentationStrings.beginInEng,
+                      title: 'Begin In',
                       subTitle: '${formatDayWeek(goal.goalStartSavingDate)},'
                           ' ${formatDayDate(goal.goalStartSavingDate)}'),
                   GoalsRichText(
-                      title:  AppPresentationStrings.completeInEng,
+                      title: 'Complete In',
                       subTitle: '${formatDayWeek(goal.goalCompletionDate)},'
                           ' ${formatDayDate(goal.goalCompletionDate)}'),
                   GoalsRichText(
-                      title:  AppPresentationStrings.remainingAmountEng,
+                      title: 'Remaining Amount',
                       subTitle: '${goal.goalRemainingAmount} LE'),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 1.h),

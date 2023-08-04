@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/presentation/styles/decorations.dart';
 
 import '../../styles/colors.dart';
@@ -24,7 +23,7 @@ class DefaultDropDownButton extends StatefulWidget {
 }
 
 class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
-  Color get dropDownColor => widget.selectedValue != AppPresentationStrings.chooseCurrencyEng
+  Color get dropDownColor => widget.selectedValue != 'Choose Currency'
       ? AppColor.white
       : AppColor.primaryColor;
 
@@ -35,7 +34,7 @@ class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
       height: 8.h,
       width: 100.w,
       child: Card(
-        color: widget.selectedValue != AppPresentationStrings.chooseCurrencyEng
+        color: widget.selectedValue != 'Choose Currency'
             ? AppColor.primaryColor
             : AppColor.white,
         shape: AppDecorations.dropDownCurrency,

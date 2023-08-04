@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
 
 import '../../../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
@@ -20,7 +19,7 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final expenseCubit = BlocProvider.of<ExpenseRepeatCubit>(context);
-    return TransactionRepeatWidget(cubit: expenseCubit, appBarText: AppPresentationStrings.expenseRepeatEng);
+    return TransactionRepeatWidget(cubit: expenseCubit, appBarText: 'Expense Repeat');
   }
 }
 

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
@@ -146,7 +145,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                         ),
 
                         /// TabBarView Widgets.
-                        const DetailsText(text: AppPresentationStrings.filteredByEng),
+                        const DetailsText(text: 'Filtered By'),
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(

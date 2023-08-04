@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
 
 import 'package:temp/presentation/views/confirm_paying_expense.dart';
@@ -42,9 +41,9 @@ class TransactionConfirmCard extends StatelessWidget
                       showDialog(
                           context: context,
                           builder: (ctx) => showYesOrNoDialog(
-                              title: AppPresentationStrings.deleteExpenseEng,
+                              title: "Delete Expense",
                               message:
-                                  "${AppPresentationStrings.areYouSureDeleteEng} ${curentExpense.name} ${AppPresentationStrings.permanentlyEng} ?",
+                                  "Are you sure you want to delete ${curentExpense.name} permanently ?",
                               onYes: () {
                                 context
                                     .read<ConfirmPaymentCubit>()
@@ -92,7 +91,7 @@ class TransactionConfirmCard extends StatelessWidget
           },
         ),
         replacement: Center(
-          child: Text(AppPresentationStrings.noDataToConfirmEng),
+          child: Text("No Data To confirm"),
         ),
       ),
       replacement: Visibility(
@@ -118,9 +117,9 @@ class TransactionConfirmCard extends StatelessWidget
                       showDialog(
                           context: context,
                           builder: (ctx) => showYesOrNoDialog(
-                              title: AppPresentationStrings.deleteIncomeEng,
+                              title: "Delete Income",
                               message:
-                                  "${AppPresentationStrings.areYouSureDeleteEng} ${curentIncome.name} ${AppPresentationStrings.permanentlyEng} ? \n ${AppPresentationStrings.youCanPressCancelEng}",
+                                  "Are you sure you want to delete ${curentIncome.name} permanently ? \n you can press cancel on the card to confirm not receiving the transaction",
                               onYes: () {
                                 context
                                     .read<ConfirmPaymentCubit>()
@@ -167,7 +166,7 @@ class TransactionConfirmCard extends StatelessWidget
           },
         ),
         replacement: Center(
-          child: Text(AppPresentationStrings.noDataToConfirmEng),
+          child: Text("No Data To confirm"),
         ),
       ),
     );

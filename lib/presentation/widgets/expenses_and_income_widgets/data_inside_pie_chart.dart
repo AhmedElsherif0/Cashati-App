@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
-import '../../../constants/app_presentation_strings.dart';
-
 class DataInsidePieChart extends StatelessWidget {
   const DataInsidePieChart(
       {Key? key,
@@ -28,7 +26,7 @@ class DataInsidePieChart extends StatelessWidget {
             flex: 4,
             child: Text(
                 (maxExpenses.toInt() | totalExpenses.toInt() != 0)
-                    ? '${AppPresentationStrings.totalEng} $header'
+                    ? 'Total $header'
                     : ' Empty Show',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.subtitle1),
@@ -49,7 +47,7 @@ class DataInsidePieChart extends StatelessWidget {
               child: Center(
                 child: UnderLineTextButton(
                   padding: EdgeInsets.zero,
-                  text: AppPresentationStrings.backToHomeEng,
+                  text: 'Back To Home',
                   onPressed: (maxExpenses.toInt() | totalExpenses.toInt() == 0)
                       ? onPressToHome
                       : () {},
