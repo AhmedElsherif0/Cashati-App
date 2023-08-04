@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
 import '../../../constants/app_icons.dart';
 import '../../styles/colors.dart';
 import '../buttons/custom_text_button.dart';
@@ -11,7 +12,7 @@ class ExpensesAndIncomeHeader extends StatelessWidget {
     this.isExpense = true,
     required this.onPressedIncome,
     required this.onPressedExpense,
-    this.incomeOrGoals = 'Income',
+    this.incomeOrGoals = AppPresentationStrings.incomeEng,
     this.isCategory = false,
     this.alignmentExpense = Alignment.centerLeft,
     this.alignmentIncomeOrGoals = Alignment.centerRight,
@@ -47,7 +48,7 @@ class ExpensesAndIncomeHeader extends StatelessWidget {
               CustomTextButton(
                 alignment: alignmentExpense,
                 isVisible: false,
-                text: 'Expenses',
+                text: AppPresentationStrings.expensesEng,
                 onPressed: onPressedExpense,
                 textStyle: isExpense
                     ? textTheme.headline6

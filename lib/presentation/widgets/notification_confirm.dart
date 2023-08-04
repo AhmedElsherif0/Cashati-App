@@ -7,6 +7,7 @@ import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
+import '../../constants/app_presentation_strings.dart';
 import '../styles/colors.dart';
 import '../widgets/buttons/cancel_confirm_text_button.dart';
 import '../widgets/custom_row_icon_with_title.dart';
@@ -52,7 +53,7 @@ class NotifyingConfirmPaying extends StatelessWidget {
 
                 Expanded(
                   child: RowIconWithTitle(
-                    toolTipMessage: "Transaction paid amount,you can change it",
+                    toolTipMessage: AppPresentationStrings.paidAmountToolTipEng,
 
                     startIcon: AppIcons.poundSterlingSign,
                     title: '${notificationModel.amount.toStringAsFixed(0)} LE',
@@ -65,7 +66,7 @@ class NotifyingConfirmPaying extends StatelessWidget {
                 ),
                 Expanded(
                   child: RowIconWithTitle(
-                      toolTipMessage: "Transaction Date",
+                      toolTipMessage:AppPresentationStrings.transactionDateEng,
 
                       startIcon: AppIcons.calender, title: DateFormat.yMMMd().format(notificationModel.checkedDate)),
                 ),
@@ -88,7 +89,7 @@ class NotifyingConfirmPaying extends StatelessWidget {
                                 SizedBox(width: 2.w,),
                                 UnderLineTextButton(
                                     onPressed: onDetails,
-                                    text: 'Details',
+                                    text: AppPresentationStrings.detailsEng,
                                     textStyle: textTheme.headline6?.copyWith(
                                       decoration: TextDecoration.underline,
                                       decorationStyle: TextDecorationStyle.solid,

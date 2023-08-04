@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
 import '../../constants/enum_classes.dart';
 import '../../data/models/transactions/transaction_model.dart';
 import '../../data/repository/helper_class.dart';
@@ -72,7 +73,7 @@ class TransactionCardView extends StatelessWidget with HelperClass {
                       visible: isRepeated,
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Text('Repeated', style: textTheme.subtitle1),
+                        child: Text(AppPresentationStrings.repeatedEng, style: textTheme.subtitle1),
                       ),
                     ),
                     const Spacer()

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/subcategory_choice.dart';
 
 import '../../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
@@ -51,7 +53,7 @@ class SubCategoryFields extends StatelessWidget {
                       BlocProvider.of<AddExpOrIncCubit>(context).currentMainCat;
                   //TODO assign transaction type , if it is expense or income
                   BlocProvider.of<AddSubcategoryCubit>(context).transactionType =
-                      addExpOrIncCubit.isExpense ? 'Expense' : 'Income';
+                      addExpOrIncCubit.isExpense ? AppPresentationStrings.expenseEng : AppPresentationStrings.incomeEng;
                   addExpOrIncCubit.chooseCategory(subCatsList[index]);
                 },
                 child: SubCategoryChoice(

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
@@ -71,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                           latestCheck: DateTime.now(),
                           notificationList: [],
                         ),
-                    title: cubit(context).isExpense ? 'Expense' : 'Income',
+                    title: cubit(context).isExpense ? AppPresentationStrings.expenseEng : AppPresentationStrings.incomeEng,
                     onAdd: () => onAddTransaction(context),
                     onShow: cubit(context).isExpense
                         ? cubit(context).onShowExpense

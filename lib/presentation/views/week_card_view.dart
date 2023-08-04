@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -50,7 +51,7 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                         children: [
                           Row(
                             children: [
-                              Text('Week ${index + 1}',
+                              Text('${AppPresentationStrings.weekEng} ${index + 1}',
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.headline5),
                               const Spacer(),

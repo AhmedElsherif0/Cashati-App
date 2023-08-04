@@ -18,7 +18,6 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
     // TODO: implement initState
     super.initState();
     BlocProvider.of<AddExpOrIncCubit>(context).addMoreToIncomeList();
-    print('Icon Add Code Point ${Icons.add.codePoint}, Color ${Colors.indigo.value}');
   }
 
   AddExpOrIncCubit getAddExpOrIncCubit() => BlocProvider.of<AddExpOrIncCubit>(context);
@@ -26,7 +25,6 @@ class _AddIncomeWidgetState extends State<AddIncomeWidget> with AlertDialogMixin
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<AddExpOrIncCubit>(context).addMoreToIncomeList();
-    print('Built Inc');
 
     return ListView.builder(
         itemCount: getAddExpOrIncCubit().incomeMainCats.length,
