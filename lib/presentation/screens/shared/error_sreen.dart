@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:temp/presentation/styles/colors.dart';
+import '../../../constants/app_presentation_strings.dart';
 import '../../widgets/buttons/elevated_button.dart';
 
 class ErrorScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class ErrorScreen extends StatelessWidget {
             const Spacer(),
             Expanded(
               child: Text(
-                'Page not found',
+                AppPresentationStrings.pageNotFoundEng,
                 style: Theme.of(context).textTheme.headline3,
               ),
             ),
@@ -27,7 +28,7 @@ class ErrorScreen extends StatelessWidget {
             Expanded(
               flex: 2,
               child: CustomElevatedButton(
-                text: 'Back',
+                text: AppPresentationStrings.backEng,
                 onPressed: () {},
                 icon: Icons.arrow_back_ios,
               ),
@@ -36,7 +37,7 @@ class ErrorScreen extends StatelessWidget {
             Expanded(
               flex: 2,
               child: CustomElevatedButton(
-                text: 'Report',
+                text: AppPresentationStrings.reportEng,
                 onPressed: () {},
                 icon: Icons.error,
                 backgroundColor: AppColor.red,

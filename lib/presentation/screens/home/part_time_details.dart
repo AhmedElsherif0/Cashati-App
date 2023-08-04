@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/custom_app_bar.dart';
@@ -73,7 +74,7 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
               children: [
                 SizedBox(height: 15.dp),
                 CustomAppBar(
-                    title: '${widget.transactionModel.mainCategory} Expense Details',
+                    title: '${widget.transactionModel.mainCategory} ${AppPresentationStrings.expenseDetailsEng}',
                     isEndIconVisible: false),
                 SizedBox(height: 40.dp),
                 Padding(
@@ -126,7 +127,7 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
                           SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: descriptionController,
-                            header: 'Description',
+                            header: AppPresentationStrings.descriptionEng,
                             hint: widget.transactionModel.description == ''
                                 ? 'There are many variations of... There are many variations of...'
                                 : widget.transactionModel.description,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:temp/constants/app_icons.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
@@ -54,12 +55,12 @@ class ConfirmPayingExpense extends StatelessWidget {
                 ),
                  Expanded(
                   child: RowIconWithTitle(
-                    toolTipMessage: "Transaction Category and Subcategory",
+                    toolTipMessage: AppPresentationStrings.transactionCatAndSubCatToolTipEng,
                       startIcon: AppIcons.categories, title: "${transactionModel.mainCategory} , ${transactionModel.subCategory}"),
                 ),
                 Expanded(
                   child: RowIconWithTitle(
-                    toolTipMessage: "Paid amount , you can edit it.",
+                    toolTipMessage: AppPresentationStrings.paidAmountToolTipEng,
                     startIcon: AppIcons.poundSterlingSign,
                     title: '${amount.toStringAsFixed(0)} LE',
                     endIcon: InkWell(
@@ -71,7 +72,7 @@ class ConfirmPayingExpense extends StatelessWidget {
                 ),
                  Expanded(
                   child: RowIconWithTitle(
-                      toolTipMessage: "Transaction Confirm Date",
+                      toolTipMessage: AppPresentationStrings.transactionConfirmDateToolTipEng,
 
                       startIcon: AppIcons.calender, title: date),
                 ),
@@ -94,7 +95,7 @@ class ConfirmPayingExpense extends StatelessWidget {
                                 SizedBox(width: 2.w),
                                 UnderLineTextButton(
                                     onPressed: onDetails,
-                                    text: 'Details',
+                                    text: AppPresentationStrings.detailsEng,
                                     textStyle: textTheme.headline6?.copyWith(
                                       decoration: TextDecoration.underline,
                                       decorationStyle: TextDecorationStyle.solid,

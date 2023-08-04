@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/add_income_widget.dart';
 import 'package:temp/presentation/widgets/custom_app_bar.dart';
@@ -29,7 +30,7 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
           children: [
             SizedBox(height: 5.h),
             CustomAppBar(
-              title: 'Add Transaction',
+              title:AppPresentationStrings.addTransactionEng,
               onTapNotification: () =>
                   Navigator.pushNamed(context, AppRouterNames.rNotification),
             ),
