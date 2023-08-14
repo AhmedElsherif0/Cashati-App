@@ -14,7 +14,7 @@ class AppStrings {
   static const String egp = 'egp'; // EGP
   static const String moreSettings = 'moreSettings'; //More Settings
   static const String appInfo = 'appInfo'; //App Info
-  static const String onlyId = 'onlyId'; // OnlyID
+  static const String onlyId = 'OnlyID';
   static const String repeat = 'repeat'; // Repeat
   static const String select = 'select'; // Select
 

@@ -146,8 +146,8 @@
   "to": "حتى",
   "notImportant": "المصاريف غير مهمة",
   "notifications": "الاشعارات",
-  "goalConfirmationSuccess": "Goal Confirmation Success",
-  "threeHours": "3h",
+  "goalConfirmationSuccess": "تم تأكيد الهدف",
+  "threeHours": "٣س",
   "successfullyConfirmedExpenseFood": "You have Successfully confirmed your expense for food",
   "addTransaction": "Add Transaction",
   "emptyShow": "البيانات فارغة"
