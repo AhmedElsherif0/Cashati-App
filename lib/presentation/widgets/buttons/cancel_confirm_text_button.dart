@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:temp/constants/app_strings.dart';
 
 import 'custom_text_button.dart';
 
@@ -21,14 +21,14 @@ class CancelConfirmTextButton extends StatelessWidget {
           child: CustomTextButton(
               isVisible: false,
               onPressed: onCancel,
-              text: AppPresentationStrings.cancelEng,
+              text: AppStrings.cancel,
               alignment: Alignment.bottomLeft),
         ),
         const Spacer(flex: 4),
         Expanded(
           flex: 7,
           child: CustomTextButton(
-              onPressed: onConfirm, text: AppPresentationStrings.confirmEng, isVisible: false),
+              onPressed: onConfirm, text: AppStrings.confirm, isVisible: false),
         ),
       ],
     );

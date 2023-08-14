@@ -23,7 +23,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
   Future<void> minusBalance({required num amount}) async {
     final GeneralStatsModel generalStatsModel =
         Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsBox)
-            .get(AppStrings.theOnlyGeneralStatsModelID)!;
+            .get(AppStrings.onlyId)!;
     if (generalStatsModel.isInBox) {
       generalStatsModel.balance = generalStatsModel.balance - amount;
       print('general stats model hashcode is ${generalStatsModel.hashCode}');
@@ -37,7 +37,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
   Future<void> plusBalance({required num amount}) async {
     final GeneralStatsModel generalStatsModel =
         Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsBox)
-            .get(AppStrings.theOnlyGeneralStatsModelID)!;
+            .get(AppStrings.onlyId)!;
 
     if (isGeneralModelExists()) {
       //generalStatsModel=Hive.box<GeneralStatsModel>(AppStrings.generalStatisticsBox).get(0)!;
@@ -56,9 +56,9 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
     try {
       await box
           .put(
-              AppStrings.theOnlyGeneralStatsModelID,
+              AppStrings.onlyId,
               GeneralStatsModel(
-                  id: AppStrings.theOnlyGeneralStatsModelID,
+                  id: AppStrings.onlyId,
                   balance: 0,
                   topIncome: 'No Income Added',
                   topIncomeAmount: 0,
@@ -67,7 +67,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
                   latestCheck: DateTime.now(),
                   notificationList: []))
           .then((value) => print(
-              'The model is  ${HiveHelper().getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsBox).get(AppStrings.theOnlyGeneralStatsModelID)!.key}'));
+              'The model is  ${HiveHelper().getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsBox).get(AppStrings.onlyId)!.key}'));
     } catch (error) {
       print(
           'Error adding general stats model for the first time is ${error.toString()}');
@@ -92,11 +92,11 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
         print(
             'is Hive box exists ${await Hive.boxExists(AppBoxes.generalStatisticsBox)}');
         print(
-            'Model before asigning  is ${generalBox.get(AppStrings.theOnlyGeneralStatsModelID)}');
+            'Model before asigning  is ${generalBox.get(AppStrings.onlyId)}');
 
-        generalStatsModel = generalBox.get(AppStrings.theOnlyGeneralStatsModelID) ??
+        generalStatsModel = generalBox.get(AppStrings.onlyId) ??
             GeneralStatsModel(
-                id: AppStrings.theOnlyGeneralStatsModelID,
+                id: AppStrings.onlyId,
                 balance: 3,
                 topIncome: 'No Income Added',
                 topIncomeAmount: 0,

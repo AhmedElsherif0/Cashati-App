@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/presentation/screens/home/nav_bottom_screens/settings_screen.dart';
+import 'package:temp/presentation/screens/home/nav_bottom_screens/statistics_expenses_screen.dart';
+import 'package:temp/presentation/screens/home/nav_bottom_screens/statistics_income_screen.dart';
 import 'package:temp/presentation/views/app_drawer.dart';
 
 import '../../../../business_logic/cubit/global_cubit/global_cubit.dart';
+import '../../../../constants/app_strings.dart';
 import '../../../views/bottom_nav_bar.dart';
 import '../../../widgets/custom_app_bar.dart';
+import 'category_screen.dart';
+import 'home_screen.dart';
 
 class ControlScreen extends StatelessWidget {
   const ControlScreen({Key? key}) : super(key: key);
 
   GlobalCubit _cubit(context) => BlocProvider.of<GlobalCubit>(context);
+
+  List<Widget> _currentPage() => [
+        const HomeScreen(),
+        const ConfirmPayingScreen(),
+        const ExpensesStatisticsScreen(),
+        const IncomeStatisticsScreen(),
+        const SettingsScreen()
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +40,9 @@ class ControlScreen extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.0.dp),
                   child: CustomAppBar(
-                    title: _cubit(context).appBarTitle[_cubit(context).currentIndex],
+                    title: '${AppStrings.appBarTitle}${_cubit(context).currentIndex}'
+                        .tr(),
                     onTapFirstIcon: () => _cubit(context).emitDrawer(context),
-                    // onTapNotification: () {
-                    //   print('notification tapped');
-                    //   Navigator.pushNamed(context, AppRouterNames.rNotificationTest);
-                    // },
                     isEndIconVisible: _cubit(context).currentIndex == 4 ? false : true,
                     firstIcon: Icons.menu,
                     textStyle: _cubit(context).currentIndex == 1
@@ -42,9 +54,7 @@ class ControlScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                  flex: 19,
-                  child: _cubit(context).nextPage[_cubit(context).currentIndex]),
+              Expanded(flex: 19, child: _currentPage()[_cubit(context).currentIndex]),
             ],
           );
         },

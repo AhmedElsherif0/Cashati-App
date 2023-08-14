@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
-import '../../../constants/app_presentation_strings.dart';
+import '../../../constants/app_strings.dart';
 
-class DataInsidePieChart extends StatelessWidget {
+class DataInsidePieChart extends StatelessWidget with HelperClass {
   const DataInsidePieChart(
       {Key? key,
       required this.totalExpenses,
@@ -28,8 +30,8 @@ class DataInsidePieChart extends StatelessWidget {
             flex: 4,
             child: Text(
                 (maxExpenses.toInt() | totalExpenses.toInt() != 0)
-                    ? '${AppPresentationStrings.totalEng} $header'
-                    : ' Empty Show',
+                    ? '${AppStrings.total.tr()} ${header.tr()}'
+                    : AppStrings.emptyShow.tr(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.subtitle1),
           ),
@@ -39,7 +41,7 @@ class DataInsidePieChart extends StatelessWidget {
               child: ValueListenableBuilder(
                 valueListenable: valueNotifier,
                 builder: (_, double value, __) => Text(
-                  ' ${maxExpenses.toInt()}LE',
+                  ' ${currencyFormat(maxExpenses.toInt())}',
                   style: Theme.of(context).textTheme.headline5,
                 ),
               ),
@@ -49,7 +51,7 @@ class DataInsidePieChart extends StatelessWidget {
               child: Center(
                 child: UnderLineTextButton(
                   padding: EdgeInsets.zero,
-                  text: AppPresentationStrings.backToHomeEng,
+                  text: AppStrings.backToHome.tr(),
                   onPressed: (maxExpenses.toInt() | totalExpenses.toInt() == 0)
                       ? onPressToHome
                       : () {},

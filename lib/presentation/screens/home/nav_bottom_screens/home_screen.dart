@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
@@ -16,13 +16,16 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   void onAddTransaction(BuildContext context) =>
-    Navigator.of(context).pushNamed(AppRouterNames.rAddExpenseOrIncomeScreen);
+      Navigator.of(context).pushNamed(AppRouterNames.rAddExpenseOrIncomeScreen);
+  HomeCubit cubit(context) => BlocProvider.of<HomeCubit>(context);
 
   @override
   Widget build(BuildContext context) {
+    final homeCubit =BlocProvider.of<HomeCubit>(context) ;
+
     //cubit(context).getTheGeneralStatsModel();
     return BlocConsumer<HomeCubit, HomeState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is HomeInitial) {
           cubit(context).getTheGeneralStatsModel();
         } else if (state is FetchedGeneralModelSuccState ||
@@ -48,6 +51,12 @@ class HomeScreen extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 14.dp),
                     child: ExpensesAndIncomeHeader(
+                        alignmentExpense: translator.activeLanguageCode == 'ar'
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        alignmentIncomeOrGoals: translator.activeLanguageCode == 'ar'
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
                         onPressedIncome: () => cubit(context).isExpense
                             ? cubit(context).isItExpense()
                             : null,
@@ -63,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                     isExpense: cubit(context).isExpense,
                     generalStatsModel: cubit(context).generalStatsModel ??
                         GeneralStatsModel(
-                          id: AppStrings.theOnlyGeneralStatsModelID,
+                          id: AppStrings.onlyId,
                           balance: 0,
                           topIncome: 'No Income Added',
                           topIncomeAmount: 0,
@@ -72,12 +81,13 @@ class HomeScreen extends StatelessWidget {
                           latestCheck: DateTime.now(),
                           notificationList: [],
                         ),
-                    title: cubit(context).isExpense ? AppPresentationStrings.expenseEng : AppPresentationStrings.incomeEng,
+                    title: cubit(context).isExpense
+                        ? AppStrings.expenseSmall
+                        : AppStrings.incomeSmall,
                     onAdd: () => onAddTransaction(context),
                     onShow: cubit(context).isExpense
                         ? cubit(context).onShowExpense
                         : cubit(context).onShowIncome,
-                    onBalance: () {},
                   ),
                 ),
                 const Spacer(),
@@ -88,6 +98,4 @@ class HomeScreen extends StatelessWidget {
       },
     );
   }
-
-  HomeCubit cubit(context) => BlocProvider.of<HomeCubit>(context);
 }

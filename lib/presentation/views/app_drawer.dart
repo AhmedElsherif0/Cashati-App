@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/screens/test_screens/add_goal_test_screen.dart';
 import 'package:temp/presentation/screens/test_screens/fetch_goals_test.dart';
+import 'package:temp/presentation/styles/decorations.dart';
 import 'package:temp/presentation/widgets/drawer_item.dart';
 
 import '../screens/test_screens/all_inc_and_exp_test.dart';
@@ -17,37 +19,51 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       width: 65.w,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(20.dp),
-              topRight: Radius.circular(20.dp))),
+          borderRadius: translator.activeLanguageCode == 'ar'
+              ? AppDecorations.rightDrawer
+              : AppDecorations.liftDrawer),
       child: Column(
         children: [
           const Spacer(flex: 2),
           Expanded(
             flex: 3,
             child: DrawerItem(
-                icon: AppIcons.closeDrawer,
-                onTap: () => Navigator.of(context).pop()),
+                icon: AppIcons.closeDrawer, onTap: () => Navigator.of(context).pop()),
           ),
-          const Spacer(),
+          const Spacer(flex: 3),
           Expanded(
-            flex: 3,
+            flex: 6,
             child: DrawerItem(
               icon: AppIcons.expenseDrawer,
-              text: AppPresentationStrings.expenseTypesEng,
-              onTap: () => Navigator.of(context)
-                  .pushNamed(AppRouterNames.rExpenseRepeatType),
+              text: AppStrings.expenseTypes.tr(),
+              onTap: () =>
+                  Navigator.of(context).pushNamed(AppRouterNames.rExpenseRepeatType),
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 6,
             child: DrawerItem(
-                icon: AppIcons.incomeDrawer,
-                text: AppPresentationStrings.incomeTypesEng,
-              onTap: () => Navigator.of(context)
-                  .pushNamed(AppRouterNames.rIncomeRepeatType),),
+              icon: AppIcons.incomeDrawer,
+              text: AppStrings.incomeTypes.tr(),
+              onTap: () =>
+                  Navigator.of(context).pushNamed(AppRouterNames.rIncomeRepeatType),
+            ),
           ),
           Expanded(
+              flex: 6,
+              child: DrawerItem(
+                  icon: AppIcons.goalsDrawer,
+                  text: AppStrings.goals.tr(),
+                  onTap: () =>
+                      Navigator.pushNamed(context, AppRouterNames.rGetGoals))),
+          Expanded(
+            flex: 6,
+            child: DrawerItem(
+                icon: AppIcons.exportDrawer,
+                text: AppStrings.exportData.tr(),
+                onTap: () {}),
+          ),
+          /* Expanded(
             flex: 3,
             child: DrawerItem(
                 icon: AppIcons.goalsDrawer, text: 'Fetch Goals Test', onTap: () {
@@ -59,21 +75,8 @@ class AppDrawer extends StatelessWidget {
               );
 
             }),
-          ),
-          Expanded(
-            flex: 3,
-            child: DrawerItem(
-                icon: AppIcons.goalsDrawer, text: AppPresentationStrings.goalsEng, onTap: () {
-              Navigator.pushNamed(context, AppRouterNames.rGetGoals);
-
-            }),
-          ),
-          Expanded(
-            flex: 3,
-            child: DrawerItem(
-                icon: AppIcons.exportDrawer, text: AppPresentationStrings.exportDataEng, onTap: () {}),
-          ),
-          Expanded(
+          ),*/
+          /*Expanded(
             flex: 3,
             child: DrawerItem(
                 icon: AppIcons.notificationSetting,
@@ -96,7 +99,7 @@ class AppDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) =>  AddGoalTestScreen(),
+                      builder: (_) => AddGoalTestScreen(),
                     ),
                   );
                 }),
@@ -109,7 +112,7 @@ class AppDrawer extends StatelessWidget {
                 onTap: () {
                   Navigator.pushNamed(context, AppRouterNames.rConfirmToday);
                 }),
-          ),
+          ),*/
           const Spacer(flex: 3),
         ],
       ),

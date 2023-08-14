@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/custom_check_box.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/sub_category_fields.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
@@ -69,7 +69,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
       .any((element) => element == widget.mainCategoryName);
 
   showSuccessAndNavigate(BuildContext context) {
-    showSuccessfulDialogNoOptions(context, AppPresentationStrings.addedSuccessfullyEng, '');
+    showSuccessfulDialogNoOptions(context, AppStrings.addedSuccessfully, '');
     Future.delayed(const Duration(seconds: 2),
         () => Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute));
   }
@@ -96,7 +96,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
           BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
         } else if (state is AddExpOrIncError) {
           errorSnackBar(
-              context: context, message: AppPresentationStrings.kindlyTryNContactUsEng);
+              context: context, message: AppStrings.tryAgain);
         }
       },
       builder: (context, state) {
@@ -132,7 +132,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                         width: 65.w,
                         child: EditableInfoField(
                           textEditingController: amountCtrl,
-                          hint: AppPresentationStrings.amountEng,
+                          hint: AppStrings.amount,
                           iconName: AppIcons.amountIcon,
                           keyboardType: TextInputType.number,
                         ),
@@ -151,7 +151,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                     width: 65.w,
                     child: EditableInfoField(
                       textEditingController: nameCtrl,
-                      hint: _checkTheCurrentTab() ? AppPresentationStrings.expenseNameEng : AppPresentationStrings.incomeNameEng,
+                      hint: _checkTheCurrentTab() ? AppStrings.expenseName : AppStrings.incomeName,
                       iconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
@@ -168,7 +168,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                     width: 65.w,
                     child: EditableInfoField(
                       textEditingController: descriptionCtrl,
-                      hint: AppPresentationStrings.writeDescriptionEng,
+                      hint: AppStrings.writeDescription,
                       iconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
@@ -177,7 +177,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                   Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     CustomCheckBox(
                         isImportant: widget.addExpOrIncCubit.isImportant,
-                        text: _checkTheCurrentTab() ? AppPresentationStrings.importantEng : AppPresentationStrings.fixedEng,
+                        text: _checkTheCurrentTab() ? AppStrings.important : AppStrings.fixed,
                         onChanged: widget.addExpOrIncCubit.isImportantOrNo),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,7 +217,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                             print(
                                 "chooosen daaaaate is ${widget.addExpOrIncCubit.chosenDate}");
                           },
-                          text: AppPresentationStrings.addEng,
+                          text: AppStrings.add,
                         ),
                       ],
                     ),

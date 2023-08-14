@@ -17,7 +17,7 @@ class GeneralStatsModel extends HiveObject {
       required this.notificationList});
 
   @HiveField(0)
-  String id = AppStrings.theOnlyGeneralStatsModelID;
+  String id = 'OnlyID';
   @HiveField(1)
   late num balance = 0;
   @HiveField(2)

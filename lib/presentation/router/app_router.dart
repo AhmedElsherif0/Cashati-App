@@ -45,16 +45,16 @@ class AppRouter {
         return pageBuilderRoute(child: const NotificationScreen());
       case AppRouterNames.rNotificationTest:
         return pageBuilderRoute(child: const NotificationTestScreen());
-      case AppRouterNames.rTestAddGoalScreen:
-        return pageBuilderRoute(child: AddGoalTestScreen());
-      case AppRouterNames.rFetchGoalScreen:
-        return pageBuilderRoute(child: const FetchGoalsTestScreen());
+     /* case AppRouterNames.rTestAddGoalScreen:
+        return pageBuilderRoute(child: AddGoalTestScreen());*/
+     /* case AppRouterNames.rFetchGoalScreen:
+        return pageBuilderRoute(child: const FetchGoalsTestScreen());*/
       case AppRouterNames.rAddGoal:
         return pageBuilderRoute(child: const AddGoalScreen());
       case AppRouterNames.rGetGoals:
         return pageBuilderRoute(child: const GoalsScreen());
-      case AppRouterNames.rConfirmToday:
-        return pageBuilderRoute(child: const ConfirmPaymentsScreen());
+     /* case AppRouterNames.rConfirmToday:
+        return pageBuilderRoute(child: const ConfirmPaymentsScreen());*/
        case AppRouterNames.rStatisticsDetailsScreen:
         return pageBuilderRoute(child: const StatisticsDetailsScreen());
       default:

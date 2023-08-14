@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 
 import '../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
@@ -65,19 +65,19 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const GreenText(text: AppPresentationStrings.mainCategoryEng),
+                const GreenText(text: AppStrings.mainCategory),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 32.0),
                   child: CategoryInfoField(
                       mainCategoryName: widget.mainCategoryName),
                 ),
-                const GreenText(text:AppPresentationStrings.subSpaceCategoryEng),
+                const GreenText(text:AppStrings.subCategory),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 32.0),
                   child:
                       EditableSubCategField(subCategoryName: subCategoryName),
                 ),
-                const GreenText(text: AppPresentationStrings.iconsEng),
+                const GreenText(text: AppStrings.icons),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 32.0),
                   child: Container(
@@ -97,7 +97,7 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
                                       .toList()[index]);
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text(
-                                      "${AppPresentationStrings.chosenIconNameEng} ${iconNameFromList}, ${AppPresentationStrings.andCurrentIconNameIsEng} ${addSubcategoryCubit.currentIconName}")));
+                                      "${AppStrings.chosenIconName} ${iconNameFromList}, ${AppStrings.currentIconName} ${addSubcategoryCubit.currentIconName}")));
                             },
                             child: BlocBuilder<AddSubcategoryCubit,
                                 AddSubcategoryState>(
@@ -141,7 +141,7 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
                   alignment: Alignment.centerRight,
                   child: CustomElevatedButton(
                       onPressed: () async => validation(addSubcategoryCubit),
-                      text: AppPresentationStrings.saveEng),
+                      text: AppStrings.save),
                 ),
               ],
             ),

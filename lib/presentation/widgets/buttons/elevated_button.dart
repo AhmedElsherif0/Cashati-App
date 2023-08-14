@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
 import '../common_texts/elevated_text_button.dart';
@@ -51,14 +52,19 @@ class CustomElevatedButton extends StatelessWidget {
           child: icon != null
               ? Row(
                   children: [
-                    Expanded(
-                        child: Icon(icon,
-                            size: 20.dp, color: iconColor ?? AppColor.white)),
+                    if (translator.activeLanguageCode == 'en')
+                      Expanded(
+                          child: Icon(icon,
+                              size: 20.dp, color: iconColor ?? AppColor.white)),
                     const Spacer(),
                     Expanded(
                       flex: 4,
                       child: ElevatedTextButton(text: text, textStyle: textStyle),
                     ),
+                    if (translator.activeLanguageCode == 'ar')
+                      Expanded(
+                        child: Icon(icon,
+                            size: 20.dp, color: iconColor ?? AppColor.white)),
                   ],
                 )
               : ElevatedTextButton(text: text, textStyle: textStyle),

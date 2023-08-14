@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
-import 'package:temp/presentation/views/confirm_paying_expense.dart';
 import 'package:temp/presentation/views/goal_confirm_card.dart';
 import 'package:temp/presentation/views/transaction_confirm_card.dart';
-import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
-import 'package:temp/presentation/widgets/editable_text.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
-import '../../../views/confirm_paying_goals.dart';
+
 import '../../../views/confirm_payment_tab_bar.dart';
 
 class ConfirmPayingScreen extends StatefulWidget {

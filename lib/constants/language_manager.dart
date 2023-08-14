@@ -7,7 +7,7 @@ enum LanguageType { english, arabic }
 
 const String arabic = "ar";
 const String english = "en";
-const String assetPathLocalizations = "assets/i18n";
+const String localizationPath = "assets/i18n";
 
 const Locale arabicLocal = Locale('ar');
 const Locale englishLocal = Locale('en');
@@ -24,33 +24,23 @@ extension LanguageTypeExtension on LanguageType {
 }
 
 class LanguageManager {
-  static Future<String> getAppLanguage() async {
+
+  Future<String> getAppLanguage() async {
     String? language =
         CacheHelper.getDataFromSharedPreference(key: appLanguageSharedKey);
-    if (language != null && language.isNotEmpty) {
-      return language;
-    } else {
-      return LanguageType.english.getValue();
-    }
+    return language != null && language.isNotEmpty
+        ? language
+        : LanguageType.english.getValue();
   }
 
-  static Future<void> changeAppLanguage() async {
+  Future<void> changeAppLanguage() async {
     String currentLang = await getAppLanguage();
-    if (currentLang == LanguageType.arabic.getValue()) {
-      CacheHelper.saveDataSharedPreference(
-          key: appLanguageSharedKey, value: LanguageType.english.getValue());
-    } else {
-      CacheHelper.saveDataSharedPreference(
-          key: appLanguageSharedKey, value: LanguageType.arabic.getValue());
-    }
+    CacheHelper.saveDataSharedPreference(
+        key: appLanguageSharedKey, value: currentLang == arabic ? english : arabic);
   }
 
-  static Future<Locale> getLocal() async {
+  Future<Locale> getLocal() async {
     String currentLang = await getAppLanguage();
-    if (currentLang == LanguageType.arabic.getValue()) {
-      return arabicLocal;
-    } else {
-      return englishLocal;
-    }
+    return currentLang == LanguageType.arabic.getValue() ? arabicLocal : englishLocal;
   }
 }

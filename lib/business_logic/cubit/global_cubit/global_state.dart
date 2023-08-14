@@ -6,5 +6,7 @@ abstract class GlobalState {}
 class GlobalInitial extends GlobalState {}
 
 class LanguageChangedState extends GlobalState {}
+class ChangeLanguageBackGroundColorState extends GlobalState {}
 class ChangeScreenState extends GlobalState{}
+class ChangeEnableNotifications extends GlobalState{}
 class OpenDrawerState extends GlobalState{}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:temp/constants/app_strings.dart';
 
 import '../../../constants/app_icons.dart';
 
@@ -27,7 +27,7 @@ class _RepeatChooseContainerState extends State<RepeatChooseContainer> {
           child: ListTile(
             leading: Visibility(
               visible: widget.choosedRepeat!.isEmpty,
-                child:Text(AppPresentationStrings.chooseRepeatEng,
+                child:Text(AppStrings.chooseRepeat,
                     style:  Theme.of(context)
                     .textTheme
                     .bodyText2!

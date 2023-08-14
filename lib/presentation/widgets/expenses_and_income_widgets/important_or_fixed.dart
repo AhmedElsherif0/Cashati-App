@@ -16,10 +16,10 @@ class PriorityWidget extends StatelessWidget {
 
   Color switchPriorityColor(PriorityType? priorityType) {
     switch (priorityType) {
-      case PriorityType.HigherExpenses:
+      case PriorityType.higherExpenses:
         return AppColor.red;
-      case PriorityType.Important:
-      case PriorityType.Fixed:
+      case PriorityType.important:
+      case PriorityType.fixed:
         return AppColor.secondColor;
       default:
         AppColor.pinkishGrey;
