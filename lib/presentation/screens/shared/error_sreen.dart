@@ -21,7 +21,7 @@ class ErrorScreen extends StatelessWidget {
             const Spacer(),
             Expanded(
               child: Text(
-                'pageNotFound'.tr(),
+                AppStrings.pageNotFound.tr(),
                 style: Theme.of(context).textTheme.headline3,
               ),
             ),
@@ -29,7 +29,7 @@ class ErrorScreen extends StatelessWidget {
             Expanded(
               flex: 2,
               child: CustomElevatedButton(
-                text: 'back'.tr(),
+                text: AppStrings.back.tr(),
                 onPressed: () {},
                 icon: Icons.arrow_back_ios,
               ),
@@ -38,7 +38,7 @@ class ErrorScreen extends StatelessWidget {
             Expanded(
               flex: 2,
               child: CustomElevatedButton(
-                text: 'report'.tr(),
+                text: AppStrings.report.tr(),
                 onPressed: () {},
                 icon: Icons.error,
                 backgroundColor: AppColor.red,

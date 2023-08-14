@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:intl/intl.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
 import 'package:temp/business_logic/cubit/home_cubit/home_state.dart';
 import 'package:temp/constants/app_strings.dart';
@@ -38,10 +39,10 @@ class _NotificationTestScreenState extends State<NotificationTestScreen> {
       appBar: AppBar(toolbarHeight: 0.5.h),
       body: Column(
         children: [
-          const CustomAppBar(
+          CustomAppBar(
               firstIcon: Icons.arrow_back_ios,
               isEndIconVisible: false,
-              title: AppStrings.notifications),
+              title: AppStrings.notifications.tr()),
           BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
               return Expanded(
@@ -114,8 +115,9 @@ class _NotificationTestScreenState extends State<NotificationTestScreen> {
                       subTitle: BlocProvider.of<HomeCubit>(context)
                           .notificationList![index]
                           .modelName,
-                      title:
-                          "${BlocProvider.of<HomeCubit>(context).notificationList![index].typeName}"),
+                      title: BlocProvider.of<HomeCubit>(context)
+                          .notificationList![index]
+                          .typeName),
                 ),
               );
             },

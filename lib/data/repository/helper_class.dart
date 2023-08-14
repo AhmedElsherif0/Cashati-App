@@ -30,7 +30,7 @@ mixin HelperClass {
   String currencyFormat(num currency) =>
      NumberFormat.currency(
             symbol: translator.activeLanguageCode == 'en' ? 'LE' : 'جم',
-            locale: translator.activeLanguageCode == 'en' ? 'en_us' : 'ar_eg')
+            locale: translator.activeLanguageCode == 'en' ? 'en_US' : 'ar_EG')
         .format(currency);
 
 

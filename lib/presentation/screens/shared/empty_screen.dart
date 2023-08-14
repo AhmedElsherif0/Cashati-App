@@ -21,21 +21,21 @@ class EmptyScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Text('noExpensesYet'.tr(),
+              child: Text(AppStrings.noExpensesYet.tr(),
                   style: Theme.of(context).textTheme.headline3),
             ),
             const Spacer(),
             Expanded(
               flex: 2,
               child: CustomElevatedButton(
-                  text: 'back'.tr(), onPressed: () {}, icon: translator.activeLanguageCode == 'en' ?
+                  text: AppStrings.back.tr(), onPressed: () {}, icon: translator.activeLanguageCode == 'en' ?
                 Icons.arrow_back_ios :Icons.arrow_forward_ios),
             ),
             const Spacer(),
             Expanded(
               flex: 2,
               child: CustomElevatedButton(
-                  text: 'add'.tr(), onPressed: () {}, icon: Icons.add),
+                  text: AppStrings.add.tr(), onPressed: () {}, icon: Icons.add),
             ),
             const Spacer(flex: 6),
           ],

@@ -91,9 +91,8 @@ class GoalsCubit extends Cubit<GoalsState> {
     emit(FetchedRepeatedGoals());
   }
 
-  int remainingTimes({required num cost, required num dailySaving}) {
-    return (cost / dailySaving).toInt();
-  }
+  int remainingTimes({required num cost, required num dailySaving}) =>
+      cost ~/ dailySaving;
 
   DateTime getCompletionDate(
       {required num cost,
@@ -108,11 +107,14 @@ class GoalsCubit extends Cubit<GoalsState> {
   DateTime countCompletionDate(
       String repeat, DateTime startSavingDate, int remainingTime) {
     switch (repeat) {
-      case AppStrings.daily:
+      case 'Daily':
+      case 'اليومية':
         return startSavingDate.add(Duration(days: remainingTime));
-      case AppStrings.weekly:
+      case 'Weekly':
+      case 'الاسبوعية':
         return startSavingDate.add(Duration(days: remainingTime * 7));
-      case AppStrings.monthly:
+      case 'Monthly':
+      case 'الشهرية':
         return startSavingDate.add(Duration(days: remainingTime * 30));
       default:
         return startSavingDate.add(Duration(days: remainingTime));
