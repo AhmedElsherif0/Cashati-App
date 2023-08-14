@@ -1,35 +1,39 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/goals_repo/goals_repo.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/data/repository/goals_repo_impl/goals_repo_impl.dart';
 
+import '../../../constants/app_strings.dart';
+
 part 'goals_state.dart';
 
 class GoalsCubit extends Cubit<GoalsState> {
   GoalsCubit() : super(GoalsInitial());
-  String choseRepeat = 'Choose Repeat';
+  String choseRepeat = 'day';
   String choseFilter = 'All';
   DateTime? chosenDate;
   final DateTime today = DateTime.now();
 
-  //GoalsRepeatedRepo _goalsRepeatedRepo = GoalsRepeatedImpl();
   final GoalsRepository _goalsRepository = GoalsRepoImpl();
   List<GoalModel> goals = [];
   List<GoalRepeatedDetailsModel> goalsRepeated = [];
   List<GoalRepeatedDetailsModel> registeredGoals = [];
 
-  List<DropdownMenuItem<String>> dropDownChannelItems = const [
-    DropdownMenuItem(value: 'Daily', child: Text('Daily')),
-    DropdownMenuItem(value: 'Weekly', child: Text('Weekly')),
-    DropdownMenuItem(value: 'Monthly', child: Text('Monthly')),
+  List<DropdownMenuItem<String>> dropDownChannelItems = [
+    DropdownMenuItem(value: AppStrings.day.tr(), child: Text(AppStrings.day.tr())),
+    DropdownMenuItem(value: AppStrings.week.tr(), child: Text(AppStrings.week.tr())),
+    DropdownMenuItem(value: AppStrings.month.tr(), child: Text(AppStrings.month.tr()))
   ];
-  List<DropdownMenuItem<String>> goalsFilterDropDown = const [
-    DropdownMenuItem(value: 'Completed', child: Text('Completed')),
-    DropdownMenuItem(value: 'UnCompleted', child: Text('UnCompleted')),
-    DropdownMenuItem(value: 'All', child: Text('All')),
+  List<DropdownMenuItem<String>> goalsFilterDropDown = [
+    DropdownMenuItem(
+        value: AppStrings.completed.tr(), child: Text(AppStrings.completed.tr())),
+    DropdownMenuItem(
+        value: AppStrings.unCompleted.tr(), child: Text(AppStrings.unCompleted.tr())),
+    DropdownMenuItem(value: AppStrings.all.tr(), child: Text(AppStrings.all.tr())),
   ];
 
   chooseRepeat(String value) {
@@ -51,10 +55,12 @@ class GoalsCubit extends Cubit<GoalsState> {
     //TODO remove normal goals from the function as screen depends on repeated goals and check after confirm
     switch (choseFilter) {
       case 'All':
+      case 'الكل':
         goals = _goalsRepository.getGoals();
         registeredGoals = _goalsRepository.fetchRepeatedGoals();
         break;
       case 'Completed':
+      case 'المكتمل':
         goals = _goalsRepository
             .getGoals()
             .where((element) => element.goalRemainingAmount == 0)
@@ -66,6 +72,7 @@ class GoalsCubit extends Cubit<GoalsState> {
 
         break;
       case 'UnCompleted':
+      case 'الغير مكتملة':
         goals = _goalsRepository
             .getGoals()
             .where((element) => element.goalRemainingAmount != 0)
@@ -101,11 +108,11 @@ class GoalsCubit extends Cubit<GoalsState> {
   DateTime countCompletionDate(
       String repeat, DateTime startSavingDate, int remainingTime) {
     switch (repeat) {
-      case 'Daily':
+      case AppStrings.daily:
         return startSavingDate.add(Duration(days: remainingTime));
-      case 'Weekly':
+      case AppStrings.weekly:
         return startSavingDate.add(Duration(days: remainingTime * 7));
-      case 'Monthly':
+      case AppStrings.monthly:
         return startSavingDate.add(Duration(days: remainingTime * 30));
       default:
         return startSavingDate.add(Duration(days: remainingTime));
@@ -123,10 +130,21 @@ class GoalsCubit extends Cubit<GoalsState> {
   }
 
   String dialogMessage({required num cost, required num dailySaving}) {
-    final repeat = choseRepeat == 'Daily'
-        ? 'Days'
-        : (choseRepeat == 'Weekly' ? 'Weeks' : 'Months');
-    return '${cost ~/ dailySaving} $repeat';
+    switch (choseRepeat) {
+      case 'Daily':
+        return 'Days';
+      case 'اليومية':
+        return 'يوم';
+      case 'Weekly':
+        return 'Weeks';
+      case 'الاسبوعية':
+        return 'اسبوع';
+      case 'Monthly':
+        return 'Months';
+      case 'الشهرية':
+        return 'شهر';
+    }
+    return '${cost ~/ dailySaving} $choseRepeat';
   }
 
   String transferDateToString(GoalModel goalModel) {

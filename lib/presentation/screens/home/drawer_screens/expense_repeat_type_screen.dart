@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
 
 import '../../../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
@@ -20,7 +21,7 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final expenseCubit = BlocProvider.of<ExpenseRepeatCubit>(context);
-    return TransactionRepeatWidget(cubit: expenseCubit, appBarText: AppPresentationStrings.expenseRepeatEng);
+    return TransactionRepeatWidget(cubit: expenseCubit, appBarText: AppStrings.expenseRepeat);
   }
 }
 
@@ -73,7 +74,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
             icon: Icon(Icons.arrow_back_ios, size: 24.dp),
             onPressed: () => Navigator.pop(context),
           ),
-          title: Text(widget.appBarText, style: textTheme.headline3),
+          title: Text(widget.appBarText.tr(), style: textTheme.headline3),
           toolbarHeight: 12.h,
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(2.h),
@@ -93,7 +94,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                         width: 25.w,
                         height: 6.h,
                         child: TabBarItem(
-                          text: RepeatTypes.values[index].name,
+                          text: RepeatTypes.values[index].name.tr(),
                           onTap: () => setState(() => onSwap(index: index)),
                           textColor: (tabController.index == index)
                               ? AppColor.white
@@ -113,7 +114,9 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
         body: Column(
           children: [
             SizedBox(height: 1.h),
-            const DetailsText(),
+             DetailsText(text: AppStrings.details.tr(),
+             alignment:  translator.activeLanguageCode == 'en'?
+                 Alignment.centerLeft:Alignment.centerRight),
             SizedBox(height: 2.h),
             Expanded(
               child: TabBarView(
@@ -142,7 +145,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                               transaction: widget.cubit
                                   .getRepeatTransactions(generateIndex)[indexBuilder],
                               isVisible: true,
-                              priorityName: PriorityType.Important,
+                              priorityName: PriorityType.important,
                             ),
                           );
                   },

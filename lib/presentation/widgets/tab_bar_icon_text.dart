@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/enum_classes.dart';
 
 import '../styles/colors.dart';
@@ -28,7 +29,7 @@ class TabBarIconText extends StatelessWidget {
             height: 40.dp,
             width: 40.dp,
             color: isClicked ? AppColor.primaryColor : AppColor.pinkishGrey),
-        Text(transactionType.name,
+        Text(transactionType.name.tr(),
             style: isClicked
                 ? textTheme.headline6
                 : textTheme.headline6?.copyWith(color: AppColor.pinkishGrey))

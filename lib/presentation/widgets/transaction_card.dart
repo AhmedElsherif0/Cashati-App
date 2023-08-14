@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import '../../constants/enum_classes.dart';
 import '../../data/models/transactions/transaction_model.dart';
@@ -60,7 +61,8 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    formatDayDate(transactionModel.createdDate),
+                    formatDayDate(
+                        transactionModel.createdDate, translator.activeLanguageCode),
                     style: textTheme.subtitle1,
                   ),
                 ),
@@ -102,7 +104,6 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                             ],
                           ),
                         ),
-
                       ],
                     ),
                   ],

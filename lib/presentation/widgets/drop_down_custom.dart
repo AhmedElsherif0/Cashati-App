@@ -12,7 +12,7 @@ class DropDownCustomWidget extends StatefulWidget {
       this.backgroundColor,
       this.isExpanded = true,
       this.icon,
-      this.leadingIcon = '',
+      required this.leadingIcon,
       this.arrowIconColor,
       this.hintStyle,
       required this.onChangedFunc})
@@ -21,10 +21,10 @@ class DropDownCustomWidget extends StatefulWidget {
   String? value;
   final String hint;
   final String? icon;
-  String? leadingIcon = '';
+  final String leadingIcon;
   final Color? backgroundColor;
   final Color? arrowIconColor;
-  final bool? isExpanded;
+  final bool isExpanded;
   final TextStyle? hintStyle;
   final Function(String) onChangedFunc;
 
@@ -43,17 +43,15 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
       child: DropdownButton<String>(
         style: const TextStyle(color: AppColor.primaryColor),
         elevation: 0,
-        isExpanded: widget.isExpanded ?? true,
+        isExpanded: widget.isExpanded,
         dropdownColor: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        underline: Divider(
-          color: Colors.blueGrey.withOpacity(.1),
-        ),
+        underline: Divider(color: Colors.blueGrey.withOpacity(.1)),
         hint: Visibility(
-          visible: widget.leadingIcon!.isEmpty,
+          visible: widget.leadingIcon.isEmpty,
           replacement: Row(
             children: [
-              SvgPicture.asset(widget.leadingIcon ?? AppIcons.filterGreen),
+              SvgPicture.asset(widget.leadingIcon),
               const SizedBox(width: 10),
               Text(
                 widget.hint,
@@ -77,7 +75,7 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
         value: widget.value,
         items: widget.dropDownList,
         onChanged: (value) => widget.onChangedFunc(value!),
-        icon: widget.isExpanded!
+        icon: widget.isExpanded
             ? SvgPicture.asset(widget.icon ?? AppIcons.downArrow,
                 color: AppColor.primaryColor)
             : Padding(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:temp/constants/app_strings.dart';
 
 import '../styles/colors.dart';
 
@@ -66,14 +66,14 @@ class CustomNotificationTile extends StatelessWidget {
                         flex: 8,
                         child: Visibility(
                           visible:!isActionTaken! ,
-                          child: Text(
-                            "$title ${AppPresentationStrings.confirmationRequiredEng}",
+                          replacement: Text(
+                            "$title ${AppStrings.confirmedSuccessfully}",
                             style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
-                          replacement: Text(
-                            "$title ${AppPresentationStrings.confirmedSuccEng}",
+                          child: Text(
+                            "$title ${AppStrings.confirmationRequired}",
                             style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -94,13 +94,13 @@ class CustomNotificationTile extends StatelessWidget {
                         child: Visibility(
                           visible:!isActionTaken! ,
                           child: Text(
-                            "${AppPresentationStrings.donForgetConfirmEng} $title  $subTitle ${AppPresentationStrings.youHaveAddedBeforeEng}.",
+                            "${AppStrings.confirmationReminder} $title  $subTitle ${AppStrings.youHaveAddedBefore}.",
                             style: Theme.of(context).textTheme.overline!.copyWith(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 4,
                           ),
                           replacement: Text(
-                            "${AppPresentationStrings.youHaveSuccessfullyConfirmedYourEng} $title  $subTitle.",
+                            "${AppStrings.successfullyConfirmedYour} $title  $subTitle.",
                             style: Theme.of(context).textTheme.overline!.copyWith(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 4,

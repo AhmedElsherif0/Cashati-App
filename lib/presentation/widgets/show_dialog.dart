@@ -3,8 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
+import 'package:temp/presentation/widgets/setting_choosen_component.dart';
 import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
 import 'custom_painter_dialog.dart';
@@ -17,24 +19,25 @@ mixin AlertDialogMixin {
       required BuildContext context,
       required TextEditingController changedAmountCtrl}) {
     return AlertDialog(
-      title: const Text(AppPresentationStrings.updatePaidAmountEng),
+      title: const Text(AppStrings.updatePaidAmount),
       content: TextFormField(
         keyboardType: TextInputType.number,
         controller: changedAmountCtrl,
-        decoration: InputDecoration(hintText: "$amount", labelText: AppPresentationStrings.paidAmountEng),
+        decoration:
+            InputDecoration(hintText: "$amount", labelText: AppStrings.paidAmount),
       ),
       actions: [
         CustomElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            text: AppPresentationStrings.cancelEng),
+            text: AppStrings.cancel.tr()),
         CustomElevatedButton(
             onPressed: () {
               onUpdate();
               Navigator.of(context).pop();
             },
-            text: AppPresentationStrings.updateEng),
+            text: AppStrings.update.tr()),
       ],
     );
   }
@@ -54,18 +57,19 @@ mixin AlertDialogMixin {
               Navigator.of(context).pop();
               onYes();
             },
-            text: "Yes"),
+            text: AppStrings.yes.tr()),
         CustomElevatedButton(
             onPressed: () {
               onNo();
               Navigator.of(context).pop();
             },
-            text: "No"),
+            text: AppStrings.no.tr()),
       ],
     );
   }
 
   void showSuccessfulDialog(BuildContext context, String title, String message) {
+    bool isEnglish = translator.activeLanguageCode == 'en';
     _customAlertDialog(
       context: context,
       title: title,
@@ -92,10 +96,11 @@ mixin AlertDialogMixin {
                     ),
                   ),
                   CustomTextButton(
-                    alignment: Alignment.bottomRight,
+                    alignment:
+                        isEnglish ? Alignment.bottomRight : Alignment.bottomLeft,
                     icon: Icons.arrow_back_ios,
                     onPressed: () => Navigator.of(context).pop(),
-                    text: AppPresentationStrings.backEng,
+                    text: AppStrings.back,
                   ),
                 ],
               ),
@@ -104,6 +109,22 @@ mixin AlertDialogMixin {
         )
       ],
     );
+  }
+
+  void showSettingDialog(
+      {required BuildContext context, required String title, required Widget child}) {
+    _customAlertDialog(context: context, title: title, actionButton: [
+      DecoratedBox(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.dp)),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 1200),
+          curve: Curves.easeInToLinear,
+          height: 50.h,
+          width: 70.w,
+          child: Center(child: child),
+        ),
+      )
+    ]);
   }
 
   void showSuccessfulDialogNoOptions(
@@ -116,7 +137,7 @@ mixin AlertDialogMixin {
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.dp)),
           child: AnimatedContainer(
             //  transform: Matrix4.rotationY(30),
-            duration: Duration(milliseconds: 400),
+            duration: const Duration(milliseconds: 400),
             curve: Curves.easeInToLinear,
             height: 30.h,
             width: 70.w,
@@ -136,12 +157,6 @@ mixin AlertDialogMixin {
                       ],
                     ),
                   ),
-                  // CustomTextButton(
-                  //   alignment: Alignment.bottomRight,
-                  //   icon: Icons.arrow_back_ios,
-                  //   onPressed: () => Navigator.of(context).pop(),
-                  //   text: 'Back',
-                  // ),
                 ],
               ),
             ),
@@ -162,23 +177,19 @@ mixin AlertDialogMixin {
             Animation secondaryAnimation) {
           return Center(
             child: Container(
-              //  width: MediaQuery.of(context).size.width/2,
-              //height: MediaQuery.of(context).size.height,
               color: Colors.white,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      AppPresentationStrings.loadingEng,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3
-                          ?.copyWith(letterSpacing: 3),
-                    ),
+                    Text(AppStrings.loading,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline3
+                            ?.copyWith(letterSpacing: 3)),
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text(AppPresentationStrings.backEng),
+                      child: const Text(AppStrings.back),
                     ),
                   ],
                 ),
@@ -205,11 +216,11 @@ mixin AlertDialogMixin {
           children: [
             CustomTextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              text: AppPresentationStrings.notYetEng,
+              text: AppStrings.notYet,
             ),
             CustomTextButton(
               onPressed: onPressed,
-              text: AppPresentationStrings.sureEng,
+              text: AppStrings.sure,
             )
           ],
         )
@@ -252,12 +263,14 @@ mixin AlertDialogMixin {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                  text: AppPresentationStrings.youWillAchieveYourEng,
+                                  text: '${AppStrings.youWillAchieveYour.tr()} ',
                                   style: textTheme.subtitle2
                                       ?.copyWith(color: AppColor.black)),
-                              TextSpan(text: AppPresentationStrings.goalEng, style: textTheme.headline4),
                               TextSpan(
-                                text: '${AppPresentationStrings.afterEng} $infoMessage ',
+                                  text: '${AppStrings.yourGoals.tr()} ',
+                                  style: textTheme.headline4),
+                              TextSpan(
+                                text: '${AppStrings.after.tr()} $infoMessage ',
                                 style: textTheme.subtitle2
                                     ?.copyWith(color: AppColor.black),
                               )
@@ -266,7 +279,7 @@ mixin AlertDialogMixin {
                         ),
                       ),
                       const Spacer(),
-                      Text(AppPresentationStrings.areYouReadySaveMoneyEng,
+                      Text(AppStrings.readyToSaveMoney.tr(),
                           style: textTheme.headline6),
                       Expanded(
                         flex: 4,
@@ -274,10 +287,8 @@ mixin AlertDialogMixin {
                           children: [
                             const Spacer(),
                             CustomTextButton(
-                                onPressed: () {
-                                  onPressedNoFunction();
-                                },
-                                text: AppPresentationStrings.noEng,
+                                onPressed: () => onPressedNoFunction(),
+                                text: AppStrings.no.tr(),
                                 isVisible: false,
                                 textStyle: textTheme.headline6
                                     ?.copyWith(color: AppColor.grey)),
@@ -290,7 +301,7 @@ mixin AlertDialogMixin {
                                 onPressed: () {
                                   onPressedYesFunction();
                                 },
-                                text: AppPresentationStrings.yesEng,
+                                text: AppStrings.yes.tr(),
                                 isVisible: false),
                             const Spacer(),
                           ],
@@ -311,9 +322,9 @@ mixin AlertDialogMixin {
         message,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColor.white),
       ),
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
       backgroundColor: Colors.red,
-      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
     ));
   }
 }

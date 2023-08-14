@@ -10,6 +10,7 @@ import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/transactions_impl/confirm_transaction_repo_impl.dart';
 import 'package:temp/data/repository/goals_repo_impl/goals_repo_impl.dart';
 
+/*
 
 class ConfirmPaymentsScreen extends StatefulWidget {
   const ConfirmPaymentsScreen({Key? key}) : super(key: key);
@@ -354,3 +355,4 @@ Padding goalsConfirmBody(BuildContext context) {
   //
   // }
 }
+*/

@@ -2,69 +2,67 @@ import 'package:flutter/material.dart';
 import 'package:temp/constants/app_icons.dart';
 import '../data/models/subcategories_models/expense_subcaegory_model.dart';
 
-class AppConstantList{
+class AppConstantList {
+  final SubCategory addMoreOption = SubCategory.copyWith(
+    id: 'feverrsssrr',
+    mainCategoryName: 'AddMore',
+    subCategoryName: 'Add More',
+    subCategoryIconName: AppIcons.addAppIcon,
+  );
 
-  final SubCategory addMoreOption= SubCategory.copyWith(
-      id: 'feverrsssrr',
-      mainCategoryName: 'AddMore',
-      subCategoryName: 'Add More',
-      subCategoryIconName: AppIcons.addAppIcon,
-    );
-
-  final List<SubCategory> expenseHomeFixedList=[
+  final List<SubCategory> expenseHomeFixedList = [
     SubCategory.copyWith(
-        id: 'ssfsf55',
-        subCategoryName: 'Transportation',
-        mainCategoryName: 'Home',
-        subCategoryIconName: AppIcons.buildAppIcon,
-        ),
+      id: 'ssfsf55',
+      subCategoryName: 'Transportation',
+      mainCategoryName: 'Home',
+      subCategoryIconName: AppIcons.buildAppIcon,
+    ),
     SubCategory.copyWith(
       id: 'odfiefi25',
       mainCategoryName: 'Home',
       subCategoryName: 'Food',
       subCategoryIconName: AppIcons.fbAppIcon,
-
     ),
     SubCategory.copyWith(
-        id: 'efefgg99',
-        mainCategoryName: 'Home',
-        subCategoryName: 'Random',
+      id: 'efefgg99',
+      mainCategoryName: 'Home',
+      subCategoryName: 'Random',
       subCategoryIconName: AppIcons.buildAppIcon,
     ),
     SubCategory.copyWith(
-        id: 'efefggs99',
-        mainCategoryName: 'Home',
-        subCategoryName: 'Try1',
-        subCategoryIconName: AppIcons.keyAppIcon,
-       ),
-    SubCategory.copyWith(
-        id: 'efefefefggs99',
-        mainCategoryName: 'Home',
-        subCategoryName: 'Try2',
+      id: 'efefggs99',
+      mainCategoryName: 'Home',
+      subCategoryName: 'Try1',
       subCategoryIconName: AppIcons.keyAppIcon,
     ),
     SubCategory.copyWith(
-        id: 'efefef4rggs99',
-        mainCategoryName: 'Home',
-        subCategoryName: 'Try3',
+      id: 'efefefefggs99',
+      mainCategoryName: 'Home',
+      subCategoryName: 'Try2',
+      subCategoryIconName: AppIcons.keyAppIcon,
+    ),
+    SubCategory.copyWith(
+      id: 'efefef4rggs99',
+      mainCategoryName: 'Home',
+      subCategoryName: 'Try3',
       subCategoryIconName: AppIcons.buildAppIcon,
     ),
     SubCategory.copyWith(
-        id: 'rf33f',
-        mainCategoryName: 'Home',
-        subCategoryName: 'Try4',
+      id: 'rf33f',
+      mainCategoryName: 'Home',
+      subCategoryName: 'Try4',
       subCategoryIconName: AppIcons.keyAppIcon,
     ),
     SubCategory.copyWith(
-        id: 'rf33wwwwf',
-        mainCategoryName: 'Home',
-        subCategoryName: 'Try5',
+      id: 'rf33wwwwf',
+      mainCategoryName: 'Home',
+      subCategoryName: 'Try5',
       subCategoryIconName: AppIcons.pauseAppIcon,
     ),
   ];
 
-  static const List<IconData> expHomeIcons=[
-      Icons.ten_k,
+  static const List<IconData> expHomeIcons = [
+    Icons.ten_k,
     Icons.star,
     Icons.vaccines_outlined,
     Icons.vaccines_outlined,
@@ -73,13 +71,13 @@ class AppConstantList{
     Icons.add_chart_outlined,
   ];
 
-  final List<SubCategory> expensePersonalFixedList=[
+  final List<SubCategory> expensePersonalFixedList = [
     SubCategory.copyWith(
-        id: 'ssfsf55',
-        subCategoryName: 'Personal1',
-        mainCategoryName: 'Personal',
+      id: 'ssfsf55',
+      subCategoryName: 'Personal1',
+      mainCategoryName: 'Personal',
       subCategoryIconName: AppIcons.keyAppIcon,
-        ),
+    ),
     SubCategory.copyWith(
       id: 'odfiefi25',
       mainCategoryName: 'Personal',
@@ -87,50 +85,50 @@ class AppConstantList{
       subCategoryIconName: AppIcons.keyAppIcon,
     ),
     SubCategory.copyWith(
-        id: 'efefgg99',
-        mainCategoryName: 'Personal',
-        subCategoryName: 'Personal3',
+      id: 'efefgg99',
+      mainCategoryName: 'Personal',
+      subCategoryName: 'Personal3',
       subCategoryIconName: AppIcons.keyAppIcon,
     ),
     SubCategory.copyWith(
-        id: 'efefggs99',
-        mainCategoryName: 'Personal',
-        subCategoryName: 'Personal4',
+      id: 'efefggs99',
+      mainCategoryName: 'Personal',
+      subCategoryName: 'Personal4',
       subCategoryIconName: AppIcons.keyAppIcon,
-       ),
+    ),
     SubCategory.copyWith(
-        id: 'efefefefggs99',
-        mainCategoryName: 'Personal',
-        subCategoryName: 'Personal5',
+      id: 'efefefefggs99',
+      mainCategoryName: 'Personal',
+      subCategoryName: 'Personal5',
       subCategoryIconName: AppIcons.keyAppIcon,
-        ),
+    ),
     SubCategory.copyWith(
-        id: 'efefef4rggs99',
-        mainCategoryName: 'Personal',
-        subCategoryName: 'Personal6',
+      id: 'efefef4rggs99',
+      mainCategoryName: 'Personal',
+      subCategoryName: 'Personal6',
       subCategoryIconName: AppIcons.dangerousAppIcon,
-        ),
+    ),
     SubCategory.copyWith(
-        id: 'rf33f',
-        mainCategoryName: 'Personal',
-        subCategoryName: 'Personal7',
+      id: 'rf33f',
+      mainCategoryName: 'Personal',
+      subCategoryName: 'Personal7',
       subCategoryIconName: AppIcons.keyAppIcon,
-        ),
+    ),
     SubCategory.copyWith(
-        id: 'rf33wwwwf',
-        mainCategoryName: 'Personal',
-        subCategoryName: 'Personal8',
+      id: 'rf33wwwwf',
+      mainCategoryName: 'Personal',
+      subCategoryName: 'Personal8',
       subCategoryIconName: AppIcons.keyAppIcon,
-        ),
+    ),
   ];
 
-  final List<SubCategory> expenseBusinessFixedList=[
+  final List<SubCategory> expenseBusinessFixedList = [
     SubCategory.copyWith(
-        id: 'ssfsf55',
-        mainCategoryName: 'Business',
-        subCategoryName: 'Business1',
+      id: 'ssfsf55',
+      mainCategoryName: 'Business',
+      subCategoryName: 'Business1',
       subCategoryIconName: AppIcons.keyAppIcon,
-        ),
+    ),
     SubCategory.copyWith(
       id: 'odfiefi25',
       mainCategoryName: 'Business',
@@ -138,44 +136,44 @@ class AppConstantList{
       subCategoryIconName: AppIcons.keyAppIcon,
     ),
     SubCategory.copyWith(
-        id: 'efefgg99',
-        mainCategoryName: 'Business',
-        subCategoryName: 'Business3',
+      id: 'efefgg99',
+      mainCategoryName: 'Business',
+      subCategoryName: 'Business3',
       subCategoryIconName: AppIcons.dangerousAppIcon,
-        ),
+    ),
     SubCategory.copyWith(
-        id: 'efefggs99',
-        mainCategoryName: 'Business',
-        subCategoryName: 'Business4',
+      id: 'efefggs99',
+      mainCategoryName: 'Business',
+      subCategoryName: 'Business4',
       subCategoryIconName: AppIcons.dangerousAppIcon,
-        ),
+    ),
     SubCategory.copyWith(
-        id: 'efefefefggs99',
-        mainCategoryName: 'Business',
-        subCategoryName: 'Business5',
+      id: 'efefefefggs99',
+      mainCategoryName: 'Business',
+      subCategoryName: 'Business5',
       subCategoryIconName: AppIcons.dangerousAppIcon,
-        ),
+    ),
     SubCategory.copyWith(
-        id: 'efefef4rggs99',
-        mainCategoryName: 'Business',
-        subCategoryName: 'Business6',
+      id: 'efefef4rggs99',
+      mainCategoryName: 'Business',
+      subCategoryName: 'Business6',
       subCategoryIconName: AppIcons.dangerousAppIcon,
-        ),
+    ),
     SubCategory.copyWith(
-        id: 'rf33f',
-        mainCategoryName: 'Business',
-        subCategoryName: 'Business7',
+      id: 'rf33f',
+      mainCategoryName: 'Business',
+      subCategoryName: 'Business7',
       subCategoryIconName: AppIcons.dangerousAppIcon,
-        ),
+    ),
     SubCategory.copyWith(
-        id: 'rf33wwwwf',
-        mainCategoryName: 'Business',
-        subCategoryName: 'Business8',
+      id: 'rf33wwwwf',
+      mainCategoryName: 'Business',
+      subCategoryName: 'Business8',
       subCategoryIconName: AppIcons.dangerousAppIcon,
-        ),
+    ),
   ];
 
-  final List<MaterialColor> colorsList=[
+  final List<MaterialColor> colorsList = [
     Colors.red,
     Colors.green,
     Colors.blue,
@@ -195,21 +193,28 @@ class AppConstantList{
     Colors.pink,
     Colors.indigo,
   ];
-
-  final Map<String,IconData> iconsOfApp = {
-    AppIcons.fbAppIcon:Icons.fastfood,
-    AppIcons.keyAppIcon:Icons.car_crash_outlined,
-    AppIcons.sevenAppIcon:Icons.seven_k,
-    AppIcons.titleAppIcon:Icons.title,
-    AppIcons.buildAppIcon:Icons.build,
-    AppIcons.vaccinesOutlinedAppIcon:Icons.vaccines_outlined,
-    AppIcons.repeatAppIcon:Icons.repeat,
-    AppIcons.pauseAppIcon:Icons.pause,
-    AppIcons.dangerousAppIcon:Icons.dangerous,
-    AppIcons.addAppIcon:Icons.add,
+  Map<String,String> appBarTitle = {
+    'home': 'Home',
+    'confirmPayingToday':'Confirm Paying Today',
+    'statisticsExpenses':'Statistics expenses',
+    'statisticsIncome':'Statistics Income',
+    'settings':'Settings'
   };
 
-  final List<SubCategory> incomeFixedSubFixedList=[
+  final Map<String, IconData> iconsOfApp = {
+    AppIcons.fbAppIcon: Icons.fastfood,
+    AppIcons.keyAppIcon: Icons.car_crash_outlined,
+    AppIcons.sevenAppIcon: Icons.seven_k,
+    AppIcons.titleAppIcon: Icons.title,
+    AppIcons.buildAppIcon: Icons.build,
+    AppIcons.vaccinesOutlinedAppIcon: Icons.vaccines_outlined,
+    AppIcons.repeatAppIcon: Icons.repeat,
+    AppIcons.pauseAppIcon: Icons.pause,
+    AppIcons.dangerousAppIcon: Icons.dangerous,
+    AppIcons.addAppIcon: Icons.add,
+  };
+
+  final List<SubCategory> incomeFixedSubFixedList = [
     SubCategory.copyWith(
       id: 'odfiefi25',
       mainCategoryName: 'Fixed',
@@ -224,7 +229,7 @@ class AppConstantList{
     ),
   ];
 
-  final List<SubCategory> incomeVariableSubFixedList=[
+  final List<SubCategory> incomeVariableSubFixedList = [
     SubCategory.copyWith(
       id: 'odfie33fi25',
       mainCategoryName: 'Variable',
@@ -238,5 +243,4 @@ class AppConstantList{
       subCategoryIconName: AppIcons.buildAppIcon,
     ),
   ];
-
 }

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
@@ -125,8 +126,10 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                             onPressed: () =>
                                 index == 0 ? showDatePick() : showDatePickMonth(),
                             text: index == 0
-                                ? formatDayDate(getStatisticsCubit().chosenDay)
-                                : formatWeekDate(getStatisticsCubit().chosenDay),
+                                ? formatDayDate(getStatisticsCubit().chosenDay,
+                                    translator.activeLanguageCode)
+                                : formatWeekDate(getStatisticsCubit().chosenDay,
+                                    translator.activeLanguageCode),
                             textStyle: Theme.of(context).textTheme.subtitle1,
                             backgroundColor: AppColor.white,
                             width: 40.w,
@@ -140,13 +143,15 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                           totalExpenses:
                               context.read<StatisticsCubit>().totalImportantExpenses(),
                           index: index,
-                          priorityType: PriorityType.Important,
-                          notPriority: PriorityType.NotImportant,
+                          priorityType: PriorityType.important,
+                          notPriority: PriorityType.notImportant,
                           transactionsValues: getStatisticsCubit().transactionsValues,
                         ),
 
                         /// TabBarView Widgets.
-                        const DetailsText(text: AppPresentationStrings.filteredByEng),
+                         DetailsText(text: AppStrings.filteredBy.tr(),
+                         alignment: translator.activeLanguageCode == 'en'?
+                         Alignment.centerLeft:Alignment.centerRight),
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(
@@ -154,7 +159,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                                 context,
                                 getStatisticsCubit().byDayList[insideIndex],
                                 insideIndex),
-                            priorityName: PriorityType.Important,
+                            priorityName: PriorityType.important,
                             transactions: getStatisticsCubit().byDayList,
                             index: index,
                             pageController: _controller,

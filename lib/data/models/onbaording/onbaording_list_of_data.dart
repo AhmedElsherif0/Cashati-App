@@ -1,3 +1,5 @@
+import 'package:localize_and_translate/localize_and_translate.dart';
+
 import '../../../constants/app_icons.dart';
 
 class OnBoardingModel {
@@ -28,10 +30,11 @@ class OnBoardingData {
         image: AppIcons.onBoarding3,
         buttonTitle: 'Start'),
   ];
-  final List<String> _currency = [
+
+  final List<String> _englishCurrency = [
     'EGP',
     'USD',
-    'EUR',
+    /*   'EUR',
     'GBP',
     'SAR',
     'AED',
@@ -42,10 +45,28 @@ class OnBoardingData {
     'KWD',
     'QAR',
     'SYP',
-    'BTC'
+    'BTC'*/
   ];
 
-  List<String> get getCurrency => _currency;
+  final List<String> _arabicCurrency = [
+    'المصرية',
+    'الامريكية',
+    /* 'الاوربية',
+    'الانجليزية',
+    'السعودية',
+    'الامارتية',
+    'الروبية',
+    'اليابانية',
+    'الهندية',
+    'البرازيلية',
+    'الكوتية',
+    'القطرية',
+    'السورية',
+    'البت كوين(BTC)'*/
+  ];
+
+  List<String> get getCurrency =>
+      translator.activeLanguageCode == 'en' ? _englishCurrency : _arabicCurrency;
 
   List<OnBoardingModel> get getOnBoardingData => _myData;
 }

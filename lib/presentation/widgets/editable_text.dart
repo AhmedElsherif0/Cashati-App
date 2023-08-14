@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:temp/constants/app_strings.dart';
 import '../styles/colors.dart';
 
 class EditableInfoField extends StatefulWidget {
@@ -53,7 +53,7 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
               keyboardType: widget.keyboardType ?? TextInputType.text,
               controller: widget.textEditingController,
               validator: (value) => value!.isEmpty
-                  ? AppPresentationStrings.thisFieldCantBeEmptyEng
+                  ? AppStrings.cantBeEmpty
                   :
                   // widget.subCategoryName=value;
                   null,

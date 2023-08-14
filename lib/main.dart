@@ -1,10 +1,9 @@
 import 'dart:async';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:intl/intl.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
@@ -13,19 +12,16 @@ import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
-import 'package:temp/data/models/goals/goal_model.dart';
-import 'package:temp/data/models/goals/repeated_goal_model.dart';
-import 'package:temp/data/models/notification/notification_model.dart';
-import 'package:temp/data/models/statistics/general_stats_model.dart';
-import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
-import 'package:temp/presentation/screens/add_exp_inc_screen.dart';
+import 'package:temp/presentation/screens/shared/empty_screen.dart';
+import 'package:temp/presentation/screens/shared/error_sreen.dart';
+import 'package:temp/presentation/screens/shared/loading_screen.dart';
+import 'package:temp/presentation/screens/welcome/on_boarding_screens.dart';
 import 'package:temp/presentation/screens/welcome/welcome_screen.dart';
 import 'package:temp/presentation/styles/themes.dart';
-import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
 import 'package:temp/presentation/widgets/status_bar_configuration.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -35,54 +31,23 @@ import 'business_logic/cubit/global_cubit/global_cubit.dart';
 import 'business_logic/cubit/home_cubit/home_cubit.dart';
 import 'business_logic/repository/transactions_repo/transaction_repo.dart';
 import 'data/local/cache_helper.dart';
-import 'data/local/hive/app_boxes.dart';
-import 'data/local/hive/hive_database.dart';
-import 'data/models/transactions/transaction_details_model.dart';
-import 'data/models/transactions/transaction_model.dart';
-import 'data/models/transactions/transaction_types_model.dart';
+import 'data/local/hive/hive_initialize.dart';
 import 'data/repository/expenses_repo_impl/expenses_repo_impl.dart';
 import 'presentation/router/app_router.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await HiveInitialize.init();
   tz.initializeTimeZones();
 
-  await translator.init(
-    localeType: LocalizationDefaultType.device,
-    languagesList: <String>['ar', 'en'],
-    assetsDirectory: 'assets/i18n/',
-  );
-
-  await Hive.initFlutter();
-  Hive.registerAdapter(GeneralStatsModelAdapter());
-  Hive.registerAdapter(TransactionModelAdapter());
-  Hive.registerAdapter(TransactionRepeatTypesAdapter());
-  Hive.registerAdapter(TransactionRepeatDetailsModelAdapter());
-  Hive.registerAdapter(SubCategoryAdapter());
-  Hive.registerAdapter(GoalModelAdapter());
-  Hive.registerAdapter(GoalRepeatedDetailsModelAdapter());
-  Hive.registerAdapter(NotificationModelAdapter());
-
-  await Hive.openBox<GeneralStatsModel>(AppBoxes.generalStatisticsBox);
-
-  await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-      boxName: AppBoxes.dailyTransactionsBoxName);
-  await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-      boxName: AppBoxes.weeklyTransactionsBoxName);
-  await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-      boxName: AppBoxes.monthlyTransactionsBoxName);
-  await HiveHelper().openBox<TransactionRepeatDetailsModel>(
-      boxName: AppBoxes.noRepeaTransactionsBoxName);
-  await HiveHelper().openBox<SubCategory>(boxName: AppBoxes.subCategoryExpense);
-  await HiveHelper().openBox<TransactionModel>(boxName: AppBoxes.transactionBox);
-  await HiveHelper().openBox<GoalModel>(boxName: AppBoxes.goalModel);
-  await HiveHelper()
-      .openBox<GoalRepeatedDetailsModel>(boxName: AppBoxes.goalRepeatedBox);
+   await translator.init(
+      localeType: LocalizationDefaultType.device,
+      languagesList: <String>['ar', 'en'],
+      assetsDirectory: 'assets/i18n/');
 
   BlocOverrides.runZoned(
     () async {
       await CacheHelper.init();
-      await EasyLocalization.ensureInitialized();
       await NotificationsApi.initialize();
       runApp(MyApp(appRouter: AppRouter()));
     },
@@ -143,7 +108,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
                     locale: translator.activeLocale,
                     // Active locale
                     supportedLocales: translator.locals(),
-                   // home: const WelcomeScreen(), // Locals list
+                   // home: const EmptyScreen(), // Locals list
                     initialRoute: AppRouterNames.rSplashScreen,
                     onGenerateRoute: widget.appRouter.onGenerateRoute,
                   );

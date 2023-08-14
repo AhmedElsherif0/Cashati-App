@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -30,6 +31,7 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final isEnglish = translator.activeLanguageCode == 'en';
     return weeksTotals.every((element) => element == 0)
         ? Image.asset(AppIcons.noDataCate)
         : ListView.builder(
@@ -41,8 +43,7 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                   Card(
                     margin: EdgeInsets.symmetric(horizontal: 16.dp),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.dp),
-                    ),
+                        borderRadius: BorderRadius.circular(12.dp)),
                     elevation: 4.dp,
                     color: AppColor.lightGrey,
                     child: Padding(
@@ -50,13 +51,15 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                       child: Column(
                         children: [
                           Row(
+                            textDirection:
+                                isEnglish ? TextDirection.ltr : TextDirection.rtl,
                             children: [
-                              Text('${AppPresentationStrings.weekEng} ${index + 1}',
+                              Text('${AppStrings.week.tr()} ${index + 1}',
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.headline5),
                               const Spacer(),
                               Text(
-                                '${weeksTotals[index]} LE',
+                                currencyFormat(weeksTotals[index]),
                                 style:
                                     textTheme.headline5?.copyWith(color: priceColor),
                               ),
@@ -64,11 +67,15 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                           ),
                           SizedBox(height: 1.h),
                           Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: isEnglish
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
                             child: Text(weekRanges[index], style: textTheme.subtitle1),
                           ),
                           SizedBox(height: 1.h),
                           Row(
+                            textDirection:
+                                isEnglish ? TextDirection.ltr : TextDirection.rtl,
                             children: [
                               Column(
                                 children: [

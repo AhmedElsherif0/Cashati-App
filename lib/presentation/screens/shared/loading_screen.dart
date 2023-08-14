@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import '../../widgets/show_dialog.dart';
 
@@ -13,7 +13,6 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> with AlertDialogMixin {
-
   Widget anotherApproachForLoading() {
     return Expanded(
       child: SizedBox(
@@ -27,7 +26,6 @@ class _LoadingScreenState extends State<LoadingScreen> with AlertDialogMixin {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +44,10 @@ class _LoadingScreenState extends State<LoadingScreen> with AlertDialogMixin {
                     Image(
                       colorBlendMode: BlendMode.srcOut,
                       width: 70.w,
-                      image:  const AssetImage(AppIcons.loading1),
+                      image: const AssetImage(AppIcons.loading1),
                       gaplessPlayback: true,
                     ),
-                    Text(
-                      '${AppPresentationStrings.loadingEng}...',
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
+                    Text('loading'.tr(), style: Theme.of(context).textTheme.headline2),
                   ],
                 ),
               ),

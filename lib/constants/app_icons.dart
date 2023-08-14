@@ -7,13 +7,14 @@ class AppIcons {
   static const String onBoarding1 = '$images/on_boarding/onboarding_1.png';
   static const String onBoarding3 = '$images/on_boarding/on_boarding3.png';
   static const String cashatiLogoSVG = '$icons/cashati_logo.svg';
+  static const String backWordArrow = '$icons/arrow-backWord.svg';
 
   static const String reminder = '$icons/reminderIcon.svg';
   static const String notificationSetting = '$icons/notificationIconAlert.svg';
   static const String editCategoryIcon = '$icons/editCategoryIcon.svg';
-  static const String languageSetting = '$icons/languageSettingIcon.svg';
+  static const String englishLang = '$icons/languageSettingIcon.svg';
+  static const String arabicLang = '$icons/arabic_lang.svg';
   static const String currencySettings = '$icons/currencySettingsIcon.svg';
-
   static const String noDataCate = 'assets/images/No data-cuate 1.png';
 
   /// Nav Bar Item Icons.

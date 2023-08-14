@@ -8,6 +8,7 @@ import 'package:temp/data/repository/expenses_repo_impl/expenses_repo_impl.dart'
 import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 
 import '../../../data/models/transactions/transaction_details_model.dart';
+/*
 
 class AllExpIncTest extends StatefulWidget {
   const AllExpIncTest({super.key});
@@ -119,3 +120,4 @@ class _AllExpIncTestState extends State<AllExpIncTest> {
     );
   }
 }
+*/

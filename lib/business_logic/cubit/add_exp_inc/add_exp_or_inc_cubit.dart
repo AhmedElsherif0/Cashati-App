@@ -264,11 +264,11 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   Future checkIfTopExpOrInc() async {
     final generalModel = HiveHelper()
         .getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsBox)
-        .get(AppStrings.theOnlyGeneralStatsModelID)!;
+        .get(AppStrings.onlyId)!;
     final todayDate = DateTime.now();
-    if (chosenDate?.day == todayDate.day &&
-        chosenDate?.month == todayDate.month &&
-        chosenDate?.year == todayDate.year) {
+    if (chosenDate.day == todayDate.day &&
+        chosenDate.month == todayDate.month &&
+        chosenDate.year == todayDate.year) {
       if (isExpense && currentAmount > generalModel.topExpenseAmount) {
         await _generalStatsRepo.fetchTopExpenseAndTopIncome();
       } else if (!isExpense && currentAmount > generalModel.topIncomeAmount) {

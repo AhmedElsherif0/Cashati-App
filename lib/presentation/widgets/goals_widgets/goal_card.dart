@@ -1,8 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -24,6 +24,8 @@ class GoalCard extends StatelessWidget with HelperClass {
 
   @override
   Widget build(BuildContext context) {
+    final aLangCode = translator.activeLanguageCode;
+    final amountRepeat = goal.goalSaveAmountRepeat.toLowerCase();
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Stack(
@@ -33,30 +35,31 @@ class GoalCard extends StatelessWidget with HelperClass {
             decoration: BoxDecoration(
                 color: AppColor.primaryColor, borderRadius: BorderRadius.circular(20)),
             child: Padding(
-              padding: EdgeInsets.only(left: 4.0.w, right: 3.0.w, top: 2.h),
+              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   goalName(context, goal.goalName),
                   GoalsRichText(
-                      title: AppPresentationStrings.goalCostEng,
-                      subTitle: '${goal.goalRemainingAmount} LE'),
+                      title: AppStrings.goalCost.tr(),
+                      subTitle: currencyFormat(goal.goalRemainingAmount)),
                   GoalsRichText(
-                      title:  AppPresentationStrings.yourSavingEng,
+                      title: AppStrings.yourSaving.tr(),
                       subTitle:
-                          '${goal.goalSaveAmount} LE, ${goal.goalSaveAmountRepeat}'),
+                          '${currencyFormat(goal.goalSaveAmount) }, ${amountRepeat.tr()}'),
                   GoalsRichText(
-                      title:  AppPresentationStrings.beginInEng,
-                      subTitle: '${formatDayWeek(goal.goalStartSavingDate)},'
-                          ' ${formatDayDate(goal.goalStartSavingDate)}'),
+                      title: AppStrings.beginIn.tr(),
+                      subTitle:
+                          '${formatDayWeek(goal.goalStartSavingDate, aLangCode)},'
+                          ' ${formatDayDate(goal.goalStartSavingDate, aLangCode)}'),
                   GoalsRichText(
-                      title:  AppPresentationStrings.completeInEng,
-                      subTitle: '${formatDayWeek(goal.goalCompletionDate)},'
-                          ' ${formatDayDate(goal.goalCompletionDate)}'),
+                      title: AppStrings.completeIn.tr(),
+                      subTitle: '${formatDayWeek(goal.goalCompletionDate, aLangCode)},'
+                          ' ${formatDayDate(goal.goalCompletionDate, aLangCode)}'),
                   GoalsRichText(
-                      title:  AppPresentationStrings.remainingAmountEng,
-                      subTitle: '${goal.goalRemainingAmount} LE'),
+                      title: AppStrings.remainingAmount.tr(),
+                      subTitle: currencyFormat(goal.goalRemainingAmount)),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 1.h),
                     child: Center(child: CompleteIndicatorBar(goalModel: goal)),
@@ -66,19 +69,14 @@ class GoalCard extends StatelessWidget with HelperClass {
             ),
           ),
           Positioned(
-              right: 2.h,
+              right: translator.activeLanguageCode == 'en' ? 2.w : 0,
+              left: translator.activeLanguageCode == 'en' ? 0 : -70.w,
               top: 2.h,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircleIconButton(
-                    iconData: Icons.edit_outlined,
-                    onTap: editFunction,
-                  ),
-                  CircleIconButton(
-                    iconData: Icons.close,
-                    onTap: deleteFunction,
-                  ),
+                  CircleIconButton(iconData: Icons.edit_outlined, onTap: editFunction),
+                  CircleIconButton(iconData: Icons.close, onTap: deleteFunction),
                 ],
               ))
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 import '../../constants/enum_classes.dart';
 import '../router/app_router_names.dart';
@@ -12,8 +13,8 @@ class FlowChartView extends StatelessWidget {
   const FlowChartView({
     Key? key,
     required this.index,
-    this.priorityType = PriorityType.Important,
-    this.transactionType = TransactionType.Expense,
+    this.priorityType = PriorityType.important,
+    this.transactionType = TransactionType.expense,
     required this.notPriority,
     this.maxExpenses = 0,
     this.totalExpenses = 0,
@@ -30,7 +31,7 @@ class FlowChartView extends StatelessWidget {
 
   Widget switchWidgets(context, int currentIndex) {
     Widget widget = CircularProgressBarChart(
-        header: transactionType.name,
+        header: transactionType.name.tr(),
         maxExpenses: maxExpenses.toDouble(),
         totalExpenses: totalExpenses,
         onPressToHome: () =>
@@ -68,10 +69,10 @@ class FlowChartView extends StatelessWidget {
                     flex: 6,
                     child: Column(
                       children: [
-                        PriorityWidget(text: priorityType.name),
+                        PriorityWidget(text: priorityType.name.tr()),
                         SizedBox(height: 0.3.h),
                         PriorityWidget(
-                            text: notPriority.name, color: AppColor.pinkishGrey),
+                            text: notPriority.name.tr(), color: AppColor.pinkishGrey),
                       ],
                     ),
                   ),

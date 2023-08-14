@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../constants/app_presentation_strings.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import '../../../constants/app_strings.dart';
 import '../../widgets/buttons/elevated_button.dart';
-
 
 class EmptyScreen extends StatelessWidget {
   const EmptyScreen({Key? key}) : super(key: key);
@@ -21,28 +21,21 @@ class EmptyScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Text(
-                AppPresentationStrings.noExpensesYetEng,
-                style: Theme.of(context).textTheme.headline3,
-              ),
+              child: Text('noExpensesYet'.tr(),
+                  style: Theme.of(context).textTheme.headline3),
             ),
             const Spacer(),
             Expanded(
               flex: 2,
               child: CustomElevatedButton(
-                text: AppPresentationStrings.backEng,
-                onPressed: () {},
-                icon: Icons.arrow_back_ios,
-              ),
+                  text: 'back'.tr(), onPressed: () {}, icon: translator.activeLanguageCode == 'en' ?
+                Icons.arrow_back_ios :Icons.arrow_forward_ios),
             ),
             const Spacer(),
             Expanded(
               flex: 2,
               child: CustomElevatedButton(
-                text: AppPresentationStrings.addEng,
-                onPressed: () {},
-                icon: Icons.add,
-              ),
+                  text: 'add'.tr(), onPressed: () {}, icon: Icons.add),
             ),
             const Spacer(flex: 6),
           ],

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -120,8 +121,10 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                           child: CustomElevatedButton(
                             onPressed: () => showDatePick(),
                             text: index == 0
-                                ? formatDayDate(getStatisticsCubit().chosenDay)
-                                : formatWeekDate(getStatisticsCubit().chosenDay),
+                                ? formatDayDate(getStatisticsCubit().chosenDay,
+                                translator.activeLanguageCode)
+                                : formatWeekDate(getStatisticsCubit().chosenDay,
+                                translator.activeLanguageCode),
                             textStyle: Theme.of(context).textTheme.subtitle1,
                             backgroundColor: AppColor.white,
                             width: 40.w,
@@ -137,17 +140,19 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                               .read<StatisticsCubit>()
                               .totalImportantExpenses(isExpense: false),
                           index: index,
-                          priorityType: PriorityType.Fixed,
-                          notPriority: PriorityType.NotFixed,
+                          priorityType: PriorityType.fixed,
+                          notPriority: PriorityType.notFixed,
                           transactionsValues: getStatisticsCubit().transactionsValues,
                         ),
-                        const DetailsText(text: AppPresentationStrings.filteredByEng),
+                         DetailsText(text: AppStrings.filteredBy.tr(),
+                             alignment: translator.activeLanguageCode == 'en'?
+                             Alignment.centerLeft:Alignment.centerRight),
 
                         /// TabBarView Widgets.
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(
-                            priorityName: PriorityType.Fixed,
+                            priorityName: PriorityType.fixed,
                             transactions: getStatisticsCubit().byDayList,
                             onPressSeeMore: (int insideIndex) => _onSeeMoreByDay(
                                 context,

@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
-import 'package:temp/data/repository/helper_class.dart';
-import 'package:temp/presentation/router/app_router_names.dart';
-import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
-import 'package:temp/presentation/widgets/common_texts/logo_name.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
+import '../../../constants/app_strings.dart';
 import '../../../data/local/cache_helper.dart';
 import '../../../data/models/onbaording/onbaording_list_of_data.dart';
+import '../../../data/repository/helper_class.dart';
+import '../../router/app_router_names.dart';
+import '../../styles/colors.dart';
+import '../../widgets/buttons/elevated_button.dart';
+import '../../widgets/common_texts/logo_name.dart';
 
 class OnBoardScreens extends StatefulWidget {
   const OnBoardScreens({Key? key}) : super(key: key);
@@ -69,91 +70,88 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
   _mobileOnBoardingScreen(context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      body: Directionality(
-        textDirection: TextDirection.ltr,
-        child: PageView.builder(
-          controller: _pageController,
-          onPageChanged: (value) => setState(() => _currentIndex = value),
-          itemCount: myData.length,
-          itemBuilder: (context, index) {
-            return Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.dp),
-                child: Column(
-                  children: [
-                    const Spacer(),
-                    Expanded(
-                      flex: 2,
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: TextButton(
-                          onPressed: () => onStart(context),
-                          child: Text(AppPresentationStrings.skipEng,
-                              style: textTheme.bodyText2?.copyWith(letterSpacing: 2)),
+      body: PageView.builder(
+        controller: _pageController,
+        onPageChanged: (value) => setState(() => _currentIndex = value),
+        itemCount: myData.length,
+        itemBuilder: (context, index) {
+          return Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.dp),
+              child: Column(
+                children: [
+                  const Spacer(),
+                  Expanded(
+                    flex: 2,
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: TextButton(
+                        onPressed: () => onStart(context),
+                        child: Text(AppStrings.skip.tr(),
+                            style: textTheme.bodyText2?.copyWith(letterSpacing: 2)),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                      flex: 5,
+                      child: Image.asset(myData[index].image, fit: BoxFit.contain)),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Row(
+                          //textDirection: TextDirection.RTL,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(AppStrings.welcomeTo.tr(),
+                                style: textTheme.headline3),
+                            SizedBox(width: 2.w),
+                            const LogoName(),
+                          ],
                         ),
-                      ),
+                        Text('${AppStrings.onBoardingDesc}$index'.tr(),
+                            style: textTheme.subtitle2, textAlign: TextAlign.center)
+                      ],
                     ),
-                    Expanded(
-                        flex: 5,
-                        child: Image.asset(myData[index].image, fit: BoxFit.contain)),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('${AppPresentationStrings.welcomeToEng} ', style: textTheme.headline3),
-                              const LogoName(),
-                            ],
-                          ),
-                          Text(
-                            myData[index].description,
-                            style: textTheme.subtitle2,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(
-                              myData.length,
-                              (index) => Container(
-                                margin: EdgeInsets.only(right: 4.dp),
-                                height: 1.2.h,
-                                width: _currentIndex == index ? 12.w : 3.w,
-                                decoration: BoxDecoration(
-                                  color: _currentIndex == index
-                                      ? AppColor.primaryColor
-                                      : AppColor.grey,
-                                  borderRadius: BorderRadius.circular(20.0.dp),
-                                ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                            myData.length,
+                            (index) => Container(
+                              margin: EdgeInsets.only(right: 4.dp),
+                              height: 1.2.h,
+                              width: _currentIndex == index ? 12.w : 3.w,
+                              decoration: BoxDecoration(
+                                color: _currentIndex == index
+                                    ? AppColor.primaryColor
+                                    : AppColor.grey,
+                                borderRadius: BorderRadius.circular(20.0.dp),
                               ),
                             ),
                           ),
-                          SizedBox(height: 3.h),
-                          CustomElevatedButton(
-                            onPressed: () => onNext(context),
-                            text: myData[index].buttonTitle,
-                            borderRadius: 6.dp,
-                            width: 80.w,
-                            height: 6.h,
-                          ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 3.h),
+                        CustomElevatedButton(
+                          onPressed: () => onNext(context),
+                          text: '${AppStrings.onBoardingButton}$index'.tr(),
+                          borderRadius: 6.dp,
+                          width: 80.w,
+                          height: 6.h,
+                        ),
+                      ],
                     ),
-                    const Spacer()
-                  ],
-                ),
+                  ),
+                  const Spacer()
+                ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -162,7 +160,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: Directionality(
-        textDirection: TextDirection.ltr,
+        textDirection: TextDirection.rtl,
         child: PageView.builder(
           controller: _pageController,
           onPageChanged: (value) => setState(() => _currentIndex = value),
@@ -180,7 +178,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
                         alignment: Alignment.topRight,
                         child: TextButton(
                           onPressed: () => onStart(context),
-                          child: Text(AppPresentationStrings.skipEng,
+                          child: Text(AppStrings.skip.tr(),
                               style: textTheme.bodyText2?.copyWith(letterSpacing: 2)),
                         ),
                       ),

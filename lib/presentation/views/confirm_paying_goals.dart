@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 
 import '../../constants/app_icons.dart';
@@ -47,36 +48,35 @@ class ConfirmPayingGoals extends StatelessWidget {
           child: Card(
             elevation: 4.dp,
             color: AppColor.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24.dp)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.dp)),
             child: Column(
               children: [
-                Expanded(
-                  flex: 3,
-                  child:
-                      ConfirmPayingTitleCard(cardTitle: AppPresentationStrings.goalsEng),
-                ),
                  Expanded(
                   flex: 3,
-                  child: RowIconWithTitle(
-                      toolTipMessage: AppPresentationStrings.goalNameEng,
-
-                      startIcon: AppIcons.goals, title: goalModel.goalName),
+                  child:
+                      ConfirmPayingTitleCard(cardTitle: AppStrings.goals.tr()),
                 ),
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
-                      toolTipMessage: AppPresentationStrings.registeredRepeatedAmountToolTipEng,
-
+                      toolTipMessage: AppStrings.goalName,
+                      startIcon: AppIcons.goals,
+                      title: goalModel.goalName),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: RowIconWithTitle(
+                      toolTipMessage:
+                          AppStrings.registeredRepeatedAmount,
                       startIcon: AppIcons.poundSterlingSign,
-                      title: '${goalModel.goalSaveAmount.toStringAsFixed(0)} LE, Weekly',
+                      title:
+                          '${goalModel.goalSaveAmount.toStringAsFixed(0)} LE, Weekly',
                       endIcon: onPressIcon(onEditAmount, AppIcons.editIcon)),
                 ),
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
-                    toolTipMessage: AppPresentationStrings.paidAmountEng,
-
+                    toolTipMessage: AppStrings.paidAmount,
                     startIcon: AppIcons.change,
                     title: '${goalModel.goalSaveAmount.toStringAsFixed(0)} LE',
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),
@@ -85,8 +85,8 @@ class ConfirmPayingGoals extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
-                    toolTipMessage: AppPresentationStrings.remainingGoalTargetToolTipEng,
-
+                    toolTipMessage:
+                        AppStrings.remainingGoalTargetAmount,
                     startIcon: AppIcons.blockedCash,
                     title: '${blockedAmount.toStringAsFixed(0)} LE',
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),

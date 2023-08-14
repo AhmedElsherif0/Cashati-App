@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:temp/constants/app_presentation_strings.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
@@ -28,28 +29,31 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
       body: SafeArea(
         child: Column(
           children: [
-            CustomAppBar(title: '${transactions[index].repeatType} ${AppPresentationStrings.expenseEng}', isEndIconVisible: false),
+            CustomAppBar(
+                title: '${transactions[index].repeatType} ${AppStrings.expenseSmall}',
+                isEndIconVisible: false),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                      transactions[index].repeatType == AppPresentationStrings.dailyEng
-                          ? formatDayDate(transactions[index].createdDate)
+                      transactions[index].repeatType == AppStrings.daily
+                          ? formatDayDate(transactions[index].createdDate,
+                              translator.activeLanguageCode)
                           : getWeekRange(
                               chosenDay: transactions[index].createdDate)[index],
                       style: theme.textTheme.headline6),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     transactions[index].isExpense
                         ? const PriorityWidget()
-                        : const PriorityWidget(text: AppPresentationStrings.fixedEng)
+                        : const PriorityWidget(text: AppStrings.fixed)
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     transactions[index].isExpense
                         ? const PriorityWidget(
-                            text: AppPresentationStrings.importantEng, color: AppColor.pinkishGrey)
+                            text: AppStrings.important, color: AppColor.pinkishGrey)
                         : const PriorityWidget(
-                            text: AppPresentationStrings.notFixedEng, color: AppColor.pinkishGrey)
+                            text: AppStrings.notFixed, color: AppColor.pinkishGrey)
                   ])
                 ],
               ),
@@ -63,8 +67,9 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
                   isRepeated: false,
                   isSeeMore: true,
                   transactionModel: transactions[index],
-                  priorityName:
-                      transactions[index].isPriority ?  AppPresentationStrings.importantEng : AppPresentationStrings.notImportantEng,
+                  priorityName: transactions[index].isPriority
+                      ? AppStrings.important
+                      : AppStrings.notImportant,
 
                   /// check if this is the higherExpense so show it.
                   switchWidget: SwitchWidgets.higherExpenses,

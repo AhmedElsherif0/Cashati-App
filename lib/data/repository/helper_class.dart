@@ -1,7 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 
+import '../../constants/app_strings.dart';
 import '../../constants/enum_classes.dart';
 import '../../presentation/screens/home/part_time_details.dart';
 import '../../presentation/screens/home/statistics_details_screen.dart';
@@ -15,14 +17,22 @@ mixin HelperClass {
         DateTime(chosenDay.year, chosenDay.month != 12 ? chosenDay.month + 1 : 1, 0)
             .day;
     final chosenMonth = chosenDay.month;
+    final from = AppStrings.from.tr(), to = AppStrings.to.tr();
     return [
-      'From 1 \\ $chosenMonth   To  7 \\ $chosenMonth',
-      'From 8 \\ $chosenMonth   To  14 \\ $chosenMonth',
-      'From 15 \\ $chosenMonth   To  21 \\ $chosenMonth',
-      'From 22 \\ $chosenMonth   To  28  \\ $chosenMonth',
-      'From 29 \\ $chosenMonth   To  $lastDay \\ $chosenMonth'
+      '$from 1 \\ $chosenMonth  $to 7 \\ $chosenMonth',
+      '$from 8 \\ $chosenMonth   $to  14 \\ $chosenMonth',
+      '$from 15 \\ $chosenMonth   $to  21 \\ $chosenMonth',
+      '$from 22 \\ $chosenMonth   $to  28  \\ $chosenMonth',
+      '$from 29 \\ $chosenMonth   $to  $lastDay \\ $chosenMonth'
     ];
   }
+
+  String currencyFormat(num currency) =>
+     NumberFormat.currency(
+            symbol: translator.activeLanguageCode == 'en' ? 'LE' : 'جم',
+            locale: translator.activeLanguageCode == 'en' ? 'en_us' : 'ar_eg')
+        .format(currency);
+
 
   Widget onPressDetails(
       int generateIndex, List<TransactionModel> transactions, builderIndex) {
@@ -44,13 +54,16 @@ mixin HelperClass {
       void Function()? onPress}) {
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
-        String expense = (transaction!.isExpense) ? 'Expense' : 'Income';
+        String expense = ((transaction!.isExpense) ? 'Expense' : 'Income').tr();
         return PriorityWidget(
           text: 'Highest $expense',
           color: !transaction.isPriority ? AppColor.red : AppColor.pinkishGrey,
         );
       case SwitchWidgets.seeMore:
-        return UnderLineTextButton(onPressed: onPress, text: 'see more');
+        return UnderLineTextButton(
+          onPressed: onPress,
+          text: AppStrings.seeMore.tr(),
+        );
       case SwitchWidgets.defaultWidget:
         return const SizedBox.shrink();
       default:
@@ -59,32 +72,34 @@ mixin HelperClass {
   }
 
   String priorityNames(bool isExpense, bool isPriority) => isPriority
-      ? (isExpense ? 'Important' : 'Fixed')
-      : (isExpense ? 'NotImportant' : 'NotFixed');
+      ? (isExpense ? 'important' : 'fixed').tr()
+      : (isExpense ? 'notImportant' : 'notFixed').tr();
 
   String switchPriorityName(PriorityType priorityType) {
     switch (priorityType) {
-      case PriorityType.NotImportant:
-        return PriorityType.NotImportant.name;
-      case PriorityType.Fixed:
-        return PriorityType.Fixed.name;
-      case PriorityType.NotFixed:
-        return PriorityType.NotFixed.name;
-      case PriorityType.Important:
-        return PriorityType.Important.name;
-      case PriorityType.HigherExpenses:
-        return PriorityType.HigherExpenses.name;
+      case PriorityType.notImportant:
+        return PriorityType.notImportant.name;
+      case PriorityType.fixed:
+        return PriorityType.fixed.name;
+      case PriorityType.notFixed:
+        return PriorityType.notFixed.name;
+      case PriorityType.important:
+        return PriorityType.important.name;
+      case PriorityType.higherExpenses:
+        return PriorityType.higherExpenses.name;
     }
   }
 
-  String formatDayDate(DateTime inputDate) =>
-      DateFormat('d / MM/ yyyy').format(inputDate.toLocal());
+  String formatDayDate(DateTime inputDate, String currentLocal) =>
+      DateFormat('d / MM/ yyyy', currentLocal).format(inputDate.toLocal());
 
-  String formatDayWeek(DateTime inputDate) =>
-      DateFormat('EEE').format(inputDate.toLocal());
+  String formatDayWeek(DateTime inputDate, String currentLocal) =>
+      DateFormat('EEE', currentLocal).format(inputDate.toLocal());
 
-  String formatWeekDate(DateTime inputDate) =>
-      DateFormat(' MM / yyyy').format(inputDate.toLocal()).replaceFirst('0', '');
+  String formatWeekDate(DateTime inputDate, String currentLocal) =>
+      DateFormat(' MM / yyyy', currentLocal)
+          .format(inputDate.toLocal())
+          .replaceFirst('0', '');
 
   Future onNavigateTo<T>(context, Widget navigateScreen) =>
       Navigator.push(context, MaterialPageRoute(builder: (context) => navigateScreen));

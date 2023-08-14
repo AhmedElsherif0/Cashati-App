@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/transaction_card.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 
 import '../../constants/app_icons.dart';
+import '../../constants/app_strings.dart';
 import '../../constants/enum_classes.dart';
 import '../../data/repository/helper_class.dart';
 import '../styles/decorations.dart';
@@ -57,6 +59,7 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
 
   @override
   Widget build(BuildContext context) {
+    final isEnglish = translator.activeLanguageCode == 'en';
     return DefaultTabController(
       animationDuration: AppDecorations.duration600ms,
       length: 3,
@@ -74,7 +77,7 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
             tabs: List.generate(
               StatisticsHeader.values.length,
               (index) => TabBarItem(
-                text: StatisticsHeader.values[index].name,
+                text: StatisticsHeader.values[index].name.tr(),
                 onTap: () => setState(() => onSwapByIndex(index: index)),
                 textColor: tabController.index == index
                     ? AppColor.white
@@ -89,7 +92,9 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
         body: Column(
           children: [
             const Spacer(),
-            const DetailsText(),
+            DetailsText(
+                text: AppStrings.details.tr(),
+                alignment: isEnglish ? Alignment.centerLeft : Alignment.centerRight),
             const Spacer(),
             widget.index == 0
                 ? Expanded(
