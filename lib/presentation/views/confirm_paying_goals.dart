@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
+import 'package:temp/data/repository/helper_class.dart';
 
 import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
@@ -11,7 +12,7 @@ import '../widgets/buttons/cancel_confirm_text_button.dart';
 import '../widgets/confirm_paying_title_card.dart';
 import '../widgets/custom_row_icon_with_title.dart';
 
-class ConfirmPayingGoals extends StatelessWidget {
+class ConfirmPayingGoals extends StatelessWidget with HelperClass{
   const ConfirmPayingGoals({
     Key? key,
     required this.amount,
@@ -39,6 +40,10 @@ class ConfirmPayingGoals extends StatelessWidget {
   final void Function() onCancel;
   final void Function() onConfirm;
 
+  InkWell onPressIcon(onTap, icon) => InkWell(
+    onTap: onTap,
+    child: SvgPicture.asset(icon, color: AppColor.primaryColor),
+  );
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,10 +56,10 @@ class ConfirmPayingGoals extends StatelessWidget {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.dp)),
             child: Column(
               children: [
-                 Expanded(
+                 const Expanded(
                   flex: 3,
                   child:
-                      ConfirmPayingTitleCard(cardTitle: AppStrings.goals.tr()),
+                      ConfirmPayingTitleCard(cardTitle: AppStrings.goals),
                 ),
                 Expanded(
                   flex: 3,
@@ -70,7 +75,7 @@ class ConfirmPayingGoals extends StatelessWidget {
                           AppStrings.registeredRepeatedAmount,
                       startIcon: AppIcons.poundSterlingSign,
                       title:
-                          '${goalModel.goalSaveAmount.toStringAsFixed(0)} LE, Weekly',
+                          '${currencyFormat(goalModel.goalSaveAmount)}, Weekly',
                       endIcon: onPressIcon(onEditAmount, AppIcons.editIcon)),
                 ),
                 Expanded(
@@ -78,7 +83,7 @@ class ConfirmPayingGoals extends StatelessWidget {
                   child: RowIconWithTitle(
                     toolTipMessage: AppStrings.paidAmount,
                     startIcon: AppIcons.change,
-                    title: '${goalModel.goalSaveAmount.toStringAsFixed(0)} LE',
+                    title: currencyFormat(goalModel.goalSaveAmount),
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),
                   ),
                 ),
@@ -88,7 +93,7 @@ class ConfirmPayingGoals extends StatelessWidget {
                     toolTipMessage:
                         AppStrings.remainingGoalTargetAmount,
                     startIcon: AppIcons.blockedCash,
-                    title: '${blockedAmount.toStringAsFixed(0)} LE',
+                    title: currencyFormat(blockedAmount),
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),
                   ),
                 ),
@@ -121,8 +126,4 @@ class ConfirmPayingGoals extends StatelessWidget {
     );
   }
 
-  InkWell onPressIcon(onTap, icon) => InkWell(
-        onTap: onTap,
-        child: SvgPicture.asset(icon, color: AppColor.primaryColor),
-      );
 }

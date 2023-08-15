@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/data/repository/helper_class.dart';
+import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
 import '../../../constants/app_strings.dart';
@@ -27,7 +28,7 @@ class DataInsidePieChart extends StatelessWidget with HelperClass {
         children: [
           const Spacer(),
           Expanded(
-            flex: 4,
+            flex: 5,
             child: Text(
                 (maxExpenses.toInt() | totalExpenses.toInt() != 0)
                     ? '${AppStrings.total.tr()} ${header.tr()}'
@@ -37,7 +38,7 @@ class DataInsidePieChart extends StatelessWidget with HelperClass {
           ),
           if (maxExpenses.toInt()  | totalExpenses.toInt()  != 0)
             Expanded(
-              flex: 5,
+              flex: 6,
               child: ValueListenableBuilder(
                 valueListenable: valueNotifier,
                 builder: (_, double value, __) => Text(
@@ -48,15 +49,14 @@ class DataInsidePieChart extends StatelessWidget with HelperClass {
             ),
           if (maxExpenses.toInt() | totalExpenses.toInt() == 0)
             Expanded(
-              child: Center(
-                child: UnderLineTextButton(
-                  padding: EdgeInsets.zero,
-                  text: AppStrings.backToHome.tr(),
-                  onPressed: (maxExpenses.toInt() | totalExpenses.toInt() == 0)
-                      ? onPressToHome
-                      : () {},
-                  textStyle: const TextStyle(fontWeight: FontWeight.w500),
-                ),
+              flex: 2,
+              child: UnderLineTextButton(
+                borderLineColor: AppColor.pineGreen,
+                padding: translator.activeLanguageCode == 'ar' ? EdgeInsets.zero:null,
+                text: AppStrings.backToHome.tr(),
+                onPressed: (maxExpenses.toInt() | totalExpenses.toInt() == 0)
+                    ? onPressToHome
+                    : () {},
               ),
             ),
           const Spacer()

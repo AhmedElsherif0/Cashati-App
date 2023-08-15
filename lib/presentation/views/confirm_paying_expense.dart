@@ -39,7 +39,6 @@ class ConfirmPayingExpense extends StatelessWidget with HelperClass {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
         /// must be child for a Expanded Widget.
@@ -93,15 +92,13 @@ class ConfirmPayingExpense extends StatelessWidget with HelperClass {
                                   AppIcons.exclamationMark,
                                   color: AppColor.primaryColor,
                                 ),
+                                if(translator.activeLanguageCode=='en')
                                 SizedBox(width: 2.w),
                                 UnderLineTextButton(
+                                    fontSize: 14.dp,
+                                    borderLineColor: AppColor.primaryColor,
                                     onPressed: onDetails,
                                     text: AppStrings.details.tr(),
-                                    textStyle: textTheme.headline6?.copyWith(
-                                      decoration: TextDecoration.underline,
-                                      decorationStyle: TextDecorationStyle.solid,
-                                      decorationThickness: 2,
-                                    ),
                                     decorationColor: AppColor.primaryColor),
                               ],
                             ),

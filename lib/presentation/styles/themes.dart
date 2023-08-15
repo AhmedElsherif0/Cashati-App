@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/styles/styles.dart';
 
@@ -32,7 +33,9 @@ class AppTheme {
           subtitle1: _appStyle.subtitle1Theme(),
           subtitle2: _appStyle.subtitle2Theme(),
           caption: _appStyle.captionTheme(),
-          overline: _appStyle.overLineTheme()),
+          overline: _appStyle.overLineTheme()).apply(
+        fontSizeDelta: translator.activeLanguageCode == 'en' ? 0: 3
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           shape: const RoundedRectangleBorder(
