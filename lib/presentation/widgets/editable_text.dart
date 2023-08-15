@@ -35,7 +35,7 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     return Container(
-      height: 6.h,
+     // height: 6.h,
       width: widget.containerWidth,
       decoration: BoxDecoration(
           color: widget.backGroundColor ?? AppColor.primaryColor.withOpacity(0.3) ,

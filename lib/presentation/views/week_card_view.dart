@@ -25,7 +25,7 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
   final DateTime chosenDay;
   final Color priceColor;
   final Color priorityColor;
-  final void Function() onSeeMore;
+  final void Function(int) onSeeMore;
   final SwitchWidgets? seeMoreOrDetailsOrHighest;
 
   @override
@@ -95,7 +95,11 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                                   Visibility(
                                     visible: true,
                                     child: switchWidgets(
-                                        onPress: onSeeMore,
+                                        onPress: (){
+                                          print("week index is $index");
+
+                                          onSeeMore(index);
+                                        },
                                         switchWidgets: seeMoreOrDetailsOrHighest),
                                   ),
                                 ],
