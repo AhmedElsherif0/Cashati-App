@@ -68,6 +68,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
   final TransactionRepo _incomeRepository = IncomeRepositoryImpl();
   final GeneralStatsRepo _generalStatsRepository = GeneralStatsRepoImpl();
 
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
