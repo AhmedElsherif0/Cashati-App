@@ -28,43 +28,43 @@ class TransactionConfirmCard extends StatelessWidget
           scrollDirection: Axis.horizontal,
           itemCount: context.read<ConfirmPaymentCubit>().allTodayListIncome.length,
           itemBuilder: (context, index) {
-            var curentIncome =
+            var currentIncome =
                 context.read<ConfirmPaymentCubit>().allTodayListIncome[index];
             // index++;
             return Row(
               children: [
                 Expanded(
                   child: ConfirmPayingExpense(
-                    date: DateTime.now().toString(),
-                    transactionModel: curentIncome,
+                    date: formatDayDate(DateTime.now(),translator.activeLanguageCode),
+                    transactionModel: currentIncome,
                     onDetails: () {},
-                    amount: curentIncome.amount.toDouble(),
+                    amount: currentIncome.amount.toDouble(),
                     onDelete: () {
                       showDialog(
                           context: context,
                           builder: (ctx) => showYesOrNoDialog(
                               title: AppStrings.deleteIncome,
                               message:
-                                  "${AppStrings.areYouSureYouWantToDelete} ${curentIncome.name} ${AppStrings.permanently} ? \n ${AppStrings.availabilityToCancelTransaction}",
+                                  "${AppStrings.areYouSureYouWantToDelete} ${currentIncome.name} ${AppStrings.permanently} ? \n ${AppStrings.availabilityToCancelTransaction}",
                               onYes: () {
                                 context
                                     .read<ConfirmPaymentCubit>()
-                                    .onDeleteTransaction(curentIncome, context);
+                                    .onDeleteTransaction(currentIncome, context);
                               },
                               onNo: () {},
                               context: context));
                     },
                     onEditAmount: () {
-                      changedAmount.text = curentIncome.amount.toString();
+                      changedAmount.text = currentIncome.amount.toString();
                       showDialog(
                           context: context,
                           builder: (ctx) => newAmountDialog(
                               amount: context.read<ConfirmPaymentCubit>().test[index],
                               onUpdate: () {
                                 context.read<ConfirmPaymentCubit>().onChangeAmount(
-                                    curentIncome.amount.toDouble(),
+                                    currentIncome.amount.toDouble(),
                                     double.parse(changedAmount.text));
-                                curentIncome.amount = double.parse(changedAmount.text);
+                                currentIncome.amount = double.parse(changedAmount.text);
                               },
                               context: ctx,
                               changedAmountCtrl: changedAmount));
@@ -73,12 +73,12 @@ class TransactionConfirmCard extends StatelessWidget
                     onCancel: () {
                       context
                           .read<ConfirmPaymentCubit>()
-                          .onNoConfirmed(theAddedExpense: curentIncome);
+                          .onNoConfirmed(theAddedExpense: currentIncome);
                     },
                     onConfirm: () {
                       context
                           .read<ConfirmPaymentCubit>()
-                          .onYesConfirmed(theAddedExpense: curentIncome);
+                          .onYesConfirmed(theAddedExpense: currentIncome);
                     },
                     // changedAmount: 10000,
                     // blockedAmount: 20000,
