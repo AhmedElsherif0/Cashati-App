@@ -6,6 +6,7 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
+import 'package:temp/presentation/screens/home/statistics_week_details_screen.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
@@ -86,11 +87,22 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     getStatisticsCubit().getTransactionsByMonth(true);
   }
 
-  _onSeeMoreByWeek(context, index) => Navigator.push(
-      context,
-      AppRouter.pageBuilderRoute(
-          child: StatisticsDetailsScreen(
-              index: index, transactions: getStatisticsCubit().byDayList)));
+  // _onSeeMoreByWeek(context, index) => Navigator.push(
+  //     context,
+  //     AppRouter.pageBuilderRoute(
+  //         child: StatisticsDetailsScreen(
+  //             index: index, transactions: getStatisticsCubit().weeks[index])));
+  _onSeeMoreByWeek(context, index) {
+    if(getStatisticsCubit().weeks[index].isNotEmpty){
+      Navigator.push(
+          context,
+          AppRouter.pageBuilderRoute(
+              child: StatisticsWeekDetailsScreen(
+                  transactions: getStatisticsCubit().weeks[index])));
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No Expenses in this week.")));
+    }
+  }
 
   _onSeeMoreByDay(context, TransactionModel transaction, insideIndex) =>
       Navigator.push(
@@ -164,7 +176,10 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                             index: index,
                             pageController: _controller,
                             monthWidget: WeekCardViewEdited(
-                              onSeeMore: () {},
+                              onSeeMore:  (weekIndex) => _onSeeMoreByWeek(
+                                  context,
+                                  weekIndex,
+                                  ),
                               weekRanges: getStatisticsCubit().weekRangeText(),
                               chosenDay: getStatisticsCubit().chosenDay,
                               weeksTotals: getStatisticsCubit().totalsWeeks,
