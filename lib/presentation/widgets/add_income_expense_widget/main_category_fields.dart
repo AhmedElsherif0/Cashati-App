@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/custom_check_box.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/sub_category_fields.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
@@ -89,14 +91,14 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
 
   @override
   Widget build(BuildContext context) {
+    final isEnglish = translator.activeLanguageCode == 'en';
     return BlocConsumer<AddExpOrIncCubit, AddExpOrIncState>(
       listener: (context, state) {
         if (state is AddExpOrIncSuccess) {
           showSuccessAndNavigate(context);
           BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
         } else if (state is AddExpOrIncError) {
-          errorSnackBar(
-              context: context, message: AppStrings.tryAgain);
+          errorSnackBar(context: context, message: AppStrings.tryAgain);
         }
       },
       builder: (context, state) {
@@ -132,14 +134,14 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                         width: 65.w,
                         child: EditableInfoField(
                           textEditingController: amountCtrl,
-                          hint: AppStrings.amount,
+                          hint: AppStrings.amount.tr(),
                           iconName: AppIcons.amountIcon,
                           keyboardType: TextInputType.number,
                         ),
                       ),
                       FittedBox(
                           child: Text(
-                        'EGP',
+                        AppStrings.egp.tr(),
                         style: Theme.of(context).textTheme.headline5!.copyWith(
                             color: AppColor.primaryColor, fontWeight: FontWeight.bold),
                       )),
@@ -151,7 +153,9 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                     width: 65.w,
                     child: EditableInfoField(
                       textEditingController: nameCtrl,
-                      hint: _checkTheCurrentTab() ? AppStrings.expenseName : AppStrings.incomeName,
+                      hint: _checkTheCurrentTab()
+                          ? AppStrings.expenseName.tr()
+                          : AppStrings.incomeName.tr(),
                       iconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
@@ -168,75 +172,93 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                     width: 65.w,
                     child: EditableInfoField(
                       textEditingController: descriptionCtrl,
-                      hint: AppStrings.writeDescription,
+                      hint: AppStrings.writeDescription.tr(),
                       iconName: AppIcons.descriptionIcon,
                       keyboardType: TextInputType.text,
                     ),
                   ),
                   SizedBox(height: 1.5.h),
-                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    CustomCheckBox(
-                        isImportant: widget.addExpOrIncCubit.isImportant,
-                        text: _checkTheCurrentTab() ? AppStrings.important : AppStrings.fixed,
-                        onChanged: widget.addExpOrIncCubit.isImportantOrNo),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
+                      crossAxisAlignment: isEnglish
+                          ? CrossAxisAlignment.start
+                          : CrossAxisAlignment.end,
                       children: [
                         CustomCheckBox(
-                            isImportant: widget.addExpOrIncCubit.isRepeat,
-                            onChanged: (value) =>
-                                widget.addExpOrIncCubit.isRepeatOrNo(value),
-                            text: AppStrings.repeat),
-                        CustomElevatedButton(
-                          onPressed: () {
-                            widget.addExpOrIncCubit.validateields(
-                              context,
-                              TransactionModel.expense(
-                                  id: GUIDGen.generate(),
-                                  name: nameCtrl.text.trimLeft(),
-                                  amount: amountCtrl.text.isNotEmpty
-                                      ? double.parse(amountCtrl.text)
-                                      : 0,
-                                  description: descriptionCtrl.text,
-                                  comment: amountCtrl.text,
-                                  repeatType: widget.addExpOrIncCubit.choseRepeat,
-                                  mainCategory: widget.addExpOrIncCubit.currentMainCat,
-                                  isAddAuto: false,
-                                  isPriority: widget.addExpOrIncCubit.isImportant,
-                                  subCategory: widget.addExpOrIncCubit.subCatName,
-                                  isExpense: widget.addExpOrIncCubit.isExpense =
-                                      _checkTheCurrentTab()
-                                          ? widget.addExpOrIncCubit.isExpense = true
-                                          : widget.addExpOrIncCubit.isExpense = false,
-                                  isProcessing: false,
-                                  createdDate:
-                                      getAddExpOrIncCubit().chosenDate as DateTime,
-                                  paymentDate:
-                                      widget.addExpOrIncCubit.chosenDate as DateTime),
-                            );
-                            print(
-                                "chooosen daaaaate is ${widget.addExpOrIncCubit.chosenDate}");
-                          },
-                          text: AppStrings.add,
+                            isImportant: widget.addExpOrIncCubit.isImportant,
+                            text: _checkTheCurrentTab()
+                                ? AppStrings.important.tr()
+                                : AppStrings.fixed.tr(),
+                            onChanged: widget.addExpOrIncCubit.isImportantOrNo),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomCheckBox(
+                                isImportant: widget.addExpOrIncCubit.isRepeat,
+                                onChanged: (value) =>
+                                    widget.addExpOrIncCubit.isRepeatOrNo(value),
+                                text: AppStrings.repeat.tr()),
+                            CustomElevatedButton(
+                              onPressed: () {
+                                widget.addExpOrIncCubit.validateields(
+                                  context,
+                                  TransactionModel.expense(
+                                      id: GUIDGen.generate(),
+                                      name: nameCtrl.text.trimLeft(),
+                                      amount: amountCtrl.text.isNotEmpty
+                                          ? double.parse(amountCtrl.text)
+                                          : 0,
+                                      description: descriptionCtrl.text,
+                                      comment: amountCtrl.text,
+                                      repeatType: widget.addExpOrIncCubit.choseRepeat,
+                                      mainCategory:
+                                          widget.addExpOrIncCubit.currentMainCat,
+                                      isAddAuto: false,
+                                      isPriority: widget.addExpOrIncCubit.isImportant,
+                                      subCategory: widget.addExpOrIncCubit.subCatName,
+                                      isExpense: widget.addExpOrIncCubit.isExpense =
+                                          _checkTheCurrentTab()
+                                              ? widget.addExpOrIncCubit.isExpense =
+                                                  true
+                                              : widget.addExpOrIncCubit.isExpense =
+                                                  false,
+                                      isProcessing: false,
+                                      createdDate:
+                                          getAddExpOrIncCubit().chosenDate as DateTime,
+                                      paymentDate: widget.addExpOrIncCubit.chosenDate
+                                          as DateTime),
+                                );
+                                print(
+                                    "chooosen daaaaate is ${widget.addExpOrIncCubit.chosenDate}");
+                              },
+                              text: AppStrings.add.tr(),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 1.h),
-                    Visibility(
-                      visible: widget.addExpOrIncCubit.isRepeat,
-                      replacement: const SizedBox.shrink(),
-                      child: SizedBox(
-                        width: 65.w,
-                        child: DropDownCustomWidget(
-                            leadingIcon: '',
-                            dropDownList: widget.addExpOrIncCubit.isRepeat
-                                ? widget.addExpOrIncCubit.dropDownChannelItems
-                                : widget.addExpOrIncCubit.dropNoRepeat,
-                            hint: widget.addExpOrIncCubit.choseRepeat,
-                            onChangedFunc: widget.addExpOrIncCubit.chooseRepeat),
-                      ),
-                    ),
-                  ]),
+                        SizedBox(height: 1.h),
+                        Visibility(
+                          visible: widget.addExpOrIncCubit.isRepeat,
+                          replacement: const SizedBox.shrink(),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 70.w,
+                                child: DropDownCustomWidget(
+                                    icon: isEnglish ? AppIcons.forwardArrow : '',
+                                    isEnglish: isEnglish,
+                                    leadingIcon:
+                                        !isEnglish ? AppIcons.backWordArrow : '',
+                                    leadingIconColor: AppColor.primaryColor,
+                                    dropDownList:
+                                        widget.addExpOrIncCubit.dropDownChannelItems,
+                                    hint: widget.addExpOrIncCubit.choseRepeat.tr(),
+                                    onChangedFunc:
+                                        widget.addExpOrIncCubit.chooseRepeat),
+                              ),
+                              if (!isEnglish) const Spacer()
+                            ],
+                          ),
+                        ),
+                      ]),
                   SizedBox(height: 1.2.h),
                 ],
               ),

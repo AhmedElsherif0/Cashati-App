@@ -50,13 +50,15 @@ class _GoalsScreenState extends State<GoalsScreen> {
               BlocBuilder<GoalsCubit, GoalsState>(
                 builder: (context, state) => Expanded(
                     child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: translator.activeLanguageCode == 'en'
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 4.h),
                     DropDownCustomWidget(
                       dropDownList: goalCubit.goalsFilterDropDown,
                       hint: goalCubit.choseFilter.toLowerCase().tr(),
-                      onChangedFunc: (value)=> goalCubit.chooseFilter(value),
+                      onChangedFunc: (value) => goalCubit.chooseFilter(value),
                       icon: AppIcons.downArrow,
                       isExpanded: false,
                       backgroundColor: AppColor.veryLightGrey,

@@ -33,9 +33,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   List<MaterialColor> lastColorList = [];
   bool isExpense = true;
-  List<String> expMainCats = ['Home','Personal', 'Business'];
+  List<String> expMainCats = [AppStrings.home,AppStrings.personal,AppStrings.business];
   List<String> expMainIcons = [AppIcons.home, AppIcons.person, AppIcons.business];
-  List<String> incomeMainCats = ['Fixed', 'Variable'];
+  List<String> incomeMainCats = [AppStrings.fixed, AppStrings.variable];
   List<String> incomeMainIcons = [AppIcons.fixed, AppIcons.variable];
   List<SubCategory> personalSubCatsList = [];
   List<SubCategory> homeSubCatsList = [];
@@ -46,7 +46,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   final AppConstantList appList = AppConstantList();
 
 //  List<SubCategoryExpense> dataList=[] ;
-  String choseRepeat = 'No Repeat';
+  String choseRepeat = AppStrings.daily;
   bool isRepeat = false;
   bool isImportant = false;
   CategoryTransactionRepo subCategoryRepo = ExpenseSubCategoryImpl();
@@ -55,9 +55,6 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     DropdownMenuItem(value: AppStrings.daily, child: Text(AppStrings.daily)),
     DropdownMenuItem(value: AppStrings.weekly, child: Text(AppStrings.weekly)),
     DropdownMenuItem(value: AppStrings.monthly, child: Text(AppStrings.monthly))
-  ];
-  List<DropdownMenuItem<String>> dropNoRepeat= const [
-    DropdownMenuItem(value: AppStrings.noRepeat, child: Text(AppStrings.noRepeat)),
   ];
 
   final TransactionRepo _expensesRepository;
@@ -115,11 +112,11 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   List<SubCategory> distributeExpenseSubcategories(String mainCategoryName) {
     switch (mainCategoryName) {
-      case 'Personal':
+      case AppStrings.personal:
         return personalSubCatsList;
-      case 'Home':
+      case AppStrings.home:
         return homeSubCatsList;
-      case 'Business':
+      case AppStrings.business:
         return businessSubCatsList;
       default:
         return personalSubCatsList;
@@ -128,9 +125,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   List<SubCategory> distributeIncomeSubcategories(String mainCategoryName) {
     switch (mainCategoryName) {
-      case 'Fixed':
+      case AppStrings.fixed:
         return fixedSubCatsList;
-      case 'Variable':
+      case AppStrings.variable:
         return variableSubCatsList;
 
       default:
@@ -145,11 +142,11 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     businessSubCatsList.addAll(appList.expenseBusinessFixedList);
     if (list.isNotEmpty) {
       for (var item in list) {
-        if (item.mainCategoryName == 'Personal') {
+        if (item.mainCategoryName == AppStrings.personal) {
           personalSubCatsList.add(item);
-        } else if (item.mainCategoryName == 'Home') {
+        } else if (item.mainCategoryName == AppStrings.home) {
           homeSubCatsList.add(item);
-        } else if (item.mainCategoryName == 'Business') {
+        } else if (item.mainCategoryName == AppStrings.business) {
           businessSubCatsList.add(item);
         } else {}
       }
@@ -162,9 +159,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     variableSubCatsList.addAll(appList.incomeVariableSubFixedList);
     if (list.isNotEmpty) {
       for (var item in list) {
-        if (item.mainCategoryName == 'Fixed') {
+        if (item.mainCategoryName == AppStrings.fixed) {
           fixedSubCatsList.add(item);
-        } else if (item.mainCategoryName == 'Variable') {
+        } else if (item.mainCategoryName == AppStrings.variable) {
           variableSubCatsList.add(item);
         } else {}
       }

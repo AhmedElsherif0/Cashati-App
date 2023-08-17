@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/add_income_widget.dart';
@@ -29,7 +30,7 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
         child: Column(
           children: [
             SizedBox(height: 5.h),
-            const CustomAppBar(title: AppStrings.addTransaction),
+            CustomAppBar(title: AppStrings.addTransaction.tr()),
             SizedBox(height: 1.h),
             TabBar(
                 isScrollable: false,
@@ -43,9 +44,9 @@ class _AddExpenseOrIncomeScreenState extends State<AddExpenseOrIncomeScreen> {
                 indicatorSize: TabBarIndicatorSize.label,
                 indicatorColor: AppColor.primaryColor,
                 onTap: (index) => setState(() => currentIndex = index),
-                tabs: const [
-                  Tab(child: Text('Expenses')),
-                  Tab(child: Text('Income'))
+                tabs:  [
+                  Tab(child: Text(AppStrings.expenses.tr())),
+                  Tab(child: Text(AppStrings.income.tr()))
                 ]),
             const Expanded(
               child: TabBarView(

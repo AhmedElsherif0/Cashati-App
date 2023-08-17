@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 
 import '../../../constants/app_icons.dart';
+import '../../../data/repository/helper_class.dart';
 import '../../styles/colors.dart';
 
-class DateChooseContainer extends StatelessWidget {
+class DateChooseContainer extends StatelessWidget with HelperClass{
   const DateChooseContainer({
     Key? key,
     required this.dateTime,
@@ -31,8 +33,8 @@ class DateChooseContainer extends StatelessWidget {
           child: ListTile(
             title: Text(
               dateTime == null
-                  ? AppStrings.chooseDate
-                  : '${dateTime?.day} \\ ${dateTime?.month} \\ ${dateTime?.year}',
+                  ? AppStrings.chooseDate.tr()
+                  : formatDayDate(dateTime!, translator.activeLanguageCode),
               style: theme.copyWith(fontWeight: FontWeight.w300, fontSize: 13),
             ),
             leading: SvgPicture.asset(AppIcons.dateIcon),

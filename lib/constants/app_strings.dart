@@ -108,6 +108,10 @@ class AppStrings {
   static const String incomeName = "incomeName"; //Income Name
   static const String writeDescription = 'writeDescription'; // Write Description
   static const String important = 'important'; //Important
+  static const String home = 'home'; // Home
+  static const String personal = 'personal'; // Personal
+  static const String business = 'business'; // Business
+  static const String variable = 'variable'; // Variable
   static const String fixed = 'fixed'; //Fixed
 
   /// sub_category_fields.dart

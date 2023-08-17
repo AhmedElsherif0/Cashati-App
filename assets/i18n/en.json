@@ -72,7 +72,7 @@
   "confirmedSuccessfully": "Confirmed Successfully",
   "confirmationReminder": "Don’t forget to confirm your",
   "youHaveAddedBefore": "You Have Added Before",
-  "successfullyConfirmedYour": "You have successfully confirmed your",
+  "successfullyConfirmedYour": "You have Successfully Confirmed your",
   "noGoalsToConfirm": "No Goals To confirm",
   "deleteExpense": "Delete Expense",
   "deleteIncome": "Delete Income",
@@ -89,7 +89,6 @@
   "writeDescription": "Write Description",
   "incomeName": "Income Name",
   "important": "Important",
-  "fixed": "Fixed",
   "cancel": "Cancel",
   "ok": "OK",
   "select": "Select",
@@ -153,5 +152,10 @@
   "threeHours": "3h",
   "successfullyConfirmedExpenseFood": "You have Successfully confirmed your expense for food",
   "addTransaction": "Add Transaction",
+  "home": "Home",
+  "personal": "Personal",
+  "business": "Business",
+  "variable": "Variable",
+  "fixed": "Fixed",
   "emptyShow": " Empty Show"
 }
