@@ -16,23 +16,69 @@ mixin HelperClass {
     int lastDay =
         DateTime(chosenDay.year, chosenDay.month != 12 ? chosenDay.month + 1 : 1, 0)
             .day;
-    final chosenMonth = chosenDay.month;
     final from = AppStrings.from.tr(), to = AppStrings.to.tr();
+
+    String isEnglish(String arabNum, String engNum) {
+      final chosenMonth = '${chosenDay.month}';
+
+      return translator.activeLanguageCode == 'en'
+          ? '${arabicToEnglishNum(engNum)} \\ ${arabicToEnglishNum(chosenMonth)}'
+          : '${engToArabNum(arabNum)} \\ ${engToArabNum(chosenMonth)}';
+    }
+
     return [
-      '$from 1 \\ $chosenMonth  $to 7 \\ $chosenMonth',
-      '$from 8 \\ $chosenMonth   $to  14 \\ $chosenMonth',
-      '$from 15 \\ $chosenMonth   $to  21 \\ $chosenMonth',
-      '$from 22 \\ $chosenMonth   $to  28  \\ $chosenMonth',
-      '$from 29 \\ $chosenMonth   $to  $lastDay \\ $chosenMonth'
+      '$from ${isEnglish('١', '1')}  $to ${isEnglish('٧', '7')}',
+      '$from ${isEnglish('٨', '8')}  $to ${isEnglish('١٤', '14')} ',
+      '$from ${isEnglish('١٥', '15')}  $to ${isEnglish('٢١', '21')} ',
+      '$from ${isEnglish('٢٢', '22')}  $to ${isEnglish('٢٨', '28')} ',
+      '$from ${isEnglish('٢٩', '29')}  $to ${isEnglish('٣٠', '$lastDay')} ',
     ];
   }
 
-  String currencyFormat(num currency) =>
-     NumberFormat.currency(
-            symbol: translator.activeLanguageCode == 'en' ? 'LE' : 'جم',
-            locale: translator.activeLanguageCode == 'en' ? 'en_US' : 'ar_EG')
-        .format(currency);
+  /// will convert from english numbers to arabic numbers
+  String engToArabNum(String engNum) {
+    return engNum
+        .replaceAll("0", "٠")
+        .replaceAll("1", "١")
+        .replaceAll("2", "٢")
+        .replaceAll("3", "٣")
+        .replaceAll("4", "٤")
+        .replaceAll("5", "٥")
+        .replaceAll("6", "٦")
+        .replaceAll("7", "٧")
+        .replaceAll("8", "٨")
+        .replaceAll("9", "٩");
+  }
 
+  /// will convert from arabic numbers to english numbers
+  String arabicToEnglishNum(String arabicNum) {
+    return translator.activeLanguageCode == 'en'? arabicNum
+        .replaceAll("٠", "0")
+        .replaceAll("١", "1")
+        .replaceAll("٢", "2")
+        .replaceAll("٣", "3")
+        .replaceAll("٤", "4")
+        .replaceAll("٥", "5")
+        .replaceAll("٦", "6")
+        .replaceAll("٧", "7")
+        .replaceAll("٨", "8")
+        .replaceAll("٩", "9"):arabicNum
+        .replaceAll("0", "0")
+        .replaceAll("1", "1")
+        .replaceAll("2", "2")
+        .replaceAll("3", "3")
+        .replaceAll("4", "4")
+        .replaceAll("5", "5")
+        .replaceAll("6", "6")
+        .replaceAll("7", "7")
+        .replaceAll("8", "8")
+        .replaceAll("9", "9");
+  }
+
+  String currencyFormat(num currency) => NumberFormat.currency(
+          symbol: translator.activeLanguageCode == 'en' ? 'LE' : 'جم',
+          locale: translator.activeLanguageCode == 'en' ? 'en_US' : 'ar_EG')
+      .format(currency);
 
   Widget onPressDetails(
       int generateIndex, List<TransactionModel> transactions, builderIndex) {

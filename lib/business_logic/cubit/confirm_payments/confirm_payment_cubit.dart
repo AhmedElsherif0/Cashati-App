@@ -18,105 +18,91 @@ part 'confirm_payment_state.dart';
 class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
   ConfirmPaymentCubit() : super(ConfirmPaymentInitial());
 
-  final ConfirmTransactionRepo transactionRep=ConfirmTransactionImpl();
-  final GoalsRepository goalsRepository=GoalsRepoImpl();
-  final GeneralStatsRepo generalStatsRepo=GeneralStatsRepoImpl();
+  final ConfirmTransactionRepo transactionRep = ConfirmTransactionImpl();
+  final GoalsRepository goalsRepository = GoalsRepoImpl();
+  final GeneralStatsRepo generalStatsRepo = GeneralStatsRepoImpl();
 
-  List<TransactionModel> allTodayList=[];
-  List<TransactionModel> allTodayListIncome=[];
-  List<GoalModel> allTodayGoals=[];
+  List<TransactionModel> allTodayList = [];
+  List<TransactionModel> allTodayListIncome = [];
+  List<GoalModel> allTodayGoals = [];
   num? newAmount;
   num? newAmountIncome;
-  int currentIndex=0;
-  List<double> test = [1000,2000,3000];
+  int currentIndex = 0;
+  List<double> test = [1000, 2000, 3000];
 
-
-
-  Future<void> onYesConfirmed({
-
-    required TransactionModel theAddedExpense})async{
+  Future<void> onYesConfirmed({required TransactionModel theAddedExpense}) async {
     print('Yes confirmed');
 
-    try{
+    try {
       await transactionRep.onYesConfirmed(addedExpense: theAddedExpense);
-      theAddedExpense.isExpense?allTodayList.remove(theAddedExpense):allTodayListIncome.remove(theAddedExpense);
-    }catch(e){
+      theAddedExpense.isExpense
+          ? allTodayList.remove(theAddedExpense)
+          : allTodayListIncome.remove(theAddedExpense);
+    } catch (e) {
       print('error is $e');
     }
     emit(YesConfirmedState());
   }
 
-  Future<void> onNoConfirmed({
-
-    required TransactionModel theAddedExpense})async{
+  Future<void> onNoConfirmed({required TransactionModel theAddedExpense}) async {
     print('No confirmed');
-    await transactionRep.onNoConfirmed(addedExpense:  theAddedExpense);
-    theAddedExpense.isExpense?allTodayList.remove(theAddedExpense):allTodayListIncome.remove(theAddedExpense);
+    await transactionRep.onNoConfirmed(addedExpense: theAddedExpense);
+    theAddedExpense.isExpense
+        ? allTodayList.remove(theAddedExpense)
+        : allTodayListIncome.remove(theAddedExpense);
 
     emit(NoConfirmedState());
-
   }
 
-
-
-
-
-  Future<void> onYesConfirmedGoal({
-
-    required GoalModel goalModel})async{
+  Future<void> onYesConfirmedGoal({required GoalModel goalModel}) async {
     print('Yes confirmed');
 
-    try{
-      await goalsRepository.yesConfirmGoal(goalModel: goalModel,newAmount: goalModel.goalSaveAmount);
+    try {
+      await goalsRepository.yesConfirmGoal(
+          goalModel: goalModel, newAmount: goalModel.goalSaveAmount);
       goalsRepository.getTodayGoals();
       allTodayGoals.remove(goalModel);
-
-    }catch(e){
+    } catch (e) {
       print('error is $e');
     }
 
     emit(YesConfirmedState());
-
   }
 
-  Future<void> onNoConfirmedGoal({
-
-    required GoalModel goalModel})async{
+  Future<void> onNoConfirmedGoal({required GoalModel goalModel}) async {
     print('No confirmed');
-    await goalsRepository.noConfirmGoal(goalModel: goalModel,newAmount: goalModel.goalSaveAmount);
+    await goalsRepository.noConfirmGoal(
+        goalModel: goalModel, newAmount: goalModel.goalSaveAmount);
     allTodayGoals.remove(goalModel);
     emit(NoConfirmedState());
-
   }
 
-  onChangeIndex(int index){
-    currentIndex =index;
+  onChangeIndex(int index) {
+    currentIndex = index;
     emit(ChangeTabIndexState());
   }
 
-  onChangeAmount(double amount , double newAmount){
+  onChangeAmount(double amount, double newAmount) {
     newAmount = amount;
     emit(ChangedAmountState());
   }
 
-  onDeleteTransaction(TransactionModel transactionModel,BuildContext context)async{
-    try{
+  onDeleteTransaction(TransactionModel transactionModel, BuildContext context) async {
+    try {
       await transactionRep.deleteTransactionPermanently(transactionModel);
-      if(transactionModel.isExpense){
+      if (transactionModel.isExpense) {
         allTodayList.remove(transactionModel);
-
-      }else{
-
+      } else {
         allTodayListIncome.remove(transactionModel);
       }
-      context.read<HomeCubit>().notificationList!.removeWhere((element) => element.modelName==transactionModel.name);
+      context
+          .read<HomeCubit>()
+          .notificationList!
+          .removeWhere((element) => element.modelName == transactionModel.name);
 
       emit(DeletedTransactionSucc());
-
-    }catch(error){
+    } catch (error) {
       emit(DeletedTransactionFailure());
-
     }
   }
-
 }

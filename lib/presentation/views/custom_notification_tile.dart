@@ -38,10 +38,11 @@ class CustomNotificationTile extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              crossAxisAlignment: isEnglish? CrossAxisAlignment.start:CrossAxisAlignment.end,
+              crossAxisAlignment:
+                  isEnglish ? CrossAxisAlignment.start : CrossAxisAlignment.end,
               children: [
                 Align(
-                  alignment: isEnglish ?Alignment.topRight:Alignment.topLeft,
+                  alignment: isEnglish ? Alignment.topRight : Alignment.topLeft,
                   child: Text(dateTime,
                       style: Theme.of(context).textTheme.overline,
                       overflow: TextOverflow.ellipsis),
@@ -67,16 +68,22 @@ class CustomNotificationTile extends StatelessWidget {
                       Expanded(
                         flex: 8,
                         child: Visibility(
-                          visible:!isActionTaken! ,
+                          visible: !isActionTaken!,
                           replacement: Text(
                             "${title.tr()} ${AppStrings.confirmedSuccessfully.tr()}",
-                            style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 15),
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1!
+                                .copyWith(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
                           child: Text(
                             "${title.tr()} ${AppStrings.confirmationRequired.tr()}",
-                            style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 15),
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1!
+                                .copyWith(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
@@ -95,17 +102,21 @@ class CustomNotificationTile extends StatelessWidget {
                         flex: 8,
                         child: Visibility(
                           visible:!isActionTaken! ,
-                          replacement: Text(
-                            "${AppStrings.successfullyConfirmedYour} $title  $subTitle.",
-                            style: Theme.of(context).textTheme.overline!.copyWith(fontSize: 15),
+                          replacement: Text('${AppStrings.successfullyConfirmedYour.tr()} ${title.tr()} ${subTitle.tr()}.',
+                            style: Theme.of(context)
+                                .textTheme
+                                .overline!
+                                .copyWith(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 4,
                           ),
-                          child: Text(
-                            "${AppStrings.confirmationReminder.tr()} ${title.tr()}  $subTitle ${AppStrings.youHaveAddedBefore}.",
-                            style: Theme.of(context).textTheme.overline!.copyWith(fontSize: 15),
+                          child: Text('${AppStrings.confirmationReminder.tr()} ${title.tr()} ${subTitle.tr()} ${AppStrings.youHaveAddedBefore.tr()}.',
+                            style: Theme.of(context)
+                                .textTheme
+                                .overline!
+                                .copyWith(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
-                            maxLines: 4,
+                            maxLines: 4
                           ),
                         ),
                       ),

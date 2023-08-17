@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 
 import '../../../constants/app_icons.dart';
@@ -38,13 +39,13 @@ class _MainCategoryChoiceState extends State<MainCategoryChoice> {
             replacement: AnimatedContainer(
               curve: Curves.fastOutSlowIn,
               duration: const Duration(milliseconds: 600),
-              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color: AppColor.primaryColor),
               child: ListTile(
                 leading: SvgPicture.asset(widget.homeIcons, color: AppColor.white),
-                title: Text(widget.mainCategoryName,
+                title: Text(widget.mainCategoryName.tr(),
                     style: Theme.of(context).textTheme.headline5!.copyWith(
                         color: AppColor.white,
                         fontWeight: FontWeight.bold,
@@ -65,7 +66,7 @@ class _MainCategoryChoiceState extends State<MainCategoryChoice> {
                 leading:
                     SvgPicture.asset(widget.homeIcons, color: AppColor.primaryColor),
                 title: Text(
-                  widget.mainCategoryName,
+                  widget.mainCategoryName.tr(),
                   style: Theme.of(context).textTheme.headline5!.copyWith(
                       color: AppColor.primaryColor,
                       fontWeight: FontWeight.bold,

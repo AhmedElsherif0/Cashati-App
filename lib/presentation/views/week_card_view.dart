@@ -28,6 +28,10 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
   final void Function(int) onSeeMore;
   final SwitchWidgets? seeMoreOrDetailsOrHighest;
 
+  String weekNum(index) => translator.activeLanguageCode == 'en'
+      ? '${index + 1}'
+      : engToArabNum('${index + 1}');
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -54,7 +58,7 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                             textDirection:
                                 isEnglish ? TextDirection.ltr : TextDirection.rtl,
                             children: [
-                              Text('${AppStrings.week.tr()} ${index + 1}',
+                              Text('${AppStrings.week.tr()} ${weekNum(index)}',
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.headline5),
                               const Spacer(),
@@ -95,7 +99,7 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                                   Visibility(
                                     visible: true,
                                     child: switchWidgets(
-                                        onPress: (){
+                                        onPress: () {
                                           print("week index is $index");
 
                                           onSeeMore(index);
