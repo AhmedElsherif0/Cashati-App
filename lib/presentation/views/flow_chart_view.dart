@@ -63,10 +63,13 @@ class FlowChartView extends StatelessWidget {
           if (index == 0)
             Expanded(
               child: Row(
+                textDirection: translator.activeLanguageCode == 'en'
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
                 children: [
                   const Spacer(flex: 11),
                   Expanded(
-                    flex: 6,
+                    flex: 5,
                     child: Column(
                       children: [
                         PriorityWidget(text: priorityType.name.tr()),

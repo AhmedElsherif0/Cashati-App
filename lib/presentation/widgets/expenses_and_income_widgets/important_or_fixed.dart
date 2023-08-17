@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/enum_classes.dart';
 
 import '../../styles/colors.dart';
@@ -8,7 +9,7 @@ class PriorityWidget extends StatelessWidget {
   const PriorityWidget({
     Key? key,
     this.text = 'important',
-    this.color =AppColor.secondColor  ,
+    this.color = AppColor.secondColor,
   }) : super(key: key);
 
   final String text;
@@ -30,9 +31,11 @@ class PriorityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      textDirection: translator.activeLanguageCode == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       children: [
-        Icon(Icons.circle,
-            color: color , size: 10.dp),
+        Icon(Icons.circle, color: color, size: 10.dp),
         SizedBox(width: 0.5.w),
         Text(text,
             style: Theme.of(context).textTheme.caption,

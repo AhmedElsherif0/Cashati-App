@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/data/repository/helper_class.dart';
 import '../../styles/colors.dart';
 
 class ChartBar extends StatefulWidget {
@@ -21,7 +23,7 @@ class ChartBar extends StatefulWidget {
   State<ChartBar> createState() => _ChartBarState();
 }
 
-class _ChartBarState extends State<ChartBar> {
+class _ChartBarState extends State<ChartBar> with HelperClass {
   double _height = 0;
 
   @override
@@ -38,6 +40,10 @@ class _ChartBarState extends State<ChartBar> {
     super.didUpdateWidget(oldWidget);
   }
 
+  String fixedTotalExp(String total) => translator.activeLanguageCode == 'en'
+      ? widget.totalExp.toStringAsFixed(0)
+      : engToArabNum(total);
+
   @override
   Widget build(BuildContext context) {
     final textTheme =
@@ -49,7 +55,8 @@ class _ChartBarState extends State<ChartBar> {
         Expanded(
           child: Align(
             alignment: Alignment.center,
-            child: Text('${widget.totalExp.toStringAsFixed(0)}%', style: textTheme),
+            child: Text('${fixedTotalExp(widget.totalExp.toStringAsFixed(0))}%',
+                style: textTheme),
           ),
         ),
         Flexible(
@@ -84,8 +91,8 @@ class _ChartBarState extends State<ChartBar> {
             alignment: Alignment.bottomCenter,
             child: Transform(
               transform: Matrix4.rotationZ(-65 * pi / 180),
-              child:
-                  Text('${widget.percentage} ${widget.index + 1}', style: textTheme),
+              child: Text('${widget.percentage} ${weekNum(widget.index + 1)}',
+                  style: textTheme),
             ),
           ),
         )

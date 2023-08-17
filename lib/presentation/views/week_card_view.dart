@@ -28,10 +28,6 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
   final void Function(int) onSeeMore;
   final SwitchWidgets? seeMoreOrDetailsOrHighest;
 
-  String weekNum(index) => translator.activeLanguageCode == 'en'
-      ? '${index + 1}'
-      : engToArabNum('${index + 1}');
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;

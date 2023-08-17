@@ -34,6 +34,10 @@ mixin HelperClass {
       '$from ${isEnglish('٢٩', '29')}  $to ${isEnglish('٣٠', '$lastDay')} ',
     ];
   }
+  String weekNum(index) => translator.activeLanguageCode == 'en'
+      ? '${index + 1}'
+      : engToArabNum('${index + 1}');
+
 
   /// will convert from english numbers to arabic numbers
   String engToArabNum(String engNum) {
