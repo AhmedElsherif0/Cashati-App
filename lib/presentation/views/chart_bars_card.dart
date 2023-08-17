@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 
 import '../widgets/expenses_and_income_widgets/chart_bar.dart';
@@ -33,8 +34,10 @@ class ChartBarsCard extends StatelessWidget {
       itemBuilder: (context, index) {
         return ChartBar(
           index: index,
-          height:  _charHeight(index),
-          percentage: transactionsValues.length <= 5 ? AppStrings.week :AppStrings.month ,
+          height: _charHeight(index),
+          percentage: transactionsValues.length <= 5
+              ? AppStrings.week.tr()
+              : AppStrings.month.tr(),
           totalExp: _totalTransActions(index).isNaN
               ? 0.0
               : _totalTransActions(index).toDouble(),
