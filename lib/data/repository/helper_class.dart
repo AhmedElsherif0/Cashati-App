@@ -52,7 +52,7 @@ mixin HelperClass {
 
   /// will convert from arabic numbers to english numbers
   String arabicToEnglishNum(String arabicNum) {
-    return translator.activeLanguageCode == 'en'? arabicNum
+    return arabicNum
         .replaceAll("٠", "0")
         .replaceAll("١", "1")
         .replaceAll("٢", "2")
@@ -62,17 +62,7 @@ mixin HelperClass {
         .replaceAll("٦", "6")
         .replaceAll("٧", "7")
         .replaceAll("٨", "8")
-        .replaceAll("٩", "9"):arabicNum
-        .replaceAll("0", "0")
-        .replaceAll("1", "1")
-        .replaceAll("2", "2")
-        .replaceAll("3", "3")
-        .replaceAll("4", "4")
-        .replaceAll("5", "5")
-        .replaceAll("6", "6")
-        .replaceAll("7", "7")
-        .replaceAll("8", "8")
-        .replaceAll("9", "9");
+        .replaceAll("٩", "9");
   }
 
   String currencyFormat(num currency) => NumberFormat.currency(
