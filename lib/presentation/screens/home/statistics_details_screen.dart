@@ -9,7 +9,6 @@ import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import 'package:temp/presentation/widgets/transaction_card.dart';
 
-import '../../router/app_router.dart';
 import '../../widgets/custom_app_bar.dart';
 
 class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
@@ -43,18 +42,25 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
                           : getWeekRange(
                               chosenDay: transactions[index].createdDate)[index],
                       style: theme.textTheme.headline6),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    transactions[index].isExpense
-                        ? const PriorityWidget()
-                        : const PriorityWidget(text: AppStrings.fixed)
-                  ]),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    transactions[index].isExpense
-                        ? const PriorityWidget(
-                            text: AppStrings.important, color: AppColor.pinkishGrey)
-                        : const PriorityWidget(
-                            text: AppStrings.notFixed, color: AppColor.pinkishGrey)
-                  ])
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      PriorityWidget(
+                          text: !transactions[index].isExpense
+                              ? AppStrings.important
+                              : AppStrings.fixed)
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      PriorityWidget(
+                          text: transactions[index].isExpense
+                              ? AppStrings.notImportant
+                              : AppStrings.notFixed,
+                          color: AppColor.pinkishGrey)
+                    ],
+                  )
                 ],
               ),
             ),

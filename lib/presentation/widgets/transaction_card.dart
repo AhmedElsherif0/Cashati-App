@@ -29,6 +29,7 @@ class TransactionsCard extends StatelessWidget with HelperClass {
 
   @override
   Widget build(BuildContext context) {
+    final isEnglish = translator.activeLanguageCode == 'en';
     final textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
@@ -42,14 +43,17 @@ class TransactionsCard extends StatelessWidget with HelperClass {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
             child: Column(
+              textDirection: isEnglish ? TextDirection.rtl : TextDirection.ltr,
               children: [
                 Row(
                   children: [
-                    Text('${transactionModel.name} ${index + 1}',
+                    Text(
+                        daysOfWeekFormat(transactionModel.createdDate,
+                            translator.activeLanguageCode),
                         style: textTheme.headline5),
                     const Spacer(),
                     Text(
-                      '${transactionModel.amount} LE',
+                      currencyFormat(transactionModel.amount),
                       style: textTheme.headline5?.copyWith(
                           color: transactionModel.isExpense
                               ? AppColor.red
@@ -59,7 +63,7 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                 ),
                 SizedBox(height: 1.h),
                 Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: isEnglish ? Alignment.centerLeft : Alignment.centerRight,
                   child: Text(
                     formatDayDate(
                         transactionModel.createdDate, translator.activeLanguageCode),
@@ -75,7 +79,9 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                         children: [
                           SizedBox(height: 2.h),
                           Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: isEnglish
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
                             child: Text(transactionModel.repeatType,
                                 style: textTheme.subtitle1),
                           ),
@@ -83,6 +89,7 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                       ),
                     ),
                     Row(
+                      textDirection: isEnglish ? TextDirection.rtl : TextDirection.ltr,
                       children: [
                         Visibility(
                           visible: isSeeMore,
@@ -93,6 +100,8 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                         ),
                         Expanded(
                           child: Row(
+                            textDirection:
+                                isEnglish ? TextDirection.rtl : TextDirection.ltr,
                             children: [
                               const Spacer(),
                               PriorityWidget(

@@ -98,9 +98,10 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
           context,
           AppRouter.pageBuilderRoute(
               child: StatisticsWeekDetailsScreen(
+                  builderIndex: index,
                   transactions: getStatisticsCubit().weeks[index])));
     }else{
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No Expenses in this week.")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("No Expenses in this week.")));
     }
   }
 
@@ -155,8 +156,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                           totalExpenses:
                               context.read<StatisticsCubit>().totalImportantExpenses(),
                           index: index,
-                          priorityType: PriorityType.important,
-                          notPriority: PriorityType.notImportant,
+                          priorityType: PriorityType.Important,
+                          notPriority: PriorityType.NotImportant,
                           transactionsValues: getStatisticsCubit().transactionsValues,
                         ),
 
@@ -171,15 +172,14 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                                 context,
                                 getStatisticsCubit().byDayList[insideIndex],
                                 insideIndex),
-                            priorityName: PriorityType.important,
+                            priorityName: PriorityType.Important,
                             transactions: getStatisticsCubit().byDayList,
                             index: index,
                             pageController: _controller,
                             monthWidget: WeekCardViewEdited(
                               onSeeMore:  (weekIndex) => _onSeeMoreByWeek(
                                   context,
-                                  weekIndex,
-                                  ),
+                                  weekIndex),
                               weekRanges: getStatisticsCubit().weekRangeText(),
                               chosenDay: getStatisticsCubit().chosenDay,
                               weeksTotals: getStatisticsCubit().totalsWeeks,

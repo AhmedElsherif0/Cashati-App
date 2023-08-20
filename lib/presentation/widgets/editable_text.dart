@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import '../styles/colors.dart';
 
@@ -14,7 +15,8 @@ class EditableInfoField extends StatefulWidget {
       this.trailing,
       this.keyboardType,
       this.maxLines = 1,
-      this.header = '',  this.backGroundColor })
+      this.header = '',
+      this.backGroundColor})
       : super(key: key);
   final TextEditingController textEditingController;
   final String hint;
@@ -35,10 +37,10 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     return Container(
-     // height: 6.h,
+      // height: 6.h,
       width: widget.containerWidth,
       decoration: BoxDecoration(
-          color: widget.backGroundColor ?? AppColor.primaryColor.withOpacity(0.3) ,
+          color: widget.backGroundColor ?? AppColor.primaryColor.withOpacity(0.3),
           borderRadius: BorderRadius.circular(16.dp)),
       padding: EdgeInsets.symmetric(horizontal: 8.dp),
       child: ListTile(
@@ -47,8 +49,10 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
             Visibility(
                 visible: widget.header.isEmpty ? false : true,
                 child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(widget.header, style: theme.subtitle2))),
+                    alignment: translator.activeLanguageCode == 'en'
+                        ? Alignment.centerLeft
+                        : Alignment.centerRight,
+                    child: Text(widget.header.tr(), style: theme.subtitle2))),
             TextFormField(
               keyboardType: widget.keyboardType ?? TextInputType.text,
               controller: widget.textEditingController,
@@ -66,7 +70,7 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
                   hintText: widget.hint,
                   hintStyle: theme.bodyText2!.copyWith(
                     fontWeight: FontWeight.w300,
-                    fontSize: 12.dp ,
+                    fontSize: 12.dp,
                     color: AppColor.primaryColor,
                   ),
                   border: InputBorder.none),

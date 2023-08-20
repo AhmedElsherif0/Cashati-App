@@ -16,48 +16,52 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
   const StatisticsWeekDetailsScreen({
     Key? key,
     this.transactions = const [],
+    required this.builderIndex,
   }) : super(key: key);
 
   final List<TransactionModel> transactions;
+  final int builderIndex;
+
+  String appTitle(index) {
+    final transactionType = transactions[index].isExpense
+        ? AppStrings.expenses.tr()
+        : AppStrings.income.tr();
+    return translator.activeLanguageCode == 'en'
+        ? '${'the'.tr()} ${AppStrings.week.tr()} $transactionType'
+        : '$transactionType ${'the'.tr()}${AppStrings.week.tr()}';
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final dateTime =
+        getWeekRange(chosenDay: transactions[builderIndex].createdDate)[builderIndex];
     return Scaffold(
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            CustomAppBar(
-                title: '${transactions.first.repeatType} ${AppStrings.expenseSmall}',
-                isEndIconVisible: false),
+            CustomAppBar(title: appTitle(builderIndex), isEndIconVisible: false),
+            Text(dateTime, style: theme.textTheme.headline6),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                      transactions.first.repeatType == AppStrings.daily
-                          ? formatDayDate(transactions.first.createdDate,
-                              translator.activeLanguageCode)
-                          : getWeekRange(
-                              chosenDay: transactions.first.createdDate).first,
-                      style: theme.textTheme.headline6),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    transactions.first.isExpense
-                        ? const PriorityWidget()
-                        : const PriorityWidget(text: AppStrings.fixed)
-                  ]),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    transactions.first.isExpense
-                        ? const PriorityWidget(
-                            text: AppStrings.important, color: AppColor.pinkishGrey)
-                        : const PriorityWidget(
-                            text: AppStrings.notFixed, color: AppColor.pinkishGrey)
-                  ])
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const PriorityWidget(),
+                      PriorityWidget(
+                          text: PriorityType.NotImportant.name,
+                          color: AppColor.pinkishGrey)
+                    ],
+                  ),
                 ],
               ),
             ),
             Expanded(
-              flex: 5,
+              flex: 8,
               child: ListView.builder(
                 itemCount: transactions.length,
                 itemBuilder: (_, currIndex) => TransactionsCard(

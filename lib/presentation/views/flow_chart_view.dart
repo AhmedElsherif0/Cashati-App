@@ -13,7 +13,7 @@ class FlowChartView extends StatelessWidget {
   const FlowChartView({
     Key? key,
     required this.index,
-    this.priorityType = PriorityType.important,
+    this.priorityType = PriorityType.Important,
     this.transactionType = TransactionType.expense,
     required this.notPriority,
     this.maxExpenses = 0,

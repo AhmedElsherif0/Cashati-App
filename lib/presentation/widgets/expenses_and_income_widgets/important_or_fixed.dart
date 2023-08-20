@@ -8,7 +8,7 @@ import '../../styles/colors.dart';
 class PriorityWidget extends StatelessWidget {
   const PriorityWidget({
     Key? key,
-    this.text = 'important',
+    this.text = 'Important',
     this.color = AppColor.secondColor,
   }) : super(key: key);
 
@@ -17,10 +17,10 @@ class PriorityWidget extends StatelessWidget {
 
   Color switchPriorityColor(PriorityType? priorityType) {
     switch (priorityType) {
-      case PriorityType.higherExpenses:
+      case PriorityType.HigherExpenses:
         return AppColor.red;
-      case PriorityType.important:
-      case PriorityType.fixed:
+      case PriorityType.Important:
+      case PriorityType.Fixed:
         return AppColor.secondColor;
       default:
         AppColor.pinkishGrey;
@@ -36,8 +36,8 @@ class PriorityWidget extends StatelessWidget {
           : TextDirection.rtl,
       children: [
         Icon(Icons.circle, color: color, size: 10.dp),
-        SizedBox(width: 0.5.w),
-        Text(text,
+        SizedBox(width: 0.6.w),
+        Text(text.tr(),
             style: Theme.of(context).textTheme.caption,
             overflow: TextOverflow.ellipsis,
             softWrap: true),

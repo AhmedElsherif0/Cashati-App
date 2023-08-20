@@ -8,7 +8,7 @@ import 'package:temp/presentation/styles/colors.dart';
 
 import '../../constants/app_icons.dart';
 
-class WeekCardViewEdited extends StatelessWidget with HelperClass {
+class WeekCardViewEdited extends StatefulWidget {
   const WeekCardViewEdited({
     Key? key,
     required this.weeksTotals,
@@ -29,15 +29,20 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
   final SwitchWidgets? seeMoreOrDetailsOrHighest;
 
   @override
+  State<WeekCardViewEdited> createState() => _WeekCardViewEditedState();
+}
+
+class _WeekCardViewEditedState extends State<WeekCardViewEdited> with HelperClass {
+  @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final isEnglish = translator.activeLanguageCode == 'en';
-    return weeksTotals.every((element) => element == 0)
+    return widget.weeksTotals.every((element) => element == 0)
         ? Image.asset(AppIcons.noDataCate)
         : ListView.builder(
             padding: EdgeInsets.zero,
-            itemCount: weeksTotals.length,
-            itemBuilder: (context, index) {
+            itemCount: widget.weeksTotals.length,
+            itemBuilder: (context, builderIndex) {
               return Column(
                 children: [
                   Card(
@@ -54,14 +59,14 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                             textDirection:
                                 isEnglish ? TextDirection.ltr : TextDirection.rtl,
                             children: [
-                              Text('${AppStrings.week.tr()} ${weekNum(index)}',
+                              Text('${AppStrings.week.tr()} ${weekNum(builderIndex)}',
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.headline5),
                               const Spacer(),
                               Text(
-                                currencyFormat(weeksTotals[index]),
+                                currencyFormat(widget.weeksTotals[builderIndex]),
                                 style:
-                                    textTheme.headline5?.copyWith(color: priceColor),
+                                    textTheme.headline5?.copyWith(color: widget.priceColor),
                               ),
                             ],
                           ),
@@ -70,7 +75,7 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                             alignment: isEnglish
                                 ? Alignment.centerLeft
                                 : Alignment.centerRight,
-                            child: Text(weekRanges[index], style: textTheme.subtitle1),
+                            child: Text(widget.weekRanges[builderIndex], style: textTheme.subtitle1),
                           ),
                           SizedBox(height: 1.h),
                           Row(
@@ -96,11 +101,11 @@ class WeekCardViewEdited extends StatelessWidget with HelperClass {
                                     visible: true,
                                     child: switchWidgets(
                                         onPress: () {
-                                          print("week index is $index");
+                                          print("week index is $builderIndex");
 
-                                          onSeeMore(index);
+                                          widget.onSeeMore(builderIndex);
                                         },
-                                        switchWidgets: seeMoreOrDetailsOrHighest),
+                                        switchWidgets: widget.seeMoreOrDetailsOrHighest),
                                   ),
                                 ],
                               ),
