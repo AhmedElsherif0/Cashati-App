@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
@@ -64,8 +65,12 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
     statisticsCubit.getTodayExpenses(true);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    final txtDirection =
+        translator.activeLanguageCode == 'en' ? TextDirection.rtl : TextDirection.ltr;
     return Scaffold(body: SafeArea(
       child: SingleChildScrollView(
         child: BlocBuilder<StatisticsCubit, StatisticsState>(
@@ -73,9 +78,9 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
             return Column(
               children: [
                 SizedBox(height: 15.dp),
-                CustomAppBar(
-                    title: '${widget.transactionModel.mainCategory} ${AppStrings.expenseDetails}',
-                    isEndIconVisible: false),
+                CustomAppBar(title:  widget.transactionModel.isExpense
+                    ? AppStrings.expenseDetails.tr()
+                    : AppStrings.incomeDetails.tr(), isEndIconVisible: false),
                 SizedBox(height: 40.dp),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -92,21 +97,21 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
                           SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: mainCategoryController,
-                            hint: widget.transactionModel.mainCategory,
+                            hint: widget.transactionModel.mainCategory.tr(),
                             iconName: AppIcons.categoryIcon,
                             keyboardType: TextInputType.text,
                           ),
                           SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: subCategoryController,
-                            hint: widget.transactionModel.subCategory,
+                            hint: widget.transactionModel.subCategory.tr(),
                             iconName: AppIcons.categories,
                             keyboardType: TextInputType.text,
                           ),
                           SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: amountController,
-                            hint: '${widget.transactionModel.amount}LE',
+                            hint: currencyFormat(widget.transactionModel.amount),
                             iconName: AppIcons.amountIcon,
                             keyboardType: TextInputType.text,
                             trailing: IconButton(
@@ -120,24 +125,25 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
                           SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: dateController,
-                            hint: widget.transactionModel.repeatType,
+                            hint: widget.transactionModel.repeatType.tr(),
                             iconName: AppIcons.change,
                             keyboardType: TextInputType.text,
                           ),
                           SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: descriptionController,
-                            header: AppStrings.description,
+                            header: AppStrings.description.tr(),
                             hint: widget.transactionModel.description == ''
-                                ? 'There are many variations of... There are many variations of...'
+                                ? AppStrings.subDescription.tr()
                                 : widget.transactionModel.description,
                             iconName: '',
                             keyboardType: TextInputType.multiline,
                           ),
                           SizedBox(height: 30.dp),
                           Row(
+                            textDirection: txtDirection,
                             children: [
-                              const Expanded(child: SizedBox()),
+                              const Expanded(child: SizedBox.shrink()),
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
@@ -154,6 +160,7 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
                               ),
                               Expanded(
                                 child: Row(
+                                  textDirection: txtDirection,
                                   children: [
                                     const Spacer(),
                                     PriorityWidget(

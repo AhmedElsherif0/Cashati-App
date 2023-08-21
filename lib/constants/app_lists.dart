@@ -13,8 +13,8 @@ class AppConstantList {
   final List<SubCategory> expenseHomeFixedList = [
     SubCategory.copyWith(
       id: 'ssfsf55',
-      subCategoryName: 'Transportation',
       mainCategoryName: 'Home',
+      subCategoryName: 'Transportation',
       subCategoryIconName: AppIcons.buildAppIcon,
     ),
     SubCategory.copyWith(

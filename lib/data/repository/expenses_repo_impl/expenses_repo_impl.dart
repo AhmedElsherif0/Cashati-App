@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:temp/business_logic/repository/transactions_repo/transactions_interface.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
@@ -54,9 +55,7 @@ class ExpensesRepositoryImpl
       case 'Monthly':
         MonthlyTransaction().addTransactionToRepeatedBox(transaction);
         break;
-      case 'No Repeat':
-        NoRepeatTransaction().addTransactionToRepeatedBox(transaction);
-        break;
+      default: NoRepeatTransaction().addTransactionToRepeatedBox(transaction);
     }
   }
 

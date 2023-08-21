@@ -3,7 +3,7 @@ import '../../../constants/enum_classes.dart';
 
 class ExpensesModel {
   //Todo:: why we use name var ??
-  StatisticsHeader name = StatisticsHeader.daily;
+  StatisticsHeader name = StatisticsHeader.Daily;
   String chooseDate = 'Choose day';
   String chooseInnerData = 'Day';
   String totalTransaction = 'Total';

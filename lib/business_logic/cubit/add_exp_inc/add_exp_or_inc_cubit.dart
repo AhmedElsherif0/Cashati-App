@@ -46,7 +46,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   final AppConstantList appList = AppConstantList();
 
 //  List<SubCategoryExpense> dataList=[] ;
-  String choseRepeat = AppStrings.daily;
+  String choseRepeat = 'No Repeat';
   bool isRepeat = false;
   bool isImportant = false;
   CategoryTransactionRepo subCategoryRepo = ExpenseSubCategoryImpl();

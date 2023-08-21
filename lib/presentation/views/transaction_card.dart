@@ -13,7 +13,7 @@ class TransactionCardView extends StatelessWidget with HelperClass {
     Key? key,
     required this.transaction,
     required this.onPressSeeMore,
-    this.priorityName = PriorityType.important,
+    this.priorityName = PriorityType.Important,
     required this.isVisible,
     this.seeMoreOrDetailsOrHighest,
     this.isRepeated = false,

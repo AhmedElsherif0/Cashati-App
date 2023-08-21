@@ -80,6 +80,7 @@ class AppStrings {
   static const String deleteExpense = "deleteExpense"; //Delete Expense
   static const String deleteIncome = "deleteIncome"; //Delete Income
   static const String seeMore = "seeMore"; //'see more'
+  static const String highest = "highest"; //'Highest'
   static const String from = "from"; //From
   static const String to = "to"; //To
   static const String areYouSureYouWantToDelete =
@@ -108,11 +109,11 @@ class AppStrings {
   static const String incomeName = "incomeName"; //Income Name
   static const String writeDescription = 'writeDescription'; // Write Description
   static const String important = 'important'; //Important
-  static const String home = 'home'; // Home
-  static const String personal = 'personal'; // Personal
-  static const String business = 'business'; // Business
-  static const String variable = 'variable'; // Variable
-  static const String fixed = 'fixed'; //Fixed
+  static const String home = 'Home'; // Home
+  static const String personal = 'Personal'; // Personal
+  static const String business = 'Business'; // Business
+  static const String variable = 'Variable'; // Variable
+  static const String fixed = 'Fixed'; //Fixed
 
   /// sub_category_fields.dart
   static const String expense = 'expense'; // Expense
@@ -195,12 +196,14 @@ class AppStrings {
   static const String incomeRepeat = 'incomeRepeat'; //Income Repeat
   static const String filteredBy = 'filteredBy'; //Filtered By
   static const String expenseDetails = 'expenseDetails'; //Expense Details
+  static const String incomeDetails = 'incomeDetails'; //Income Details
   static const String description = 'description'; //Description
-  static const String daily = 'daily'; //Daily
+  static const String subDescription = 'subDescription'; // The description that you aim for your Transaction...
+  static const String daily = 'Daily'; //Daily
   static const String byDaily = 'byDay'; //Daily
-  static const String weekly = 'weekly'; //Weekly
+  static const String weekly = 'Weekly'; //Weekly
   static const String byWeekly = 'byWeek'; //Weekly
-  static const String monthly = 'monthly'; //Monthly
+  static const String monthly = 'Monthly'; //Monthly
   static const String byMonthly = 'byMonth'; //Monthly
   static const String notFixed = 'notFixed'; //Not Fixed
   static const String notImportant = 'notImportant'; //Not Important

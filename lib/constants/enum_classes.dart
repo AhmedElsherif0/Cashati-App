@@ -1,9 +1,9 @@
 enum SwitchWidgets { higherExpenses, seeMore, details, defaultWidget }
 
-enum StatisticsHeader { daily, monthly, yearly }
+enum StatisticsHeader { Daily, Monthly, Yearly }
 
 enum TransactionType { expense, income, goals }
 
-enum PriorityType { higherExpenses, important, notImportant, fixed, notFixed }
+enum PriorityType { HigherExpenses, Important, NotImportant, Fixed, NotFixed }
 
-enum RepeatTypes { daily, weekly, monthly, noRepeat }
+enum RepeatTypes { Daily, Weekly, Monthly, NoRepeat }

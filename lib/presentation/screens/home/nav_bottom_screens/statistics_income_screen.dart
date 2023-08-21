@@ -92,16 +92,19 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
   //             index: index, transactions: getStatisticsCubit().byDayList)));
 
   _onSeeMoreByWeek(context, index) {
-    if(getStatisticsCubit().weeks[index].isNotEmpty){
+    if (getStatisticsCubit().weeks[index].isNotEmpty) {
       Navigator.push(
           context,
           AppRouter.pageBuilderRoute(
               child: StatisticsWeekDetailsScreen(
+                  builderIndex: index,
                   transactions: getStatisticsCubit().weeks[index])));
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No Income in this week.")));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("No Income in this week.")));
     }
   }
+
   _onSeeMoreByDay(context, TransactionModel transaction, insideIndex) =>
       Navigator.push(
           context,
@@ -134,9 +137,9 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                             onPressed: () => showDatePick(),
                             text: index == 0
                                 ? formatDayDate(getStatisticsCubit().chosenDay,
-                                translator.activeLanguageCode)
+                                    translator.activeLanguageCode)
                                 : formatWeekDate(getStatisticsCubit().chosenDay,
-                                translator.activeLanguageCode),
+                                    translator.activeLanguageCode),
                             textStyle: Theme.of(context).textTheme.subtitle1,
                             backgroundColor: AppColor.white,
                             width: 40.w,
@@ -152,19 +155,21 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                               .read<StatisticsCubit>()
                               .totalImportantExpenses(isExpense: false),
                           index: index,
-                          priorityType: PriorityType.fixed,
-                          notPriority: PriorityType.notFixed,
+                          priorityType: PriorityType.Fixed,
+                          notPriority: PriorityType.NotFixed,
                           transactionsValues: getStatisticsCubit().transactionsValues,
                         ),
-                         DetailsText(text: AppStrings.filteredBy.tr(),
-                             alignment: translator.activeLanguageCode == 'en'?
-                             Alignment.centerLeft:Alignment.centerRight),
+                        DetailsText(
+                            text: AppStrings.filteredBy.tr(),
+                            alignment: translator.activeLanguageCode == 'en'
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight),
 
                         /// TabBarView Widgets.
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(
-                            priorityName: PriorityType.fixed,
+                            priorityName: PriorityType.Fixed,
                             transactions: getStatisticsCubit().byDayList,
                             onPressSeeMore: (int insideIndex) => _onSeeMoreByDay(
                                 context,
@@ -173,10 +178,8 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                             index: index,
                             pageController: _controller,
                             monthWidget: WeekCardViewEdited(
-                              onSeeMore:  (weekIndex) => _onSeeMoreByWeek(
-                                context,
-                                weekIndex,
-                              ),
+                              onSeeMore: (weekIndex) =>
+                                  _onSeeMoreByWeek(context, weekIndex),
                               weekRanges: getStatisticsCubit().weekRangeText(),
                               chosenDay: getStatisticsCubit().chosenDay,
                               weeksTotals: getStatisticsCubit().totalsWeeks,

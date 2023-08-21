@@ -12,7 +12,6 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   final TransactionRepo _expensesRepository;
   List<TransactionModel> monthTransactions = [];
   List<TransactionModel> byDayList = [];
-  num totalImport = 0, totalNotImport = 0, chosenDayTotal = 0;
   List<List<TransactionModel>> monthList = [];
   List<List<TransactionModel>> weeks = List.generate(5, (_) => []);
   num importantWeeks = 0;
@@ -45,7 +44,7 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   }
 
   List<TransactionModel> getExpenses() {
-    return  _expensesRepository.getTransactionFromTransactionBox();;
+    return  _expensesRepository.getTransactionFromTransactionBox();
   }
 
   Future<void> deleteTransaction(TransactionModel transaction) async {
@@ -59,6 +58,7 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   }
 
   void getExpensesByDay(DateTime date, bool isExpense) {
+    num totalImport = 0, totalNotImport = 0, chosenDayTotal = 0;
     chosenDay = date;
     byDayList = getTodayExpenses(isExpense);
     byDayList.forEach((element) {

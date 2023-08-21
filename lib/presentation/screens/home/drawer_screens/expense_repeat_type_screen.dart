@@ -145,7 +145,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                               transaction: widget.cubit
                                   .getRepeatTransactions(generateIndex)[indexBuilder],
                               isVisible: true,
-                              priorityName: PriorityType.important,
+                              priorityName: PriorityType.Important,
                             ),
                           );
                   },

@@ -34,10 +34,10 @@ mixin HelperClass {
       '$from ${isEnglish('٢٩', '29')}  $to ${isEnglish('٣٠', '$lastDay')} ',
     ];
   }
+
   String weekNum(index) => translator.activeLanguageCode == 'en'
       ? '${index + 1}'
       : engToArabNum('${index + 1}');
-
 
   /// will convert from english numbers to arabic numbers
   String engToArabNum(String engNum) {
@@ -94,9 +94,10 @@ mixin HelperClass {
       void Function()? onPress}) {
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
-        String expense = ((transaction!.isExpense) ? 'Expense' : 'Income').tr();
+        String transX =
+            ((transaction!.isExpense) ? AppStrings.expense : AppStrings.income).tr();
         return PriorityWidget(
-          text: 'Highest $expense',
+          text: '${AppStrings.highest.tr()} ${transX.tr()}',
           color: !transaction.isPriority ? AppColor.red : AppColor.pinkishGrey,
         );
       case SwitchWidgets.seeMore:
@@ -112,21 +113,21 @@ mixin HelperClass {
   }
 
   String priorityNames(bool isExpense, bool isPriority) => isPriority
-      ? (isExpense ? 'important' : 'fixed').tr()
-      : (isExpense ? 'notImportant' : 'notFixed').tr();
+      ? (isExpense ? 'Important' : 'Fixed').tr()
+      : (isExpense ? 'NotImportant' : 'NotFixed').tr();
 
   String switchPriorityName(PriorityType priorityType) {
     switch (priorityType) {
-      case PriorityType.notImportant:
-        return PriorityType.notImportant.name;
-      case PriorityType.fixed:
-        return PriorityType.fixed.name;
-      case PriorityType.notFixed:
-        return PriorityType.notFixed.name;
-      case PriorityType.important:
-        return PriorityType.important.name;
-      case PriorityType.higherExpenses:
-        return PriorityType.higherExpenses.name;
+      case PriorityType.NotImportant:
+        return PriorityType.NotImportant.name;
+      case PriorityType.Fixed:
+        return PriorityType.Fixed.name;
+      case PriorityType.NotFixed:
+        return PriorityType.NotFixed.name;
+      case PriorityType.Important:
+        return PriorityType.Important.name;
+      case PriorityType.HigherExpenses:
+        return PriorityType.HigherExpenses.name;
     }
   }
 
@@ -135,6 +136,8 @@ mixin HelperClass {
 
   String formatDayWeek(DateTime inputDate, String currentLocal) =>
       DateFormat('EEE', currentLocal).format(inputDate.toLocal());
+
+  String daysOfWeekFormat(date,currentLocal)=>DateFormat('EEE',currentLocal).format(date);
 
   String formatWeekDate(DateTime inputDate, String currentLocal) =>
       DateFormat(' MM / yyyy', currentLocal)
