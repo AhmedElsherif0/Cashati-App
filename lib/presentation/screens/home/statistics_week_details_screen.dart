@@ -16,14 +16,16 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
   const StatisticsWeekDetailsScreen({
     Key? key,
     this.transactions = const [],
+    this.weekRanges = const [],
     required this.builderIndex,
   }) : super(key: key);
 
   final List<TransactionModel> transactions;
+  final List<String> weekRanges;
   final int builderIndex;
 
   String appTitle(index) {
-    final transactionType = transactions[index].isExpense
+    final transactionType = transactions[0].isExpense
         ? AppStrings.expenses.tr()
         : AppStrings.income.tr();
     return translator.activeLanguageCode == 'en'
@@ -34,13 +36,14 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dateTime =
-        getWeekRange(chosenDay: transactions[builderIndex].createdDate)[builderIndex];
+    // final dateTime = getWeekRange(chosenDay: transactions[builderIndex].createdDate)[builderIndex];
+    final dateTime = weekRanges[builderIndex];
     return Scaffold(
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+
             CustomAppBar(title: appTitle(builderIndex), isEndIconVisible: false),
             Text(dateTime, style: theme.textTheme.headline6),
             Expanded(
