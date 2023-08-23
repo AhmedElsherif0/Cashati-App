@@ -93,11 +93,15 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
   //         child: StatisticsDetailsScreen(
   //             index: index, transactions: getStatisticsCubit().weeks[index])));
   _onSeeMoreByWeek(context, index) {
+    print("transactions are ${ getStatisticsCubit().weeks[index]}");
+    print("transactions length is ${ getStatisticsCubit().weeks[index].length}");
+    print("index of the 5 weeks is ${index}");
     if(getStatisticsCubit().weeks[index].isNotEmpty){
       Navigator.push(
           context,
           AppRouter.pageBuilderRoute(
               child: StatisticsWeekDetailsScreen(
+                weekRanges:getStatisticsCubit().weekRangeText(),
                   builderIndex: index,
                   transactions: getStatisticsCubit().weeks[index])));
     }else{

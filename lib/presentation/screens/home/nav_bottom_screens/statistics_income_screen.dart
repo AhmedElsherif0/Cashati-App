@@ -97,6 +97,8 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
           context,
           AppRouter.pageBuilderRoute(
               child: StatisticsWeekDetailsScreen(
+                  weekRanges:getStatisticsCubit().weekRangeText(),
+
                   builderIndex: index,
                   transactions: getStatisticsCubit().weeks[index])));
     } else {
@@ -134,7 +136,9 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                         ConstrainedBox(
                           constraints: BoxConstraints(minWidth: 20.h, maxWidth: 35.h),
                           child: CustomElevatedButton(
-                            onPressed: () => showDatePick(),
+                            onPressed: () =>
+                            index == 0 ? showDatePick() : showDatePickMonth(),
+
                             text: index == 0
                                 ? formatDayDate(getStatisticsCubit().chosenDay,
                                     translator.activeLanguageCode)
