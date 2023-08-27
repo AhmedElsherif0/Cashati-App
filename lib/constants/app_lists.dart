@@ -243,4 +243,6 @@ class AppConstantList {
       subCategoryIconName: AppIcons.buildAppIcon,
     ),
   ];
+
+  static const List<String> daysFormatList=["All","Fri","Sat","Sun","Mon","Tue","Wed","Thu"];
 }

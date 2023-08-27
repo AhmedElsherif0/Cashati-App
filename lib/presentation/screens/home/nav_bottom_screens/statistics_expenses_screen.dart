@@ -58,6 +58,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     getStatisticsCubit().getExpenses();
     getStatisticsCubit().getTransactionsByMonth(true);
     getStatisticsCubit().getTodayExpenses(true);
+    context.read<StatisticsCubit>().chosenFilterWeekDay="All";
     super.initState();
   }
 
@@ -97,6 +98,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     print("transactions length is ${ getStatisticsCubit().weeks[index].length}");
     print("index of the 5 weeks is ${index}");
     if(getStatisticsCubit().weeks[index].isNotEmpty){
+      getStatisticsCubit().chosenFilterWeekDay="All";
+
       Navigator.push(
           context,
           AppRouter.pageBuilderRoute(
