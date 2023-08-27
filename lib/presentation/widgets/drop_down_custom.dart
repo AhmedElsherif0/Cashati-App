@@ -18,7 +18,7 @@ class DropDownCustomWidget extends StatefulWidget {
       this.arrowIconColor,
       this.hintStyle,
       required this.onChangedFunc,
-      this.isEnglish = true, this.leadingIconColor })
+      this.isEnglish = true, this.leadingIconColor ,this.iconHeight})
       : super(key: key);
   final List<DropdownMenuItem<String>> dropDownList;
   String? value;
@@ -29,6 +29,7 @@ class DropDownCustomWidget extends StatefulWidget {
   final Color? arrowIconColor;
   final Color? leadingIconColor;
   final bool isExpanded;
+  final double? iconHeight;
   final bool? isEnglish;
   final TextStyle? hintStyle;
   final Function(String) onChangedFunc;
@@ -93,7 +94,7 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
         onChanged: (value) => widget.onChangedFunc(value!),
         icon: widget.isExpanded
             ? SvgPicture.asset(widget.icon ?? AppIcons.downArrow,
-                height: 16.dp, color: AppColor.primaryColor)
+                height: widget.iconHeight??16.dp, color: AppColor.primaryColor)
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: SvgPicture.asset(widget.icon ?? AppIcons.downArrow,

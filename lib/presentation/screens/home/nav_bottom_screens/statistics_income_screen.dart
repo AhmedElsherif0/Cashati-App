@@ -17,7 +17,6 @@ import '../../../router/app_router.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/common_texts/details_text.dart';
 import '../part_time_details.dart';
-import '../statistics_details_screen.dart';
 import '../statistics_week_details_screen.dart';
 
 class IncomeStatisticsScreen extends StatefulWidget {
@@ -93,6 +92,8 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
 
   _onSeeMoreByWeek(context, index) {
     if (getStatisticsCubit().weeks[index].isNotEmpty) {
+      getStatisticsCubit().chosenFilterWeekDay="All";
+
       Navigator.push(
           context,
           AppRouter.pageBuilderRoute(

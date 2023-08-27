@@ -10,3 +10,4 @@ class StatisticsChoseDateTime extends StatisticsState {}
 class ChoseDateSucc extends StatisticsState {}
 class StatisticsTotalExpense extends StatisticsState {}
 class FetchedMonthData extends StatisticsState {}
+class ShowFilteredTransactionByDay extends StatisticsState {}

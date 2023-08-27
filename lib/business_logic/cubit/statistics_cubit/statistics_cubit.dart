@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/transactions_repo/transaction_repo.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
@@ -19,6 +20,8 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   DateTime chosenDay = DateTime.now();
   int currentIndex = 0;
   int transactionIndex =0;
+  List<TransactionModel> transactionsWeekFiltered = [];
+  String chosenFilterWeekDay="All";
 
   /// 1- count the total.\
 
@@ -119,6 +122,12 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   changeDatePicker(dateTime) {
     chosenDay = dateTime;
     emit(ChoseDateSucc());
+  }
+  filterWeekTransactionsByDay({required String dayName,required List<TransactionModel> weekTransactions}){
+    //TODO check day name in arabic and english and handle it
+    transactionsWeekFiltered=weekTransactions.where((element) => daysOfWeekFormat(element.createdDate,translator.activeLanguageCode)==dayName).toList();
+    chosenFilterWeekDay=dayName;
+  emit(ShowFilteredTransactionByDay());
   }
 
   List<String> weekRangeText() => getWeekRange(chosenDay: chosenDay);
