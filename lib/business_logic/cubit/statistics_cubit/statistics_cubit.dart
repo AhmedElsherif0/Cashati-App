@@ -19,9 +19,9 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   List<num> totalsWeeks = List.from([0, 0, 0, 0, 0]);
   DateTime chosenDay = DateTime.now();
   int currentIndex = 0;
-  int transactionIndex =0;
+  int transactionIndex = 0;
   List<TransactionModel> transactionsWeekFiltered = [];
-  String chosenFilterWeekDay="All";
+  String chosenFilterWeekDay = "All";
 
   /// 1- count the total.\
 
@@ -47,7 +47,7 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   }
 
   List<TransactionModel> getExpenses() {
-    return  _expensesRepository.getTransactionFromTransactionBox();
+    return _expensesRepository.getTransactionFromTransactionBox();
   }
 
   Future<void> deleteTransaction(TransactionModel transaction) async {
@@ -125,9 +125,13 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   }
   filterWeekTransactionsByDay({required String dayName,required List<TransactionModel> weekTransactions}){
     //TODO check day name in arabic and english and handle it
-    transactionsWeekFiltered=weekTransactions.where((element) => daysOfWeekFormat(element.createdDate,translator.activeLanguageCode)==dayName).toList();
-    chosenFilterWeekDay=dayName;
-  emit(ShowFilteredTransactionByDay());
+    transactionsWeekFiltered = weekTransactions
+        .where((element) =>
+            formatDayWeek(element.createdDate, translator.activeLanguageCode) ==
+            dayName)
+        .toList();
+    chosenFilterWeekDay = dayName;
+    emit(ShowFilteredTransactionByDay());
   }
 
   List<String> weekRangeText() => getWeekRange(chosenDay: chosenDay);

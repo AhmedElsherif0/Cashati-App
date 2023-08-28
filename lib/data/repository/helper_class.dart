@@ -143,8 +143,7 @@ mixin HelperClass {
   String formatDayWeek(DateTime inputDate, String currentLocal) =>
       DateFormat('EEE', currentLocal).format(inputDate.toLocal());
 
-  String daysOfWeekFormat(date, currentLocal) =>
-      DateFormat('EEE', currentLocal).format(date);
+
 
   String formatWeekDate(DateTime inputDate, String currentLocal) =>
       DateFormat(' MM / yyyy', currentLocal)

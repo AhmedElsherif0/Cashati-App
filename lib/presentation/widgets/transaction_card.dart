@@ -48,7 +48,7 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                 Row(
                   children: [
                     Text(
-                        daysOfWeekFormat(transactionModel.createdDate,
+                        formatDayWeek(transactionModel.createdDate,
                             translator.activeLanguageCode),
                         style: textTheme.headline5),
                     const Spacer(),
