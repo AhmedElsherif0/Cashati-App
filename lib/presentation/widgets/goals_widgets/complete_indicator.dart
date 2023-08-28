@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
+import 'package:temp/presentation/styles/decorations.dart';
 
 class CompleteIndicatorBar extends StatelessWidget {
   const CompleteIndicatorBar({
@@ -39,9 +41,9 @@ class CompleteIndicatorBar extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: AppColor.darkGrey,
                       border: const Border(right: BorderSide.none),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.dp),
-                          bottomLeft: Radius.circular(10.dp))),
+                      borderRadius: translator.activeLanguageCode == 'en'
+                          ? AppDecorations.lGoalCardBar
+                          : AppDecorations.rGoalCardBar),
                 ),
                 Visibility(
                   visible: goalModel.goalRemainingAmount != 0,
@@ -52,9 +54,9 @@ class CompleteIndicatorBar extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: AppColor.white,
                         border: const Border(left: BorderSide.none),
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10.dp),
-                            bottomRight: Radius.circular(10.dp))),
+                        borderRadius: translator.activeLanguageCode == 'en'
+                            ? AppDecorations.lGoalCardBar
+                            : AppDecorations.rGoalCardBar),
                   ),
                 )
               ],
@@ -64,7 +66,12 @@ class CompleteIndicatorBar extends StatelessWidget {
         Positioned(
             top: .01.h,
             bottom: .01.h,
-            left: (70 - getPosition() - 5).w,
+            left: translator.activeLanguageCode == 'en'
+                ? (70 - getPosition() - 5).w
+                : null,
+            right: translator.activeLanguageCode == 'en'
+                ? null
+                : (70 - getPosition() - 5).w,
             //remaining==0?62.1.w:(position).w,
             // height: 5.h,
             child: SvgPicture.asset(

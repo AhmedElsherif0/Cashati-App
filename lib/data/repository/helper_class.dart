@@ -69,10 +69,14 @@ mixin HelperClass {
         .replaceAll("٩", "9");
   }
 
-  String currencyFormat(num currency) => NumberFormat.currency(
-          symbol: translator.activeLanguageCode == 'en' ? 'LE' : 'جم',
-          locale: translator.activeLanguageCode == 'en' ? 'en_US' : 'ar_EG')
-      .format(currency);
+  String currencyFormat(num currency) {
+    final le = translator.activeLanguageCode == 'en' ? 'LE' : '';
+    final result = NumberFormat.currency(
+            symbol: translator.activeLanguageCode == 'en' ? '' : 'جم',
+            locale: translator.activeLanguageCode == 'en' ? 'en_US' : 'ar_EG')
+        .format(currency);
+    return '$result $le';
+  }
 
   Widget onPressDetails(
       int generateIndex, List<TransactionModel> transactions, builderIndex) {
@@ -91,6 +95,7 @@ mixin HelperClass {
       {SwitchWidgets? switchWidgets,
       TransactionModel? transaction,
       PriorityType? priorityType,
+      Color? borderLineColor,
       void Function()? onPress}) {
     switch (switchWidgets) {
       case SwitchWidgets.higherExpenses:
@@ -102,6 +107,7 @@ mixin HelperClass {
         );
       case SwitchWidgets.seeMore:
         return UnderLineTextButton(
+          borderLineColor: borderLineColor!,
           onPressed: onPress,
           text: AppStrings.seeMore.tr(),
         );
@@ -137,7 +143,8 @@ mixin HelperClass {
   String formatDayWeek(DateTime inputDate, String currentLocal) =>
       DateFormat('EEE', currentLocal).format(inputDate.toLocal());
 
-  String daysOfWeekFormat(date,currentLocal)=>DateFormat('EEE',currentLocal).format(date);
+  String daysOfWeekFormat(date, currentLocal) =>
+      DateFormat('EEE', currentLocal).format(date);
 
   String formatWeekDate(DateTime inputDate, String currentLocal) =>
       DateFormat(' MM / yyyy', currentLocal)
