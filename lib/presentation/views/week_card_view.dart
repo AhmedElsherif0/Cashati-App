@@ -65,8 +65,8 @@ class _WeekCardViewEditedState extends State<WeekCardViewEdited> with HelperClas
                               const Spacer(),
                               Text(
                                 currencyFormat(widget.weeksTotals[builderIndex]),
-                                style:
-                                    textTheme.headline5?.copyWith(color: widget.priceColor),
+                                style: textTheme.headline5
+                                    ?.copyWith(color: widget.priceColor),
                               ),
                             ],
                           ),
@@ -75,7 +75,8 @@ class _WeekCardViewEditedState extends State<WeekCardViewEdited> with HelperClas
                             alignment: isEnglish
                                 ? Alignment.centerLeft
                                 : Alignment.centerRight,
-                            child: Text(widget.weekRanges[builderIndex], style: textTheme.subtitle1),
+                            child: Text(widget.weekRanges[builderIndex],
+                                style: textTheme.subtitle1),
                           ),
                           SizedBox(height: 1.h),
                           Row(
@@ -100,12 +101,14 @@ class _WeekCardViewEditedState extends State<WeekCardViewEdited> with HelperClas
                                   Visibility(
                                     visible: true,
                                     child: switchWidgets(
+                                        borderLineColor: AppColor.black,
                                         onPress: () {
                                           print("week index is $builderIndex");
 
                                           widget.onSeeMore(builderIndex);
                                         },
-                                        switchWidgets: widget.seeMoreOrDetailsOrHighest),
+                                        switchWidgets:
+                                            widget.seeMoreOrDetailsOrHighest),
                                   ),
                                 ],
                               ),

@@ -87,6 +87,7 @@ class TransactionCardView extends StatelessWidget with HelperClass {
                     Visibility(
                       visible: isVisible,
                       child: switchWidgets(
+                          borderLineColor: AppColor.black,
                           onPress: onPressSeeMore,
                           switchWidgets: SwitchWidgets.seeMore,
                           transaction: transaction),

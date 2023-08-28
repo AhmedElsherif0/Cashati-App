@@ -78,7 +78,7 @@ class ExpensesAndIncomeHeader extends StatelessWidget {
               CustomTextButton(
                   alignment: alignmentIncomeOrGoals,
                   isVisible: false,
-                  text: AppStrings.incomeSmall.tr(),
+                  text: AppStrings.income.tr(),
                   onPressed: onPressedIncome,
                   textStyle: isExpense
                       ? textTheme.headline6?.copyWith(color: AppColor.pinkishGrey)

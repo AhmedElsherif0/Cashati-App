@@ -54,7 +54,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                       ? CrossAxisAlignment.end
                       : CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 4.h),
+                    SizedBox(height: 2.h),
                     DropDownCustomWidget(
                       dropDownList: goalCubit.goalsFilterDropDown,
                       hint: goalCubit.choseFilter.toLowerCase().tr(),
@@ -69,8 +69,10 @@ class _GoalsScreenState extends State<GoalsScreen> {
                           fontSize: 13.dp,
                           color: AppColor.pineGreen),
                     ),
+                    SizedBox(height: 1.h),
                     Expanded(
                       child: ListView.builder(
+                        padding: EdgeInsets.zero,
                         itemCount: goalCubit.registeredGoals.length,
                         itemBuilder: (context, index) {
                           final GoalRepeatedDetailsModel goal =

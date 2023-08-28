@@ -16,6 +16,14 @@ class AppDecorations {
     border: Border.all(width: 1.dp, color: AppColor.white),
   );
 
+  static BorderRadius rGoalCardBar = BorderRadius.only(
+      topRight: Radius.circular(10.dp),
+      bottomRight: Radius.circular(10.dp));
+
+  static BorderRadius lGoalCardBar = BorderRadius.only(
+      topLeft: Radius.circular(10.dp),
+      bottomLeft: Radius.circular(10.dp));
+
   static BoxDecoration homeCard = BoxDecoration(
       color: AppColor.primaryColor,
       borderRadius: BorderRadius.only(

@@ -35,19 +35,19 @@ class GoalCard extends StatelessWidget with HelperClass {
             decoration: BoxDecoration(
                 color: AppColor.primaryColor, borderRadius: BorderRadius.circular(20)),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  goalName(context, goal.goalName),
+                  GoalName(goalName: goal.goalName),
                   GoalsRichText(
                       title: AppStrings.goalCost.tr(),
                       subTitle: currencyFormat(goal.goalRemainingAmount)),
                   GoalsRichText(
                       title: AppStrings.yourSaving.tr(),
                       subTitle:
-                          '${currencyFormat(goal.goalSaveAmount) }, ${amountRepeat.tr()}'),
+                          '${currencyFormat(goal.goalSaveAmount)}, ${amountRepeat.tr()}'),
                   GoalsRichText(
                       title: AppStrings.beginIn.tr(),
                       subTitle:
@@ -69,7 +69,7 @@ class GoalCard extends StatelessWidget with HelperClass {
             ),
           ),
           Positioned(
-              right: translator.activeLanguageCode == 'en' ? 2.w : 0,
+              right: translator.activeLanguageCode == 'en' ? -70.w : 0,
               left: translator.activeLanguageCode == 'en' ? 0 : -70.w,
               top: 2.h,
               child: Column(
@@ -83,8 +83,15 @@ class GoalCard extends StatelessWidget with HelperClass {
       ),
     );
   }
+}
 
-  Widget goalName(BuildContext context, String goalName) {
+class GoalName extends StatelessWidget {
+  const GoalName({super.key, required this.goalName});
+
+  final String goalName;
+
+  @override
+  Widget build(BuildContext context) {
     return Flexible(
       child: Padding(
         padding: EdgeInsets.only(bottom: 1.0.h),
