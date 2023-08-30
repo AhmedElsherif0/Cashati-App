@@ -193,12 +193,12 @@ class AppConstantList {
     Colors.pink,
     Colors.indigo,
   ];
-  Map<String,String> appBarTitle = {
+  Map<String, String> appBarTitle = {
     'home': 'Home',
-    'confirmPayingToday':'Confirm Paying Today',
-    'statisticsExpenses':'Statistics expenses',
-    'statisticsIncome':'Statistics Income',
-    'settings':'Settings'
+    'confirmPayingToday': 'Confirm Paying Today',
+    'statisticsExpenses': 'Statistics expenses',
+    'statisticsIncome': 'Statistics Income',
+    'settings': 'Settings'
   };
 
   final Map<String, IconData> iconsOfApp = {
@@ -244,5 +244,24 @@ class AppConstantList {
     ),
   ];
 
-  static const List<String> daysFormatList=["All","Fri","Sat","Sun","Mon","Tue","Wed","Thu"];
+  static const List<String> englishDays = [
+    "All",
+    "Fri",
+    "Sat",
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu"
+  ];
+  static const List<String> arabicDays = [
+    "الكل",
+    "الجمعة",
+    "السبت",
+    "الاحد",
+    "الاثنين",
+    "الثلاثاء",
+    "الأربعاء",
+    "الخميس"
+  ];
 }

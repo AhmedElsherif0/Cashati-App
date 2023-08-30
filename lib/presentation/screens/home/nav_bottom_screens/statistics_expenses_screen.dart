@@ -49,7 +49,6 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
   void didUpdateWidget(covariant ExpensesStatisticsScreen oldWidget) {
     context.read<StatisticsCubit>().getTotalExpense();
     context.read<StatisticsCubit>().totalImportantExpenses();
-
     super.didUpdateWidget(oldWidget);
   }
 
@@ -58,7 +57,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     getStatisticsCubit().getExpenses();
     getStatisticsCubit().getTransactionsByMonth(true);
     getStatisticsCubit().getTodayExpenses(true);
-    context.read<StatisticsCubit>().chosenFilterWeekDay="All";
+    context.read<StatisticsCubit>().chosenFilterWeekDay = AppStrings.all.tr();
     super.initState();
   }
 
@@ -94,21 +93,22 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
   //         child: StatisticsDetailsScreen(
   //             index: index, transactions: getStatisticsCubit().weeks[index])));
   _onSeeMoreByWeek(context, index) {
-    print("transactions are ${ getStatisticsCubit().weeks[index]}");
-    print("transactions length is ${ getStatisticsCubit().weeks[index].length}");
+    print("transactions are ${getStatisticsCubit().weeks[index]}");
+    print("transactions length is ${getStatisticsCubit().weeks[index].length}");
     print("index of the 5 weeks is ${index}");
-    if(getStatisticsCubit().weeks[index].isNotEmpty){
-      getStatisticsCubit().chosenFilterWeekDay="All";
+    if (getStatisticsCubit().weeks[index].isNotEmpty) {
+      getStatisticsCubit().chosenFilterWeekDay = AppStrings.all.tr();
 
       Navigator.push(
           context,
           AppRouter.pageBuilderRoute(
               child: StatisticsWeekDetailsScreen(
-                weekRanges:getStatisticsCubit().weekRangeText(),
+                  weekRanges: getStatisticsCubit().weekRangeText(),
                   builderIndex: index,
                   transactions: getStatisticsCubit().weeks[index])));
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("No Expenses in this week.")));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("No Expenses in this week.")));
     }
   }
 
@@ -169,9 +169,11 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                         ),
 
                         /// TabBarView Widgets.
-                         DetailsText(text: AppStrings.filteredBy.tr(),
-                         alignment: translator.activeLanguageCode == 'en'?
-                         Alignment.centerLeft:Alignment.centerRight),
+                        DetailsText(
+                            text: AppStrings.filteredBy.tr(),
+                            alignment: translator.activeLanguageCode == 'en'
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight),
                         Expanded(
                           flex: 32,
                           child: CustomTabBarViewEdited(
@@ -184,9 +186,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                             index: index,
                             pageController: _controller,
                             monthWidget: WeekCardViewEdited(
-                              onSeeMore:  (weekIndex) => _onSeeMoreByWeek(
-                                  context,
-                                  weekIndex),
+                              onSeeMore: (weekIndex) =>
+                                  _onSeeMoreByWeek(context, weekIndex),
                               weekRanges: getStatisticsCubit().weekRangeText(),
                               chosenDay: getStatisticsCubit().chosenDay,
                               weeksTotals: getStatisticsCubit().totalsWeeks,

@@ -33,8 +33,7 @@ class CardHome extends StatelessWidget with HelperClass {
   final Function() onAdd;
 
   String topTransaction(Box<GeneralStatsModel> thisBox) {
-    GeneralStatsModel ourGeneral =
-        thisBox.get(AppStrings.onlyId) ?? generalStatsModel;
+    GeneralStatsModel ourGeneral = thisBox.get(AppStrings.onlyId) ?? generalStatsModel;
     return isExpense
         ? '${ourGeneral.topExpense} ,${currencyFormat(ourGeneral.topExpenseAmount)}'
         : '${ourGeneral.topIncome}, ${currencyFormat(ourGeneral.topIncomeAmount)} ';
@@ -42,7 +41,7 @@ class CardHome extends StatelessWidget with HelperClass {
 
   @override
   Widget build(BuildContext context) {
-    final isEnglish = translator.activeLanguageCode == 'ar';
+    final isEnglish = translator.activeLanguageCode == 'en';
     Hive.isBoxOpen(AppBoxes.generalStatisticsBox);
     final textTheme = Theme.of(context).textTheme;
     return ValueListenableBuilder<Box<GeneralStatsModel>>(
@@ -56,7 +55,7 @@ class CardHome extends StatelessWidget with HelperClass {
             children: [
               /// Show Expense or Income.
               Padding(
-                padding: EdgeInsets.only(top: 42.dp),
+                padding: EdgeInsets.only(top: 13.w),
                 child: DecoratedBox(
                   decoration: AppDecorations.homeCard,
                   child: Padding(
@@ -68,7 +67,7 @@ class CardHome extends StatelessWidget with HelperClass {
                         onPressed: onShow,
                         textStyle: TextStyle(fontSize: 14.dp, color: AppColor.white),
                         decorationColor: AppColor.white,
-                        padding: EdgeInsets.only(left: !isEnglish ? 14.dp : 0),
+                        padding: EdgeInsets.only(left: isEnglish ? 14.dp : 0),
                       ),
                     ),
                   ),
@@ -104,12 +103,8 @@ class CardHome extends StatelessWidget with HelperClass {
                         child: Padding(
                           padding: EdgeInsets.only(
                               top: 14.dp,
-                              right: translator.activeLanguageCode == 'en'
-                                  ? 10.dp
-                                  : 14.dp,
-                              left: translator.activeLanguageCode == 'en'
-                                  ? 14.dp
-                                  : 10.dp,
+                              right: isEnglish ? 10.dp : 14.dp,
+                              left: isEnglish ? 14.dp : 10.dp,
                               bottom: 14.dp),
                           child: Column(
                             children: [
@@ -117,11 +112,10 @@ class CardHome extends StatelessWidget with HelperClass {
                                   height: 20.dp, width: 20.dp),
                               SizedBox(height: 2.h),
                               Center(
-                                child:  Text( topTransaction(box),
-                                    textDirection:
-                                        translator.activeLanguageCode == 'en'
-                                            ? TextDirection.rtl
-                                            : TextDirection.ltr,
+                                child: Text(topTransaction(box),
+                                    textDirection: isEnglish
+                                        ? TextDirection.rtl
+                                        : TextDirection.ltr,
                                     style: textTheme.headline6,
                                     maxLines: 1),
                               ),

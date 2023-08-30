@@ -83,6 +83,8 @@ class TransactionCardView extends StatelessWidget with HelperClass {
                   ],
                 ),
                 Row(
+                  textDirection:isEnglish?
+                  TextDirection.ltr:TextDirection.rtl,
                   children: [
                     Visibility(
                       visible: isVisible,

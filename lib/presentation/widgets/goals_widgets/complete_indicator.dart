@@ -25,6 +25,7 @@ class CompleteIndicatorBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEnglish = translator.activeLanguageCode == 'en';
     print((300 / 1000 * 70).truncate());
     return Stack(
       children: [
@@ -41,7 +42,7 @@ class CompleteIndicatorBar extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: AppColor.darkGrey,
                       border: const Border(right: BorderSide.none),
-                      borderRadius: translator.activeLanguageCode == 'en'
+                      borderRadius: isEnglish
                           ? AppDecorations.lGoalCardBar
                           : AppDecorations.rGoalCardBar),
                 ),
@@ -54,9 +55,9 @@ class CompleteIndicatorBar extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: AppColor.white,
                         border: const Border(left: BorderSide.none),
-                        borderRadius: translator.activeLanguageCode == 'en'
-                            ? AppDecorations.lGoalCardBar
-                            : AppDecorations.rGoalCardBar),
+                        borderRadius: isEnglish
+                            ? AppDecorations.rGoalCardBar
+                            : AppDecorations.lGoalCardBar),
                   ),
                 )
               ],
@@ -66,12 +67,8 @@ class CompleteIndicatorBar extends StatelessWidget {
         Positioned(
             top: .01.h,
             bottom: .01.h,
-            left: translator.activeLanguageCode == 'en'
-                ? (70 - getPosition() - 5).w
-                : null,
-            right: translator.activeLanguageCode == 'en'
-                ? null
-                : (70 - getPosition() - 5).w,
+            left: isEnglish ? (70 - getPosition() - 5).w : null,
+            right: isEnglish ? null : (70 - getPosition() - 5).w,
             //remaining==0?62.1.w:(position).w,
             // height: 5.h,
             child: SvgPicture.asset(

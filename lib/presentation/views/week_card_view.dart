@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_images.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/repository/helper_class.dart';
@@ -38,7 +39,7 @@ class _WeekCardViewEditedState extends State<WeekCardViewEdited> with HelperClas
     final textTheme = Theme.of(context).textTheme;
     final isEnglish = translator.activeLanguageCode == 'en';
     return widget.weeksTotals.every((element) => element == 0)
-        ? Image.asset(AppIcons.noDataCate)
+        ? Image.asset(AppImages.noDataCate)
         : ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: widget.weeksTotals.length,

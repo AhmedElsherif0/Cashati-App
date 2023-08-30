@@ -1,11 +1,7 @@
 class AppIcons {
   static const String icons = 'assets/icons';
-  static const String images = 'assets/images';
 
-  /// On Boarding
-  static const String onBoarding2 = '$images/on_boarding/on_boarding2.png';
-  static const String onBoarding1 = '$images/on_boarding/onboarding_1.png';
-  static const String onBoarding3 = '$images/on_boarding/on_boarding3.png';
+
   static const String cashatiLogoSVG = '$icons/cashati_logo.svg';
   static const String backWordArrow = '$icons/arrow-backWord.svg';
 
@@ -15,7 +11,6 @@ class AppIcons {
   static const String englishLang = '$icons/languageSettingIcon.svg';
   static const String arabicLang = '$icons/arabic_lang.svg';
   static const String currencySettings = '$icons/currencySettingsIcon.svg';
-  static const String noDataCate = 'assets/images/No data-cuate 1.png';
 
   /// Nav Bar Item Icons.
   static const String navDollarSign = '$icons/nav_bottom/dollar.svg';
@@ -38,7 +33,7 @@ class AppIcons {
   static const String blockedCash = '$confirmAssets/blocked_cash.svg';
 
   /// Categories Icons.
-  static const String categoryIcon = 'assets/icons/categories/categoryIcon.svg';
+  static const String categoryIcon = '$icons/categories/categoryIcon.svg';
 
   /// add income or expense icons
   static const String amountIcon = '$icons/amountIcon.svg';
@@ -60,9 +55,8 @@ class AppIcons {
   static const String moneyAppBar = '$icons/app_bar/emoji.svg';
 
   ///Goal Images
-  static const String goalNote = 'assets/images/goalNote.png';
+
   static const String loading1 = "$icons/on_boarding/loading1.gif";
-  static const String savingMoney = 'assets/images/SavingMoney.png';
   static const String medalStar = '$icons/medalStar.svg';
   static const String dollarCircle = '$icons/dollar-circle.svg';
   static const String cartAdd = '$icons/cartAdd.svg';

@@ -32,108 +32,136 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
   final int builderIndex;
 
   String appTitle(index) {
-    final transactionType = transactions[0].isExpense
-        ? AppStrings.expenses.tr()
-        : AppStrings.income.tr();
+    final transactionType =
+        transactions[0].isExpense ? AppStrings.expenses.tr() : AppStrings.income.tr();
     return translator.activeLanguageCode == 'en'
         ? '${'the'.tr()} ${AppStrings.week.tr()} $transactionType'
         : '$transactionType ${'the'.tr()}${AppStrings.week.tr()}';
   }
 
+  /*List<DropdownMenuItem<String>> getDropDown() {
+
+  }*/
+
+  bool isAll(context) {
+    final val = BlocProvider.of<StatisticsCubit>(context).chosenFilterWeekDay;
+    return val == "All" || val == "الكل";
+  }
+
   @override
   Widget build(BuildContext context) {
-    
+    final statisticsCubit = context.read<StatisticsCubit>();
     final theme = Theme.of(context);
     // final dateTime = getWeekRange(chosenDay: transactions[builderIndex].createdDate)[builderIndex];
     final dateTime = weekRanges[builderIndex];
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<StatisticsCubit, StatisticsState>(
-  builder: (context, state) {
-    return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-
-            CustomAppBar(title: appTitle(builderIndex), isEndIconVisible: false),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(dateTime, style: theme.textTheme.headline6,overflow: TextOverflow.ellipsis),
-                  SizedBox(width: 20,),
-                  Expanded(
-                    child: SizedBox(
-
-                      child: DropDownCustomWidget(
-                        iconHeight: 1.h,
-                        isExpanded: true,
-                          value: context.read<StatisticsCubit>().chosenFilterWeekDay,
-                          dropDownList: AppConstantList.daysFormatList.map((e) {
-                            return DropdownMenuItem<String>(child: Text(e),value: e);
-                          }).toList(), hint: "Choose Day", leadingIcon: AppIcons.dateIcon, onChangedFunc: (val){
-                        context.read<StatisticsCubit>().filterWeekTransactionsByDay(dayName: val, weekTransactions: transactions);
-                      }),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            Expanded(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+          builder: (context, state) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                CustomAppBar(
+                  title: appTitle(builderIndex),
+                  isEndIconVisible: false,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const PriorityWidget(),
-                      PriorityWidget(
-                          text: PriorityType.NotImportant.name,
-                          color: AppColor.pinkishGrey)
+                      Text(dateTime,
+                          style: theme.textTheme.headline6,
+                          overflow: TextOverflow.ellipsis),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: SizedBox(
+                          child: DropDownCustomWidget(
+                              iconHeight: 1.h,
+                              isExpanded: true,
+                              value: statisticsCubit.chosenFilterWeekDay,
+                              dropDownList: (translator.activeLanguageCode == 'en'
+                                      ? AppConstantList.englishDays
+                                      : AppConstantList.arabicDays)
+                                  .map((e) => DropdownMenuItem<String>(
+                                      value: e, child: Text(e)))
+                                  .toList(),
+                              hint: AppStrings.chooseDay.tr(),
+                              leadingIcon: AppIcons.dateIcon,
+                              onChangedFunc: (val) {
+                                statisticsCubit.filterWeekTransactionsByDay(
+                                    dayName: val, weekTransactions: transactions);
+                              }),
+                        ),
+                      ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            //TODO change empty screen and make it dynamic with any empty Lost
-            Expanded(
-              flex: 8,
-              child: Visibility(
-                visible: context.read<StatisticsCubit>().chosenFilterWeekDay!="All"&&context.read<StatisticsCubit>().transactionsWeekFiltered.isEmpty,
-                child: EmptyScreen(),
-                replacement: ListView.builder(
-                  itemCount: context.read<StatisticsCubit>().chosenFilterWeekDay=="All"?transactions.length
-                  :context.read<StatisticsCubit>().transactionsWeekFiltered.length,
-                  itemBuilder: (_, currIndex) => InkWell(
-                    onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>PartTimeDetails(transactionModel: context.read<StatisticsCubit>().chosenFilterWeekDay=="All"? transactions[currIndex]
-        :context.read<StatisticsCubit>().transactionsWeekFiltered[currIndex], insideIndex: 10))),
-                    child: TransactionsCard(
-                      index: currIndex,
-                      isRepeated: false,
-                      isSeeMore: true,
-                      transactionModel: context.read<StatisticsCubit>().chosenFilterWeekDay=="All"? transactions[currIndex]
-                      :context.read<StatisticsCubit>().transactionsWeekFiltered[currIndex],
-                      priorityName:  context.read<StatisticsCubit>().chosenFilterWeekDay=="All"?transactions[currIndex].isPriority
-                          ? AppStrings.important
-                          : AppStrings.notImportant
-                      :context.read<StatisticsCubit>().transactionsWeekFiltered[currIndex].isPriority
-                          ? AppStrings.important
-                          : AppStrings.notImportant,
-
-                      /// check if this is the higherExpense so show it.
-                      switchWidget: SwitchWidgets.higherExpenses,
-                    ),
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const PriorityWidget(),
+                          PriorityWidget(
+                              text: PriorityType.NotImportant.name,
+                              color: AppColor.pinkishGrey)
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            )
-          ],
-        );
-  },
-),
+                //TODO change empty screen and make it dynamic with any empty Lost
+                Expanded(
+                  flex: 8,
+                  child: Visibility(
+                    visible: !isAll(context) &&
+                        statisticsCubit.transactionsWeekFiltered.isEmpty,
+                    replacement: ListView.builder(
+                      itemCount: isAll(context)
+                          ? transactions.length
+                          : statisticsCubit.transactionsWeekFiltered.length,
+                      itemBuilder: (_, currIndex) => InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => PartTimeDetails(
+                                    transactionModel: isAll(context)
+                                        ? transactions[currIndex]
+                                        : statisticsCubit
+                                            .transactionsWeekFiltered[currIndex],
+                                    insideIndex: 10))),
+                        child: TransactionsCard(
+                          index: currIndex,
+                          isRepeated: false,
+                          isSeeMore: true,
+                          transactionModel: isAll(context)
+                              ? transactions[currIndex]
+                              : statisticsCubit.transactionsWeekFiltered[currIndex],
+                          priorityName: isAll(context)
+                              ? transactions[currIndex].isPriority
+                                  ? AppStrings.important
+                                  : AppStrings.notImportant
+                              : statisticsCubit
+                                      .transactionsWeekFiltered[currIndex].isPriority
+                                  ? AppStrings.important
+                                  : AppStrings.notImportant,
+
+                          /// check if this is the higherExpense so show it.
+                          switchWidget: SwitchWidgets.higherExpenses,
+                        ),
+                      ),
+                    ),
+                    child: const EmptyScreen(),
+                  ),
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }
