@@ -130,6 +130,7 @@ class AppStrings {
 
   /// drop_down_button_dart
   static const String chooseCurrency = 'chooseCurrency'; //Choose Currency
+  static const String chooseDay = 'chooseDay'; //"Choose Day"
   static const String currency = "currency"; //Currency
   static const String all = "all"; //All
   static const String completed = "completed"; //Completed

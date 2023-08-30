@@ -43,8 +43,14 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
 
   }*/
 
+  bool isAll(context) {
+    final val = BlocProvider.of<StatisticsCubit>(context).chosenFilterWeekDay;
+    return val == "All" || val == "الكل";
+  }
+
   @override
   Widget build(BuildContext context) {
+    final statisticsCubit = context.read<StatisticsCubit>();
     final theme = Theme.of(context);
     // final dateTime = getWeekRange(chosenDay: transactions[builderIndex].createdDate)[builderIndex];
     final dateTime = weekRanges[builderIndex];
@@ -55,7 +61,10 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                CustomAppBar(title: appTitle(builderIndex), isEndIconVisible: false),
+                CustomAppBar(
+                  title: appTitle(builderIndex),
+                  isEndIconVisible: false,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
@@ -64,32 +73,30 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
                       Text(dateTime,
                           style: theme.textTheme.headline6,
                           overflow: TextOverflow.ellipsis),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       Expanded(
                         child: SizedBox(
                           child: DropDownCustomWidget(
                               iconHeight: 1.h,
                               isExpanded: true,
-                              value:
-                                  context.read<StatisticsCubit>().chosenFilterWeekDay,
-                              dropDownList: AppConstantList.daysFormatList
+                              value: statisticsCubit.chosenFilterWeekDay,
+                              dropDownList: (translator.activeLanguageCode == 'en'
+                                      ? AppConstantList.englishDays
+                                      : AppConstantList.arabicDays)
                                   .map((e) => DropdownMenuItem<String>(
                                       value: e, child: Text(e)))
                                   .toList(),
-                              hint: "Choose Day",
+                              hint: AppStrings.chooseDay.tr(),
                               leadingIcon: AppIcons.dateIcon,
                               onChangedFunc: (val) {
-                                context
-                                    .read<StatisticsCubit>()
-                                    .filterWeekTransactionsByDay(
-                                        dayName: val, weekTransactions: transactions);
+                                statisticsCubit.filterWeekTransactionsByDay(
+                                    dayName: val, weekTransactions: transactions);
                               }),
                         ),
                       ),
                     ],
                   ),
                 ),
-
                 Expanded(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -111,64 +118,45 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
                 Expanded(
                   flex: 8,
                   child: Visibility(
-                    visible:
-                        context.read<StatisticsCubit>().chosenFilterWeekDay != "All" &&
-                            context
-                                .read<StatisticsCubit>()
-                                .transactionsWeekFiltered
-                                .isEmpty,
-                    child: EmptyScreen(),
+                    visible: !isAll(context) &&
+                        statisticsCubit.transactionsWeekFiltered.isEmpty,
                     replacement: ListView.builder(
-                      itemCount:
-                          context.read<StatisticsCubit>().chosenFilterWeekDay == "All"
-                              ? transactions.length
-                              : context
-                                  .read<StatisticsCubit>()
-                                  .transactionsWeekFiltered
-                                  .length,
+                      itemCount: isAll(context)
+                          ? transactions.length
+                          : statisticsCubit.transactionsWeekFiltered.length,
                       itemBuilder: (_, currIndex) => InkWell(
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (_) => PartTimeDetails(
-                                    transactionModel: context
-                                                .read<StatisticsCubit>()
-                                                .chosenFilterWeekDay ==
-                                            "All"
-                                        ? transactions[currIndex]
-                                        : context
-                                            .read<StatisticsCubit>()
-                                            .transactionsWeekFiltered[currIndex],
+                                    transactionModel:
+                                        statisticsCubit.chosenFilterWeekDay == "All"
+                                            ? transactions[currIndex]
+                                            : statisticsCubit
+                                                .transactionsWeekFiltered[currIndex],
                                     insideIndex: 10))),
                         child: TransactionsCard(
                           index: currIndex,
                           isRepeated: false,
                           isSeeMore: true,
-                          transactionModel:
-                              context.read<StatisticsCubit>().chosenFilterWeekDay ==
-                                      "All"
-                                  ? transactions[currIndex]
-                                  : context
-                                      .read<StatisticsCubit>()
-                                      .transactionsWeekFiltered[currIndex],
-                          priorityName:
-                              context.read<StatisticsCubit>().chosenFilterWeekDay ==
-                                      "All"
-                                  ? transactions[currIndex].isPriority
-                                      ? AppStrings.important
-                                      : AppStrings.notImportant
-                                  : context
-                                          .read<StatisticsCubit>()
-                                          .transactionsWeekFiltered[currIndex]
-                                          .isPriority
-                                      ? AppStrings.important
-                                      : AppStrings.notImportant,
+                          transactionModel: isAll(context)
+                              ? transactions[currIndex]
+                              : statisticsCubit.transactionsWeekFiltered[currIndex],
+                          priorityName: isAll(context)
+                              ? transactions[currIndex].isPriority
+                                  ? AppStrings.important
+                                  : AppStrings.notImportant
+                              : statisticsCubit
+                                      .transactionsWeekFiltered[currIndex].isPriority
+                                  ? AppStrings.important
+                                  : AppStrings.notImportant,
 
                           /// check if this is the higherExpense so show it.
                           switchWidget: SwitchWidgets.higherExpenses,
                         ),
                       ),
                     ),
+                    child: const EmptyScreen(),
                   ),
                 )
               ],

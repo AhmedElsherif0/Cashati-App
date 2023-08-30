@@ -5,6 +5,8 @@ import 'package:temp/business_logic/repository/transactions_repo/transaction_rep
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
 
+import '../../../constants/app_strings.dart';
+
 part 'statistics_state.dart';
 
 class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
@@ -21,7 +23,7 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   int currentIndex = 0;
   int transactionIndex = 0;
   List<TransactionModel> transactionsWeekFiltered = [];
-  String chosenFilterWeekDay = "All";
+  String chosenFilterWeekDay = AppStrings.all.tr();
 
   /// 1- count the total.\
 
@@ -123,7 +125,9 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
     chosenDay = dateTime;
     emit(ChoseDateSucc());
   }
-  filterWeekTransactionsByDay({required String dayName,required List<TransactionModel> weekTransactions}){
+
+  filterWeekTransactionsByDay(
+      {required String dayName, required List<TransactionModel> weekTransactions}) {
     //TODO check day name in arabic and english and handle it
     transactionsWeekFiltered = weekTransactions
         .where((element) =>
