@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_images.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/transaction_card.dart';
@@ -104,7 +105,7 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
                       controller: tabController,
                       children: List.generate(tabController.length, (index) {
                         return widget.transactions.isEmpty
-                            ? Image.asset(AppIcons.noDataCate)
+                            ? Image.asset(AppImages.noDataCate)
                             : ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: widget.transactions.length,

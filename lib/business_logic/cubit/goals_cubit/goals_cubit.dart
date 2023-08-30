@@ -13,8 +13,8 @@ part 'goals_state.dart';
 
 class GoalsCubit extends Cubit<GoalsState> {
   GoalsCubit() : super(GoalsInitial());
-  String choseRepeat = 'day';
-  String choseFilter = 'All';
+  String choseRepeat = AppStrings.day.tr();
+  String choseFilter = AppStrings.all.tr();
   DateTime? chosenDate;
   final DateTime today = DateTime.now();
 

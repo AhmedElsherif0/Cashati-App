@@ -129,11 +129,10 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
                             context,
                             MaterialPageRoute(
                                 builder: (_) => PartTimeDetails(
-                                    transactionModel:
-                                        statisticsCubit.chosenFilterWeekDay == "All"
-                                            ? transactions[currIndex]
-                                            : statisticsCubit
-                                                .transactionsWeekFiltered[currIndex],
+                                    transactionModel: isAll(context)
+                                        ? transactions[currIndex]
+                                        : statisticsCubit
+                                            .transactionsWeekFiltered[currIndex],
                                     insideIndex: 10))),
                         child: TransactionsCard(
                           index: currIndex,

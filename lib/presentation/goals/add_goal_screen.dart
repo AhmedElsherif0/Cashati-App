@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
+import 'package:temp/constants/app_images.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
@@ -38,98 +39,100 @@ class _AddGoalScreenState extends State<AddGoalScreen>
   @override
   Widget build(BuildContext context) {
     GoalsCubit goalsCubit = BlocProvider.of<GoalsCubit>(context);
+    final isEnglish = translator.activeLanguageCode == 'en';
     return Scaffold(
         body: Form(
-          key: _addGoalKey,
-          autovalidateMode: AutovalidateMode.disabled,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 6.h,
-                ),
-                 AppBarWithIcon(
-                  titleIcon: AppIcons.moneyAppBar,
-                  titleName: AppStrings.timeToSaveMoney.tr(),
-                  firstIcon: Icons.arrow_back_ios,
-                  actionIcon: '',
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 2.0.h),
-                        const GoalNote(),
-                        SizedBox(height: 1.0.h),
-                        Center(
-                            child: Image.asset(AppIcons.savingMoney,
-                                height: 25.h, width: 70.w)),
-                        SizedBox(height: 2.0.h),
-                        GreenText(text: AppStrings.goal.tr()),
-                        SizedBox(height: 1.0.h),
-                        EditableInfoField(
-                            textEditingController: goalNameCtrl,
-                            hint: AppStrings.buyNewMobile.tr(),
-                            backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
-                            iconName: AppIcons.medalStar),
-                        SizedBox(height: 2.0.h),
-                        GreenText(text: AppStrings.goalCost.tr()),
-                        SizedBox(height: 1.0.h),
-                        EditableInfoField(
-                            textEditingController: goalCostCtrl,
-                            keyboardType: TextInputType.number,
-                            hint: AppStrings.twoThousand.tr(),
-                            backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
-                            iconName: AppIcons.dollarCircle),
-                        SizedBox(height: 2.0.h),
-                        GreenText(text: AppStrings.yourSaving.tr()),
-                        SizedBox(height: 1.0.h),
-                        BlocBuilder<GoalsCubit, GoalsState>(
-                          builder: (context, state) {
-                            return EditableInfoField(
-                              textEditingController: goalSaveRepeatAmount,
-                              keyboardType: TextInputType.number,
-                              hint: AppStrings.fifteen.tr(),
-                              backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
-                              iconName: AppIcons.cartAdd,
-                              trailing: DropDownCustomWidget(
-                                leadingIcon: '',
-                                dropDownList: goalsCubit.dropDownChannelItems,
-                                hint: goalsCubit.choseRepeat.tr(),
-                                isExpanded: false,
-                                value: goalsCubit.choseRepeat.tr(),
-                                backgroundColor: Colors.transparent,
-                                icon: translator.activeLanguageCode == 'en' ? AppIcons
-                                    .forwardArrow :AppIcons.backWordArrow,
-                                onChangedFunc: (value)=> goalsCubit.chooseRepeat(value),
-                              ),
-                            );
-                          },
-                        ),
-                        SizedBox(height: 2.0.h),
-                        GreenText(text: AppStrings.firstSavingDay.tr()),
-                        SizedBox(height: 1.0.h),
-                        chooseDateWidget(goalsCubit),
-                        SizedBox(height: 2.0.h),
-                        CustomElevatedButton(
-                            height: 6.h,
-                            width: 90.w,
-                            borderRadius: 8.dp,
-                            onPressed: () async =>
-                            await validateAndAddGoal(context, goalsCubit),
-                            text: AppStrings.save.tr()),
-                        SizedBox(height: 2.0.h),
-                      ],
-                    ),
-                  ),
-                )
-              ],
+      key: _addGoalKey,
+      autovalidateMode: AutovalidateMode.disabled,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 6.h,
             ),
-          ),
-        ));
+            AppBarWithIcon(
+              titleIcon: AppIcons.moneyAppBar,
+              titleName: AppStrings.timeToSaveMoney.tr(),
+              firstIcon: Icons.arrow_back_ios,
+              actionIcon: '',
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 2.0.h),
+                    const GoalNote(),
+                    SizedBox(height: 1.0.h),
+                    Center(
+                        child: Image.asset(AppImages.savingMoney,
+                            height: 25.h, width: 70.w)),
+                    SizedBox(height: 2.0.h),
+                    GreenText(text: AppStrings.goal.tr()),
+                    SizedBox(height: 1.0.h),
+                    EditableInfoField(
+                        textEditingController: goalNameCtrl,
+                        hint: AppStrings.buyNewMobile.tr(),
+                        backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
+                        iconName: AppIcons.medalStar),
+                    SizedBox(height: 2.0.h),
+                    GreenText(text: AppStrings.goalCost.tr()),
+                    SizedBox(height: 1.0.h),
+                    EditableInfoField(
+                        textEditingController: goalCostCtrl,
+                        keyboardType: TextInputType.number,
+                        hint: AppStrings.twoThousand.tr(),
+                        backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
+                        iconName: AppIcons.dollarCircle),
+                    SizedBox(height: 2.0.h),
+                    GreenText(text: AppStrings.yourSaving.tr()),
+                    SizedBox(height: 1.0.h),
+                    BlocBuilder<GoalsCubit, GoalsState>(
+                      builder: (context, state) {
+                        return EditableInfoField(
+                          textEditingController: goalSaveRepeatAmount,
+                          keyboardType: TextInputType.number,
+                          hint: AppStrings.fifteen.tr(),
+                          backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
+                          iconName: AppIcons.cartAdd,
+                          trailing: DropDownCustomWidget(
+                            leadingIcon: '',
+                            dropDownList: goalsCubit.dropDownChannelItems,
+                            hint: goalsCubit.choseRepeat.tr(),
+                            isExpanded: false,
+                            value: goalsCubit.choseRepeat.tr(),
+                            backgroundColor: Colors.transparent,
+                            icon: isEnglish
+                                ? AppIcons.forwardArrow
+                                : AppIcons.backWordArrow,
+                            onChangedFunc: (value) => goalsCubit.chooseRepeat(value),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 2.0.h),
+                    GreenText(text: AppStrings.firstSavingDay.tr()),
+                    SizedBox(height: 1.0.h),
+                    chooseDateWidget(goalsCubit),
+                    SizedBox(height: 2.0.h),
+                    CustomElevatedButton(
+                        height: 6.h,
+                        width: 90.w,
+                        borderRadius: 8.dp,
+                        onPressed: () async =>
+                            await validateAndAddGoal(context, goalsCubit),
+                        text: AppStrings.save.tr()),
+                    SizedBox(height: 2.0.h),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ));
   }
 
   Widget chooseDateWidget(GoalsCubit goalCubit) {
@@ -137,7 +140,7 @@ class _AddGoalScreenState extends State<AddGoalScreen>
       builder: (context, state) {
         return InkWell(
           onTap: () async {
-           await goalCubit.changeDate(context);
+            await goalCubit.changeDate(context);
             print('Choosed Date is ${goalCubit.chosenDate}');
           },
           child: Container(
@@ -149,9 +152,8 @@ class _AddGoalScreenState extends State<AddGoalScreen>
                 goalCubit.chosenDate == null
                     ? AppStrings.chooseDate.tr()
                     : formatDayDate(
-                    goalCubit.chosenDate!, translator.activeLanguageCode),
-                style: Theme
-                    .of(context)
+                        goalCubit.chosenDate!, translator.activeLanguageCode),
+                style: Theme.of(context)
                     .textTheme
                     .bodyText2!
                     .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
@@ -205,8 +207,8 @@ class _AddGoalScreenState extends State<AddGoalScreen>
 
   showDialogAndNavigate(BuildContext context) {
     Navigator.pop(context);
-    showSuccessfulDialog(context, AppStrings.goalAdded,
-        AppStrings.successfullyConfirmedExpenseFood);
+    showSuccessfulDialog(
+        context, AppStrings.goalAdded, AppStrings.successfullyConfirmedExpenseFood);
     Future.delayed(const Duration(seconds: 1), () {
       // Navigator.pop(context);
       Navigator.pushReplacementNamed(context, AppRouterNames.rGetGoals);

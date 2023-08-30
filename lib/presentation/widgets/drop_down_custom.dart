@@ -18,7 +18,9 @@ class DropDownCustomWidget extends StatefulWidget {
       this.arrowIconColor,
       this.hintStyle,
       required this.onChangedFunc,
-      this.isEnglish = true, this.leadingIconColor ,this.iconHeight})
+      this.isEnglish = true,
+      this.leadingIconColor,
+      this.iconHeight})
       : super(key: key);
   final List<DropdownMenuItem<String>> dropDownList;
   String? value;
@@ -39,6 +41,10 @@ class DropDownCustomWidget extends StatefulWidget {
 }
 
 class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
+
+  bool isLeading() =>
+      widget.leadingIconColor == null || widget.leadingIconColor.toString().isEmpty;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -60,13 +66,10 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
             textDirection:
                 widget.isEnglish ?? true ? TextDirection.ltr : TextDirection.rtl,
             children: [
-              if(widget.leadingIconColor== null)
               SvgPicture.asset(widget.leadingIcon,
-                  height: 20.dp,
-                  color:  widget.leadingIconColor),
-              if(widget.leadingIconColor== null)
-                const SizedBox(width: 10),
-                Text(
+                  height: 20.dp, color: widget.leadingIconColor),
+              if (isLeading()) const SizedBox(width: 10),
+              Text(
                 widget.hint.tr(),
                 style: widget.hintStyle ??
                     Theme.of(context)
@@ -74,10 +77,9 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
                         .bodyText2!
                         .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
               ),
-              if(widget.leadingIconColor!= null)
+              if (!isLeading())
                 SvgPicture.asset(widget.leadingIcon,
-                  height: 20.dp,
-                  color:  widget.leadingIconColor),
+                    height: 20.dp, color: widget.leadingIconColor),
             ],
           ),
           child: Text(
@@ -94,7 +96,7 @@ class _DropDownCustomWidgetState extends State<DropDownCustomWidget> {
         onChanged: (value) => widget.onChangedFunc(value!),
         icon: widget.isExpanded
             ? SvgPicture.asset(widget.icon ?? AppIcons.downArrow,
-                height: widget.iconHeight??16.dp, color: AppColor.primaryColor)
+                height: widget.iconHeight ?? 16.dp, color: AppColor.primaryColor)
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: SvgPicture.asset(widget.icon ?? AppIcons.downArrow,

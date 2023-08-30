@@ -1,4 +1,5 @@
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_images.dart';
 
 import '../../../constants/app_icons.dart';
 
@@ -17,17 +18,16 @@ class OnBoardingModel {
 class OnBoardingData {
   final List<OnBoardingModel> _myData = [
     OnBoardingModel(
-      description: "All- in -one finance tracker",
-      image: AppIcons.onBoarding1,
-      buttonTitle: 'Next',
-    ),
+        description: "All- in -one finance tracker",
+        image: AppImages.onBoarding1,
+        buttonTitle: 'Next'),
     OnBoardingModel(
         description: "Save your money and \n gain points.",
-        image: AppIcons.onBoarding2,
+        image: AppImages.onBoarding2,
         buttonTitle: 'Next'),
     OnBoardingModel(
         description: "Track and analysis your \n  daily expenses.",
-        image: AppIcons.onBoarding3,
+        image: AppImages.onBoarding3,
         buttonTitle: 'Start'),
   ];
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_images.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
 
@@ -126,7 +127,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                   tabController.length,
                   (generateIndex) {
                     return widget.cubit.getRepeatTransactions(generateIndex).isEmpty
-                        ? Image.asset(AppIcons.noDataCate)
+                        ? Image.asset(AppImages.noDataCate)
                         : ListView.builder(
                             padding: EdgeInsets.zero,
                             itemCount: widget.cubit
