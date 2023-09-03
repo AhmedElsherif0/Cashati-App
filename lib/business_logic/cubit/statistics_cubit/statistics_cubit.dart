@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:meta/meta.dart';
@@ -51,6 +53,10 @@ class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
   List<TransactionModel> getExpenses() {
     return _expensesRepository.getTransactionFromTransactionBox();
   }
+
+/*  int highestTransaction() =>
+      _expensesRepository.getTransactionTypeList(currentIndex).indexWhere((element) =>
+          max<int>(element.amount.toInt(), element.amount.toInt()).);*/
 
   Future<void> deleteTransaction(TransactionModel transaction) async {
     byDayList.removeAt(transactionIndex);

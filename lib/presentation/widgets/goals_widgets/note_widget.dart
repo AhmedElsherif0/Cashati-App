@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_images.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/styles/colors.dart';

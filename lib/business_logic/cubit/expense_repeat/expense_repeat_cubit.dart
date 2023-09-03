@@ -16,9 +16,6 @@ class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
     return _expensesRepository.getTransactionTypeList(currentIndex);
   }
 
-  num highestTransaction() => getRepeatTransactions(currentIndex)
-      .reduce((current, next) => current.amount > next.amount ? current : next).amount;
-
   void changePage({required int index}) {
     currentIndex = index;
     emit(ExpenseRepeatScreenState());

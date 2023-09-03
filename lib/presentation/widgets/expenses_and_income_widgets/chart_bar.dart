@@ -91,7 +91,7 @@ class _ChartBarState extends State<ChartBar> with HelperClass {
             alignment: Alignment.bottomCenter,
             child: Transform(
               transform: Matrix4.rotationZ(-65 * pi / 180),
-              child: Text('${widget.percentage} ${weekNum(widget.index + 1)}',
+              child: Text('${widget.percentage} ${weekNum(widget.index)}',
                   style: textTheme),
             ),
           ),
