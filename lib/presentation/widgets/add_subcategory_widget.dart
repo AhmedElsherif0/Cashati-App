@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/presentation/styles/decorations.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 
 import '../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
@@ -37,8 +39,8 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
     if (formKey.currentState!.validate()) {
       print('validated');
       addSubcategoryCubit.filterSubCategory(subCategoryName.text);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Added Successfully')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Center(child: Text('Added Successfully'))));
       Navigator.pushReplacementNamed(
           context, AppRouterNames.rAddExpenseOrIncomeScreen);
     }
@@ -46,6 +48,7 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final isEnglish = translator.activeLanguageCode == 'en';
     AddSubcategoryCubit addSubcategoryCubit =
         BlocProvider.of<AddSubcategoryCubit>(context);
     return BlocListener<AddSubcategoryCubit, AddSubcategoryState>(
@@ -60,74 +63,62 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
         key: formKey,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(
-                top: 44.0, bottom: 44, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(top: 44.0, bottom: 44, left: 24.0, right: 24.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const GreenText(text: AppStrings.mainCategory),
+                GreenText(text: AppStrings.mainCategory.tr()),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 32.0),
                   child: CategoryInfoField(
-                      mainCategoryName: widget.mainCategoryName),
+                      mainCategoryName: widget.mainCategoryName.tr()),
                 ),
-                const GreenText(text:AppStrings.subCategory),
+                GreenText(text: AppStrings.subCategory.tr()),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 32.0),
-                  child:
-                      EditableSubCategField(subCategoryName: subCategoryName),
+                  child: EditableSubCategField(subCategoryName: subCategoryName),
                 ),
-                const GreenText(text: AppStrings.icons),
+                GreenText(text: AppStrings.icons.tr()),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 32.0),
-                  child: Container(
+                  child: SizedBox(
                     height: 100,
                     child: ListView.builder(
-                        //  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 1),
-
-                        itemCount:
-                            addSubcategoryCubit.appList.iconsOfApp.length,
+                        itemCount: addSubcategoryCubit.appList.iconsOfApp.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          String iconNameFromList=addSubcategoryCubit.appList.iconsOfApp.keys.toList()[index];
+                          String iconNameFromList = addSubcategoryCubit
+                              .appList.iconsOfApp.keys
+                              .toList()[index];
                           return InkWell(
                             onTap: () {
-                              addSubcategoryCubit.chooseSubCategory(
-                                  addSubcategoryCubit.appList.iconsOfApp.keys
-                                      .toList()[index]);
+                              addSubcategoryCubit.chooseSubCategory(addSubcategoryCubit
+                                  .appList.iconsOfApp.keys
+                                  .toList()[index]);
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text(
-                                      "${AppStrings.chosenIconName} ${iconNameFromList}, ${AppStrings.currentIconName} ${addSubcategoryCubit.currentIconName}")));
+                                      "${AppStrings.chosenIconName.tr()} $iconNameFromList,"
+                                      " ${AppStrings.currentIconName.tr()}"
+                                      " ${addSubcategoryCubit.currentIconName}")));
                             },
-                            child: BlocBuilder<AddSubcategoryCubit,
-                                AddSubcategoryState>(
+                            child:
+                                BlocBuilder<AddSubcategoryCubit, AddSubcategoryState>(
                               builder: (context, state) {
                                 return Container(
-                                  margin: EdgeInsets.only(right: 20.0),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        addSubcategoryCubit.currentIconName ==
-                                                iconNameFromList
-                                            ? AppColor.primaryColor
-                                            : AppColor.white,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: addSubcategoryCubit
-                                                    .currentIconName ==
-                                            iconNameFromList
-                                            ? AppColor.white
-                                            : AppColor.primaryColor),
-                                  ),
+                                  margin: const EdgeInsets.only(right: 16.0),
+                                  decoration: AppDecorations.subCategory(
+                                      addSubcategoryCubit.currentIconName ==
+                                          iconNameFromList),
                                   child: Padding(
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Icon(
-                                      addSubcategoryCubit.appList.iconsOfApp[iconNameFromList],
-                                      color:
                                       addSubcategoryCubit
-                                          .currentIconName ==
-                                          iconNameFromList
-                                              ? AppColor.white
-                                              : AppColor.primaryColor,
+                                          .appList.iconsOfApp[iconNameFromList],
+                                      color: addSubcategoryCubit.currentIconName ==
+                                              iconNameFromList
+                                          ? AppColor.white
+                                          : AppColor.primaryColor,
                                     ),
                                   ),
                                 );
@@ -138,10 +129,10 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
                   ),
                 ),
                 Align(
-                  alignment: Alignment.centerRight,
+                  alignment: isEnglish ? Alignment.centerRight : Alignment.centerLeft,
                   child: CustomElevatedButton(
                       onPressed: () async => validation(addSubcategoryCubit),
-                      text: AppStrings.save),
+                      text: AppStrings.save.tr()),
                 ),
               ],
             ),
