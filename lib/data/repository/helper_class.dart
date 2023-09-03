@@ -12,6 +12,7 @@ import '../../presentation/widgets/expenses_and_income_widgets/important_or_fixe
 import '../../presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
 mixin HelperClass {
+
   List<String> getWeekRange({required DateTime chosenDay}) {
     int lastDay =
         DateTime(chosenDay.year, chosenDay.month != 12 ? chosenDay.month + 1 : 1, 0)
@@ -33,6 +34,12 @@ mixin HelperClass {
       '$from ${isEnglish('٢٢', '22')}  $to ${isEnglish('٢٨', '28')} ',
       '$from ${isEnglish('٢٩', '29')}  $to ${isEnglish('٣٠', '$lastDay')} ',
     ];
+  }
+  String getMsg(TransactionModel currentExpense) {
+    final isEnglish = translator.activeLanguageCode == 'en';
+    final questionMark = isEnglish ? '?' : '؟';
+    return "${AppStrings.areYouSureYouWantToDelete.tr()}"
+        " ${currentExpense.name} ${AppStrings.permanently.tr()} $questionMark";
   }
 
   String weekNum(index) => translator.activeLanguageCode == 'en'

@@ -5,7 +5,6 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
-import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/setting_card_layout.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
@@ -109,14 +108,13 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
                           globalCubit.isArabic = false;
                           showSettingDialog(
                             context: context,
-                            title: '',
-                            child: ShowLanguageDialog(
-                              onPressOK: () async {
-                                Navigator.of(context).pop(true);
+                            onPressOk: () async {
+                              Navigator.of(context).pop();
+                              if (globalCubit.isEnglish || globalCubit.isArabic) {
                                 await changeLanguageTo(
                                     globalCubit.isEnglish ? 'en' : 'ar', context);
-                              },
-                            ),
+                              }
+                            },
                           );
                         },
                       ),

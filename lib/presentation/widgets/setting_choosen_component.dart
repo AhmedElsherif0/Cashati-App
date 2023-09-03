@@ -20,8 +20,9 @@ class SettingsChosenComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
+    return MaterialButton(
+      highlightColor: AppColor.dividerColor.withOpacity(.5),
+      onPressed: onTap,
       child: DecoratedBox(
         decoration: BoxDecoration(
             color: isPressed

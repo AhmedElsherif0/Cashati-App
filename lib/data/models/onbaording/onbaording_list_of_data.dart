@@ -1,8 +1,6 @@
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_images.dart';
 
-import '../../../constants/app_icons.dart';
-
 class OnBoardingModel {
   final String image;
   final String description;
