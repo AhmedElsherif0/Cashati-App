@@ -154,12 +154,13 @@
   "notifications": "الاشعارات",
   "goalConfirmationSuccess": "تم تأكيد الهدف",
   "threeHours": "٣س",
-  "successfullyConfirmedExpenseFood": "You have Successfully confirmed your expense for food",
+  "successfullyConfirmedExpenseFood": "تم تأكيد نفقاتك الخاصة بالطعام بنجاح",
+  "someThingWentWrong": "هناك خطأ ما",
   "addTransaction": "اضافة معاملة",
   "Home": "المنزل",
   "Personal": "شخصية",
   "Business": "العمل",
   "Variable": "متغير",
   "Fixed": "ثابت",
-  "emptyShow": "البيانات فارغة"
+  "emptyShow": "البيانات فارغة",
 }

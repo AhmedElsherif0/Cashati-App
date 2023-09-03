@@ -135,6 +135,7 @@ class AppStrings {
   static const String all = "all"; //All
   static const String completed = "completed"; //Completed
   static const String unCompleted = "unCompleted"; //UnCompleted
+  static const String someThingWentWrong = "someThingWentWrong"; //UnCompleted
 
   /// goal_card.dart
   static const String goalCost = 'goalCost'; //Goal Cost
