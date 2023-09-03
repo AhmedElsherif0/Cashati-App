@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
@@ -12,7 +10,6 @@ import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
-import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/app_bars/app_bar_with_icon.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
@@ -195,7 +192,9 @@ class _AddGoalScreenState extends State<AddGoalScreen>
           context: context,
           onPressedYesFunction: () async {
             await goalCubit.addGoal(goalModel: goalModel).then((_) {
-              showDialogAndNavigate(context);
+              showSuccessSnackBar(context);
+            }).onError((error, stackTrace) {
+              showErrorSnackBar(context);
             });
           },
           onPressedNoFunction: () => Navigator.of(context).pop(),
@@ -205,13 +204,20 @@ class _AddGoalScreenState extends State<AddGoalScreen>
     }
   }
 
-  showDialogAndNavigate(BuildContext context) {
-    Navigator.pop(context);
-    showSuccessfulDialog(
-        context, AppStrings.goalAdded, AppStrings.successfullyConfirmedExpenseFood);
-    Future.delayed(const Duration(seconds: 1), () {
-      // Navigator.pop(context);
-      Navigator.pushReplacementNamed(context, AppRouterNames.rGetGoals);
-    });
+  void showErrorSnackBar(BuildContext context) {
+    Navigator.of(context).pop();
+    errorSnackBar(context: context, message: AppStrings.someThingWentWrong.tr());
+  }
+
+  void showSuccessSnackBar(BuildContext context) {
+    Navigator.of(context).pop();
+    successSnackBar(
+        context: context, message: AppStrings.successfullyConfirmedExpenseFood.tr());
+
+    /*showSuccessfulDialog(
+        context, AppStrings.goalAdded, AppStrings.successfullyConfirmedExpenseFood);*/
+    /* Future.microtask(() =>
+        Navigator.pushReplacementNamed(context, AppRouterNames.rGetGoals)
+    );*/
   }
 }

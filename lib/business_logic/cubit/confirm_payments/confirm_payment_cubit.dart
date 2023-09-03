@@ -87,7 +87,7 @@ class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
     emit(ChangedAmountState());
   }
 
-  onDeleteTransaction(TransactionModel transactionModel, BuildContext context) async {
+  Future<void> onDeleteTransaction(TransactionModel transactionModel) async {
     try {
       await transactionRep.deleteTransactionPermanently(transactionModel);
       if (transactionModel.isExpense) {
@@ -95,12 +95,7 @@ class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
       } else {
         allTodayListIncome.remove(transactionModel);
       }
-      context
-          .read<HomeCubit>()
-          .notificationList!
-          .removeWhere((element) => element.modelName == transactionModel.name);
-
-      emit(DeletedTransactionSucc());
+      emit(DeletedTransactionSuccess());
     } catch (error) {
       emit(DeletedTransactionFailure());
     }

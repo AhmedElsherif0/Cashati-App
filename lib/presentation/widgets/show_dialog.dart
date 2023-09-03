@@ -5,227 +5,244 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/presentation/styles/decorations.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
-import 'package:temp/presentation/widgets/setting_choosen_component.dart';
+import 'package:vector_math/vector_math.dart' as math;
 import '../../constants/app_icons.dart';
+import '../screens/home/nav_bottom_screens/settings_screen.dart';
 import '../styles/colors.dart';
-import 'custom_painter_dialog.dart';
 import 'buttons/custom_text_button.dart';
+import 'custom_painter_dialog.dart';
 
 mixin AlertDialogMixin {
-  AlertDialog newAmountDialog(
-      {required double amount,
-      required Function onUpdate,
-      required BuildContext context,
-      required TextEditingController changedAmountCtrl}) {
-    return AlertDialog(
-      title: const Text(AppStrings.updatePaidAmount),
-      content: TextFormField(
-        keyboardType: TextInputType.number,
-        controller: changedAmountCtrl,
-        decoration:
-            InputDecoration(hintText: "$amount", labelText: AppStrings.paidAmount),
+  void _initSnackBar({context, message, Color backGroundColor = Colors.red}) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Center(
+        child: Text(message,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: AppColor.white)),
       ),
-      actions: [
-        CustomElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            text: AppStrings.cancel.tr()),
-        CustomElevatedButton(
-            onPressed: () {
-              onUpdate();
-              Navigator.of(context).pop();
-            },
-            text: AppStrings.update.tr()),
-      ],
-    );
+      duration: const Duration(milliseconds: 2500),
+      backgroundColor: backGroundColor,
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+    ));
   }
 
-  AlertDialog showYesOrNoDialog(
-      {required String title,
-      required String message,
-      required Function onYes,
-      required Function onNo,
-      required BuildContext context}) {
-    return AlertDialog(
-      title: Text(title),
-      content: Text(message),
-      actions: [
-        CustomElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              onYes();
-            },
-            text: AppStrings.yes.tr()),
-        CustomElevatedButton(
-            onPressed: () {
-              onNo();
-              Navigator.of(context).pop();
-            },
-            text: AppStrings.no.tr()),
-      ],
-    );
-  }
+  void errorSnackBar({required BuildContext context, required String message}) =>
+      _initSnackBar(context: context, message: message);
 
-  void showSuccessfulDialog(BuildContext context, String title, String message) {
-    bool isEnglish = translator.activeLanguageCode == 'en';
-    _customAlertDialog(
-      context: context,
-      title: title,
-      actionButton: [
-        DecoratedBox(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.dp)),
-          child: SizedBox(
-            height: 40.h,
-            width: 80.w,
-            child: Center(
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 4,
-                    child: SvgPicture.asset('assets/icons/successfully_added.svg'),
-                  ),
-                  const Spacer(flex: 3),
-                  Expanded(
-                    flex: 4,
-                    child: Wrap(
-                      children: [
-                        Text(message, style: Theme.of(context).textTheme.headline4)
-                      ],
-                    ),
-                  ),
-                  CustomTextButton(
-                    alignment:
-                        isEnglish ? Alignment.bottomRight : Alignment.bottomLeft,
-                    icon: Icons.arrow_back_ios,
-                    onPressed: () => Navigator.of(context).pop(),
-                    text: AppStrings.back,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
+  void successSnackBar({required BuildContext context, required String message}) =>
+      _initSnackBar(
+          context: context, message: message, backGroundColor: AppColor.mintGreen);
 
-  void showSettingDialog(
-      {required BuildContext context, required String title, required Widget child}) {
-    _customAlertDialog(context: context, title: title, actionButton: [
-      DecoratedBox(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.dp)),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 1200),
-          curve: Curves.easeInToLinear,
-          height: 50.h,
-          width: 70.w,
-          child: Center(child: child),
-        ),
-      )
-    ]);
-  }
-
-  void showSuccessfulDialogNoOptions(
-      BuildContext context, String title, String message) {
-    _customAlertDialog(
-      context: context,
-      title: title,
-      actionButton: [
-        DecoratedBox(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.dp)),
-          child: AnimatedContainer(
-            //  transform: Matrix4.rotationY(30),
-            duration: const Duration(milliseconds: 400),
-            curve: Curves.easeInToLinear,
-            height: 30.h,
-            width: 70.w,
-            child: Center(
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: SvgPicture.asset('assets/icons/successfully_added.svg'),
-                  ),
-                  const Spacer(flex: 2),
-                  Expanded(
-                    flex: 3,
-                    child: Wrap(
-                      children: [
-                        Text(message, style: Theme.of(context).textTheme.headline4)
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  void showLoadingDialog(BuildContext context) {
-    showGeneralDialog(
+  Future<void> _initAnimationDialog(
+      {context, child, AnimatedWidget? transition}) async {
+    await showGeneralDialog(
         context: context,
         barrierDismissible: true,
         barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
         barrierColor: Colors.black45,
-        transitionDuration: const Duration(milliseconds: 200),
+        transitionBuilder: (ctx, a1, a2, child) {
+          return transition ??
+              SlideTransition(
+                  position: Tween(begin: const Offset(1, 0), end: const Offset(0, 0))
+                      .animate(a1),
+                  child: child
+
+                  /// if you need to rotate Transitions.
+                  // angle: math.radians(a1.value * 360),
+                  /// if you need to scale Transitions.
+                  //  offset: const Offset(0.1, -15.0),
+                  );
+        },
+        transitionDuration: AppDecorations.duration600ms,
         pageBuilder: (BuildContext buildContext, Animation animation,
-            Animation secondaryAnimation) {
-          return Center(
-            child: Container(
-              color: Colors.white,
+                Animation secondaryAnimation) =>
+            child);
+  }
+
+  Future<void> newAmountDialog(
+      {required double amount,
+      required Function onUpdate,
+      required BuildContext context,
+      required TextEditingController changedAmountCtrl}) {
+    return _initAnimationDialog(
+        context: context,
+        child: Center(
+          child: DecoratedBox(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            child: AlertDialog(
+              title: const Text(AppStrings.updatePaidAmount),
+              content: TextFormField(
+                keyboardType: TextInputType.number,
+                controller: changedAmountCtrl,
+                decoration: InputDecoration(
+                    hintText: "$amount", labelText: AppStrings.paidAmount),
+              ),
+              actions: [
+                CustomElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    text: AppStrings.cancel.tr()),
+                CustomElevatedButton(
+                    onPressed: () => onUpdate().Navigator.of(context).pop(),
+                    text: AppStrings.update.tr()),
+              ],
+            ),
+          ),
+        ));
+  }
+
+  Future<void> showYesOrNoDialog(
+      {required String title,
+      required String message,
+      required Function onYes,
+      Function? onNo,
+      required BuildContext context}) {
+    return _initAnimationDialog(
+      context: context,
+      child: Center(
+        child: AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            CustomElevatedButton(
+                onPressed: () => [onYes(), Navigator.of(context).pop()],
+                text: AppStrings.yes.tr()),
+            CustomElevatedButton(
+                onPressed: () => [onNo ?? () {}, Navigator.of(context).pop()],
+                text: AppStrings.no.tr()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> showSuccessfulDialog(
+      BuildContext context, String title, String message) async {
+    bool isEnglish = translator.activeLanguageCode == 'en';
+    await _initAnimationDialog(
+        context: context,
+        child: Center(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.dp), color: AppColor.white),
+            child: SizedBox(
+              height: 40.h,
+              width: 80.w,
               child: Center(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(AppStrings.loading,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline3
-                            ?.copyWith(letterSpacing: 3)),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(AppStrings.back),
+                    Expanded(
+                      flex: 4,
+                      child: SvgPicture.asset('assets/icons/successfully_added.svg'),
+                    ),
+                    const Spacer(flex: 3),
+                    Expanded(
+                      flex: 4,
+                      child: Wrap(
+                        children: [
+                          Text(message, style: Theme.of(context).textTheme.headline4)
+                        ],
+                      ),
+                    ),
+                    CustomTextButton(
+                      alignment:
+                          isEnglish ? Alignment.bottomRight : Alignment.bottomLeft,
+                      icon: Icons.arrow_back_ios,
+                      onPressed: () => Navigator.of(context).pop(),
+                      text: AppStrings.back,
                     ),
                   ],
                 ),
               ),
             ),
-          );
-        });
+          ),
+        ));
   }
 
-  void showLogoutDialog(String title, BuildContext context, String message,
-      {required void Function() onPressed}) {
-    _customAlertDialog(
-      context: context,
-      title: title,
-      actionButton: [
-        Wrap(children: [
-          Text(
-            message,
-            style: const TextStyle(
-                fontWeight: FontWeight.w500, color: AppColor.primaryColor),
-          )
-        ]),
-        Row(
-          children: [
-            CustomTextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              text: AppStrings.notYet,
+  Future<void> showSettingDialog(
+      {required BuildContext context, required void Function() onPressOk}) async {
+    await _initAnimationDialog(
+        context: context,
+        child: Center(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.dp), color: AppColor.white),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 600),
+              curve: Curves.easeInToLinear,
+              height: 50.h,
+              width: 70.w,
+              child: ShowLanguageDialog(onPressOK: onPressOk),
             ),
-            CustomTextButton(
-              onPressed: onPressed,
-              text: AppStrings.sure,
-            )
-          ],
-        )
-      ],
-    );
+          ),
+        ));
+  }
+
+  Future<void> showSuccessfulDialogNoOptions(
+      BuildContext context, String title, String message) async {
+    await _initAnimationDialog(
+        context: context,
+        child: Center(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.dp), color: AppColor.white),
+            child: AnimatedContainer(
+              //  transform: Matrix4.rotationY(30),
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInToLinear,
+              height: 30.h,
+              width: 70.w,
+              child: Center(
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: SvgPicture.asset('assets/icons/successfully_added.svg'),
+                    ),
+                    const Spacer(flex: 2),
+                    Expanded(
+                      flex: 3,
+                      child: Wrap(
+                        children: [
+                          Text(message, style: Theme.of(context).textTheme.headline4)
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ));
+  }
+
+  Future<void> showLoadingDialog(BuildContext context) async {
+    await _initAnimationDialog(
+        context: context,
+        child: Center(
+          child: DecoratedBox(
+            decoration: const BoxDecoration(color: Colors.white),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(AppStrings.loading.tr(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline3
+                          ?.copyWith(letterSpacing: 3)),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text(AppStrings.back),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 
   /// Goals Dialog ely taaalaaaa3 3eeein omy.
@@ -234,98 +251,12 @@ mixin AlertDialogMixin {
       required Function onPressedYesFunction,
       required Function onPressedNoFunction,
       required String infoMessage}) async {
-    showGeneralDialog(
+    await _initAnimationDialog(
         context: context,
-        barrierDismissible: true,
-        barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-        barrierColor: Colors.black45,
-        transitionDuration: const Duration(milliseconds: 600),
-        pageBuilder: (BuildContext buildContext, Animation animation,
-            Animation secondaryAnimation) {
-          final size = MediaQuery.of(context).size;
-          final textTheme = Theme.of(context).textTheme;
-          return Center(
-            child: SizedBox(
-              height: 40.h,
-              width: 90.w,
-              child: CustomPaint(
-                size: Size(size.width, size.height),
-                painter: RPSCustomPainter(),
-                child: Center(
-                    child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(flex: 4, child: SvgPicture.asset(AppIcons.helloRafiki)),
-                      Flexible(
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                  text: '${AppStrings.youWillAchieveYour.tr()} ',
-                                  style: textTheme.subtitle2
-                                      ?.copyWith(color: AppColor.black)),
-                              TextSpan(
-                                  text: '${AppStrings.yourGoals.tr()} ',
-                                  style: textTheme.headline4),
-                              TextSpan(
-                                text: '${AppStrings.after.tr()} $infoMessage ',
-                                style: textTheme.subtitle2
-                                    ?.copyWith(color: AppColor.black),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(AppStrings.readyToSaveMoney.tr(),
-                          style: textTheme.headline6),
-                      Expanded(
-                        flex: 4,
-                        child: Row(
-                          children: [
-                            const Spacer(),
-                            CustomTextButton(
-                                onPressed: () => onPressedNoFunction(),
-                                text: AppStrings.no.tr(),
-                                isVisible: false,
-                                textStyle: textTheme.headline6
-                                    ?.copyWith(color: AppColor.grey)),
-                            const Spacer(flex: 2),
-                            Expanded(
-                                flex: 9,
-                                child: SvgPicture.asset(AppIcons.magneticIcon)),
-                            const Spacer(flex: 2),
-                            CustomTextButton(
-                                onPressed: () {
-                                  onPressedYesFunction();
-                                },
-                                text: AppStrings.yes.tr(),
-                                isVisible: false),
-                            const Spacer(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
-              ),
-            ),
-          );
-        });
-  }
-
-  errorSnackBar({required BuildContext context, required String message}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColor.white),
-      ),
-      duration: const Duration(seconds: 2),
-      backgroundColor: Colors.red,
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-    ));
+        child: GoalsDialogBody(
+            onPressedNoFunction: onPressedNoFunction,
+            onPressedYesFunction: onPressedYesFunction,
+            infoMessage: infoMessage));
   }
 }
 
@@ -387,5 +318,87 @@ void _customAlertDialog(
       return;
     default:
       assert(false, 'Unexpected platform $defaultTargetPlatform');
+  }
+}
+
+class GoalsDialogBody extends StatelessWidget {
+  const GoalsDialogBody(
+      {super.key,
+      required this.onPressedYesFunction,
+      required this.onPressedNoFunction,
+      required this.infoMessage});
+
+  final Function onPressedYesFunction;
+  final Function onPressedNoFunction;
+  final String infoMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final textTheme = Theme.of(context).textTheme;
+    return Center(
+      child: SizedBox(
+        height: 40.h,
+        width: 90.w,
+        child: CustomPaint(
+          size: Size(size.width, size.height),
+          painter: RPSCustomPainter(),
+          child: Center(
+              child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(flex: 4, child: SvgPicture.asset(AppIcons.helloRafiki)),
+                Flexible(
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text: '${AppStrings.youWillAchieveYour.tr()} ',
+                            style:
+                                textTheme.subtitle2?.copyWith(color: AppColor.black)),
+                        TextSpan(
+                            text: '${AppStrings.yourGoals.tr()} ',
+                            style: textTheme.headline4),
+                        TextSpan(
+                          text: '${AppStrings.after.tr()} $infoMessage ',
+                          style: textTheme.subtitle2?.copyWith(color: AppColor.black),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                Text(AppStrings.readyToSaveMoney.tr(), style: textTheme.headline6),
+                Expanded(
+                  flex: 4,
+                  child: Row(
+                    children: [
+                      const Spacer(),
+                      CustomTextButton(
+                          onPressed: () => onPressedNoFunction(),
+                          text: AppStrings.no.tr(),
+                          isVisible: false,
+                          textStyle:
+                              textTheme.headline6?.copyWith(color: AppColor.grey)),
+                      const Spacer(flex: 2),
+                      Expanded(
+                          flex: 9, child: SvgPicture.asset(AppIcons.magneticIcon)),
+                      const Spacer(flex: 2),
+                      CustomTextButton(
+                          onPressed: () => onPressedYesFunction(),
+                          text: AppStrings.yes.tr(),
+                          isVisible: false),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )),
+        ),
+      ),
+    );
   }
 }

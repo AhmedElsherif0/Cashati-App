@@ -98,7 +98,6 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     print("index of the 5 weeks is ${index}");
     if (getStatisticsCubit().weeks[index].isNotEmpty) {
       getStatisticsCubit().chosenFilterWeekDay = AppStrings.all.tr();
-
       Navigator.push(
           context,
           AppRouter.pageBuilderRoute(

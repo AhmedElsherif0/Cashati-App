@@ -33,12 +33,11 @@ class GoalConfirmCard extends StatelessWidget with AlertDialogMixin {
                 child: ConfirmPayingGoals(
                   goalModel: currentGoal,
                   amount: currentGoal.goalSaveAmount.toDouble(),
+                  //Todo: Doesn't work yet.
                   onDelete: () {},
                   onEditAmount: () {
                     changedAmount.text = currentGoal.goalSaveAmount.toString();
-                    showDialog(
-                        context: context,
-                        builder: (ctx) => newAmountDialog(
+                     newAmountDialog(
                             amount: context.read<ConfirmPaymentCubit>().test[index],
                             onUpdate: () {
                               context.read<ConfirmPaymentCubit>().onChangeAmount(
@@ -47,13 +46,12 @@ class GoalConfirmCard extends StatelessWidget with AlertDialogMixin {
                               currentGoal.goalSaveAmount =
                                   double.parse(changedAmount.text);
                             },
-                            context: ctx,
-                            changedAmountCtrl: changedAmount));
+                            context: context,
+                            changedAmountCtrl: changedAmount);
                   },
                   index: index,
                   onCancel: () {
-                    context
-                        .read<ConfirmPaymentCubit>()
+                    context.read<ConfirmPaymentCubit>()
                         .onNoConfirmedGoal(goalModel: currentGoal);
                   },
                   onConfirm: () {
@@ -63,6 +61,7 @@ class GoalConfirmCard extends StatelessWidget with AlertDialogMixin {
                   },
                   changedAmount: 10000,
                   blockedAmount: currentGoal.goalRemainingAmount.toDouble(),
+                  // Todo: what this events For ??!!.
                   onEditBlockedAmount: () {},
                   onEditChangedAmount: () {},
                 ),

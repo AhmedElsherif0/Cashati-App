@@ -4,25 +4,25 @@ import 'colors.dart';
 
 class AppDecorations {
   static const duration600ms = Duration(milliseconds: 600);
+  static const duration400ms = Duration(milliseconds: 400);
 
   static BoxDecoration defBoxDecoration = BoxDecoration(
     color: AppColor.primaryColor,
     borderRadius: BorderRadius.circular(12.dp),
     border: Border.all(width: 1.dp, color: AppColor.primaryColor),
   );
+
   static BoxDecoration dTabBoxDecoration(Color color) => BoxDecoration(
-    color: color,
-    borderRadius: BorderRadius.circular(12.dp),
-    border: Border.all(width: 1.dp, color: color),
-  );
+        color: color,
+        borderRadius: BorderRadius.circular(12.dp),
+        border: Border.all(width: 1.dp, color: color),
+      );
 
   static BorderRadius rGoalCardBar = BorderRadius.only(
-      topRight: Radius.circular(10.dp),
-      bottomRight: Radius.circular(10.dp));
+      topRight: Radius.circular(10.dp), bottomRight: Radius.circular(10.dp));
 
   static BorderRadius lGoalCardBar = BorderRadius.only(
-      topLeft: Radius.circular(10.dp),
-      bottomLeft: Radius.circular(10.dp));
+      topLeft: Radius.circular(10.dp), bottomLeft: Radius.circular(10.dp));
 
   static BoxDecoration homeCard = BoxDecoration(
       color: AppColor.primaryColor,
@@ -46,15 +46,9 @@ class AppDecorations {
   static BorderRadius liftDrawer = BorderRadius.only(
       bottomRight: Radius.circular(20.dp), topRight: Radius.circular(20.dp));
 
-  static BoxDecoration subCategory(bool isEqual)=>
-      BoxDecoration(
-        color: isEqual
-            ? AppColor.primaryColor
-            : AppColor.white,
+  static BoxDecoration subCategory(bool isEqual) => BoxDecoration(
+        color: isEqual ? AppColor.primaryColor : AppColor.white,
         shape: BoxShape.circle,
-        border: Border.all(
-            color: isEqual
-                ? AppColor.white
-                : AppColor.primaryColor),
+        border: Border.all(color: isEqual ? AppColor.white : AppColor.primaryColor),
       );
 }

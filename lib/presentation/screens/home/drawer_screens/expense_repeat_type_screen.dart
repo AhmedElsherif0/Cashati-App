@@ -7,7 +7,6 @@ import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
 
 import '../../../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
-import '../../../../constants/app_icons.dart';
 import '../../../../constants/enum_classes.dart';
 import '../../../router/app_router.dart';
 import '../../../styles/colors.dart';
@@ -22,7 +21,8 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final expenseCubit = BlocProvider.of<ExpenseRepeatCubit>(context);
-    return TransactionRepeatWidget(cubit: expenseCubit, appBarText: AppStrings.expenseRepeat);
+    return TransactionRepeatWidget(
+        cubit: expenseCubit, appBarText: AppStrings.expenseRepeat);
   }
 }
 
@@ -56,8 +56,16 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
 
   void onSwap({required int index}) {
     tabController.animateTo(index,
-        duration: const Duration(milliseconds: 600), curve: Curves.easeOut);
+        duration: AppDecorations.duration600ms, curve: Curves.easeOut);
   }
+
+  void onSeeMore(context, generateIndex, indexBuilder) => Navigator.push(
+        context,
+        AppRouter.pageBuilderRoute(
+          child: onPressDetails(generateIndex,
+              widget.cubit.getRepeatTransactions(generateIndex), indexBuilder),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -115,9 +123,11 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
         body: Column(
           children: [
             SizedBox(height: 1.h),
-             DetailsText(text: AppStrings.details.tr(),
-             alignment:  translator.activeLanguageCode == 'en'?
-                 Alignment.centerLeft:Alignment.centerRight),
+            DetailsText(
+                text: AppStrings.details.tr(),
+                alignment: translator.activeLanguageCode == 'en'
+                    ? Alignment.centerLeft
+                    : Alignment.centerRight),
             SizedBox(height: 2.h),
             Expanded(
               child: TabBarView(
@@ -131,18 +141,12 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                         : ListView.builder(
                             padding: EdgeInsets.zero,
                             itemCount: widget.cubit
-                                .getRepeatTransactions(generateIndex).length,
-                            itemBuilder: (context, indexBuilder) => TransactionCardView(
-                              onPressSeeMore: () => Navigator.push(
-                                context,
-                                AppRouter.pageBuilderRoute(
-                                  child: onPressDetails(
-                                      generateIndex,
-                                      widget.cubit
-                                          .getRepeatTransactions(generateIndex),
-                                      indexBuilder),
-                                ),
-                              ),
+                                .getRepeatTransactions(generateIndex)
+                                .length,
+                            itemBuilder: (context, indexBuilder) =>
+                                TransactionCardView(
+                              onPressSeeMore: () =>
+                                  onSeeMore(context, generateIndex, indexBuilder),
                               transaction: widget.cubit
                                   .getRepeatTransactions(generateIndex)[indexBuilder],
                               isVisible: true,
