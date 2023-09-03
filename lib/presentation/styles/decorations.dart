@@ -10,10 +10,10 @@ class AppDecorations {
     borderRadius: BorderRadius.circular(12.dp),
     border: Border.all(width: 1.dp, color: AppColor.primaryColor),
   );
-  static BoxDecoration dTabBoxDecoration = BoxDecoration(
-    color: AppColor.white,
+  static BoxDecoration dTabBoxDecoration(Color color) => BoxDecoration(
+    color: color,
     borderRadius: BorderRadius.circular(12.dp),
-    border: Border.all(width: 1.dp, color: AppColor.white),
+    border: Border.all(width: 1.dp, color: color),
   );
 
   static BorderRadius rGoalCardBar = BorderRadius.only(
@@ -45,4 +45,16 @@ class AppDecorations {
 
   static BorderRadius liftDrawer = BorderRadius.only(
       bottomRight: Radius.circular(20.dp), topRight: Radius.circular(20.dp));
+
+  static BoxDecoration subCategory(bool isEqual)=>
+      BoxDecoration(
+        color: isEqual
+            ? AppColor.primaryColor
+            : AppColor.white,
+        shape: BoxShape.circle,
+        border: Border.all(
+            color: isEqual
+                ? AppColor.white
+                : AppColor.primaryColor),
+      );
 }

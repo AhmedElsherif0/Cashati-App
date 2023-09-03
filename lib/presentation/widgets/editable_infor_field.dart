@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
@@ -28,21 +29,17 @@ class _EditableSubCategFieldState extends State<EditableSubCategField> {
           title: TextFormField(
             controller:widget.subCategoryName,
             validator: (value){
-              if(value!.isEmpty){
-                return AppStrings.cantBeEmpty;
-              }else{
-               // widget.subCategoryName=value;
-              }
+              if(value!.isEmpty) return AppStrings.cantBeEmpty.tr();
+
               return null;
             },
-
             cursorColor: AppColor.primaryColor,
             style:  Theme.of(context)
                 .textTheme
                 .bodyText2!
                 .copyWith(fontWeight: FontWeight.w300,),
             decoration: InputDecoration(
-                hintText: AppStrings.writeSubcategoryName,
+                hintText: AppStrings.writeSubcategoryName.tr(),
                 hintStyle: Theme.of(context)
                     .textTheme
                     .bodyText2!
