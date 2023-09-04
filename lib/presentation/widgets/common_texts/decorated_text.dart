@@ -22,7 +22,7 @@ class _DecoratedTextState extends State<DecoratedText> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return SizedBox(
-      height: 5.h,
+      height: 5.5.h,
       width: 30.w,
       child: AnimatedContainer(
         duration: const Duration(seconds: 1),
