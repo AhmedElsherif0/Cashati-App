@@ -13,9 +13,10 @@ class GlobalCubit extends Cubit<GlobalState> {
   bool isEnglish = false;
   bool isArabic = false;
   bool isEnable = false;
-  final bool isLanguage = translator.activeLanguageCode == 'en';
+  bool isLanguage = translator.activeLanguageCode == 'en';
 
   void changeLanguage(bool value) {
+    isLanguage = translator.activeLanguageCode == 'en';
     isEnglish = value;
     languageManager.changeAppLanguage();
     emit(LanguageChangedState());

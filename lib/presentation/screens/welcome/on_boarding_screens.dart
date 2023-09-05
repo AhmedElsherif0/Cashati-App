@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/presentation/styles/decorations.dart';
 
 import '../../../constants/app_strings.dart';
 import '../../../data/local/cache_helper.dart';
@@ -84,7 +85,7 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
                   Expanded(
                     flex: 2,
                     child: Align(
-                      alignment: Alignment.topRight,
+                      alignment: AppDecorations.localizedAlignment,
                       child: TextButton(
                         onPressed: () => onStart(context),
                         child: Text(AppStrings.skip.tr(),
