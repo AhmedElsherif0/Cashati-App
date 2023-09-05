@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'colors.dart';
 
 class AppDecorations {
   static const duration600ms = Duration(milliseconds: 600);
   static const duration400ms = Duration(milliseconds: 400);
+  static const welcomeStops = [0.0, 0.087, 0.90, 1.5];
 
   static BoxDecoration defBoxDecoration = BoxDecoration(
     color: AppColor.primaryColor,
     borderRadius: BorderRadius.circular(12.dp),
     border: Border.all(width: 1.dp, color: AppColor.primaryColor),
   );
+
+  static AlignmentGeometry localizedAlignment = translator.activeLanguageCode == 'en'
+      ? Alignment.topRight
+      : Alignment.topLeft;
 
   static BoxDecoration dTabBoxDecoration(Color color) => BoxDecoration(
         color: color,
