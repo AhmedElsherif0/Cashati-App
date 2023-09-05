@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
@@ -13,19 +12,13 @@ import 'package:temp/presentation/widgets/common_texts/decorated_text.dart';
 import '../../../constants/app_icons.dart';
 import '../../../constants/app_strings.dart';
 import '../../../data/local/cache_helper.dart';
-import '../../styles/colors.dart';
 import '../../widgets/buttons/elevated_button.dart';
 import '../../widgets/expenses_and_income_widgets/drop_down_button.dart';
 import '../../widgets/gradiant_background.dart';
 
-class WelcomeScreen extends StatefulWidget {
+class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
-  @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
-}
-
-class _WelcomeScreenState extends State<WelcomeScreen> {
   void onPressNext(context) async {
     await CacheHelper.saveDataSharedPreference(key: 'onWelcome', value: true);
     Navigator.pushNamed(context, AppRouterNames.rOnBoardingRoute);
