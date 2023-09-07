@@ -119,42 +119,39 @@ mixin AlertDialogMixin {
     );
   }
 
-  Future<void> showSuccessfulDialog(
-      BuildContext context, String title, String message) async {
+  Future<void> showSuccessfulDialog(BuildContext context, String message) async {
     bool isEnglish = translator.activeLanguageCode == 'en';
     await _initAnimationDialog(
         context: context,
         child: Center(
           child: DecoratedBox(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.dp), color: AppColor.white),
+            decoration: AppDecorations.decoratedTextDecoration(radius: 20.dp),
             child: SizedBox(
-              height: 40.h,
+              height: 50.h,
               width: 80.w,
               child: Center(
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: SvgPicture.asset('assets/icons/successfully_added.svg'),
-                    ),
-                    const Spacer(flex: 3),
-                    Expanded(
-                      flex: 4,
-                      child: Wrap(
+                child: Padding(
+                  padding: EdgeInsets.all(12.dp),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.dp),
+                        child: SvgPicture.asset(AppIcons.successfullyAdded),
+                      ),
+                      Wrap(
                         children: [
                           Text(message, style: Theme.of(context).textTheme.headline4)
                         ],
                       ),
-                    ),
-                    CustomTextButton(
-                      alignment:
-                          isEnglish ? Alignment.bottomRight : Alignment.bottomLeft,
-                      icon: Icons.arrow_back_ios,
-                      onPressed: () => Navigator.of(context).pop(),
-                      text: AppStrings.back,
-                    ),
-                  ],
+                      CustomTextButton(
+                        alignment:
+                            isEnglish ? Alignment.bottomRight : Alignment.bottomLeft,
+                        onPressed: () => Navigator.of(context).pop(),
+                        text: AppStrings.back.tr(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -163,56 +160,52 @@ mixin AlertDialogMixin {
   }
 
   Future<void> showSettingDialog(
-      {required BuildContext context, required void Function() onPressOk}) async {
+      {required BuildContext context, Widget? child}) async {
     await _initAnimationDialog(
         context: context,
         child: Center(
           child: DecoratedBox(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.dp), color: AppColor.white),
+            decoration: AppDecorations.decoratedTextDecoration(radius: 20),
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 600),
+              duration: AppDecorations.duration600ms,
               curve: Curves.easeInToLinear,
               height: 50.h,
               width: 70.w,
-              child: ShowLanguageDialog(onPressOK: onPressOk),
+              child: child,
             ),
           ),
         ));
   }
 
   Future<void> showSuccessfulDialogNoOptions(
-      BuildContext context, String title, String message) async {
+      BuildContext context, String message) async {
     await _initAnimationDialog(
         context: context,
         child: Center(
           child: DecoratedBox(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.dp), color: AppColor.white),
-            child: AnimatedContainer(
-              //  transform: Matrix4.rotationY(30),
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeInToLinear,
-              height: 30.h,
-              width: 70.w,
-              child: Center(
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: SvgPicture.asset('assets/icons/successfully_added.svg'),
+            child: Center(
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: SvgPicture.asset('assets/icons/successfully_added.svg'),
+                  ),
+                  const Spacer(flex: 2),
+                  Expanded(
+                    flex: 3,
+                    child: Wrap(
+                      children: [
+                        Text(message, style: Theme.of(context).textTheme.headline4)
+                      ],
                     ),
-                    const Spacer(flex: 2),
-                    Expanded(
-                      flex: 3,
-                      child: Wrap(
-                        children: [
-                          Text(message, style: Theme.of(context).textTheme.headline4)
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  CustomTextButton(
+                    onPressed: () => Navigator.pop(context),
+                    text: AppStrings.back.tr(),
+                  ),
+                ],
               ),
             ),
           ),

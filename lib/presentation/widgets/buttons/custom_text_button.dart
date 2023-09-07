@@ -17,7 +17,7 @@ class CustomTextButton extends StatelessWidget {
       required this.onPressed,
       this.alignment = Alignment.center,
       this.textStyle,
-      this.icon,
+      this.icon =Icons.arrow_back_ios,
       this.isVisible = true})
       : super(key: key);
 

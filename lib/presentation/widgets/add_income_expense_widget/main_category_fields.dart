@@ -71,9 +71,10 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
       .any((element) => element == widget.mainCategoryName);
 
   showSuccessAndNavigate(BuildContext context) {
-    showSuccessfulDialogNoOptions(context, AppStrings.addedSuccessfully, '');
-    Future.delayed(const Duration(seconds: 2),
-        () => Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute));
+    showSuccessfulDialog(context, AppStrings.successfullyAdded.tr());
+    print('Successfully Confirmed');
+
+    //  showSuccessfulDialogNoOptions(context, 'Successfully added');
   }
 
   void showDatePick() async {
@@ -94,10 +95,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
     final isEnglish = translator.activeLanguageCode == 'en';
     return BlocConsumer<AddExpOrIncCubit, AddExpOrIncState>(
       listener: (context, state) {
-        if (state is AddExpOrIncSuccess) {
-          showSuccessAndNavigate(context);
-          BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
-        } else if (state is AddExpOrIncError) {
+        if (state is AddExpOrIncError) {
           errorSnackBar(context: context, message: AppStrings.tryAgain);
         }
       },
@@ -227,6 +225,10 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                                       paymentDate: widget.addExpOrIncCubit.chosenDate
                                           as DateTime),
                                 );
+                                if(state is AddExpOrIncSuccess){
+                                  showSuccessAndNavigate(context);
+                                  BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
+                                }
                                 print(
                                     "chooosen daaaaate is ${widget.addExpOrIncCubit.chosenDate}");
                               },

@@ -7,7 +7,7 @@ import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
-import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
+import 'package:temp/presentation/widgets/buttons/underline_text_button.dart';
 
 import '../styles/colors.dart';
 import '../widgets/buttons/cancel_confirm_text_button.dart';
