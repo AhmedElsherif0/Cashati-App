@@ -38,9 +38,9 @@ class AppDecorations {
   static BoxDecoration languageDecoration = BoxDecoration(
       color: AppColor.veryLightGrey, borderRadius: BorderRadius.circular(16.dp));
 
-  static BoxDecoration decoratedTextDecoration = BoxDecoration(
+  static BoxDecoration decoratedTextDecoration({double radius = 16})=> BoxDecoration(
     color: AppColor.white,
-    borderRadius: BorderRadius.circular(16.dp),
+    borderRadius: BorderRadius.circular(radius.dp),
   );
   static ShapeBorder dropDownCurrency = RoundedRectangleBorder(
       side: const BorderSide(color: AppColor.primaryColor, width: 0.8),

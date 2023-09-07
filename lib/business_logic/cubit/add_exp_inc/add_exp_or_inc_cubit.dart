@@ -223,7 +223,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     try {
       await _incomeRepository.addTransactionToTransactionBox(
           transactionModel: incomeModel);
-      emit(AddExpOrIncSuccess());
+      //emit(AddExpOrIncSuccess());
     } catch (error) {
       print('${error.toString()}');
       emit(AddExpOrIncError());
