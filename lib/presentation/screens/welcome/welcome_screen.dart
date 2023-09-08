@@ -30,7 +30,7 @@ class WelcomeScreen extends StatelessWidget {
     await translator.setNewLanguage(context,
         restart: false, newLanguage: languageCode);
     BlocProvider.of<GlobalCubit>(context)
-        .changeLanguage(translator.activeLanguageCode == 'ar');
+        .onChangeLanguage(translator.activeLanguageCode == 'ar');
     print(translator.activeLanguageCode);
   }
 
@@ -113,7 +113,7 @@ class WelcomeScreen extends StatelessWidget {
                         isDirection: translator.isDirectionRTL(context),
                         items: globalCubit.getCurrency,
                         selectedValue: globalCubit.selectedValue.tr(),
-                        onChange: (value)=> globalCubit.onChanges(value),
+                        onChange: (value)=> globalCubit.onChangeCurrency(value),
                       )
                     ],
                   ),
