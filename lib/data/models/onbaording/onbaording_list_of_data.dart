@@ -47,8 +47,8 @@ class OnBoardingData {
   ];
 
   final List<String> arabicCurrency = [
-    'المصرية',
     'الامريكية',
+    'المصرية',
     /* 'الاوربية',
     'الانجليزية',
     'السعودية',

@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
+import 'package:temp/constants/end_points.dart';
 import 'package:temp/data/models/notifications.dart';
 import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/widgets/gradiant_background.dart';
@@ -27,16 +30,27 @@ class _SplashScreenState extends State<SplashScreen> {
       bool? onBoardingData =
           CacheHelper.getDataFromSharedPreference(key: 'OnBoardDone');
       bool? onWelcome = CacheHelper.getDataFromSharedPreference(key: 'onWelcome');
+      isCurrency();
       debugPrint('onBoarding is = $onBoardingData');
-      if (onBoardingData == null && onWelcome ==null) {
-        Navigator.pushReplacementNamed(context, AppRouterNames.rWelcomeScreen);
-      } else if (onBoardingData == null ) {
-        Navigator.pushReplacementNamed(context, AppRouterNames.rOnBoardingRoute);
-      } else {
-        Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
-      }
+      _whichScreenToNavigate(onBoardingData: onBoardingData, onWelcome: onWelcome);
     });
     _onClickNotify(context);
+  }
+
+  void isCurrency() {
+    final currencyKey = CacheHelper.getDataFromSharedPreference(key: appCurrencyKey);
+    debugPrint('currencyKey is = $currencyKey');
+    if (currencyKey != null) context.read<GlobalCubit>().onChangeCurrency(currencyKey);
+  }
+
+  void _whichScreenToNavigate({onBoardingData, onWelcome}) {
+    if (onBoardingData == null && onWelcome == null) {
+      Navigator.pushReplacementNamed(context, AppRouterNames.rWelcomeScreen);
+    } else if (onBoardingData == null) {
+      Navigator.pushReplacementNamed(context, AppRouterNames.rOnBoardingRoute);
+    } else {
+      Navigator.pushReplacementNamed(context, AppRouterNames.rHomeRoute);
+    }
   }
 
   StreamSubscription _onClickNotify(context) =>

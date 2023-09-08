@@ -16,11 +16,34 @@ import '../../../widgets/setting_list_tile.dart';
 class SettingsScreen extends StatelessWidget with AlertDialogMixin {
   const SettingsScreen({Key? key}) : super(key: key);
 
-  Future<void> changeLanguageTo(String languageCode, context) async {
+  Future<void> _choseLanguage(String languageCode, context) async {
     await translator.setNewLanguage(context,
         restart: false, remember: true, newLanguage: languageCode);
     BlocProvider.of<GlobalCubit>(context)
-        .changeLanguage(translator.activeLanguageCode == languageCode);
+        .onChangeLanguage(translator.activeLanguageCode == languageCode);
+  }
+
+  void onLanguageTap(context, globalCubit) {
+    globalCubit.isEnglish = false;
+    globalCubit.isArabic = false;
+    showSettingDialog(
+      context: context,
+      child: UiDialogComponent(
+        header: '${AppStrings.select.tr()} ${AppStrings.language.tr()}',
+        firstIcon: AppIcons.englishLang,
+        secondIcon: AppIcons.arabicLang,
+        firstTitle: AppStrings.english.tr(),
+        secondTitle: AppStrings.arabic.tr(),
+        onTapFirst: () => globalCubit.swapLangBGColor(true),
+        onTapSecond: () => globalCubit.swapLangBGColor(false),
+        onPressOK: () async {
+          Navigator.of(context).pop();
+          if (globalCubit.isEnglish || globalCubit.isArabic) {
+            await _choseLanguage(globalCubit.isEnglish ? 'en' : 'ar', context);
+          }
+        },
+      ),
+    );
   }
 
   @override
@@ -103,27 +126,38 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
                         title: AppStrings.language.tr(),
                         subtitle: AppStrings.englishSettingUsa.tr(),
                         isTrail: false,
+                        onTap: () => onLanguageTap(context, globalCubit),
+                      ),
+                      const CustomDivider(),
+
+                      /// Currency Card
+                      SettingListTile(
+                        icon: AppIcons.currencySettings,
+                        title: AppStrings.currency.tr(),
+                        subtitle: globalCubit.selectedValue.tr(),
+                        isTrail: false,
                         onTap: () {
                           globalCubit.isEnglish = false;
                           globalCubit.isArabic = false;
                           showSettingDialog(
                             context: context,
-                            onPressOk: () async {
-                              Navigator.of(context).pop();
-                              if (globalCubit.isEnglish || globalCubit.isArabic) {
-                                await changeLanguageTo(
-                                    globalCubit.isEnglish ? 'en' : 'ar', context);
-                              }
-                            },
+                            child: UiDialogComponent(
+                              header:
+                                  '${AppStrings.select.tr()} ${AppStrings.currency.tr()}',
+                              firstTitle: globalCubit.getCurrency[0].tr(),
+                              secondTitle: globalCubit.getCurrency[1].tr(),
+                              onTapFirst: () => globalCubit.swapCurrencyBGColor(true),
+                              onTapSecond: () =>
+                                  globalCubit.swapCurrencyBGColor(false),
+                              onPressOK: () {
+                                Navigator.of(context).pop();
+                                if (globalCubit.isEnglish || globalCubit.isArabic) {
+                                  globalCubit.changeCurrency();
+                                }
+                              },
+                            ),
                           );
                         },
-                      ),
-                      const CustomDivider(),
-                      SettingListTile(
-                        icon: AppIcons.currencySettings,
-                        title: AppStrings.currency.tr(),
-                        subtitle: AppStrings.egp.tr(),
-                        isTrail: false,
                       ),
                     ],
                   ),
@@ -131,7 +165,7 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
                 const SizedBox(height: 10.0),
                 Text(
                   AppStrings.appInfo.tr(),
-                  style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 17),
+                  style: Theme.of(context).textTheme.headline3!
                 ),
               ],
             ),
@@ -142,60 +176,75 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
   }
 }
 
-class ShowLanguageDialog extends StatefulWidget {
-  const ShowLanguageDialog({super.key, required this.onPressOK});
+class UiDialogComponent extends StatelessWidget {
+  const UiDialogComponent({
+    super.key,
+    required this.onPressOK,
+    required this.header,
+    required this.firstTitle,
+    required this.secondTitle,
+    required this.onTapFirst,
+    required this.onTapSecond,
+    this.firstIcon,
+    this.secondIcon,
+  });
 
+  final String firstTitle;
+  final String secondTitle;
+  final String? firstIcon;
+  final String? secondIcon;
+  final void Function() onTapFirst;
+  final void Function() onTapSecond;
   final void Function() onPressOK;
+  final String header;
 
-  @override
-  State<ShowLanguageDialog> createState() => _ShowLanguageDialogState();
-}
-
-class _ShowLanguageDialogState extends State<ShowLanguageDialog> {
   @override
   Widget build(BuildContext context) {
     final globalCubit = BlocProvider.of<GlobalCubit>(context);
     return BlocBuilder<GlobalCubit, GlobalState>(
       builder: (context, state) {
         return Padding(
-          padding: EdgeInsets.all(8.dp),
+          padding: EdgeInsets.symmetric(horizontal: 12.dp, vertical: 16.dp),
           child: Column(
             crossAxisAlignment: globalCubit.isLanguage
                 ? CrossAxisAlignment.end
                 : CrossAxisAlignment.start,
             children: [
-              Text('${AppStrings.select.tr()} ${AppStrings.language.tr()}',
-                  style: Theme.of(context).textTheme.headline3),
+              Align(
+                alignment: globalCubit.isLanguage
+                    ? Alignment.centerRight
+                    : Alignment.centerLeft,
+                child: Text(header, style: Theme.of(context).textTheme.headline5),
+              ),
               const Spacer(),
               Expanded(
                 flex: 8,
-                child: Column(children: [
-                  SettingsChosenComponent(
-                      icon: AppIcons.englishLang,
-                      iconName: AppStrings.english.tr(),
-                      isPressed: globalCubit.isEnglish,
-                      onTap: () {
-                        globalCubit.changeLangBGColor(true);
-                        setState(() {});
-                      }),
-                  const CustomDivider(),
-                  SettingsChosenComponent(
-                      icon: AppIcons.arabicLang,
-                      iconName: AppStrings.arabic.tr(),
-                      isPressed: globalCubit.isArabic,
-                      onTap: () {
-                        globalCubit.changeLangBGColor(false);
-                        setState(() {});
-                      }),
-                  const Spacer(flex: 2),
-                  Row(children: [
-                    CustomTextButton(
-                        text: AppStrings.cancel.tr(),
-                        onPressed: () => Navigator.of(context).pop(false)),
-                    CustomTextButton(
-                        text: AppStrings.ok.tr(), onPressed: widget.onPressOK),
-                  ]),
-                ]),
+                child: Column(
+                  children: [
+                    SettingsChosenComponent(
+                        icon: firstIcon,
+                        iconName: firstTitle,
+                        isPressed: globalCubit.isEnglish,
+                        onTap: onTapFirst),
+                    const CustomDivider(),
+                    SettingsChosenComponent(
+                        icon: secondIcon,
+                        iconName: secondTitle,
+                        isPressed: globalCubit.isArabic,
+                        onTap: onTapSecond),
+                    const Spacer(flex: 2),
+                    Row(
+                      children: [
+                        CustomTextButton(
+                          text: AppStrings.cancel.tr(),
+                          onPressed: () => Navigator.of(context).pop(false),
+                        ),
+                        CustomTextButton(
+                            text: AppStrings.ok.tr(), onPressed: onPressOK),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
