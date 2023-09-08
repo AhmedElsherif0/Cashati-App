@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:meta/meta.dart';
@@ -8,10 +6,11 @@ import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
 
 import '../../../constants/app_strings.dart';
+import '../../../data/repository/formats_mixin.dart';
 
 part 'statistics_state.dart';
 
-class StatisticsCubit extends Cubit<StatisticsState> with HelperClass {
+class StatisticsCubit extends Cubit<StatisticsState> with FormatsMixin, HelperClass {
   StatisticsCubit(this._expensesRepository) : super(StatisticsInitial());
 
   final TransactionRepo _expensesRepository;

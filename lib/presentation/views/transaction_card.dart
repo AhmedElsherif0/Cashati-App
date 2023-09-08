@@ -4,11 +4,12 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import '../../constants/enum_classes.dart';
 import '../../data/models/transactions/transaction_model.dart';
+import '../../data/repository/formats_mixin.dart';
 import '../../data/repository/helper_class.dart';
 import '../styles/colors.dart';
 import '../widgets/expenses_and_income_widgets/important_or_fixed.dart';
 
-class TransactionCardView extends StatelessWidget with HelperClass {
+class TransactionCardView extends StatelessWidget with FormatsMixin,HelperClass {
   const TransactionCardView({
     Key? key,
     required this.transaction,
@@ -52,7 +53,7 @@ class TransactionCardView extends StatelessWidget with HelperClass {
                           overflow: TextOverflow.ellipsis, style: textTheme.headline5),
                     ),
                     Text(
-                      '${currencyFormat(transaction.amount)} ',
+                      '${currencyFormat(context,transaction.amount)} ',
                       style: textTheme.headline5?.copyWith(
                           color: transaction.isExpense
                               ? AppColor.red

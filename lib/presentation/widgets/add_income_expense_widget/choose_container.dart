@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 
 import '../../../constants/app_icons.dart';
-import '../../../data/repository/helper_class.dart';
+import '../../../data/repository/formats_mixin.dart';
 import '../../styles/colors.dart';
 
-class DateChooseContainer extends StatelessWidget with HelperClass{
+class DateChooseContainer extends StatelessWidget with FormatsMixin{
   const DateChooseContainer({
     Key? key,
     required this.dateTime,

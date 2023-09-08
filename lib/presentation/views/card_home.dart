@@ -13,10 +13,11 @@ import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/buttons/dotted_button.dart';
 import 'package:temp/presentation/widgets/buttons/underline_text_button.dart';
 
+import '../../data/repository/formats_mixin.dart';
 import '../styles/colors.dart';
 import '../styles/decorations.dart';
 
-class CardHome extends StatelessWidget with HelperClass {
+class CardHome extends StatelessWidget with FormatsMixin {
   const CardHome({
     Key? key,
     required this.title,
@@ -32,11 +33,11 @@ class CardHome extends StatelessWidget with HelperClass {
   final Function() onShow;
   final Function() onAdd;
 
-  String topTransaction(Box<GeneralStatsModel> thisBox) {
+  String topTransaction(context, Box<GeneralStatsModel> thisBox) {
     GeneralStatsModel ourGeneral = thisBox.get(AppStrings.onlyId) ?? generalStatsModel;
     return isExpense
-        ? '${ourGeneral.topExpense} ,${currencyFormat(ourGeneral.topExpenseAmount)}'
-        : '${ourGeneral.topIncome}, ${currencyFormat(ourGeneral.topIncomeAmount)} ';
+        ? '${ourGeneral.topExpense} ,${currencyFormat(context, ourGeneral.topExpenseAmount)}'
+        : '${ourGeneral.topIncome}, ${currencyFormat(context, ourGeneral.topIncomeAmount)} ';
   }
 
   @override
@@ -112,7 +113,7 @@ class CardHome extends StatelessWidget with HelperClass {
                                   height: 20.dp, width: 20.dp),
                               SizedBox(height: 2.h),
                               Center(
-                                child: Text(topTransaction(box),
+                                child: Text(topTransaction(context,box),
                                     textDirection: isEnglish
                                         ? TextDirection.rtl
                                         : TextDirection.ltr,
@@ -137,8 +138,8 @@ class CardHome extends StatelessWidget with HelperClass {
                     DottedButton(
                         icon: AppIcons.balance,
                         text: ourGeneral.balance == 0
-                            ? '${AppStrings.balance.tr()} ${currencyFormat(0.00)}'
-                            : currencyFormat(ourGeneral.balance).tr(),
+                            ? '${AppStrings.balance.tr()} ${currencyFormat(context,0.00)}'
+                            : currencyFormat(context,ourGeneral.balance).tr(),
                         onPressed: () {}),
                     SizedBox(height: 2.h),
                     DottedButton(

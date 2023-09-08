@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -17,7 +16,7 @@ class CustomTextButton extends StatelessWidget {
       required this.onPressed,
       this.alignment = Alignment.center,
       this.textStyle,
-      this.icon =Icons.arrow_back_ios,
+      this.icon,
       this.isVisible = true})
       : super(key: key);
 

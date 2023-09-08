@@ -5,12 +5,13 @@ import 'package:temp/presentation/styles/decorations.dart';
 
 import '../../styles/colors.dart';
 
-class DefaultDropDownButton extends StatefulWidget {
+class DefaultDropDownButton extends StatelessWidget {
   final Color? iconColor;
   final List<String> items;
   final bool isExpanded;
   final bool isDirection;
   String selectedValue;
+  final void Function(String?) onChange;
 
   DefaultDropDownButton({
     Key? key,
@@ -19,20 +20,17 @@ class DefaultDropDownButton extends StatefulWidget {
     required this.items,
     this.isExpanded = false,
     this.isDirection = true,
+    required this.onChange,
   }) : super(key: key);
 
-  @override
-  State<DefaultDropDownButton> createState() => _DefaultDropDownButtonState();
-}
+  bool get isEqual => selectedValue != AppStrings.chooseCurrency;
 
-class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
-  Color get dropDownColor =>
-      widget.selectedValue != AppStrings.chooseCurrency
-          ? AppColor.white
-          : AppColor.primaryColor;
+  Color get dropDownColor => isEqual ? AppColor.white : AppColor.primaryColor;
+
+  Color get getCardColor => isEqual ? AppColor.primaryColor : AppColor.white;
 
   IconData get iconDirection =>
-      widget.isDirection ? Icons.keyboard_arrow_left : Icons.keyboard_arrow_right;
+      isDirection ? Icons.keyboard_arrow_left : Icons.keyboard_arrow_right;
 
   @override
   Widget build(BuildContext context) {
@@ -41,45 +39,40 @@ class _DefaultDropDownButtonState extends State<DefaultDropDownButton> {
       height: 8.h,
       width: 100.w,
       child: Card(
-        color: widget.selectedValue != AppStrings.chooseCurrency
-            ? AppColor.primaryColor
-            : AppColor.white,
+        color: getCardColor,
         shape: AppDecorations.dropDownCurrency,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.dp),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
-              isExpanded: widget.isExpanded,
+              isExpanded: isExpanded,
               elevation: 8,
               menuMaxHeight: 25.h,
               iconEnabledColor: AppColor.primaryColor,
-              disabledHint: Text(widget.items[0]),
+              disabledHint: Text(items[0]),
               isDense: true,
               borderRadius: BorderRadius.circular(12.dp),
               focusColor: AppColor.primaryColor,
               iconDisabledColor: AppColor.primaryColor,
-              dropdownColor:
-                  widget.isExpanded ? AppColor.primaryColor : AppColor.white,
+              dropdownColor: isExpanded ? AppColor.primaryColor : AppColor.white,
               style: textTheme.bodyText2,
               icon: Icon(
                   size: 34.dp,
-                  widget.isExpanded ? Icons.keyboard_arrow_down : iconDirection,
+                  isExpanded ? Icons.keyboard_arrow_down : iconDirection,
                   color: dropDownColor),
-              hint: Text(widget.selectedValue,
+              hint: Text(selectedValue,
                   style: textTheme.bodyText2?.copyWith(color: dropDownColor)),
-              items: widget.items
-                  .map(
-                    (item) => DropdownMenuItem<String>(
-                        value: item,
+              items: List.generate(
+                  items.length,
+                  (index) => DropdownMenuItem<String>(
+                        value: items[index],
                         child: Center(
-                          child: Text(item,
-                              style: textTheme.bodyText2
-                                  ?.copyWith(fontWeight: FontWeight.w500)),
-                        )),
-                  )
-                  .toList(),
-              onChanged: (String? value) =>
-                  setState(() => widget.selectedValue = value!),
+                            child: Text(items[index],
+                                style: textTheme.bodyText2
+                                    ?.copyWith(fontWeight: FontWeight.w500))),
+                      ),
+                  growable: false),
+              onChanged: onChange,
             ),
           ),
         ),

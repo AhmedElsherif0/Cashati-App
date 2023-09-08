@@ -67,6 +67,7 @@ class AppIcons {
   static const String addIcon = '$icons/addIcon.svg';
   static const String helloRafiki = '$icons/Hello-rafiki.svg';
   static const String magneticIcon = '$icons/magnetic_icon.svg';
+  static const String successfullyAdded = '$icons/successfully_added.svg';
 
   ///Home Icons...
   static const String balance = '$icons/home/balance.svg';

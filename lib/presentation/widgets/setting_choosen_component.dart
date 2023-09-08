@@ -7,13 +7,13 @@ import '../styles/colors.dart';
 class SettingsChosenComponent extends StatelessWidget {
   const SettingsChosenComponent({
     super.key,
-    required this.icon,
+     this.icon,
     required this.iconName,
     required this.onTap,
     this.isPressed = false,
   });
 
-  final String icon;
+  final String? icon;
   final String iconName;
   final bool isPressed;
   final void Function() onTap;
@@ -30,14 +30,15 @@ class SettingsChosenComponent extends StatelessWidget {
                 : Colors.transparent),
         child: Row(
           children: [
-            SvgPicture.asset(icon,
+            if(icon !=null)
+            SvgPicture.asset(icon??'',
                 color: AppColor.pineGreen, height: 30, width: 30),
             SizedBox(width: 2.w),
             Text(iconName,
                 style: Theme.of(context)
                     .textTheme
-                    .headline3!
-                    .copyWith(fontSize: 15, fontWeight: FontWeight.w500))
+                    .subtitle1!
+                    .copyWith(fontWeight: FontWeight.w500))
           ],
         ),
       ),

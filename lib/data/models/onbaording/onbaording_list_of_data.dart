@@ -29,7 +29,7 @@ class OnBoardingData {
         buttonTitle: 'Start'),
   ];
 
-  final List<String> _englishCurrency = [
+  final List<String> englishCurrency = [
     'EGP',
     'USD',
     /*   'EUR',
@@ -46,7 +46,7 @@ class OnBoardingData {
     'BTC'*/
   ];
 
-  final List<String> _arabicCurrency = [
+  final List<String> arabicCurrency = [
     'المصرية',
     'الامريكية',
     /* 'الاوربية',
@@ -62,9 +62,6 @@ class OnBoardingData {
     'السورية',
     'البت كوين(BTC)'*/
   ];
-
-  List<String> get getCurrency =>
-      translator.activeLanguageCode == 'en' ? _englishCurrency : _arabicCurrency;
 
   List<OnBoardingModel> get getOnBoardingData => _myData;
 }

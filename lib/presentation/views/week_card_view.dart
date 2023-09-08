@@ -8,6 +8,7 @@ import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
 import '../../constants/app_icons.dart';
+import '../../data/repository/formats_mixin.dart';
 
 class WeekCardViewEdited extends StatefulWidget {
   const WeekCardViewEdited({
@@ -33,7 +34,8 @@ class WeekCardViewEdited extends StatefulWidget {
   State<WeekCardViewEdited> createState() => _WeekCardViewEditedState();
 }
 
-class _WeekCardViewEditedState extends State<WeekCardViewEdited> with HelperClass {
+class _WeekCardViewEditedState extends State<WeekCardViewEdited>
+    with FormatsMixin, HelperClass {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -65,7 +67,8 @@ class _WeekCardViewEditedState extends State<WeekCardViewEdited> with HelperClas
                                   style: textTheme.headline5),
                               const Spacer(),
                               Text(
-                                currencyFormat(widget.weeksTotals[builderIndex]),
+                                currencyFormat(
+                                    context, widget.weeksTotals[builderIndex]),
                                 style: textTheme.headline5
                                     ?.copyWith(color: widget.priceColor),
                               ),

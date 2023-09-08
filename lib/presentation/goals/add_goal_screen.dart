@@ -9,15 +9,16 @@ import 'package:temp/constants/app_images.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
-import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/widgets/app_bars/app_bar_with_icon.dart';
+import 'package:temp/presentation/views/app_bar_with_icon.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import 'package:temp/presentation/widgets/common_texts/green_text.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
 import 'package:temp/presentation/widgets/editable_text.dart';
 import 'package:temp/presentation/widgets/goals_widgets/note_widget.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
+
+import '../../data/repository/formats_mixin.dart';
 
 class AddGoalScreen extends StatefulWidget {
   const AddGoalScreen({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class AddGoalScreen extends StatefulWidget {
 }
 
 class _AddGoalScreenState extends State<AddGoalScreen>
-    with AlertDialogMixin, HelperClass {
+    with AlertDialogMixin, FormatsMixin {
   final TextEditingController goalNameCtrl = TextEditingController();
   final TextEditingController goalCostCtrl = TextEditingController();
   final TextEditingController goalSaveRepeatAmount = TextEditingController();

@@ -5,7 +5,6 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
-import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/screens/home/statistics_week_details_screen.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
@@ -13,12 +12,12 @@ import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/models/transactions/transaction_model.dart';
+import '../../../../data/repository/formats_mixin.dart';
 import '../../../router/app_router.dart';
 import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/common_texts/details_text.dart';
 import '../part_time_details.dart';
-import '../statistics_details_screen.dart';
 
 class ExpensesStatisticsScreen extends StatefulWidget {
   const ExpensesStatisticsScreen({Key? key}) : super(key: key);
@@ -28,7 +27,7 @@ class ExpensesStatisticsScreen extends StatefulWidget {
 }
 
 class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
-    with HelperClass {
+    with FormatsMixin {
   final PageController _controller = PageController(initialPage: 0);
   DateTime? datePicker = DateTime.now();
 

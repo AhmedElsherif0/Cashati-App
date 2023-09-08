@@ -6,13 +6,13 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
-import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 
 import '../../../../constants/enum_classes.dart';
+import '../../../../data/repository/formats_mixin.dart';
 import '../../../router/app_router.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/common_texts/details_text.dart';
@@ -27,7 +27,7 @@ class IncomeStatisticsScreen extends StatefulWidget {
 }
 
 class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
-    with HelperClass {
+    with FormatsMixin {
   final PageController _controller = PageController(initialPage: 0);
   DateTime? datePicker = DateTime.now();
 

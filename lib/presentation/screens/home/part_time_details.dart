@@ -10,6 +10,7 @@ import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/custom_app_bar.dart';
 import '../../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import '../../../constants/app_icons.dart';
+import '../../../data/repository/formats_mixin.dart';
 import '../../styles/colors.dart';
 import '../../widgets/add_income_expense_widget/choose_container.dart';
 import '../../widgets/editable_text.dart';
@@ -26,7 +27,8 @@ class PartTimeDetails extends StatefulWidget {
   State<PartTimeDetails> createState() => _PartTimeDetailsState();
 }
 
-class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
+class _PartTimeDetailsState extends State<PartTimeDetails>
+    with FormatsMixin, HelperClass {
   final TextEditingController mainCategoryController = TextEditingController();
   final TextEditingController calenderController = TextEditingController();
   final TextEditingController subCategoryController = TextEditingController();
@@ -65,8 +67,6 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
     statisticsCubit.getTodayExpenses(true);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final txtDirection =
@@ -78,9 +78,11 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
             return Column(
               children: [
                 SizedBox(height: 15.dp),
-                CustomAppBar(title:  widget.transactionModel.isExpense
-                    ? AppStrings.expenseDetails.tr()
-                    : AppStrings.incomeDetails.tr(), isEndIconVisible: false),
+                CustomAppBar(
+                    title: widget.transactionModel.isExpense
+                        ? AppStrings.expenseDetails.tr()
+                        : AppStrings.incomeDetails.tr(),
+                    isEndIconVisible: false),
                 SizedBox(height: 40.dp),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -111,7 +113,8 @@ class _PartTimeDetailsState extends State<PartTimeDetails> with HelperClass {
                           SizedBox(height: 15.dp),
                           EditableInfoField(
                             textEditingController: amountController,
-                            hint: currencyFormat(widget.transactionModel.amount),
+                            hint: currencyFormat(
+                                context, widget.transactionModel.amount),
                             iconName: AppIcons.amountIcon,
                             keyboardType: TextInputType.text,
                             trailing: IconButton(

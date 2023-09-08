@@ -3,15 +3,15 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
+import 'package:temp/data/repository/formats_mixin.dart';
 import 'package:temp/data/repository/helper_class.dart';
-import 'package:temp/presentation/screens/home/part_time_details.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import 'package:temp/presentation/widgets/transaction_card.dart';
 
 import '../../widgets/custom_app_bar.dart';
 
-class StatisticsDetailsScreen extends StatelessWidget with HelperClass {
+class StatisticsDetailsScreen extends StatelessWidget with HelperClass,FormatsMixin {
   const StatisticsDetailsScreen({
     Key? key,
     this.transactions = const [],

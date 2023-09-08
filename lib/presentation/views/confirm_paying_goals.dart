@@ -7,12 +7,13 @@ import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
 
 import '../../constants/app_icons.dart';
+import '../../data/repository/formats_mixin.dart';
 import '../styles/colors.dart';
 import '../widgets/buttons/cancel_confirm_text_button.dart';
 import '../widgets/confirm_paying_title_card.dart';
 import '../widgets/custom_row_icon_with_title.dart';
 
-class ConfirmPayingGoals extends StatelessWidget with HelperClass{
+class ConfirmPayingGoals extends StatelessWidget with FormatsMixin{
   const ConfirmPayingGoals({
     Key? key,
     required this.amount,
@@ -75,7 +76,7 @@ class ConfirmPayingGoals extends StatelessWidget with HelperClass{
                           AppStrings.registeredRepeatedAmount,
                       startIcon: AppIcons.poundSterlingSign,
                       title:
-                          '${currencyFormat(goalModel.goalSaveAmount)}, Weekly',
+                          '${currencyFormat(context,  goalModel.goalSaveAmount)}, Weekly',
                       endIcon: onPressIcon(onEditAmount, AppIcons.editIcon)),
                 ),
                 Expanded(
@@ -83,7 +84,7 @@ class ConfirmPayingGoals extends StatelessWidget with HelperClass{
                   child: RowIconWithTitle(
                     toolTipMessage: AppStrings.paidAmount,
                     startIcon: AppIcons.change,
-                    title: currencyFormat(goalModel.goalSaveAmount),
+                    title: currencyFormat(context,goalModel.goalSaveAmount),
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),
                   ),
                 ),
@@ -93,7 +94,7 @@ class ConfirmPayingGoals extends StatelessWidget with HelperClass{
                     toolTipMessage:
                         AppStrings.remainingGoalTargetAmount,
                     startIcon: AppIcons.blockedCash,
-                    title: currencyFormat(blockedAmount),
+                    title: currencyFormat(context,blockedAmount),
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),
                   ),
                 ),

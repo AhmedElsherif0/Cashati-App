@@ -9,11 +9,12 @@ import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
 import 'package:temp/presentation/widgets/buttons/underline_text_button.dart';
 
+import '../../data/repository/formats_mixin.dart';
 import '../styles/colors.dart';
 import '../widgets/buttons/cancel_confirm_text_button.dart';
 import '../widgets/custom_row_icon_with_title.dart';
 
-class ConfirmPayingExpense extends StatelessWidget with HelperClass {
+class ConfirmPayingExpense extends StatelessWidget with FormatsMixin {
   const ConfirmPayingExpense({
     Key? key,
     required this.amount,
@@ -62,7 +63,7 @@ class ConfirmPayingExpense extends StatelessWidget with HelperClass {
                   child: RowIconWithTitle(
                     toolTipMessage: AppStrings.editPaidAmount.tr(),
                     startIcon: AppIcons.poundSterlingSign,
-                    title: currencyFormat(amount),
+                    title: currencyFormat(context,amount),
                     endIcon: InkWell(
                       onTap: onEditAmount,
                       child: SvgPicture.asset(AppIcons.editIcon,

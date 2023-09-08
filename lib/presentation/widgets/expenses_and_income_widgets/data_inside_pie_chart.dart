@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
+import 'package:temp/presentation/widgets/buttons/underline_text_button.dart';
 
 import '../../../constants/app_strings.dart';
+import '../../../data/repository/formats_mixin.dart';
 
-class DataInsidePieChart extends StatelessWidget with HelperClass {
+class DataInsidePieChart extends StatelessWidget with FormatsMixin {
   const DataInsidePieChart(
       {Key? key,
       required this.totalExpenses,
@@ -42,7 +42,7 @@ class DataInsidePieChart extends StatelessWidget with HelperClass {
               child: ValueListenableBuilder(
                 valueListenable: valueNotifier,
                 builder: (_, double value, __) => Text(
-                  ' ${currencyFormat(maxExpenses.toInt())}',
+                  ' ${currencyFormat(context,maxExpenses.toInt())}',
                   style: Theme.of(context).textTheme.headline5,
                 ),
               ),
