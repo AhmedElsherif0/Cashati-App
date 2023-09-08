@@ -4,16 +4,14 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
-import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
-
 import 'package:temp/presentation/views/confirm_paying_expense.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
-import '../../business_logic/cubit/home_cubit/home_cubit.dart';
+import '../../data/repository/formats_mixin.dart';
 
 class TransactionConfirmCard extends StatelessWidget
-    with AlertDialogMixin, HelperClass {
+    with AlertDialogMixin, FormatsMixin,HelperClass {
   const TransactionConfirmCard({Key? key, required this.changedAmount})
       : super(key: key);
   final TextEditingController changedAmount;

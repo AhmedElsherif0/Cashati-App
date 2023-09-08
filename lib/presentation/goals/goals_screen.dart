@@ -5,11 +5,10 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
-import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/widgets/app_bars/app_bar_with_icon.dart';
+import 'package:temp/presentation/views/app_bar_with_icon.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
 import 'package:temp/presentation/widgets/goals_widgets/goal_card.dart';
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 
@@ -8,11 +7,10 @@ import '../../constants/enum_classes.dart';
 import '../../presentation/screens/home/part_time_details.dart';
 import '../../presentation/screens/home/statistics_details_screen.dart';
 import '../../presentation/styles/colors.dart';
+import '../../presentation/widgets/buttons/underline_text_button.dart';
 import '../../presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
-import '../../presentation/widgets/expenses_and_income_widgets/underline_text_button.dart';
 
 mixin HelperClass {
-
   List<String> getWeekRange({required DateTime chosenDay}) {
     int lastDay =
         DateTime(chosenDay.year, chosenDay.month != 12 ? chosenDay.month + 1 : 1, 0)
@@ -35,6 +33,7 @@ mixin HelperClass {
       '$from ${isEnglish('٢٩', '29')}  $to ${isEnglish('٣٠', '$lastDay')} ',
     ];
   }
+
   String getMsg(TransactionModel currentExpense) {
     final isEnglish = translator.activeLanguageCode == 'en';
     final questionMark = isEnglish ? '?' : '؟';
@@ -76,14 +75,6 @@ mixin HelperClass {
         .replaceAll("٩", "9");
   }
 
-  String currencyFormat(num currency) {
-    final le = translator.activeLanguageCode == 'en' ? 'LE' : '';
-    final result = NumberFormat.currency(
-            symbol: translator.activeLanguageCode == 'en' ? '' : 'جم',
-            locale: translator.activeLanguageCode == 'en' ? 'en_US' : 'ar_EG')
-        .format(currency);
-    return '$result $le';
-  }
 
   Widget onPressDetails(
       int generateIndex, List<TransactionModel> transactions, builderIndex) {
@@ -143,19 +134,6 @@ mixin HelperClass {
         return PriorityType.HigherExpenses.name;
     }
   }
-
-  String formatDayDate(DateTime inputDate, String currentLocal) =>
-      DateFormat('d / MM/ yyyy', currentLocal).format(inputDate.toLocal());
-
-  String formatDayWeek(DateTime inputDate, String currentLocal) =>
-      DateFormat('EEE', currentLocal).format(inputDate.toLocal());
-
-
-
-  String formatWeekDate(DateTime inputDate, String currentLocal) =>
-      DateFormat(' MM / yyyy', currentLocal)
-          .format(inputDate.toLocal())
-          .replaceFirst('0', '');
 
   Future onNavigateTo<T>(context, Widget navigateScreen) =>
       Navigator.push(context, MaterialPageRoute(builder: (context) => navigateScreen));

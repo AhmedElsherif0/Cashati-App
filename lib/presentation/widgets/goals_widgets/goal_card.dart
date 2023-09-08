@@ -1,17 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
-import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/goals_widgets/circle_button.dart';
 import 'package:temp/presentation/widgets/goals_widgets/complete_indicator.dart';
 
+import '../../../data/repository/formats_mixin.dart';
 import 'goal_rich_text.dart';
 
-class GoalCard extends StatelessWidget with HelperClass {
+class GoalCard extends StatelessWidget with FormatsMixin {
   const GoalCard(
       {Key? key,
       required this.goal,
@@ -43,11 +42,11 @@ class GoalCard extends StatelessWidget with HelperClass {
                   GoalName(goalName: goal.goalName),
                   GoalsRichText(
                       title: AppStrings.goalCost.tr(),
-                      subTitle: currencyFormat(goal.goalRemainingAmount)),
+                      subTitle: currencyFormat(context,goal.goalRemainingAmount)),
                   GoalsRichText(
                       title: AppStrings.yourSaving.tr(),
                       subTitle:
-                          '${currencyFormat(goal.goalSaveAmount)}, ${amountRepeat.tr()}'),
+                          '${currencyFormat(context,goal.goalSaveAmount)}, ${amountRepeat.tr()}'),
                   GoalsRichText(
                       title: AppStrings.beginIn.tr(),
                       subTitle:
@@ -59,7 +58,7 @@ class GoalCard extends StatelessWidget with HelperClass {
                           ' ${formatDayDate(goal.goalCompletionDate, aLangCode)}'),
                   GoalsRichText(
                       title: AppStrings.remainingAmount.tr(),
-                      subTitle: currencyFormat(goal.goalRemainingAmount)),
+                      subTitle: currencyFormat(context,goal.goalRemainingAmount)),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 1.h),
                     child: Center(child: CompleteIndicatorBar(goalModel: goal)),

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/data/repository/helper_class.dart';
+
 import '../../constants/enum_classes.dart';
 import '../../data/models/transactions/transaction_model.dart';
+import '../../data/repository/formats_mixin.dart';
 import '../styles/colors.dart';
 import 'expenses_and_income_widgets/important_or_fixed.dart';
 
-class TransactionsCard extends StatelessWidget with HelperClass {
+class TransactionsCard extends StatelessWidget with FormatsMixin, HelperClass {
   const TransactionsCard({
     Key? key,
     required this.transactionModel,
@@ -53,7 +55,7 @@ class TransactionsCard extends StatelessWidget with HelperClass {
                         style: textTheme.headline5),
                     const Spacer(),
                     Text(
-                      currencyFormat(transactionModel.amount),
+                      currencyFormat(context, transactionModel.amount),
                       style: textTheme.headline5?.copyWith(
                           color: transactionModel.isExpense
                               ? AppColor.red

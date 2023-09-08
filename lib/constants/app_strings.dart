@@ -10,8 +10,10 @@ class AppStrings {
       'reminderSubtitle'; //'Set Reminder to insert your daily transaction. \n Remind me on 9:00 Pm'
   static const String enableAlerts = 'enableAlerts'; // Enable alerts .
   static const String disableAlerts = 'disableAlerts'; // Disable Alerts .
-  static const String englishSettingUsa = 'language(united states)';// English(united states)
+  static const String englishSettingUsa =
+      'language(united states)'; // English(united states)
   static const String egp = 'egp'; // EGP
+  static const String usd = 'usd'; // USD
   static const String moreSettings = 'moreSettings'; //More Settings
   static const String appInfo = 'appInfo'; //App Info
   static const String onlyId = 'OnlyID';
@@ -102,7 +104,7 @@ class AppStrings {
   static const String chooseRepeat = 'chooseRepeat'; //Choose Repeat
 
   /// main_category_fields.dart
-  static const String addedSuccessfully = 'addedSuccessfully'; //Added Successfully
+  static const String successfullyAdded = 'successfullyAdded'; //Successfully Added
   static const String tryAgain = 'tryAgain'; //Kindly Try again , and contact us !
   static const String amount = 'amount'; //Amount
   static const String expenseName = 'expenseName'; //Expense Name
@@ -132,6 +134,7 @@ class AppStrings {
   static const String chooseCurrency = 'chooseCurrency'; //Choose Currency
   static const String chooseDay = 'chooseDay'; //"Choose Day"
   static const String currency = "currency"; //Currency
+ // static const String selectCurrency = "selectCurrency"; // Select Currency
   static const String all = "all"; //All
   static const String completed = "completed"; //Completed
   static const String unCompleted = "unCompleted"; //UnCompleted
@@ -200,7 +203,8 @@ class AppStrings {
   static const String expenseDetails = 'expenseDetails'; //Expense Details
   static const String incomeDetails = 'incomeDetails'; //Income Details
   static const String description = 'description'; //Description
-  static const String subDescription = 'subDescription'; // The description that you aim for your Transaction...
+  static const String subDescription =
+      'subDescription'; // The description that you aim for your Transaction...
   static const String daily = 'Daily'; //Daily
   static const String byDaily = 'byDay'; //Daily
   static const String weekly = 'Weekly'; //Weekly
