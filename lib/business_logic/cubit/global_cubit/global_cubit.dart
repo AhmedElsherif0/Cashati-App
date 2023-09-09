@@ -42,13 +42,29 @@ class GlobalCubit extends Cubit<GlobalState> {
   void onChangeCurrency(String? value) {
     selectedValue = value!;
     translator.activeLanguageCode == 'en'
-        ? curr = currencySign()
-        : curr1 = currencySign();
+        ? curr = _currencySign()
+        : curr1 = _currencySign();
     CacheHelper.saveDataSharedPreference(key: appCurrencyKey, value: selectedValue);
     emit(CurrencyChangedState());
   }
 
-  String currencySign() {
+  void onChangeLanguage(bool value) {
+    isLanguage = translator.activeLanguageCode == 'en';
+    isEnglish = value;
+    languageManager.changeAppLanguage();
+    onChangeCurrency(_returnTheRightValue());
+    emit(LanguageChangedState());
+  }
+
+  String _returnTheRightValue() {
+    if (isLanguage && selectedValue == 'المصرية') return selectedValue = 'EGP';
+    if (!isLanguage && selectedValue == 'EGP') return selectedValue = 'المصرية';
+    if (isLanguage && selectedValue == 'الامريكية') return selectedValue = 'USD';
+    if (!isLanguage && selectedValue == 'USD') return selectedValue = 'الامريكية';
+    return selectedValue;
+  }
+
+  String _currencySign() {
     switch (selectedValue) {
       case 'EGP':
         curr = 'LE';
@@ -64,13 +80,6 @@ class GlobalCubit extends Cubit<GlobalState> {
         break;
     }
     return translator.activeLanguageCode == 'en' ? curr : curr1;
-  }
-
-  void onChangeLanguage(bool value) {
-    isLanguage = translator.activeLanguageCode == 'en';
-    isEnglish = value;
-    languageManager.changeAppLanguage();
-    emit(LanguageChangedState());
   }
 
   void swapLangBGColor(bool isValue) {

@@ -163,10 +163,8 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                Text(
-                  AppStrings.appInfo.tr(),
-                  style: Theme.of(context).textTheme.headline3!
-                ),
+                Text(AppStrings.appInfo.tr(),
+                    style: Theme.of(context).textTheme.headline3!),
               ],
             ),
           ),
