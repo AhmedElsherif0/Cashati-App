@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:temp/constants/app_icons.dart';
+import '../data/models/cashati_employer_model.dart';
 import '../data/models/subcategories_models/expense_subcaegory_model.dart';
 
 class AppConstantList {
@@ -263,5 +264,17 @@ class AppConstantList {
     "الثلاثاء",
     "الأربعاء",
     "الخميس"
+  ];
+  static const List<CashatiEmployerModel> cashatiWorkers=const [
+    CashatiEmployerModel(
+      email: "mohamedmounierabbas@gmail.com",
+      jobTitle: "Software Engineer And Team Leader",
+      name: "Mohamed Mounier Abbas"
+    ),
+    CashatiEmployerModel(
+      email: "ahmed.elsherif010@gmail.com",
+      jobTitle: "Software Engineer",
+      name: "Ahmed Elsherif"
+    ),
   ];
 }
