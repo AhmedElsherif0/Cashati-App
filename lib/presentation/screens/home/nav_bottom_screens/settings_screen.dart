@@ -169,7 +169,6 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
                     ),
                     const CustomDivider(),
                     CashatiTeamWidget(
-
                     )
                   ],
                 ))
