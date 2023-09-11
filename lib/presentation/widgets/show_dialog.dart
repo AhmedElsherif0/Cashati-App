@@ -177,6 +177,24 @@ mixin AlertDialogMixin {
         ));
   }
 
+  Future<void> showPrivacyAndTermsDialog(
+      {required BuildContext context, Widget? child}) async {
+    await _initAnimationDialog(
+        context: context,
+        child: Center(
+          child: DecoratedBox(
+            decoration: AppDecorations.decoratedTextDecoration(radius: 20),
+            child: AnimatedContainer(
+              duration: AppDecorations.duration600ms,
+              curve: Curves.easeInToLinear,
+              height: 75.h,
+              width: 80.w,
+              child: child,
+            ),
+          ),
+        ));
+  }
+
   Future<void> showSuccessfulDialogNoOptions(
       BuildContext context, String message) async {
     await _initAnimationDialog(

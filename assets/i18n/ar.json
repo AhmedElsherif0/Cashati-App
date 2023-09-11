@@ -145,7 +145,7 @@
   "NoRepeat": "غير متكرر",
   "repeated": "مكرر",
   "categories": "فئات",
-  "NotFixed": "غير ثابت",
+  "notFixed": "غير ثابت",
   "seeMore": "المزيد",
   "highest": "اعلى",
   "from": "من",
@@ -162,9 +162,13 @@
   "Personal": "شخصية",
   "Business": "العمل",
   "Variable": "متغير",
-  "Fixed": "ثابت",
+  "fixed": "ثابت",
   "emptyShow": "البيانات فارغة",
   "cashatiTeam": "فريق العمل",
+  "privacyPolicy": "سياسة الخصوصية",
+  "termsConditions": "الشروط و الأحكام",
   "appInfo": "معلومات عن التطبيق",
-  "aboutApp": "حول التطبيق"
+  "aboutApp": "حول التطبيق",
+  "and": "و",
+  "byUsingApp": "باستخدام هذا التطبيق فإنك توافق على\n"
 }
