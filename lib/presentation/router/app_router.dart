@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:temp/presentation/goals/add_goal_screen.dart';
 import 'package:temp/presentation/goals/goals_screen.dart';
-import 'package:temp/presentation/screens/add_exp_inc_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/income_repeat_type_screen.dart';
+import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screens/add_exp_inc_screen.dart';
+import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screens/add_subcategory_screen.dart';
 import 'package:temp/presentation/screens/home/statistics_details_screen.dart';
 import 'package:temp/presentation/screens/shared/notification_screen.dart';
 import 'package:temp/presentation/screens/test_screens/notifications_test.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import 'package:temp/presentation/screens/welcome/welcome_screen.dart';
-import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
 
 import '../screens/home/nav_bottom_screens/control_screen.dart';
 import '../screens/home/nav_bottom_screens/settings_screen.dart';

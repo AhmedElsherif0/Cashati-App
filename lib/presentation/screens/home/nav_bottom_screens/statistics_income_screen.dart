@@ -10,6 +10,7 @@ import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
+import 'package:temp/presentation/widgets/show_dialog.dart';
 
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/repository/formats_mixin.dart';
@@ -27,7 +28,7 @@ class IncomeStatisticsScreen extends StatefulWidget {
 }
 
 class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
-    with FormatsMixin {
+    with FormatsMixin, AlertDialogMixin {
   final PageController _controller = PageController(initialPage: 0);
   DateTime? datePicker = DateTime.now();
 
@@ -62,7 +63,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
   StatisticsCubit getStatisticsCubit() => BlocProvider.of<StatisticsCubit>(context);
 
   void showDatePick() async {
-    final datePicker = await showDatePicker(
+    datePicker = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
@@ -73,7 +74,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
   }
 
   void showDatePickMonth() async {
-    final datePicker = await showMonthPicker(
+    datePicker = await showMonthPicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
@@ -84,27 +85,18 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
     getStatisticsCubit().getTransactionsByMonth(false);
   }
 
-  // _onSeeMoreByWeek(context, index) => Navigator.push(
-  //     context,
-  //     AppRouter.pageBuilderRoute(
-  //         child: StatisticsDetailsScreen(
-  //             index: index, transactions: getStatisticsCubit().byDayList)));
-
   _onSeeMoreByWeek(context, index) {
     if (getStatisticsCubit().weeks[index].isNotEmpty) {
-      getStatisticsCubit().chosenFilterWeekDay="All";
-
+      getStatisticsCubit().chosenFilterWeekDay = "All";
       Navigator.push(
           context,
           AppRouter.pageBuilderRoute(
               child: StatisticsWeekDetailsScreen(
-                  weekRanges:getStatisticsCubit().weekRangeText(),
-
+                  weekRanges: getStatisticsCubit().weekRangeText(),
                   builderIndex: index,
                   transactions: getStatisticsCubit().weeks[index])));
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("No Income in this week.")));
+      errorSnackBar(context: context, message: "No Income in this week.");
     }
   }
 
@@ -118,8 +110,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
   @override
   Widget build(BuildContext context) {
     int currentIndex = 0;
-    return BlocConsumer<StatisticsCubit, StatisticsState>(
-      listener: (context, state) {},
+    return BlocBuilder<StatisticsCubit, StatisticsState>(
       builder: (context, state) {
         return Scaffold(
           body: Directionality(
@@ -138,12 +129,11 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                           constraints: BoxConstraints(minWidth: 20.h, maxWidth: 35.h),
                           child: CustomElevatedButton(
                             onPressed: () =>
-                            index == 0 ? showDatePick() : showDatePickMonth(),
-
+                                index == 0 ? showDatePick() : showDatePickMonth(),
                             text: index == 0
-                                ? formatDayDate(getStatisticsCubit().chosenDay,
+                                ? formatDayDate(getStatisticsCubit().chosenDay!,
                                     translator.activeLanguageCode)
-                                : formatWeekDate(getStatisticsCubit().chosenDay,
+                                : formatWeekDate(getStatisticsCubit().chosenDay!,
                                     translator.activeLanguageCode),
                             textStyle: Theme.of(context).textTheme.subtitle1,
                             backgroundColor: AppColor.white,
@@ -160,8 +150,8 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                               .read<StatisticsCubit>()
                               .totalImportantExpenses(isExpense: false),
                           index: index,
-                          priorityType: PriorityType.Fixed,
-                          notPriority: PriorityType.NotFixed,
+                          priorityType: AppStrings.fixed,
+                          notPriority: AppStrings.notFixed,
                           transactionsValues: getStatisticsCubit().transactionsValues,
                         ),
                         DetailsText(
@@ -186,7 +176,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                               onSeeMore: (weekIndex) =>
                                   _onSeeMoreByWeek(context, weekIndex),
                               weekRanges: getStatisticsCubit().weekRangeText(),
-                              chosenDay: getStatisticsCubit().chosenDay,
+                              chosenDay: getStatisticsCubit().chosenDay!,
                               weeksTotals: getStatisticsCubit().totalsWeeks,
                               seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                               priceColor: AppColor.secondColor,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
+
 import '../../constants/enum_classes.dart';
 import '../../data/models/transactions/transaction_model.dart';
 import '../../data/repository/formats_mixin.dart';
@@ -9,7 +10,7 @@ import '../../data/repository/helper_class.dart';
 import '../styles/colors.dart';
 import '../widgets/expenses_and_income_widgets/important_or_fixed.dart';
 
-class TransactionCardView extends StatelessWidget with FormatsMixin,HelperClass {
+class TransactionCardView extends StatelessWidget with FormatsMixin, HelperClass {
   const TransactionCardView({
     Key? key,
     required this.transaction,
@@ -29,7 +30,7 @@ class TransactionCardView extends StatelessWidget with FormatsMixin,HelperClass 
 
   @override
   Widget build(BuildContext context) {
-    final isEnglish = translator.activeLanguageCode== 'en';
+    final isEnglish = translator.activeLanguageCode == 'en';
     final textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
@@ -43,8 +44,7 @@ class TransactionCardView extends StatelessWidget with FormatsMixin,HelperClass 
             child: Column(
               children: [
                 Row(
-                  textDirection:isEnglish?
-                  TextDirection.ltr:TextDirection.rtl,
+                  textDirection: isEnglish ? TextDirection.ltr : TextDirection.rtl,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
@@ -53,7 +53,7 @@ class TransactionCardView extends StatelessWidget with FormatsMixin,HelperClass 
                           overflow: TextOverflow.ellipsis, style: textTheme.headline5),
                     ),
                     Text(
-                      '${currencyFormat(context,transaction.amount)} ',
+                      '${currencyFormat(context, transaction.amount)} ',
                       style: textTheme.headline5?.copyWith(
                           color: transaction.isExpense
                               ? AppColor.red
@@ -63,7 +63,7 @@ class TransactionCardView extends StatelessWidget with FormatsMixin,HelperClass 
                 ),
                 SizedBox(height: 1.h),
                 Align(
-                  alignment:isEnglish? Alignment.centerLeft:Alignment.centerRight,
+                  alignment: isEnglish ? Alignment.centerLeft : Alignment.centerRight,
                   child: Text(
                     formatDayDate(
                         transaction.createdDate, translator.activeLanguageCode),
@@ -76,16 +76,17 @@ class TransactionCardView extends StatelessWidget with FormatsMixin,HelperClass 
                     Visibility(
                       visible: isRepeated,
                       child: Align(
-                        alignment: isEnglish? Alignment.centerLeft:Alignment.centerRight,
-                        child: Text(AppStrings.repeated.tr(), style: textTheme.subtitle1),
+                        alignment:
+                            isEnglish ? Alignment.centerLeft : Alignment.centerRight,
+                        child:
+                            Text(AppStrings.repeated.tr(), style: textTheme.subtitle1),
                       ),
                     ),
                     const Spacer()
                   ],
                 ),
                 Row(
-                  textDirection:isEnglish?
-                  TextDirection.ltr:TextDirection.rtl,
+                  textDirection: isEnglish ? TextDirection.ltr : TextDirection.rtl,
                   children: [
                     Visibility(
                       visible: isVisible,

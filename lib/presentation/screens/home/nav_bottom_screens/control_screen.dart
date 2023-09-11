@@ -12,7 +12,7 @@ import '../../../../constants/app_strings.dart';
 import '../../../views/bottom_nav_bar.dart';
 import '../../../widgets/custom_app_bar.dart';
 import 'category_screen.dart';
-import 'home_screen.dart';
+import 'home_screens/home_screen.dart';
 
 class ControlScreen extends StatelessWidget {
   const ControlScreen({Key? key}) : super(key: key);
