@@ -11,6 +11,10 @@ abstract class GeneralStatsRepo {
   Future<void> deleteNotification(NotificationModel notificationModel);
   bool isGeneralModelExists();
   Future<GeneralStatsModel> getTheGeneralStatsModel();
+  Future<void> openGeneralModelBox();
+  bool isGeneralModelBoxOpen();
+  bool areRepeatedBoxesOpen();
+  bool didGetNotificationsToday(bool didOpenAppToday);
   Future<void> fetchTopExpenseAndTopIncome();
   Future<void> changeStatusOfNotification(NotificationModel notificationModel);
 }

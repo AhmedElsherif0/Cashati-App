@@ -16,7 +16,6 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
   bool isGotNotifications = false;
 
   final HiveHelper hiveHelper = HiveHelper();
-
   // var hiveBox=Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsModel);
 
   @override
@@ -76,7 +75,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
 
   @override
   Future<GeneralStatsModel> getTheGeneralStatsModel() async {
-    if (_isGeneralModelBoxOpen()) {
+    if (isGeneralModelBoxOpen()) {
       if (isGeneralModelExists()) {
         Box<GeneralStatsModel> generalBox =
             HiveHelper().getBoxName(boxName: AppBoxes.generalStatisticsBox);
@@ -103,6 +102,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
                 topExpenseAmount: 0,
                 latestCheck: DateTime.now(),
                 notificationList: []);
+        ;
       } else {
         print(' going to add item now');
         await addTheGeneralStateModel().whenComplete(() async {
@@ -110,12 +110,12 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         });
       }
     } else {
-      await _openGeneralModelBox().then((value) async {
+      await openGeneralModelBox().then((value) async {
         await getTheGeneralStatsModel();
       });
     }
     print('General Model in repo impl is ${generalStatsModel.balance}');
-    return generalStatsModel;
+    return await generalStatsModel;
   }
 
   @override
@@ -146,7 +146,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     }
   }
 
-  bool _isGeneralModelBoxOpen() {
+  @override
+  bool isGeneralModelBoxOpen() {
     if (Hive.isBoxOpen(AppBoxes.generalStatisticsBox)) {
       print('Box is open');
       return true;
@@ -157,7 +158,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     }
   }
 
-  Future<void> _openGeneralModelBox() async {
+  @override
+  Future<void> openGeneralModelBox() async {
     try {
       await Hive.openBox(AppBoxes.generalStatisticsBox);
     } catch (error) {
@@ -165,7 +167,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     }
   }
 
-  bool _areRepeatedBoxesOpen() {
+  @override
+  bool areRepeatedBoxesOpen() {
     if (Hive.isBoxOpen(AppBoxes.dailyTransactionsBoxName) &&
         Hive.isBoxOpen(AppBoxes.weeklyTransactionsBoxName) &&
         Hive.isBoxOpen(AppBoxes.monthlyTransactionsBoxName) &&
@@ -180,36 +183,30 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     }
   }
 
-  bool _didGetNotificationsToday(bool didOpenAppToday) =>
-      isGotNotifications ? true : false;
+  @override
+  bool didGetNotificationsToday(bool didOpenAppToday) {
+    if (isGotNotifications) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Future<List<NotificationModel>> getNotifications(
       {required bool didOpenAppToday}) async {
-    if (_areRepeatedBoxesOpen()) {
-      if (!_didGetNotificationsToday(didOpenAppToday)) {
+    if (areRepeatedBoxesOpen()) {
+      if (didGetNotificationsToday(didOpenAppToday)) {
+        return generalStatsModel.notificationList;
+      } else {
         return await fetchedNotifications();
       }
     } else {
-      /*  await openRepeatedBoxes().then((value) async {
-        await getNotifications(didOpenAppToday: didOpenAppToday);
-      });*/
+      // await openRepeatedBoxes().then((value) async {
+      //   await getNotifications(didOpenAppToday: didOpenAppToday);
+      // });
+      return generalStatsModel.notificationList;
     }
-    return generalStatsModel.notificationList;
-  }
-
-  void _addToNotifications(element) {
-    generalStatsModel.notificationList.add(NotificationModel(
-      id: element.transactionModel.id,
-      amount: element.transactionModel.amount,
-      checkedDate: element.nextShownDate,
-      actionDate: DateTime.now(),
-      didTakeAction: false,
-      icon: AppIcons.dollarCircle,
-      modelName: element.transactionModel.name,
-      payLoad: element.transactionModel.repeatType,
-      typeName: element.transactionModel.isExpense ? "Expense" : "Income",
-    ));
   }
 
   @override
@@ -238,25 +235,101 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
       dailyBox.values.forEach((element) async {
         if (shouldAddNotification(element)) {
           //TODO check which icon to add
-          _addToNotifications(element);
+          generalStatsModel.notificationList.add(NotificationModel(
+            id: element.transactionModel.id,
+            amount: element.transactionModel.amount,
+            checkedDate: element.nextShownDate,
+            actionDate: DateTime.now(),
+            didTakeAction: false,
+            icon: AppIcons.dollarCircle,
+            modelName: element.transactionModel.name,
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
+          ));
+          // await notificationBox.put(element.key,NotificationModel(
+          //    id: element.transactionModel.id,
+          //    amount: element.transactionModel.amount!,
+          //    checkedDate: element.nextShownDate,
+          //    actionDate: DateTime.now(),
+          //    didTakeAction: false,
+          //    icon: AppIcons.dollarCircle,
+          //    modelName: element.transactionModel.name,
+          //    payLoad: 'ss',
+          //    typeName: 'Transaction',
+          //
+          //  ));
         }
       });
       weeklyBox.values.forEach((element) async {
         if (shouldAddNotification(element)) {
           //TODO check which icon to add
-          _addToNotifications(element);
+          generalStatsModel.notificationList.add(NotificationModel(
+            id: element.transactionModel.id,
+            amount: element.transactionModel.amount,
+            checkedDate: element.nextShownDate,
+            actionDate: DateTime.now(),
+            didTakeAction: false,
+            icon: AppIcons.dollarCircle,
+            modelName: element.transactionModel.name,
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
+          ));
+          // await notificationBox.put(element.key,NotificationModel(
+          //   id: element.transactionModel.id,
+          //   amount: element.transactionModel.amount!,
+          //   checkedDate: element.nextShownDate,
+          //   actionDate: DateTime.now(),
+          //   didTakeAction: false,
+          //   icon:AppIcons.dollarCircle,
+          //   modelName: element.transactionModel.name,
+          //   payLoad: 'ss',
+          //   typeName: 'Transaction',
+          //
+          // ));
         }
       });
       monthlyBox.values.forEach((element) async {
         if (shouldAddNotification(element)) {
           //TODO check which icon to add
-          _addToNotifications(element);
+          generalStatsModel.notificationList.add(NotificationModel(
+            id: element.transactionModel.id,
+            amount: element.transactionModel.amount,
+            checkedDate: element.nextShownDate,
+            actionDate: DateTime.now(),
+            didTakeAction: false,
+            icon: AppIcons.dollarCircle,
+            modelName: element.transactionModel.name,
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
+          ));
+          // await notificationBox.put(element.key,NotificationModel(
+          //   id: element.transactionModel.id,
+          //   amount: element.transactionModel.amount!,
+          //   checkedDate: element.nextShownDate,
+          //   actionDate: DateTime.now(),
+          //   didTakeAction: false,
+          //   icon: AppIcons.dollarCircle,
+          //   modelName: element.transactionModel.name,
+          //   payLoad: 'ss',
+          //   typeName: 'Transaction',
+          //
+          // ));
         }
       });
       noRepBox.values.forEach((element) async {
         if (shouldAddNotification(element)) {
           //TODO check which icon to add
-          _addToNotifications(element);
+          generalStatsModel.notificationList.add(NotificationModel(
+            id: element.transactionModel.id,
+            amount: element.transactionModel.amount,
+            checkedDate: element.nextShownDate,
+            actionDate: DateTime.now(),
+            didTakeAction: false,
+            icon: AppIcons.dollarCircle,
+            modelName: element.transactionModel.name,
+            payLoad: element.transactionModel.repeatType,
+            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
+          ));
           // await  notificationBox.put(element.key,NotificationModel(
           //   id: element.transactionModel.id,
           //   amount: element.transactionModel.amount!,
@@ -322,18 +395,6 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     return generalStatsModel.notificationList;
   }
 
-  bool _isElementBiggerThanTopEXP(element, topExp) =>
-      element.isLastConfirmed &&
-      element.transactionModel.paymentDate.month == todayDate.month &&
-      element.transactionModel.isExpense &&
-      element.transactionModel.amount > topExp;
-
-  bool _isElementBiggerThanTopIncome(element, topIncome) =>
-      element.isLastConfirmed &&
-      element.transactionModel.paymentDate.month == todayDate.month &&
-      !element.transactionModel.isExpense &&
-      element.transactionModel.amount > topIncome;
-
   @override
   Future<void> fetchTopExpenseAndTopIncome() async {
     num topExp = generalStatsModel.topExpenseAmount;
@@ -355,12 +416,18 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         boxName: AppBoxes.noRepeaTransactionsBoxName);
 
     dailyBox.values.forEach((element) async {
-      if (_isElementBiggerThanTopEXP(element, topExp)) {
+      if (element.isLastConfirmed &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
+          element.transactionModel.isExpense &&
+          element.transactionModel.amount > topExp) {
         topExp = element.transactionModel.amount;
         topExpName = element.transactionModel.name;
         element.isLastConfirmed = false;
         await element.save();
-      } else if (_isElementBiggerThanTopIncome(element, topIncome)) {
+      } else if (element.isLastConfirmed &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
+          !element.transactionModel.isExpense &&
+          element.transactionModel.amount > topIncome) {
         topIncome = element.transactionModel.amount;
         topIncomeName = element.transactionModel.name;
         element.isLastConfirmed = false;
@@ -368,7 +435,10 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
       }
     });
     weeklyBox.values.forEach((element) async {
-      if (_isElementBiggerThanTopEXP(element, topExp)) {
+      if (element.isLastConfirmed &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
+          element.transactionModel.isExpense &&
+          element.transactionModel.amount > topExp) {
         topExp = element.transactionModel.amount;
         topExpName = element.transactionModel.name;
         print('Element before saving is ${element.isLastConfirmed}');
@@ -377,7 +447,10 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         print('Element after saving is ${element.isLastConfirmed}');
 
         await element.save();
-      } else if (_isElementBiggerThanTopIncome(element, topIncome)) {
+      } else if (element.isLastConfirmed &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
+          !element.transactionModel.isExpense &&
+          element.transactionModel.amount > topIncome) {
         topIncome = element.transactionModel.amount;
         topIncomeName = element.transactionModel.name;
         print(
@@ -390,7 +463,10 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
       }
     });
     monthlyBox.values.forEach((element) async {
-      if (_isElementBiggerThanTopEXP(element, topExp)) {
+      if (element.isLastConfirmed &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
+          element.transactionModel.isExpense &&
+          element.transactionModel.amount > topExp) {
         topExp = element.transactionModel.amount;
         topExpName = element.transactionModel.name;
         print(
@@ -399,7 +475,10 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         element.isLastConfirmed = false;
         await element.save().whenComplete(() => print(
             '${element.transactionModel.name} after saving is ${element.isLastConfirmed}'));
-      } else if (_isElementBiggerThanTopIncome(element, topIncome)) {
+      } else if (element.isLastConfirmed &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
+          !element.transactionModel.isExpense &&
+          element.transactionModel.amount > topIncome) {
         topIncome = element.transactionModel.amount;
         topIncomeName = element.transactionModel.name;
         print(
@@ -411,7 +490,10 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
       }
     });
     noRepBox.values.forEach((element) async {
-      if (_isElementBiggerThanTopEXP(element, topExp)) {
+      if (element.isLastConfirmed &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
+          element.transactionModel.isExpense &&
+          element.transactionModel.amount > topExp) {
         topExp = element.transactionModel.amount;
         topExpName = element.transactionModel.name;
         print(
@@ -420,7 +502,10 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         element.isLastConfirmed = false;
         await element.save().whenComplete(() => print(
             '${element.transactionModel.name} after saving is ${element.isLastConfirmed}'));
-      } else if (_isElementBiggerThanTopIncome(element, topIncome)) {
+      } else if (element.isLastConfirmed &&
+          element.transactionModel.paymentDate.month == todayDate.month &&
+          !element.transactionModel.isExpense &&
+          element.transactionModel.amount > topIncome) {
         topIncome = element.transactionModel.amount;
         topIncomeName = element.transactionModel.name;
         print(

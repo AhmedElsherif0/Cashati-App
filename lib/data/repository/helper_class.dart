@@ -75,6 +75,7 @@ mixin HelperClass {
         .replaceAll("٩", "9");
   }
 
+
   Widget onPressDetails(
       int generateIndex, List<TransactionModel> transactions, builderIndex) {
     switch (generateIndex) {
@@ -116,8 +117,8 @@ mixin HelperClass {
   }
 
   String priorityNames(bool isExpense, bool isPriority) => isPriority
-      ? (isExpense ? 'important' : 'Fixed').tr()
-      : (isExpense ? 'notImportant' : 'NotFixed').tr();
+      ? (isExpense ? 'Important' : 'Fixed').tr()
+      : (isExpense ? 'NotImportant' : 'NotFixed').tr();
 
   String switchPriorityName(PriorityType priorityType) {
     switch (priorityType) {
