@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/constants/app_strings.dart';
-import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/subcategory_choice.dart';
 
 import '../../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
@@ -19,9 +18,15 @@ class SubCategoryFields extends StatelessWidget {
   final List<SubCategory> subCatsList;
   final AddExpOrIncCubit addExpOrIncCubit;
 
+  void onChooseSubCategory(context) {
+    BlocProvider.of<AddSubcategoryCubit>(context).currentMainCategory =
+        BlocProvider.of<AddExpOrIncCubit>(context).currentMainCat;
+
+    Navigator.pushNamed(context, AppRouterNames.rAddSubCategory);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final cubitSubCategory = BlocProvider.of<AddSubcategoryCubit>(context);
     return SizedBox(
       height: 30.h,
       child: GridView.builder(
@@ -30,17 +35,10 @@ class SubCategoryFields extends StatelessWidget {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
           itemBuilder: (context, index) {
-            //addExpOrIncCubit.fitRandomColors().shuffle();
-
             return Visibility(
               visible: index != subCatsList.length - 1,
               replacement: InkWell(
-                onTap: () {
-                  BlocProvider.of<AddSubcategoryCubit>(context).currentMainCategory =
-                      BlocProvider.of<AddExpOrIncCubit>(context).currentMainCat;
-
-                  Navigator.pushNamed(context, AppRouterNames.rAddSubCategory);
-                },
+                onTap: () => onChooseSubCategory(context),
                 child: SubCategoryChoice(
                   color: AppColor.green,
                   currentID: 'feverrrr',
@@ -53,7 +51,9 @@ class SubCategoryFields extends StatelessWidget {
                       BlocProvider.of<AddExpOrIncCubit>(context).currentMainCat;
                   //TODO assign transaction type , if it is expense or income
                   BlocProvider.of<AddSubcategoryCubit>(context).transactionType =
-                      addExpOrIncCubit.isExpense ? AppStrings.expenseSmall : AppStrings.incomeSmall;
+                      addExpOrIncCubit.isExpense
+                          ? AppStrings.expenseSmall
+                          : AppStrings.incomeSmall;
                   addExpOrIncCubit.chooseCategory(subCatsList[index]);
                 },
                 child: SubCategoryChoice(

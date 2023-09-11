@@ -16,6 +16,7 @@ class AppStrings {
   static const String usd = 'usd'; // USD
   static const String moreSettings = 'moreSettings'; //More Settings
   static const String appInfo = 'appInfo'; //App Info
+  static const String aboutApp = 'aboutApp'; // About App
   static const String onlyId = 'OnlyID';
   static const String repeat = 'repeat'; // Repeat
   static const String select = 'select'; // Select
@@ -26,10 +27,12 @@ class AppStrings {
   static const String incomeTypes = 'incomeTypes'; // Income Types
   static const String goals = 'goals'; // Goals
   static const String exportData = 'exportData'; // Export Data
-  static const String byUsingApp = "By using this app, you are agreeing to our\n"; // Export Data
+  static const String byUsingApp =
+      "By using this app, you are agreeing to our\n"; // Export Data
   static const String privacyPolicy = 'Privacy Policy'; // Export Data
   static const String and = '  And  '; // Export Data
   static const String termsConditions = 'Terms And Conditions'; // Export Data
+  static const String cashatiTeam = "cashatiTeam"; // Cashati Team
 
   /// bottom_nav_bar.dart
   /// None
@@ -138,7 +141,7 @@ class AppStrings {
   static const String chooseCurrency = 'chooseCurrency'; //Choose Currency
   static const String chooseDay = 'chooseDay'; //"Choose Day"
   static const String currency = "currency"; //Currency
- // static const String selectCurrency = "selectCurrency"; // Select Currency
+  // static const String selectCurrency = "selectCurrency"; // Select Currency
   static const String all = "all"; //All
   static const String completed = "completed"; //Completed
   static const String unCompleted = "unCompleted"; //UnCompleted
@@ -239,8 +242,8 @@ class AppStrings {
   /// NavBottomBar
   static const String appBarTitle = 'appBarTitle'; //appBarTitle
   static const String emptyShow = 'emptyShow'; //Empty Show
-  static const String aboutUsInfo = 'About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us '; //Empty Show
-
+  static const String aboutUsInfo =
+      'About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us '; //Empty Show
 
   static const String cashatiPrivacy = '''
   Privacy Policy for Cashati
@@ -385,7 +388,7 @@ If you have any questions about this Privacy Policy, You can contact us:
 By email: cashati1customercare2023@gmail.com
 Generated using Free Privacy Policy Generator
   '''; //Empty Show
-  static const String cashatiTerms ='''
+  static const String cashatiTerms = '''
   Terms and Conditions for Cashati
 
 Terms and Conditions

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
-import 'package:temp/constants/app_images.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/widgets/cashati_team_widget.dart';
 import 'package:temp/presentation/widgets/setting_card_layout.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
+import '../../../styles/colors.dart';
 import '../../../widgets/buttons/custom_text_button.dart';
 import '../../../widgets/custom_divder.dart';
 import '../../../widgets/setting_choosen_component.dart';
@@ -26,7 +25,7 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
         .onChangeLanguage(translator.activeLanguageCode == languageCode);
   }
 
-  void onLanguageTap(context, globalCubit) {
+  void _onLanguageTap(context, globalCubit) {
     globalCubit.isEnglish = false;
     globalCubit.isArabic = false;
     showSettingDialog(
@@ -49,22 +48,44 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
     );
   }
 
+  void _onCurrencyTap(BuildContext context, GlobalCubit globalCubit) {
+    globalCubit.isEnglish = false;
+    globalCubit.isArabic = false;
+    showSettingDialog(
+      context: context,
+      child: UiDialogComponent(
+        header: '${AppStrings.select.tr()} ${AppStrings.currency.tr()}',
+        firstTitle: globalCubit.getCurrency[0].tr(),
+        secondTitle: globalCubit.getCurrency[1].tr(),
+        onTapFirst: () => globalCubit.swapCurrencyBGColor(true),
+        onTapSecond: () => globalCubit.swapCurrencyBGColor(false),
+        onPressOK: () {
+          Navigator.of(context).pop();
+          if (globalCubit.isEnglish || globalCubit.isArabic) {
+            globalCubit.changeCurrency();
+          }
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final globalCubit = context.read<GlobalCubit>();
+    final textTheme = Theme.of(context).textTheme;
     return BlocBuilder<GlobalCubit, GlobalState>(
       builder: (context, state) {
         return Scaffold(
             body: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 SizedBox(height: 1.h),
+                SizedBox(height: 1.h),
                 Text(
                   AppStrings.reminders.tr(),
-                  style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 17),
+                  style: textTheme.headline3!.copyWith(fontSize: 17),
                 ),
                 SizedBox(height: 1.h),
                 // Todo: change the List tile to date Picker.
@@ -104,7 +125,7 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
                 SizedBox(height: 1.h),
                 Text(
                   AppStrings.moreSettings.tr(),
-                  style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 17),
+                  style: textTheme.headline3!.copyWith(fontSize: 17),
                 ),
                 SizedBox(height: 1.h),
 
@@ -117,59 +138,39 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
                         title: AppStrings.language.tr(),
                         subtitle: AppStrings.englishSettingUsa.tr(),
                         isTrail: false,
-                        onTap: () => onLanguageTap(context, globalCubit),
+                        onTap: () => _onLanguageTap(context, globalCubit),
                       ),
                       const CustomDivider(),
 
                       /// Currency Card
                       SettingListTile(
-                        icon: AppIcons.currencySettings,
-                        title: AppStrings.currency.tr(),
-                        subtitle: globalCubit.selectedValue.tr(),
-                        isTrail: false,
-                        onTap: () {
-                          globalCubit.isEnglish = false;
-                          globalCubit.isArabic = false;
-                          showSettingDialog(
-                            context: context,
-                            child: UiDialogComponent(
-                              header:
-                                  '${AppStrings.select.tr()} ${AppStrings.currency.tr()}',
-                              firstTitle: globalCubit.getCurrency[0].tr(),
-                              secondTitle: globalCubit.getCurrency[1].tr(),
-                              onTapFirst: () => globalCubit.swapCurrencyBGColor(true),
-                              onTapSecond: () =>
-                                  globalCubit.swapCurrencyBGColor(false),
-                              onPressOK: () {
-                                Navigator.of(context).pop();
-                                if (globalCubit.isEnglish || globalCubit.isArabic) {
-                                  globalCubit.changeCurrency();
-                                }
-                              },
-                            ),
-                          );
-                        },
-                      ),
+                          icon: AppIcons.currencySettings,
+                          title: AppStrings.currency.tr(),
+                          subtitle: globalCubit.selectedValue.tr(),
+                          isTrail: false,
+                          onTap: () => _onCurrencyTap(context, globalCubit)),
                     ],
                   ),
                 ),
                 SizedBox(height: 1.h),
-                Text(
-                  AppStrings.appInfo.tr(),
-                  style: Theme.of(context).textTheme.headline3!
-                ),
+                Text(AppStrings.appInfo.tr(), style: textTheme.headline3!),
                 SizedBox(height: 1.h),
-                SettingCardLayout(settingChild: Column(
+                SettingCardLayout(
+                    settingChild: Column(
                   children: [
-                    ExpansionTile(title: Text("About us"),leading: Icon(Icons.info_outline),
-                    childrenPadding: const EdgeInsets.all(8.0),
-                    children: [
-                      Text(AppStrings.aboutUsInfo,style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 10.dp))
-                    ],
+                    ExpansionTile(
+                      iconColor: AppColor.primaryColor,
+                      title: Text(AppStrings.aboutApp.tr()),
+                      leading: const Icon(Icons.info_outline),
+                      childrenPadding: const EdgeInsets.all(8.0),
+                      children: [
+                        /// didn't translated yet till it become correct text
+                        Text(AppStrings.aboutUsInfo,
+                            style: textTheme.subtitle1!.copyWith(fontSize: 10.dp))
+                      ],
                     ),
                     const CustomDivider(),
-                    CashatiTeamWidget(
-                    )
+                    const CashatiTeamWidget()
                   ],
                 ))
               ],

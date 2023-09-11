@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
-import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/custom_check_box.dart';
 import 'package:temp/presentation/widgets/add_income_expense_widget/sub_category_fields.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
@@ -11,17 +10,15 @@ import 'package:temp/presentation/widgets/show_dialog.dart';
 import '../../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import '../../../business_logic/cubit/home_cubit/home_cubit.dart';
 import '../../../constants/app_icons.dart';
-import '../../../constants/app_strings.dart';
 import '../../../data/local/hive/id_generator.dart';
 import '../../../data/models/subcategories_models/expense_subcaegory_model.dart';
 import '../../../data/models/transactions/transaction_model.dart';
-import '../../router/app_router_names.dart';
 import '../../styles/colors.dart';
-import 'choose_container.dart';
-import 'main_category_choice.dart';
 import '../buttons/elevated_button.dart';
 import '../drop_down_custom.dart';
 import '../editable_text.dart';
+import 'choose_container.dart';
+import 'main_category_choice.dart';
 
 class MainCategoryFields extends StatefulWidget {
   const MainCategoryFields({
@@ -51,13 +48,16 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     _checkTheCurrentTab()
         ? BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList()
         : BlocProvider.of<AddExpOrIncCubit>(context).addMoreToIncomeList();
     print('Icon Add Code Point ${Icons.add.codePoint}, Color ${Colors.indigo.value}');
+    super.initState();
   }
+
+  bool _checkTheCurrentTab() => BlocProvider.of<AddExpOrIncCubit>(context)
+      .expMainCats
+      .any((element) => element == widget.mainCategoryName);
 
   @override
   void dispose() {
@@ -67,17 +67,14 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
     super.dispose();
   }
 
-  bool _checkTheCurrentTab() => widget.addExpOrIncCubit.expMainCats
-      .any((element) => element == widget.mainCategoryName);
-
-  showSuccessAndNavigate(BuildContext context) {
+  _showSuccessAndNavigate(BuildContext context) async {
     showSuccessfulDialog(context, AppStrings.successfullyAdded.tr());
+    await BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
     print('Successfully Confirmed');
-
     //  showSuccessfulDialogNoOptions(context, 'Successfully added');
   }
 
-  void showDatePick() async {
+  void showDatePick(context) async {
     final datePicker = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -85,29 +82,39 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (datePicker == null) return;
-    getAddExpOrIncCubit().changeDate(datePicker);
+    BlocProvider.of<AddExpOrIncCubit>(context).changeDate(datePicker);
   }
 
-  AddExpOrIncCubit getAddExpOrIncCubit() => BlocProvider.of<AddExpOrIncCubit>(context);
+  Future<void> _validateFields(
+      BuildContext context, TransactionModel transactionModel) async {
+    final addExpIncCubit = context.read<AddExpOrIncCubit>();
+    addExpIncCubit.currentAmount = transactionModel.amount;
+    if (transactionModel.amount == null || transactionModel.amount == 0) {
+      errorSnackBar(context: context, message: 'Kindly put the amount ! ');
+    } else if (addExpIncCubit.subCatName.isEmpty) {
+      errorSnackBar(context: context, message: 'Kindly choose a subCategory');
+    } else if (transactionModel.name.trim().isEmpty) {
+      errorSnackBar(context: context, message: 'Kindly , write the name ');
+    } else {
+      transactionModel.isExpense
+          ? await addExpIncCubit.addExpense(expenseModel: transactionModel)
+          : await addExpIncCubit.addIncome(incomeModel: transactionModel);
+      print(
+          'Choosed Date before Adding in income widget is ${transactionModel.isExpense}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final isEnglish = translator.activeLanguageCode == 'en';
-    return BlocConsumer<AddExpOrIncCubit, AddExpOrIncState>(
-      listener: (context, state) {
-        if (state is AddExpOrIncError) {
-          errorSnackBar(context: context, message: AppStrings.tryAgain);
-        }
-      },
+    return BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
       builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
-              onTap: () {
-                widget.addExpOrIncCubit.chooseMainCategory(widget.mainCategoryName);
-                //BlocProvider.of<AddExpOrIncCubit>(context).addMoreToList();
-              },
+              onTap: () =>
+                  widget.addExpOrIncCubit.chooseMainCategory(widget.mainCategoryName),
               child: MainCategoryChoice(
                   mainCategoryName: widget.mainCategoryName, homeIcons: widget.icons),
             ),
@@ -162,7 +169,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                   SizedBox(
                       width: 65.w,
                       child: DateChooseContainer(
-                        onTap: () async => showDatePick(),
+                        onTap: () async => showDatePick(context),
                         dateTime: widget.addExpOrIncCubit.chosenDate,
                       )),
                   SizedBox(height: 1.5.h),
@@ -177,27 +184,36 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                   ),
                   SizedBox(height: 1.5.h),
                   Column(
-                      crossAxisAlignment: isEnglish
-                          ? CrossAxisAlignment.start
-                          : CrossAxisAlignment.end,
-                      children: [
-                        CustomCheckBox(
-                            isImportant: widget.addExpOrIncCubit.isImportant,
-                            text: _checkTheCurrentTab()
-                                ? AppStrings.important.tr()
-                                : AppStrings.fixed.tr(),
-                            onChanged: widget.addExpOrIncCubit.isImportantOrNo),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomCheckBox(
-                                isImportant: widget.addExpOrIncCubit.isRepeat,
-                                onChanged: (value) =>
-                                    widget.addExpOrIncCubit.isRepeatOrNo(value),
-                                text: AppStrings.repeat.tr()),
-                            CustomElevatedButton(
-                              onPressed: () {
-                                widget.addExpOrIncCubit.validateields(
+                    crossAxisAlignment:
+                        isEnglish ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+                    children: [
+                      CustomCheckBox(
+                          isImportant: widget.addExpOrIncCubit.isImportant,
+                          text: _checkTheCurrentTab()
+                              ? AppStrings.important.tr()
+                              : AppStrings.fixed.tr(),
+                          onChanged: widget.addExpOrIncCubit.isImportantOrNo),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomCheckBox(
+                              isImportant: widget.addExpOrIncCubit.isRepeat,
+                              onChanged: (value) =>
+                                  widget.addExpOrIncCubit.isRepeatOrNo(value),
+                              text: AppStrings.repeat.tr()),
+                          BlocListener<AddExpOrIncCubit, AddExpOrIncState>(
+                            listener: (context, state) async {
+                              if (state is AddExpOrIncError) {
+                                errorSnackBar(
+                                    context: context, message: AppStrings.tryAgain);
+                              }
+                              if (state is AddExpOrIncSuccess) {
+                                await _showSuccessAndNavigate(context);
+                              }
+                            },
+                            child: CustomElevatedButton(
+                              onPressed: () async {
+                                await _validateFields(
                                   context,
                                   TransactionModel.expense(
                                       id: GUIDGen.generate(),
@@ -221,52 +237,49 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                                                   false,
                                       isProcessing: false,
                                       createdDate:
-                                          getAddExpOrIncCubit().chosenDate as DateTime,
-                                      paymentDate: widget.addExpOrIncCubit.chosenDate
-                                          as DateTime),
+                                          context.read<AddExpOrIncCubit>().chosenDate,
+                                      paymentDate: widget.addExpOrIncCubit.chosenDate),
                                 );
-                                if(state is AddExpOrIncSuccess){
-                                  showSuccessAndNavigate(context);
-                                  BlocProvider.of<HomeCubit>(context).getTheGeneralStatsModel();
-                                }
+
                                 print(
                                     "chooosen daaaaate is ${widget.addExpOrIncCubit.chosenDate}");
                               },
                               text: AppStrings.add.tr(),
                             ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 1.h),
+                      Visibility(
+                        visible: widget.addExpOrIncCubit.isRepeat,
+                        replacement: const SizedBox.shrink(),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 70.w,
+                              child: DropDownCustomWidget(
+                                  icon: isEnglish ? AppIcons.forwardArrow : null,
+                                  isEnglish: isEnglish,
+                                  leadingIcon: !isEnglish
+                                      ? AppIcons.backWordArrow
+                                      : AppIcons.forwardArrow,
+                                  leadingIconColor: AppColor.primaryColor,
+                                  dropDownList:
+                                      widget.addExpOrIncCubit.dropDownChannelItems,
+                                  hint: widget.addExpOrIncCubit.choseRepeat.tr(),
+                                  onChangedFunc: widget.addExpOrIncCubit.chooseRepeat),
+                            ),
+                            if (!isEnglish) const Spacer()
                           ],
                         ),
-                        SizedBox(height: 1.h),
-                        Visibility(
-                          visible: widget.addExpOrIncCubit.isRepeat,
-                          replacement: const SizedBox.shrink(),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 70.w,
-                                child: DropDownCustomWidget(
-                                    icon: isEnglish ? AppIcons.forwardArrow : '',
-                                    isEnglish: isEnglish,
-                                    leadingIcon:
-                                        !isEnglish ? AppIcons.backWordArrow : '',
-                                    leadingIconColor: AppColor.primaryColor,
-                                    dropDownList:
-                                        widget.addExpOrIncCubit.dropDownChannelItems,
-                                    hint: widget.addExpOrIncCubit.choseRepeat.tr(),
-                                    onChangedFunc:
-                                        widget.addExpOrIncCubit.chooseRepeat),
-                              ),
-                              if (!isEnglish) const Spacer()
-                            ],
-                          ),
-                        ),
-                      ]),
+                      ),
+                    ],
+                  ),
                   SizedBox(height: 1.2.h),
                 ],
               ),
             ),
             SizedBox(height: 3.5.h),
-            //const MainCategoryChoice(mainCategoryName: 'Variable'),
           ],
         );
       },
