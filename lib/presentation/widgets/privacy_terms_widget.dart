@@ -3,59 +3,95 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/presentation/widgets/buttons/custom_text_button.dart';
+import 'package:temp/presentation/widgets/show_dialog.dart';
 
-class PrivacyPolicyAndTermsWidget extends StatelessWidget {
+class PrivacyPolicyAndTermsWidget extends StatelessWidget with AlertDialogMixin {
   const PrivacyPolicyAndTermsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return  RichText(
+    final textTheme = Theme.of(context).textTheme;
+    return RichText(
         maxLines: 3,
         text: TextSpan(
             text: AppStrings.byUsingApp.tr(),
-            style: Theme.of(context).textTheme.bodySmall,
+            style: textTheme.bodySmall,
             children: [
-          TextSpan(
-              text: AppStrings.privacyPolicy.tr(),style: Theme.of(context).textTheme.bodySmall!.copyWith(decoration: TextDecoration.underline),
-              recognizer: TapGestureRecognizer()..onTap = () {
-                showDialog(context: context, builder: (context){
-                  return AlertDialog(
-                    content: Container(
-                      height: 80.h,
-
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      Text(AppStrings.privacyPolicy,style: Theme.of(context).textTheme.headlineMedium),
-                      Expanded(child: SingleChildScrollView(child: Text(AppStrings.cashatiPrivacy))),
-                        ],
-                      ),
-                    ),
-                  );
-
-                });
-              }),
-          TextSpan(text: AppStrings.and.tr(),style: Theme.of(context).textTheme.bodySmall,),
-
               TextSpan(
-                  text: AppStrings.termsConditions.tr(),
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(decoration: TextDecoration.underline),
-                  recognizer: TapGestureRecognizer()..onTap = () {
-                    showDialog(context: context, builder: (context){
-                      return AlertDialog(
-                        content: Container(
-                          height: 80.h,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(AppStrings.termsConditions,style: Theme.of(context).textTheme.headlineMedium),
-                              Expanded(child: SingleChildScrollView(child: Text(AppStrings.cashatiTerms))),
-                            ],
-                          ),
+                  text: AppStrings.privacyPolicy.tr(),
+                  style: textTheme.bodySmall!
+                      .copyWith(decoration: TextDecoration.underline),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      showPrivacyAndTermsDialog(
+                        context: context,
+                        child: const UiPrivacyAndTermsDialog(
+                          header: AppStrings.privacyPolicy,
+                          bodyTitle: AppStrings.cashatiPrivacy,
                         ),
                       );
-                    });
-                  }),
-        ]));
+                    }),
+              TextSpan(text: AppStrings.and.tr(), style: textTheme.bodySmall),
+              TextSpan(
+                  text: AppStrings.termsConditions.tr(),
+                  style: textTheme.bodySmall!
+                      .copyWith(decoration: TextDecoration.underline),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      showPrivacyAndTermsDialog(
+                        context: context,
+                        child: const UiPrivacyAndTermsDialog(
+                          header: AppStrings.termsConditions,
+                          bodyTitle: AppStrings.cashatiTerms,
+                        ),
+                      );
+                    }),
+            ]));
+  }
+}
+
+class UiPrivacyAndTermsDialog extends StatelessWidget {
+  const UiPrivacyAndTermsDialog(
+      {super.key, required this.header, required this.bodyTitle});
+
+  final String header;
+  final String bodyTitle;
+
+  Widget customButton(context, text, isEnglish) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: CustomTextButton(
+            text: text,
+            onPressed: Navigator.of(context).pop,
+            alignment: isEnglish ? Alignment.centerLeft : Alignment.centerRight),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final isEnglish = translator.activeLanguageCode == 'en';
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Text(header, style: textTheme.headlineMedium),
+          ),
+        ),
+        SizedBox(height: 1.h),
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: SingleChildScrollView(
+            child: Text(bodyTitle, style: textTheme.bodySmall),
+          ),
+        )),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          customButton(context, 'Cancel', isEnglish),
+          customButton(context, 'Agree', !isEnglish),
+        ]),
+      ],
+    );
   }
 }

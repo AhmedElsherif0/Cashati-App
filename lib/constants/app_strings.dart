@@ -122,7 +122,7 @@ class AppStrings {
   static const String personal = 'Personal'; // Personal
   static const String business = 'Business'; // Business
   static const String variable = 'Variable'; // Variable
-  static const String fixed = 'Fixed'; //Fixed
+  static const String fixed = 'fixed'; //Fixed
 
   /// sub_category_fields.dart
   static const String expense = 'expense'; // Expense
