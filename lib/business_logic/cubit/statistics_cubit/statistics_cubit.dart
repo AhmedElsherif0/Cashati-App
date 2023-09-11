@@ -67,9 +67,9 @@ class StatisticsCubit extends Cubit<StatisticsState> with FormatsMixin, HelperCl
     return _expensesRepository.getTransactionFromTransactionBox(isExpense: false);
   }
 
-  void getExpensesByDay(DateTime date, bool isExpense) {
+  void getExpensesByDay(DateTime? date, bool isExpense) {
     num totalImport = 0, totalNotImport = 0, chosenDayTotal = 0;
-    chosenDay = date;
+    chosenDay = date!;
     byDayList = getTodayExpenses(isExpense);
     byDayList.forEach((element) {
       if (element.isPriority) {
