@@ -4,6 +4,7 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
+import 'package:temp/presentation/utils/router_extention.dart';
 import 'package:temp/presentation/views/confirm_paying_goals.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
@@ -15,17 +16,17 @@ class GoalConfirmCard extends StatelessWidget with AlertDialogMixin {
 
   @override
   Widget build(BuildContext context) {
+    final cubitConfirm = context.read<ConfirmPaymentCubit>();
     return Visibility(
-      visible: context.read<ConfirmPaymentCubit>().allTodayGoals.isNotEmpty,
+      visible: cubitConfirm.allTodayGoals.isNotEmpty,
       replacement: Center(child: Text(AppStrings.noGoalsToConfirm.tr())),
       child: ListView.builder(
         padding: EdgeInsets.symmetric(vertical: 4.dp),
         itemExtent: 85.w,
         scrollDirection: Axis.horizontal,
-        itemCount: context.read<ConfirmPaymentCubit>().allTodayGoals.length,
+        itemCount: cubitConfirm.allTodayGoals.length,
         itemBuilder: (context, index) {
-          GoalModel currentGoal =
-              context.read<ConfirmPaymentCubit>().allTodayGoals[index];
+          GoalModel currentGoal = cubitConfirm.allTodayGoals[index];
           //index++;
           return Row(
             children: [
@@ -37,28 +38,22 @@ class GoalConfirmCard extends StatelessWidget with AlertDialogMixin {
                   onDelete: () {},
                   onEditAmount: () {
                     changedAmount.text = currentGoal.goalSaveAmount.toString();
-                     newAmountDialog(
-                            amount: context.read<ConfirmPaymentCubit>().test[index],
-                            onUpdate: () {
-                              context.read<ConfirmPaymentCubit>().onChangeAmount(
-                                  currentGoal.goalSaveAmount.toDouble(),
-                                  double.parse(changedAmount.text));
-                              currentGoal.goalSaveAmount =
-                                  double.parse(changedAmount.text);
-                            },
-                            context: context,
-                            changedAmountCtrl: changedAmount);
+                    newAmountDialog(
+                        amount: cubitConfirm.tests[index],
+                        onUpdate: () {
+                          cubitConfirm.onChangeAmount(
+                              currentGoal.goalSaveAmount.toDouble(),
+                              changedAmount.text.toDouble());
+                          currentGoal.goalSaveAmount = changedAmount.text.toDouble();
+                        },
+                        context: context,
+                        changedAmountCtrl: changedAmount);
                   },
                   index: index,
-                  onCancel: () {
-                    context.read<ConfirmPaymentCubit>()
-                        .onNoConfirmedGoal(goalModel: currentGoal);
-                  },
-                  onConfirm: () {
-                    context
-                        .read<ConfirmPaymentCubit>()
-                        .onYesConfirmedGoal(goalModel: currentGoal);
-                  },
+                  onCancel: () =>
+                      cubitConfirm.onNoConfirmedGoal(goalModel: currentGoal),
+                  onConfirm: () =>
+                      cubitConfirm.onYesConfirmedGoal(goalModel: currentGoal),
                   changedAmount: 10000,
                   blockedAmount: currentGoal.goalRemainingAmount.toDouble(),
                   // Todo: what this events For ??!!.

@@ -8,3 +8,7 @@ extension NavigatorExtensions on BuildContext {
 
   void pops<T>([T? result]) => _navigator.pop(result);
 }
+
+extension StringExtentions on String {
+  double toDouble() => double.parse(this);
+}

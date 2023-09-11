@@ -6,7 +6,6 @@ import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/styles/decorations.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 
-import '../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import '../router/app_router_names.dart';
 import '../styles/colors.dart';
 import 'category_info_field.dart';
@@ -14,10 +13,8 @@ import 'common_texts/green_text.dart';
 import 'editable_infor_field.dart';
 
 class AddSubCategoryWidget extends StatefulWidget {
-  const AddSubCategoryWidget({
-    Key? key,
-    required this.mainCategoryName,
-  }) : super(key: key);
+  const AddSubCategoryWidget({Key? key, required this.mainCategoryName})
+      : super(key: key);
   final String mainCategoryName;
 
   @override
@@ -35,7 +32,7 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
     super.dispose();
   }
 
-  void validation(AddSubcategoryCubit addSubcategoryCubit) {
+  void _validation(AddSubcategoryCubit addSubcategoryCubit) {
     if (formKey.currentState!.validate()) {
       print('validated');
       addSubcategoryCubit.filterSubCategory(subCategoryName.text);
@@ -131,7 +128,7 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
                 Align(
                   alignment: isEnglish ? Alignment.centerRight : Alignment.centerLeft,
                   child: CustomElevatedButton(
-                      onPressed: () async => validation(addSubcategoryCubit),
+                      onPressed: () async => _validation(addSubcategoryCubit),
                       text: AppStrings.save.tr()),
                 ),
               ],
