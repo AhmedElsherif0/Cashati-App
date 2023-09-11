@@ -3,35 +3,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
-import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
 
-import '../../../../business_logic/cubit/home_cubit/home_cubit.dart';
-import '../../../../business_logic/cubit/home_cubit/home_state.dart';
-import '../../../router/app_router_names.dart';
-import '../../../views/card_home.dart';
+import '../../../../../business_logic/cubit/home_cubit/home_cubit.dart';
+import '../../../../../business_logic/cubit/home_cubit/home_state.dart';
+import '../../../../router/app_router_names.dart';
+import '../../../../views/card_home.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   void onAddTransaction(BuildContext context) =>
       Navigator.of(context).pushNamed(AppRouterNames.rAddExpenseOrIncomeScreen);
-  HomeCubit cubit(context) => BlocProvider.of<HomeCubit>(context);
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit =BlocProvider.of<HomeCubit>(context) ;
-
-    //cubit(context).getTheGeneralStatsModel();
+    final homeCubit = BlocProvider.of<HomeCubit>(context);
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) async {
         if (state is HomeInitial) {
-          cubit(context).getTheGeneralStatsModel();
+          homeCubit.getTheGeneralStatsModel();
         } else if (state is FetchedGeneralModelSuccState ||
             state is ModelExistsSuccState) {
-          cubit(context).getNotificationList();
-          cubit(context).fetchTopExpAndTopInc();
+          homeCubit.getNotificationList();
+          homeCubit.fetchTopExpAndTopInc();
         }
       },
       builder: (context, state) {
@@ -57,20 +53,18 @@ class HomeScreen extends StatelessWidget {
                         alignmentIncomeOrGoals: translator.activeLanguageCode == 'ar'
                             ? Alignment.centerLeft
                             : Alignment.centerRight,
-                        onPressedIncome: () => cubit(context).isExpense
-                            ? cubit(context).isItExpense()
-                            : null,
-                        onPressedExpense: () => !cubit(context).isExpense
-                            ? cubit(context).isItExpense()
-                            : null,
-                        isExpense: cubit(context).isExpense),
+                        onPressedIncome: () =>
+                            homeCubit.isExpense ? homeCubit.isItExpense() : null,
+                        onPressedExpense: () =>
+                            !homeCubit.isExpense ? homeCubit.isItExpense() : null,
+                        isExpense: homeCubit.isExpense),
                   ),
                 ),
                 Expanded(
                   flex: 12,
                   child: CardHome(
-                    isExpense: cubit(context).isExpense,
-                    generalStatsModel: cubit(context).generalStatsModel ??
+                    isExpense: homeCubit.isExpense,
+                    generalStatsModel: homeCubit.generalStatsModel ??
                         GeneralStatsModel(
                           id: AppStrings.onlyId,
                           balance: 0,
@@ -81,13 +75,13 @@ class HomeScreen extends StatelessWidget {
                           latestCheck: DateTime.now(),
                           notificationList: [],
                         ),
-                    title: cubit(context).isExpense
+                    title: homeCubit.isExpense
                         ? AppStrings.expenseSmall
                         : AppStrings.incomeSmall,
                     onAdd: () => onAddTransaction(context),
-                    onShow: cubit(context).isExpense
-                        ? cubit(context).onShowExpense
-                        : cubit(context).onShowIncome,
+                    onShow: homeCubit.isExpense
+                        ? homeCubit.onShowExpense
+                        : homeCubit.onShowIncome,
                   ),
                 ),
                 const Spacer(),

@@ -11,7 +11,7 @@ import 'package:temp/presentation/widgets/show_dialog.dart';
 import '../../data/repository/formats_mixin.dart';
 
 class TransactionConfirmCard extends StatelessWidget
-    with AlertDialogMixin, FormatsMixin,HelperClass {
+    with AlertDialogMixin, FormatsMixin, HelperClass {
   const TransactionConfirmCard({Key? key, required this.changedAmount})
       : super(key: key);
   final TextEditingController changedAmount;
@@ -42,19 +42,17 @@ class TransactionConfirmCard extends StatelessWidget
                             transactionModel: currentIncome,
                             onDetails: () {},
                             amount: currentIncome.amount.toDouble(),
-                            onDelete: () =>
-                              showYesOrNoDialog(
-                                  title: AppStrings.deleteIncome.tr(),
-                                  message:
-                                      '${getMsg(currentIncome)}\n'
-                                          '${AppStrings.availabilityToCancelTransaction}',
-                                  onYes: () async => await confirmCubit
-                                      .onDeleteTransaction(currentIncome),
-                                  context: context),
+                            onDelete: () => showYesOrNoDialog(
+                                title: AppStrings.deleteIncome.tr(),
+                                message: '${getMsg(currentIncome)}\n'
+                                    '${AppStrings.availabilityToCancelTransaction}',
+                                onYes: () async => await confirmCubit
+                                    .onDeleteTransaction(currentIncome),
+                                context: context),
                             onEditAmount: () {
                               changedAmount.text = currentIncome.amount.toString();
                               newAmountDialog(
-                                  amount: confirmCubit.test[index],
+                                  amount: confirmCubit.tests[index],
                                   onUpdate: () {
                                     confirmCubit.onChangeAmount(
                                         currentIncome.amount.toDouble(),
@@ -117,7 +115,7 @@ class TransactionConfirmCard extends StatelessWidget
                             onEditAmount: () {
                               changedAmount.text = currentExpense.amount.toString();
                               newAmountDialog(
-                                  amount: confirmCubit.test[index],
+                                  amount: confirmCubit.tests[index],
                                   onUpdate: () {
                                     confirmCubit.onChangeAmount(
                                         currentExpense.amount.toDouble(),

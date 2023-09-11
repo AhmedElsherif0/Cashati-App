@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:temp/presentation/goals/add_goal_screen.dart';
 import 'package:temp/presentation/goals/goals_screen.dart';
-import 'package:temp/presentation/screens/add_exp_inc_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/income_repeat_type_screen.dart';
+import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screens/add_exp_inc_screen.dart';
+import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screens/add_subcategory_screen.dart';
 import 'package:temp/presentation/screens/home/statistics_details_screen.dart';
 import 'package:temp/presentation/screens/shared/notification_screen.dart';
 import 'package:temp/presentation/screens/test_screens/notifications_test.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import 'package:temp/presentation/screens/welcome/welcome_screen.dart';
-import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
+import 'package:temp/presentation/styles/decorations.dart';
 
 import '../screens/home/nav_bottom_screens/control_screen.dart';
 import '../screens/home/nav_bottom_screens/settings_screen.dart';
@@ -41,16 +42,10 @@ class AppRouter {
         return pageBuilderRoute(child: const NotificationScreen());
       case AppRouterNames.rNotificationTest:
         return pageBuilderRoute(child: const NotificationTestScreen());
-      /* case AppRouterNames.rTestAddGoalScreen:
-        return pageBuilderRoute(child: AddGoalTestScreen());*/
-      /* case AppRouterNames.rFetchGoalScreen:
-        return pageBuilderRoute(child: const FetchGoalsTestScreen());*/
       case AppRouterNames.rAddGoal:
         return pageBuilderRoute(child: const AddGoalScreen());
       case AppRouterNames.rGetGoals:
         return pageBuilderRoute(child: const GoalsScreen());
-      /* case AppRouterNames.rConfirmToday:
-        return pageBuilderRoute(child: const ConfirmPaymentsScreen());*/
       case AppRouterNames.rStatisticsDetailsScreen:
         return pageBuilderRoute(child: const StatisticsDetailsScreen());
       default:
@@ -61,16 +56,14 @@ class AppRouter {
   static PageRouteBuilder pageBuilderRoute(
       {context, Widget child = const Navigator()}) {
     return PageRouteBuilder(
-      transitionDuration: const Duration(milliseconds: 600),
-      reverseTransitionDuration: const Duration(milliseconds: 600),
+      transitionDuration: AppDecorations.duration600ms,
+      reverseTransitionDuration: AppDecorations.duration600ms,
       pageBuilder: (context, animation, secondaryAnimation) => child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: animation.drive(
-            Tween(begin: const Offset(1, 0.0), end: Offset.zero).chain(
-              CurveTween(curve: Curves.easeInOutBack),
-            ),
-          ),
+              Tween(begin: const Offset(1, 0.0), end: Offset.zero)
+                  .chain(CurveTween(curve: Curves.easeInOutBack))),
           child: child,
         );
       },

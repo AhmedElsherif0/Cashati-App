@@ -9,6 +9,7 @@ import 'package:temp/presentation/screens/home/statistics_week_details_screen.da
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
+import 'package:temp/presentation/widgets/show_dialog.dart';
 
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/models/transactions/transaction_model.dart';
@@ -27,7 +28,7 @@ class ExpensesStatisticsScreen extends StatefulWidget {
 }
 
 class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
-    with FormatsMixin {
+    with FormatsMixin, AlertDialogMixin {
   final PageController _controller = PageController(initialPage: 0);
   DateTime? datePicker = DateTime.now();
 
@@ -75,7 +76,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
   }
 
   void showDatePickMonth() async {
-    final datePicker = await showMonthPicker(
+    datePicker = await showMonthPicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
@@ -86,15 +87,10 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     getStatisticsCubit().getTransactionsByMonth(true);
   }
 
-  // _onSeeMoreByWeek(context, index) => Navigator.push(
-  //     context,
-  //     AppRouter.pageBuilderRoute(
-  //         child: StatisticsDetailsScreen(
-  //             index: index, transactions: getStatisticsCubit().weeks[index])));
   _onSeeMoreByWeek(context, index) {
     print("transactions are ${getStatisticsCubit().weeks[index]}");
     print("transactions length is ${getStatisticsCubit().weeks[index].length}");
-    print("index of the 5 weeks is ${index}");
+    print("index of the 5 weeks is $index");
     if (getStatisticsCubit().weeks[index].isNotEmpty) {
       getStatisticsCubit().chosenFilterWeekDay = AppStrings.all.tr();
       Navigator.push(
@@ -105,8 +101,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                   builderIndex: index,
                   transactions: getStatisticsCubit().weeks[index])));
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("No Expenses in this week.")));
+      errorSnackBar(context: context, message: "No Expenses in this week.");
     }
   }
 
@@ -123,8 +118,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
   Widget build(BuildContext context) {
     int currentIndex = 0;
     return Scaffold(
-      body: BlocConsumer<StatisticsCubit, StatisticsState>(
-        listener: (context, state) {},
+      body: BlocBuilder<StatisticsCubit, StatisticsState>(
         builder: (context, state) {
           return Directionality(
             textDirection: TextDirection.ltr,
@@ -161,8 +155,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                           totalExpenses:
                               context.read<StatisticsCubit>().totalImportantExpenses(),
                           index: index,
-                          priorityType: PriorityType.Important,
-                          notPriority: PriorityType.NotImportant,
+                          priorityType: AppStrings.important,
+                          notPriority: AppStrings.notImportant,
                           transactionsValues: getStatisticsCubit().transactionsValues,
                         ),
 

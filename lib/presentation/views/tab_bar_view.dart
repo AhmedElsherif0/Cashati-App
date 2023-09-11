@@ -7,7 +7,6 @@ import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/transaction_card.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/tab_view_item_decoration.dart';
 
-import '../../constants/app_icons.dart';
 import '../../constants/app_strings.dart';
 import '../../constants/enum_classes.dart';
 import '../../data/repository/helper_class.dart';
@@ -57,6 +56,9 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
     tabController.dispose();
     super.dispose();
   }
+
+  bool _isRepeated(index) => ('No Repeat' != widget.transactions[index].repeatType ||
+      'مكرر' != widget.transactions[index].repeatType);
 
   @override
   Widget build(BuildContext context) {
@@ -113,10 +115,7 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
                                   return TransactionCardView(
                                     onPressSeeMore: () => widget.onPressSeeMore(index),
                                     isVisible: true,
-                                    isRepeated: 'No Repeat' !=
-                                            widget.transactions[index].repeatType
-                                        ? true
-                                        : false,
+                                    isRepeated: _isRepeated(index) ? true : false,
                                     transaction: widget.transactions[index],
                                   );
                                 },

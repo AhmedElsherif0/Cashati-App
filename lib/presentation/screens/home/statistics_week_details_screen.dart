@@ -12,11 +12,11 @@ import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/screens/home/part_time_details.dart';
 import 'package:temp/presentation/screens/shared/empty_screen.dart';
 import 'package:temp/presentation/styles/colors.dart';
+import 'package:temp/presentation/utils/router_extention.dart';
 import 'package:temp/presentation/widgets/drop_down_custom.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import 'package:temp/presentation/widgets/transaction_card.dart';
 
-import '../../router/app_router.dart';
 import '../../widgets/custom_app_bar.dart';
 
 class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
@@ -38,10 +38,6 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
         ? '${'the'.tr()} ${AppStrings.week.tr()} $transactionType'
         : '$transactionType ${'the'.tr()}${AppStrings.week.tr()}';
   }
-
-  /*List<DropdownMenuItem<String>> getDropDown() {
-
-  }*/
 
   bool isAll(context) {
     final val = BlocProvider.of<StatisticsCubit>(context).chosenFilterWeekDay;
@@ -104,10 +100,10 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const PriorityWidget(),
+                        children: const [
+                          PriorityWidget(text: AppStrings.important),
                           PriorityWidget(
-                              text: PriorityType.NotImportant.name,
+                              text: AppStrings.notImportant,
                               color: AppColor.pinkishGrey)
                         ],
                       ),
@@ -125,15 +121,11 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
                           ? transactions.length
                           : statisticsCubit.transactionsWeekFiltered.length,
                       itemBuilder: (_, currIndex) => InkWell(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => PartTimeDetails(
-                                    transactionModel: isAll(context)
-                                        ? transactions[currIndex]
-                                        : statisticsCubit
-                                            .transactionsWeekFiltered[currIndex],
-                                    insideIndex: 10))),
+                        onTap: () => context.navigateTo(PartTimeDetails(
+                            transactionModel: isAll(context)
+                                ? transactions[currIndex]
+                                : statisticsCubit.transactionsWeekFiltered[currIndex],
+                            insideIndex: 10)),
                         child: TransactionsCard(
                           index: currIndex,
                           isRepeated: false,
