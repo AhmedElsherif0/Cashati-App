@@ -32,7 +32,7 @@ class PrivacyPolicyAndTermsWidget extends StatelessWidget with AlertDialogMixin 
                         ),
                       );
                     }),
-              TextSpan(text: AppStrings.and.tr(), style: textTheme.bodySmall),
+              TextSpan(text: ' ${AppStrings.and.tr()} ', style: textTheme.bodySmall),
               TextSpan(
                   text: AppStrings.termsConditions.tr(),
                   style: textTheme.bodySmall!

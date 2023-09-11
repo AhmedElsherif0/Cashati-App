@@ -166,6 +166,10 @@
   "fixed": "Fixed",
   "emptyShow": " Empty Show",
   "cashatiTeam": "Cashati Team",
+  "privacyPolicy": "Privacy Policy",
+  "termsConditions": "Terms And Conditions",
   "appInfo": "App Information",
-  "aboutApp": "About App"
+  "aboutApp": "About App",
+  "and": "And",
+  "byUsingApp": "By using this app\n you are agreeing to our\n"
 }
