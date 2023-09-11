@@ -45,6 +45,7 @@
   "repeat": "Repeat",
   "onlyId": "OnlyID",
   "NoRepeat": "No Repeat",
+  "repeated": "Repeated",
   "reminders": "Reminders",
   "dailyReminders": "Daily Reminders",
   "reminderSubtitle": "Set Reminder to insert\n your daily transaction.\n Remind me on",
@@ -54,7 +55,6 @@
   "egp": "EGP",
   "usd": "USD",
   "moreSettings": "More Settings",
-  "appInfo": "App Info",
   "language(united states)": "English(united states)",
   "show": "Show",
   "week": "Week",
@@ -90,7 +90,7 @@
   "expenseName": "Expense Name",
   "writeDescription": "Write Description",
   "incomeName": "Income Name",
-  "Important": "Important",
+  "important": "Important",
   "cancel": "Cancel",
   "ok": "OK",
   "select": "Select",
@@ -152,7 +152,7 @@
   "byMonth": "Monthly",
   "Yearly": "Yearly",
   "NotFixed": "Not Fixed",
-  "NotImportant": "Not Important",
+  "notImportant": "Not Important",
   "notifications": "Notifications",
   "goalConfirmationSuccess": "Goal Confirmation Success",
   "threeHours": "3h",
@@ -164,5 +164,8 @@
   "Business": "Business",
   "Variable": "Variable",
   "Fixed": "Fixed",
-  "emptyShow": " Empty Show"
+  "emptyShow": " Empty Show",
+  "cashatiTeam": "Cashati Team",
+  "appInfo": "App Information",
+  "aboutApp": "About App"
 }

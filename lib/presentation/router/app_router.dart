@@ -6,13 +6,11 @@ import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_typ
 import 'package:temp/presentation/screens/home/drawer_screens/income_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/statistics_details_screen.dart';
 import 'package:temp/presentation/screens/shared/notification_screen.dart';
-import 'package:temp/presentation/screens/test_screens/add_goal_test_screen.dart';
-import 'package:temp/presentation/screens/test_screens/confirm_payments.dart';
-import 'package:temp/presentation/screens/test_screens/fetch_goals_test.dart';
 import 'package:temp/presentation/screens/test_screens/notifications_test.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import 'package:temp/presentation/screens/welcome/welcome_screen.dart';
 import 'package:temp/presentation/subcategories/add_subcategory_screen.dart';
+
 import '../screens/home/nav_bottom_screens/control_screen.dart';
 import '../screens/home/nav_bottom_screens/settings_screen.dart';
 import '../screens/welcome/on_boarding_screens.dart';
@@ -35,8 +33,6 @@ class AppRouter {
         return pageBuilderRoute(child: const ExpenseRepeatTypeScreen());
       case AppRouterNames.rIncomeRepeatType:
         return pageBuilderRoute(child: const IncomeRepeatTypeScreen());
-      case AppRouterNames.rExpenseRepeatDetails:
-        return pageBuilderRoute(child: const AddExpenseOrIncomeScreen());
       case AppRouterNames.rAddExpenseOrIncomeScreen:
         return pageBuilderRoute(child: const AddExpenseOrIncomeScreen());
       case AppRouterNames.rAddSubCategory:
@@ -45,17 +41,17 @@ class AppRouter {
         return pageBuilderRoute(child: const NotificationScreen());
       case AppRouterNames.rNotificationTest:
         return pageBuilderRoute(child: const NotificationTestScreen());
-     /* case AppRouterNames.rTestAddGoalScreen:
+      /* case AppRouterNames.rTestAddGoalScreen:
         return pageBuilderRoute(child: AddGoalTestScreen());*/
-     /* case AppRouterNames.rFetchGoalScreen:
+      /* case AppRouterNames.rFetchGoalScreen:
         return pageBuilderRoute(child: const FetchGoalsTestScreen());*/
       case AppRouterNames.rAddGoal:
         return pageBuilderRoute(child: const AddGoalScreen());
       case AppRouterNames.rGetGoals:
         return pageBuilderRoute(child: const GoalsScreen());
-     /* case AppRouterNames.rConfirmToday:
+      /* case AppRouterNames.rConfirmToday:
         return pageBuilderRoute(child: const ConfirmPaymentsScreen());*/
-       case AppRouterNames.rStatisticsDetailsScreen:
+      case AppRouterNames.rStatisticsDetailsScreen:
         return pageBuilderRoute(child: const StatisticsDetailsScreen());
       default:
     }

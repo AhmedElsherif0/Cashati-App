@@ -7,9 +7,8 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/styles/decorations.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
-import 'package:vector_math/vector_math.dart' as math;
+
 import '../../constants/app_icons.dart';
-import '../screens/home/nav_bottom_screens/settings_screen.dart';
 import '../styles/colors.dart';
 import 'buttons/custom_text_button.dart';
 import 'custom_painter_dialog.dart';
@@ -149,6 +148,7 @@ mixin AlertDialogMixin {
                             isEnglish ? Alignment.bottomRight : Alignment.bottomLeft,
                         onPressed: () => Navigator.of(context).pop(),
                         text: AppStrings.back.tr(),
+                        icon: Icons.arrow_back_ios,
                       ),
                     ],
                   ),

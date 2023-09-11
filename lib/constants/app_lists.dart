@@ -265,7 +265,7 @@ class AppConstantList {
     "الأربعاء",
     "الخميس"
   ];
-  static const List<CashatiEmployerModel> cashatiWorkers=const [
+  static const List<CashatiEmployerModel> cashatiWorkers=[
     CashatiEmployerModel(
       email: "mohamedmounierabbas@gmail.com",
       jobTitle: "Software Engineer And Team Leader",

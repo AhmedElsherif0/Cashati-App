@@ -9,9 +9,8 @@ import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/data/models/transactions/transaction_details_model.dart';
-import 'package:temp/data/repository/helper_class.dart';
 
-class GeneralStatsRepoImpl  implements GeneralStatsRepo {
+class GeneralStatsRepoImpl implements GeneralStatsRepo {
   late GeneralStatsModel generalStatsModel;
   final DateTime todayDate = DateTime.now();
   bool isGotNotifications = false;
@@ -91,8 +90,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
         //     .length}');
         print(
             'is Hive box exists ${await Hive.boxExists(AppBoxes.generalStatisticsBox)}');
-        print(
-            'Model before asigning  is ${generalBox.get(AppStrings.onlyId)}');
+        print('Model before asigning  is ${generalBox.get(AppStrings.onlyId)}');
 
         generalStatsModel = generalBox.get(AppStrings.onlyId) ??
             GeneralStatsModel(
@@ -246,7 +244,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
             payLoad: element.transactionModel.repeatType,
-            typeName: element.transactionModel.isExpense?"Expense":"Income",
+            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
           ));
           // await notificationBox.put(element.key,NotificationModel(
           //    id: element.transactionModel.id,
@@ -263,7 +261,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
         }
       });
       weeklyBox.values.forEach((element) async {
-        if (shouldAddNotification(element)){
+        if (shouldAddNotification(element)) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -274,7 +272,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
             payLoad: element.transactionModel.repeatType,
-            typeName: element.transactionModel.isExpense?"Expense":"Income",
+            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
           ));
           // await notificationBox.put(element.key,NotificationModel(
           //   id: element.transactionModel.id,
@@ -302,7 +300,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
             payLoad: element.transactionModel.repeatType,
-            typeName: element.transactionModel.isExpense?"Expense":"Income",
+            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
           ));
           // await notificationBox.put(element.key,NotificationModel(
           //   id: element.transactionModel.id,
@@ -319,7 +317,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
         }
       });
       noRepBox.values.forEach((element) async {
-        if (shouldAddNotification(element)){
+        if (shouldAddNotification(element)) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.transactionModel.id,
@@ -330,7 +328,7 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
             icon: AppIcons.dollarCircle,
             modelName: element.transactionModel.name,
             payLoad: element.transactionModel.repeatType,
-            typeName: element.transactionModel.isExpense?"Expense":"Income",
+            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
           ));
           // await  notificationBox.put(element.key,NotificationModel(
           //   id: element.transactionModel.id,
@@ -347,9 +345,9 @@ class GeneralStatsRepoImpl  implements GeneralStatsRepo {
         }
       });
       goalRepBox.values.forEach((element) async {
-if (element.nextShownDate.isBefore(todayDate) && todayDate
-            .difference(element.nextShownDate)
-            .inDays > 0&& element.goalLastConfirmationDate.isBefore(element.nextShownDate)) {
+        if (element.nextShownDate.isBefore(todayDate) &&
+            todayDate.difference(element.nextShownDate).inDays > 0 &&
+            element.goalLastConfirmationDate.isBefore(element.nextShownDate)) {
           //TODO check which icon to add
           generalStatsModel.notificationList.add(NotificationModel(
             id: element.goal.id,
@@ -531,21 +529,21 @@ if (element.nextShownDate.isBefore(todayDate) && todayDate
   }
 
   @override
-  Future<void> ChangeStatusOfNotification(NotificationModel notificationModel)async {
-    NotificationModel notificationInBox =  generalStatsModel.notificationList.where((element) => notificationModel.id==element.id).single;
+  Future<void> changeStatusOfNotification(NotificationModel notificationModel) async {
+    NotificationModel notificationInBox = generalStatsModel.notificationList
+        .where((element) => notificationModel.id == element.id)
+        .single;
     notificationInBox.didTakeAction = true;
     notificationInBox.actionDate = DateTime.now();
     await generalStatsModel.save();
   }
 
-  bool shouldAddNotification(TransactionRepeatDetailsModel element){
-    if(
-    element.nextShownDate.isBefore(todayDate) && todayDate
-        .difference(element.nextShownDate)
-        .inDays > 0 &&element.lastConfirmationDate.isBefore(element.nextShownDate)
-    ){
+  bool shouldAddNotification(TransactionRepeatDetailsModel element) {
+    if (element.nextShownDate.isBefore(todayDate) &&
+        todayDate.difference(element.nextShownDate).inDays > 0 &&
+        element.lastConfirmationDate.isBefore(element.nextShownDate)) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
