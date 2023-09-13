@@ -15,6 +15,7 @@ import '../../styles/colors.dart';
 import '../../widgets/add_income_expense_widget/choose_container.dart';
 import '../../widgets/editable_text.dart';
 import '../../widgets/expenses_and_income_widgets/important_or_fixed.dart';
+import '../../widgets/uneditable_text.dart';
 
 class PartTimeDetails extends StatefulWidget {
   const PartTimeDetails(
@@ -90,25 +91,28 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                     builder: (context, state) {
                       return Column(
                         children: [
+
+
+                          UnEditableInfoField(
+                            hint: widget.transactionModel.name,
+                            iconName:AppIcons.home,
+                          ),
+                          SizedBox(height: 15.dp),
                           SizedBox(
                               width: 90.w,
                               child: DateChooseContainer(
-                                onTap: () async => showDatePick(),
+                                onTap: () {},
                                 dateTime: widget.transactionModel.createdDate,
                               )),
                           SizedBox(height: 15.dp),
-                          EditableInfoField(
-                            textEditingController: mainCategoryController,
+                          UnEditableInfoField(
                             hint: widget.transactionModel.mainCategory.tr(),
                             iconName: AppIcons.categoryIcon,
-                            keyboardType: TextInputType.text,
                           ),
                           SizedBox(height: 15.dp),
-                          EditableInfoField(
-                            textEditingController: subCategoryController,
+                          UnEditableInfoField(
                             hint: widget.transactionModel.subCategory.tr(),
                             iconName: AppIcons.categories,
-                            keyboardType: TextInputType.text,
                           ),
                           SizedBox(height: 15.dp),
                           EditableInfoField(
@@ -126,21 +130,17 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                                 }),
                           ),
                           SizedBox(height: 15.dp),
-                          EditableInfoField(
-                            textEditingController: dateController,
+                          UnEditableInfoField(
                             hint: widget.transactionModel.repeatType.tr(),
                             iconName: AppIcons.change,
-                            keyboardType: TextInputType.text,
                           ),
                           SizedBox(height: 15.dp),
-                          EditableInfoField(
-                            textEditingController: descriptionController,
+                          UnEditableInfoField(
                             header: AppStrings.description.tr(),
                             hint: widget.transactionModel.description == ''
                                 ? AppStrings.subDescription.tr()
                                 : widget.transactionModel.description,
                             iconName: '',
-                            keyboardType: TextInputType.multiline,
                           ),
                           SizedBox(height: 30.dp),
                           Row(

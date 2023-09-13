@@ -6,6 +6,7 @@ import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/widgets/cashati_team_widget.dart';
+import 'package:temp/presentation/widgets/rate_app_dialog.dart';
 import 'package:temp/presentation/widgets/setting_card_layout.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
@@ -170,7 +171,9 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
                       ],
                     ),
                     const CustomDivider(),
-                    const CashatiTeamWidget()
+                    const CashatiTeamWidget(),
+                    const CustomDivider(),
+                    RateAppWidget()
                   ],
                 ))
               ],

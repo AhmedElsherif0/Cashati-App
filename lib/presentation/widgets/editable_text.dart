@@ -16,6 +16,7 @@ class EditableInfoField extends StatefulWidget {
       this.keyboardType,
       this.maxLines = 1,
       this.header = '',
+        this.isEnabled,
       this.backGroundColor})
       : super(key: key);
   final TextEditingController textEditingController;
@@ -25,6 +26,7 @@ class EditableInfoField extends StatefulWidget {
   final TextInputType? keyboardType;
   final double? containerWidth;
   final Widget? trailing;
+  final bool? isEnabled;
   final int maxLines;
   final Color? backGroundColor;
 
@@ -54,6 +56,7 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
                         : Alignment.centerRight,
                     child: Text(widget.header.tr(), style: theme.subtitle2))),
             TextFormField(
+              enabled: widget.isEnabled??true,
               keyboardType: widget.keyboardType ?? TextInputType.text,
               controller: widget.textEditingController,
               validator: (value) => value!.isEmpty
