@@ -1,12 +1,10 @@
 import 'package:hive/hive.dart';
-import 'package:temp/business_logic/repository/transactions_repo/transactions_interface.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 
 import '../../../business_logic/repository/transactions_repo/transaction_repo.dart';
-import '../../local/hive/app_boxes.dart';
 import '../../models/transactions/transaction_model.dart';
 import '../transactions_impl/transaction_impl.dart';
 
@@ -47,15 +45,23 @@ class ExpensesRepositoryImpl
   void addTransactions({required TransactionModel transaction}) {
     switch (transaction.repeatType) {
       case 'Daily':
+      case 'اليومية':
         DailyTransaction().addTransactionToRepeatedBox(transaction);
         break;
       case 'Weekly':
+      case 'الاسبوعية':
         WeeklyTransaction().addTransactionToRepeatedBox(transaction);
         break;
       case 'Monthly':
+      case 'الشهرية':
         MonthlyTransaction().addTransactionToRepeatedBox(transaction);
         break;
-      default: NoRepeatTransaction().addTransactionToRepeatedBox(transaction);
+      case 'No Repeat':
+      case 'مكرر':
+        NoRepeatTransaction().addTransactionToRepeatedBox(transaction);
+        break;
+      default:
+        NoRepeatTransaction().addTransactionToRepeatedBox(transaction);
     }
   }
 
@@ -83,7 +89,8 @@ class ExpensesRepositoryImpl
 
   @override
   Future<void> deleteTransactionRepo(TransactionModel transaction) async {
-    await hiveDatabase.deleteBox(boxName: hiveDatabase.getBoxName<TransactionModel>(
+    await hiveDatabase.deleteBox(
+        boxName: hiveDatabase.getBoxName<TransactionModel>(
             boxName: AppBoxes.transactionBox),
         dataModel: transaction);
   }

@@ -144,7 +144,16 @@ class AppStrings {
   static const String all = "all"; //All
   static const String completed = "completed"; //Completed
   static const String unCompleted = "unCompleted"; //UnCompleted
+
+  /// snack bars messages.
   static const String someThingWentWrong = "someThingWentWrong"; //UnCompleted
+  static const String inThisWeek = "inThisWeek"; //No Expenses in this week.
+  static const String kindlyPutTheAmount =
+      "kindlyPutTheAmount"; // 'Kindly put the amount ! '
+  static const String kindlyChooseSubCategory =
+      'kindlyChooseSubCategory'; // 'Kindly choose a subCategory'
+  static const String kindlyWriteTheName =
+      'kindlyWriteTheName'; // 'Kindly , write the name '
 
   /// goal_card.dart
   static const String goalCost = 'goalCost'; //Goal Cost
@@ -220,6 +229,7 @@ class AppStrings {
   static const String notFixed = 'notFixed'; //Not Fixed
   static const String notImportant = 'notImportant'; //Not Important
   static const String noExpensesYet = 'noExpensesYet'; //No Expenses yet
+  static const String noIncomesYet = 'noIncomesYet'; //No Incomes yet
   static const String pageNotFound = 'pageNotFound'; //Page not found
   static const String report = 'report'; //Report
   static const String notifications = 'notifications'; //Notifications

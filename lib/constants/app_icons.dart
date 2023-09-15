@@ -1,7 +1,6 @@
 class AppIcons {
   static const String icons = 'assets/icons';
 
-
   static const String cashatiLogoSVG = '$icons/cashati_logo.svg';
   static const String backWordArrow = '$icons/arrow-backWord.svg';
 
