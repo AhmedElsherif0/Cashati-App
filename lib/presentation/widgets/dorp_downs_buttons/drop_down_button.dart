@@ -5,7 +5,7 @@ import 'package:temp/presentation/styles/decorations.dart';
 
 import '../../styles/colors.dart';
 
-class DefaultDropDownButton extends StatelessWidget {
+class WelcomeDropDownButton extends StatelessWidget {
   final Color? iconColor;
   final List<String> items;
   final bool isExpanded;
@@ -13,7 +13,7 @@ class DefaultDropDownButton extends StatelessWidget {
   String selectedValue;
   final void Function(String?) onChange;
 
-  DefaultDropDownButton({
+  WelcomeDropDownButton({
     Key? key,
     this.iconColor,
     required this.selectedValue,

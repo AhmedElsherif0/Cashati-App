@@ -101,7 +101,9 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                   builderIndex: index,
                   transactions: getStatisticsCubit().weeks[index])));
     } else {
-      errorSnackBar(context: context, message: "No Expenses in this week.");
+      errorSnackBar(
+          context: context,
+          message: '${AppStrings.noExpensesYet.tr()} ${AppStrings.inThisWeek.tr()}');
     }
   }
 
@@ -110,9 +112,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
           context,
           AppRouter.pageBuilderRoute(
               child: PartTimeDetails(
-            transactionModel: transaction,
-            insideIndex: insideIndex,
-          )));
+                  transactionModel: transaction, insideIndex: insideIndex)));
 
   @override
   Widget build(BuildContext context) {

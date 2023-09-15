@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+
 import 'colors.dart';
 
 class AppDecorations {
@@ -10,51 +11,55 @@ class AppDecorations {
 
   static BoxDecoration defBoxDecoration = BoxDecoration(
     color: AppColor.primaryColor,
-    borderRadius: BorderRadius.circular(12.dp),
+    borderRadius: const BorderRadius.all(Radius.circular(12)),
     border: Border.all(width: 1.dp, color: AppColor.primaryColor),
   );
 
-  static AlignmentGeometry localizedAlignment = translator.activeLanguageCode == 'en'
-      ? Alignment.topRight
-      : Alignment.topLeft;
+  static AlignmentGeometry localizedAlignment =
+      translator.activeLanguageCode == 'en' ? Alignment.topRight : Alignment.topLeft;
 
   static BoxDecoration dTabBoxDecoration(Color color) => BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(12.dp),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         border: Border.all(width: 1.dp, color: color),
       );
 
-  static BorderRadius rGoalCardBar = BorderRadius.only(
-      topRight: Radius.circular(10.dp), bottomRight: Radius.circular(10.dp));
+  static BorderRadius rGoalCardBar = const BorderRadius.only(
+      topRight: Radius.circular(12), bottomRight: Radius.circular(12));
 
-  static BorderRadius lGoalCardBar = BorderRadius.only(
-      topLeft: Radius.circular(10.dp), bottomLeft: Radius.circular(10.dp));
+  static BorderRadius lGoalCardBar = const BorderRadius.only(
+      topLeft: Radius.circular(12), bottomLeft: Radius.circular(12));
 
-  static BoxDecoration homeCard = BoxDecoration(
+  static BoxDecoration homeCard = const BoxDecoration(
       color: AppColor.primaryColor,
       borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40.dp), topRight: Radius.circular(40.dp)));
+          topLeft: Radius.circular(40), topRight: Radius.circular(40)));
 
-  static BoxDecoration languageDecoration = BoxDecoration(
-      color: AppColor.veryLightGrey, borderRadius: BorderRadius.circular(16.dp));
+  static BoxDecoration languageDecoration = const BoxDecoration(
+      color: AppColor.veryLightGrey,
+      borderRadius: BorderRadius.all(Radius.circular(16)));
 
-  static BoxDecoration decoratedTextDecoration({double radius = 16})=> BoxDecoration(
-    color: AppColor.white,
-    borderRadius: BorderRadius.circular(radius.dp),
-  );
-  static ShapeBorder dropDownCurrency = RoundedRectangleBorder(
-      side: const BorderSide(color: AppColor.primaryColor, width: 0.8),
-      borderRadius: BorderRadius.circular(12.dp));
+  static BoxDecoration decoratedTextDecoration({double radius = 16}) => BoxDecoration(
+        color: AppColor.white,
+        borderRadius: BorderRadius.all(Radius.circular(radius)),
+      );
+  static ShapeBorder dropDownCurrency = const RoundedRectangleBorder(
+      side: BorderSide(color: AppColor.primaryColor, width: 0.8),
+      borderRadius: BorderRadius.all(Radius.circular(12)));
 
-  static BorderRadius rightDrawer = BorderRadius.only(
-      bottomLeft: Radius.circular(20.dp), topLeft: Radius.circular(20.dp));
+  static BorderRadius rightDrawer = const BorderRadius.only(
+      bottomLeft: Radius.circular(20), topLeft: Radius.circular(20));
 
-  static BorderRadius liftDrawer = BorderRadius.only(
-      bottomRight: Radius.circular(20.dp), topRight: Radius.circular(20.dp));
+  static BorderRadius liftDrawer = const BorderRadius.only(
+      bottomRight: Radius.circular(20), topRight: Radius.circular(20));
 
   static BoxDecoration subCategory(bool isEqual) => BoxDecoration(
         color: isEqual ? AppColor.primaryColor : AppColor.white,
         shape: BoxShape.circle,
         border: Border.all(color: isEqual ? AppColor.white : AppColor.primaryColor),
       );
+
+  static editTextDecoration(backGroundColor) => BoxDecoration(
+      color: backGroundColor ?? AppColor.primaryColor.withOpacity(0.25),
+      borderRadius: const BorderRadius.all(Radius.circular(16)));
 }

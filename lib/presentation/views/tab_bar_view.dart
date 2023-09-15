@@ -57,8 +57,10 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
     super.dispose();
   }
 
-  bool _isRepeated(index) => ('No Repeat' != widget.transactions[index].repeatType ||
-      'مكرر' != widget.transactions[index].repeatType);
+  bool _isRepeated(index) => ('NoRepeat' != widget.transactions[index].repeatType &&
+          'مكرر' != widget.transactions[index].repeatType)
+      ? true
+      : false;
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +117,7 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
                                   return TransactionCardView(
                                     onPressSeeMore: () => widget.onPressSeeMore(index),
                                     isVisible: true,
-                                    isRepeated: _isRepeated(index) ? true : false,
+                                    isRepeated: _isRepeated(index),
                                     transaction: widget.transactions[index],
                                   );
                                 },

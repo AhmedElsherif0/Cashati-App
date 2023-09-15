@@ -260,12 +260,11 @@ mixin AlertDialogMixin {
   Future<void> showGoalsDialog(
       {required BuildContext context,
       required Function onPressedYesFunction,
-      required Function onPressedNoFunction,
       required String infoMessage}) async {
     await _initAnimationDialog(
         context: context,
         child: GoalsDialogBody(
-            onPressedNoFunction: onPressedNoFunction,
+            onPressedNoFunction: () => Navigator.of(context).pop(),
             onPressedYesFunction: onPressedYesFunction,
             infoMessage: infoMessage));
   }

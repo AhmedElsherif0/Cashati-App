@@ -11,7 +11,7 @@ import '../../../../business_logic/cubit/global_cubit/global_cubit.dart';
 import '../../../../constants/app_strings.dart';
 import '../../../views/bottom_nav_bar.dart';
 import '../../../widgets/custom_app_bar.dart';
-import 'category_screen.dart';
+import 'confirm_screen.dart';
 import 'home_screens/home_screen.dart';
 
 class ControlScreen extends StatelessWidget {
