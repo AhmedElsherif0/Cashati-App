@@ -4,8 +4,6 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
-import 'package:temp/data/models/onbaording/onbaording_list_of_data.dart';
-import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/decorations.dart';
 import 'package:temp/presentation/widgets/common_texts/decorated_text.dart';
@@ -13,9 +11,8 @@ import 'package:temp/presentation/widgets/common_texts/decorated_text.dart';
 import '../../../constants/app_icons.dart';
 import '../../../constants/app_strings.dart';
 import '../../../data/local/cache_helper.dart';
-import '../../../data/repository/formats_mixin.dart';
 import '../../widgets/buttons/elevated_button.dart';
-import '../../widgets/expenses_and_income_widgets/drop_down_button.dart';
+import '../../widgets/dorp_downs_buttons/drop_down_button.dart';
 import '../../widgets/gradiant_background.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -109,11 +106,11 @@ class WelcomeScreen extends StatelessWidget {
                     children: [
                       Text(AppStrings.currency.tr(), style: headLine3),
                       SizedBox(height: 2.h),
-                      DefaultDropDownButton(
+                      WelcomeDropDownButton(
                         isDirection: translator.isDirectionRTL(context),
                         items: globalCubit.getCurrency,
                         selectedValue: globalCubit.selectedValue.tr(),
-                        onChange: (value)=> globalCubit.onChangeCurrency(value),
+                        onChange: (value) => globalCubit.onChangeCurrency(value),
                       )
                     ],
                   ),

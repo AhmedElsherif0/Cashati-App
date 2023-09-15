@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
-import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/constants/enum_classes.dart';
@@ -12,11 +11,11 @@ import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/screens/home/part_time_details.dart';
 import 'package:temp/presentation/screens/shared/empty_screen.dart';
 import 'package:temp/presentation/styles/colors.dart';
-import 'package:temp/presentation/utils/router_extention.dart';
-import 'package:temp/presentation/widgets/drop_down_custom.dart';
+import 'package:temp/presentation/widgets/dorp_downs_buttons/goals_drop_down.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import 'package:temp/presentation/widgets/transaction_card.dart';
 
+import '../../../constants/app_icons.dart';
 import '../../widgets/custom_app_bar.dart';
 
 class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
@@ -40,9 +39,24 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
   }
 
   bool isAll(context) {
-    final val = BlocProvider.of<StatisticsCubit>(context).chosenFilterWeekDay;
-    return val == "All" || val == "الكل";
+    final chosenFilterWeekDay =
+        BlocProvider.of<StatisticsCubit>(context).chosenFilterWeekDay;
+    return chosenFilterWeekDay == "All" || chosenFilterWeekDay == "الكل";
   }
+
+  List<DropdownMenuItem<String>> dropDownList() =>
+      (translator.activeLanguageCode == 'en'
+              ? AppConstantList.englishDays
+              : AppConstantList.arabicDays)
+          .map((e) => DropdownMenuItem<String>(value: e, child: Text(e)))
+          .toList();
+
+  void _toPartTimeScreen(context, currIndex, statisticsCubit) =>
+      context.navigateTo(PartTimeDetails(
+          transactionModel: isAll(context)
+              ? transactions[currIndex]
+              : statisticsCubit.transactionsWeekFiltered[currIndex],
+          insideIndex: 10));
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +71,7 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                CustomAppBar(
-                  title: appTitle(builderIndex),
-                  isEndIconVisible: false,
-                ),
+                CustomAppBar(title: appTitle(builderIndex), isEndIconVisible: false),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
@@ -71,24 +82,19 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
                           overflow: TextOverflow.ellipsis),
                       const SizedBox(width: 20),
                       Expanded(
-                        child: SizedBox(
-                          child: DropDownCustomWidget(
-                              iconHeight: 1.h,
-                              isExpanded: true,
-                              value: statisticsCubit.chosenFilterWeekDay,
-                              dropDownList: (translator.activeLanguageCode == 'en'
-                                      ? AppConstantList.englishDays
-                                      : AppConstantList.arabicDays)
-                                  .map((e) => DropdownMenuItem<String>(
-                                      value: e, child: Text(e)))
-                                  .toList(),
-                              hint: AppStrings.chooseDay.tr(),
-                              leadingIcon: AppIcons.dateIcon,
-                              onChangedFunc: (val) {
-                                statisticsCubit.filterWeekTransactionsByDay(
-                                    dayName: val, weekTransactions: transactions);
-                              }),
-                        ),
+                        child: GoalsFilterWidget(
+                            iconHeight: 1.h,
+                            isExpanded: true,
+                            iconWidget: Icon(Icons.keyboard_arrow_down,
+                                color: AppColor.primaryColor, size: 24.dp),
+                            value: statisticsCubit.chosenFilterWeekDay,
+                            dropDownList: dropDownList(),
+                            hint: AppStrings.chooseDay.tr(),
+                            leadingIcon: AppIcons.dateIcon,
+                            onChangedFunc: (val) {
+                              statisticsCubit.filterWeekTransactionsByDay(
+                                  dayName: val, weekTransactions: transactions);
+                            }),
                       ),
                     ],
                   ),
@@ -121,11 +127,8 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
                           ? transactions.length
                           : statisticsCubit.transactionsWeekFiltered.length,
                       itemBuilder: (_, currIndex) => InkWell(
-                        onTap: () => context.navigateTo(PartTimeDetails(
-                            transactionModel: isAll(context)
-                                ? transactions[currIndex]
-                                : statisticsCubit.transactionsWeekFiltered[currIndex],
-                            insideIndex: 10)),
+                        onTap: () =>
+                            _toPartTimeScreen(context, currIndex, statisticsCubit),
                         child: TransactionsCard(
                           index: currIndex,
                           isRepeated: false,

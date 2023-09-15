@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/constants/app_lists.dart';
@@ -26,17 +27,25 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       : super(AddExpOrIncInitial());
   String currentID = '';
   String subCatName = '';
-  bool isSubChoosed = false;
   DateTime chosenDate = DateTime.now();
   String currentMainCat = '';
   num currentAmount = 0;
+  int currentIndex = 0;
 
   List<MaterialColor> lastColorList = [];
   bool isExpense = true;
-  List<String> expMainCats = [AppStrings.home,AppStrings.personal,AppStrings.business];
-  List<String> expMainIcons = [AppIcons.home, AppIcons.person, AppIcons.business];
-  List<String> incomeMainCats = [AppStrings.fixed, AppStrings.variable];
-  List<String> incomeMainIcons = [AppIcons.fixed, AppIcons.variable];
+  List<String> expMainCats = const [
+    AppStrings.home,
+    AppStrings.personal,
+    AppStrings.business
+  ];
+  List<String> expMainIcons = const [
+    AppIcons.home,
+    AppIcons.person,
+    AppIcons.business
+  ];
+  List<String> incomeMainCats = const [AppStrings.fixed, AppStrings.variable];
+  List<String> incomeMainIcons = const [AppIcons.fixed, AppIcons.variable];
   List<SubCategory> personalSubCatsList = [];
   List<SubCategory> homeSubCatsList = [];
   List<SubCategory> businessSubCatsList = [];
@@ -45,16 +54,14 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
 
   final AppConstantList appList = AppConstantList();
 
-//  List<SubCategoryExpense> dataList=[] ;
-  String choseRepeat = 'No Repeat';
+  String choseRepeat = AppStrings.noRepeat;
   bool isRepeat = false;
   bool isImportant = false;
-  CategoryTransactionRepo subCategoryRepo = ExpenseSubCategoryImpl();
-  CategoryTransactionRepo incomeSubCategoryRepo = IncomeSubcategoryImpl();
-  List<DropdownMenuItem<String>> dropDownChannelItems = const [
-    DropdownMenuItem(value: AppStrings.daily, child: Text(AppStrings.daily)),
-    DropdownMenuItem(value: AppStrings.weekly, child: Text(AppStrings.weekly)),
-    DropdownMenuItem(value: AppStrings.monthly, child: Text(AppStrings.monthly))
+
+  List<DropdownMenuItem<String>> dropDownChannelItems = [
+    DropdownMenuItem(value: AppStrings.daily, child: Text(AppStrings.daily.tr())),
+    DropdownMenuItem(value: AppStrings.weekly, child: Text(AppStrings.weekly.tr())),
+    DropdownMenuItem(value: AppStrings.monthly, child: Text(AppStrings.monthly.tr()))
   ];
 
   final TransactionRepo _expensesRepository;
@@ -64,50 +71,32 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   chooseMainCategory(String mainCategory) {
     currentMainCat = mainCategory;
     print('current main cat is ${currentMainCat}');
-    resetSubCategory();
-    emit(ChoosedMainCategoryState());
+    _resetSubCategory();
   }
 
-  resetSubCategory() {
+  _resetSubCategory() {
     currentID = '';
     emit(ChoosedSubCategoryState());
   }
 
   chooseRepeat(String value) {
-    choseRepeat = (isRepeat ?  value : 'No Repeat');
+    choseRepeat = (isRepeat ? value : AppStrings.noRepeat);
     emit(ChoosedRepeatState());
   }
 
+  changeCurrentIndex(int index) {
+    currentIndex = index;
+    // emit(ChangeCurrentIndex());
+  }
+
   void isRepeatOrNo(bool? value) {
-    isRepeat = value??false;
+    isRepeat = value ?? false;
     emit(ChoosedRepeatState());
   }
 
   void isImportantOrNo(bool? value) {
     isImportant = value ?? false;
     emit(ChoosedPriorityState());
-  }
-
-  List<SubCategory> fetchExpensesSubCategories() {
-    List<SubCategory> fetchedList = [];
-    try {
-      fetchedList = subCategoryRepo.fetchSubCategories();
-    } catch (e) {
-      print('error is $e');
-    }
-    print('Fetched list is ${fetchedList}');
-    return fetchedList;
-  }
-
-  List<SubCategory> fetchIncomeSubCategories() {
-    List<SubCategory> fetchedList = [];
-    try {
-      fetchedList = incomeSubCategoryRepo.fetchSubCategories();
-    } catch (e) {
-      print('error is $e');
-    }
-    print('Fetched list is ${fetchedList}');
-    return fetchedList;
   }
 
   List<SubCategory> distributeExpenseSubcategories(String mainCategoryName) {
@@ -135,8 +124,32 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     }
   }
 
-  filterExpenseSubCategoriesList() {
-    List<SubCategory> list = fetchExpensesSubCategories();
+  List<SubCategory> _fetchExpensesSubCategories() {
+    CategoryTransactionRepo subCategoryRepo = ExpenseSubCategoryImpl();
+    List<SubCategory> fetchedList = [];
+    try {
+      fetchedList = subCategoryRepo.fetchSubCategories();
+    } catch (e) {
+      print('error is $e');
+    }
+    print('Fetched list is $fetchedList');
+    return fetchedList;
+  }
+
+  List<SubCategory> _fetchIncomeSubCategories() {
+    CategoryTransactionRepo incomeSubCategoryRepo = IncomeSubcategoryImpl();
+    List<SubCategory> fetchedList = [];
+    try {
+      fetchedList = incomeSubCategoryRepo.fetchSubCategories();
+    } catch (e) {
+      print('error is $e');
+    }
+    print('Fetched list is $fetchedList');
+    return fetchedList;
+  }
+
+  _filterExpenseSubCategoriesList() {
+    List<SubCategory> list = _fetchExpensesSubCategories();
     personalSubCatsList.addAll(appList.expensePersonalFixedList);
     homeSubCatsList.addAll(appList.expenseHomeFixedList);
     businessSubCatsList.addAll(appList.expenseBusinessFixedList);
@@ -153,8 +166,8 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     }
   }
 
-  filterIncomeSubCategoriesList() {
-    List<SubCategory> list = fetchIncomeSubCategories();
+  _filterIncomeSubCategoriesList() {
+    List<SubCategory> list = _fetchIncomeSubCategories();
     fixedSubCatsList.addAll(appList.incomeFixedSubFixedList);
     variableSubCatsList.addAll(appList.incomeVariableSubFixedList);
     if (list.isNotEmpty) {
@@ -168,24 +181,25 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     }
   }
 
-  addMoreToIncomeList() {
+  // Todo: need more explanations many mark questions ????
+  void addMoreToIncomeList() {
     variableSubCatsList.clear();
     fixedSubCatsList.clear();
-    filterIncomeSubCategoriesList();
+    _filterIncomeSubCategoriesList();
     fixedSubCatsList.insert(fixedSubCatsList.length, appList.addMoreOption);
     variableSubCatsList.insert(variableSubCatsList.length, appList.addMoreOption);
     emit(ChoosedMainCategoryState());
   }
 
-  addMoreToExpenseList() {
+  // Todo: need more explanations many mark questions ????
+  void addMoreToExpenseList() {
     personalSubCatsList.clear();
     homeSubCatsList.clear();
     businessSubCatsList.clear();
-    filterExpenseSubCategoriesList();
+    _filterExpenseSubCategoriesList();
     personalSubCatsList.insert(personalSubCatsList.length, appList.addMoreOption);
     homeSubCatsList.insert(homeSubCatsList.length, appList.addMoreOption);
     businessSubCatsList.insert(businessSubCatsList.length, appList.addMoreOption);
-    // emit(ChoosedMainCategoryState());
   }
 
   List<MaterialColor> fitRandomColors(List<SubCategory> subcategoryList) {
@@ -214,7 +228,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
           transactionModel: expenseModel);
       emit(AddExpOrIncSuccess());
     } catch (error) {
-      print('${error.toString()}');
+      print('this is the error ${error.toString()}');
       emit(AddExpOrIncError());
     }
   }
@@ -225,7 +239,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
           transactionModel: incomeModel);
       emit(AddExpOrIncSuccess());
     } catch (error) {
-      print('${error.toString()}');
+      print(error.toString());
       emit(AddExpOrIncError());
     }
   }
@@ -235,27 +249,6 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     print('Choosed Date in cubit is ${chosenDate}');
     emit(ChoosedDateState());
     return chosenDate;
-  }
-
-  Future<void> validateields(
-      BuildContext context, TransactionModel transactionModel) async {
-    currentAmount = transactionModel.amount;
-    if (transactionModel.amount == null || transactionModel.amount == 0) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Kindly put the amount ! ')));
-    } else if (subCatName.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Kindly choose a subCategory ')));
-    } else if (transactionModel.name.trim().isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Kindly , write the name ')));
-    } else {
-      transactionModel.isExpense
-          ? await addExpense(expenseModel: transactionModel)
-          : await addIncome(incomeModel: transactionModel);
-      print(
-          'Choosed Date before Adding in income widget is ${transactionModel.isExpense}');
-    }
   }
 
   Future checkIfTopExpOrInc() async {
@@ -271,8 +264,10 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       } else if (!isExpense && currentAmount > generalModel.topIncomeAmount) {
         await _generalStatsRepo.fetchTopExpenseAndTopIncome();
       } else {
-        print(
-            'Is Expense ${isExpense} And current amount is $currentAmount and top amount in transaction exp is ${generalModel.topExpenseAmount} and top amount in transaction Inc is ${generalModel.topIncomeAmount}');
+        print('Is Expense ${isExpense} And current amount is '
+            '$currentAmount and top amount in transaction exp is '
+            '${generalModel.topExpenseAmount} and top amount in transaction Inc is'
+            ' ${generalModel.topIncomeAmount}');
       }
     } else {
       print('Payment was not added today to check .');

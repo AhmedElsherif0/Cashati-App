@@ -3,6 +3,8 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/presentation/styles/decorations.dart';
+
 import '../styles/colors.dart';
 
 class EditableInfoField extends StatefulWidget {
@@ -41,10 +43,8 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
     return Container(
       // height: 6.h,
       width: widget.containerWidth,
-      decoration: BoxDecoration(
-          color: widget.backGroundColor ?? AppColor.primaryColor.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(16.dp)),
-      padding: EdgeInsets.symmetric(horizontal: 8.dp),
+      decoration: AppDecorations.editTextDecoration(widget.backGroundColor),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ListTile(
         title: Column(
           children: [
@@ -59,12 +59,7 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
               enabled: widget.isEnabled??true,
               keyboardType: widget.keyboardType ?? TextInputType.text,
               controller: widget.textEditingController,
-              validator: (value) => value!.isEmpty
-                  ? AppStrings.cantBeEmpty
-                  :
-                  // widget.subCategoryName=value;
-                  null,
-              // },
+              validator: (value) => value!.isEmpty ? AppStrings.cantBeEmpty : null,
               onChanged: (value) {},
               cursorColor: AppColor.primaryColor,
               style: theme.bodyText2!.copyWith(fontWeight: FontWeight.w300),

@@ -11,4 +11,5 @@ extension NavigatorExtensions on BuildContext {
 
 extension StringExtentions on String {
   double toDouble() => double.parse(this);
+  num? toNum() => num.tryParse(this);
 }

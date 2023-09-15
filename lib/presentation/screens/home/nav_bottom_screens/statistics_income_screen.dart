@@ -96,7 +96,9 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                   builderIndex: index,
                   transactions: getStatisticsCubit().weeks[index])));
     } else {
-      errorSnackBar(context: context, message: "No Income in this week.");
+      errorSnackBar(
+          context: context,
+          message: '${AppStrings.noIncomesYet.tr()} ${AppStrings.inThisWeek.tr()}');
     }
   }
 
@@ -131,9 +133,9 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                             onPressed: () =>
                                 index == 0 ? showDatePick() : showDatePickMonth(),
                             text: index == 0
-                                ? formatDayDate(getStatisticsCubit().chosenDay!,
+                                ? formatDayDate(getStatisticsCubit().chosenDay,
                                     translator.activeLanguageCode)
-                                : formatWeekDate(getStatisticsCubit().chosenDay!,
+                                : formatWeekDate(getStatisticsCubit().chosenDay,
                                     translator.activeLanguageCode),
                             textStyle: Theme.of(context).textTheme.subtitle1,
                             backgroundColor: AppColor.white,
@@ -176,7 +178,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                               onSeeMore: (weekIndex) =>
                                   _onSeeMoreByWeek(context, weekIndex),
                               weekRanges: getStatisticsCubit().weekRangeText(),
-                              chosenDay: getStatisticsCubit().chosenDay!,
+                              chosenDay: getStatisticsCubit().chosenDay,
                               weeksTotals: getStatisticsCubit().totalsWeeks,
                               seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                               priceColor: AppColor.secondColor,

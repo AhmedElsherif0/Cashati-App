@@ -15,7 +15,7 @@ import '../../../data/models/subcategories_models/expense_subcaegory_model.dart'
 import '../../../data/models/transactions/transaction_model.dart';
 import '../../styles/colors.dart';
 import '../buttons/elevated_button.dart';
-import '../drop_down_custom.dart';
+import '../dorp_downs_buttons/goals_drop_down.dart';
 import '../editable_text.dart';
 import 'choose_container.dart';
 import 'main_category_choice.dart';
@@ -90,11 +90,12 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
     final addExpIncCubit = context.read<AddExpOrIncCubit>();
     addExpIncCubit.currentAmount = transactionModel.amount;
     if (transactionModel.amount == null || transactionModel.amount == 0) {
-      errorSnackBar(context: context, message: 'Kindly put the amount ! ');
+      errorSnackBar(context: context, message: AppStrings.kindlyPutTheAmount.tr());
     } else if (addExpIncCubit.subCatName.isEmpty) {
-      errorSnackBar(context: context, message: 'Kindly choose a subCategory');
+      errorSnackBar(
+          context: context, message: AppStrings.kindlyChooseSubCategory.tr());
     } else if (transactionModel.name.trim().isEmpty) {
-      errorSnackBar(context: context, message: 'Kindly , write the name ');
+      errorSnackBar(context: context, message: AppStrings.kindlyWriteTheName.tr());
     } else {
       transactionModel.isExpense
           ? await addExpIncCubit.addExpense(expenseModel: transactionModel)
@@ -257,8 +258,8 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                           children: [
                             SizedBox(
                               width: 70.w,
-                              child: DropDownCustomWidget(
-                                  icon: isEnglish ? AppIcons.forwardArrow : null,
+                              child: GoalsFilterWidget(
+                                  icon: null,
                                   isEnglish: isEnglish,
                                   leadingIcon: !isEnglish
                                       ? AppIcons.backWordArrow

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+
 import 'colors.dart';
 
 class AppStyle {
@@ -43,8 +44,8 @@ class AppStyle {
   TextStyle subtitle1Theme() => TextStyle(
       fontSize: 12.4.dp, fontWeight: FontWeight.w300, color: AppColor.pineGreen);
 
-  TextStyle subtitle2Theme() =>
-      TextStyle(fontSize: 12.dp, fontWeight: FontWeight.w400, color: AppColor.subTitleColor);
+  TextStyle subtitle2Theme() => TextStyle(
+      fontSize: 12.dp, fontWeight: FontWeight.w400, color: AppColor.subTitleColor);
 
   TextStyle overLineTheme() => TextStyle(
       fontSize: 10.5.dp, fontWeight: FontWeight.w300, color: AppColor.subTitleColor);
