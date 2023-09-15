@@ -4,7 +4,7 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
-import 'package:temp/presentation/utils/router_extention.dart';
+import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/views/confirm_paying_goals.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 

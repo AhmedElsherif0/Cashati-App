@@ -10,10 +10,12 @@ import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/id_generator.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
+import 'package:temp/presentation/styles/decorations.dart';
+import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/views/app_bar_with_icon.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import 'package:temp/presentation/widgets/common_texts/green_text.dart';
-import 'package:temp/presentation/widgets/drop_down_custom.dart';
+import 'package:temp/presentation/widgets/dorp_downs_buttons/goals_drop_down.dart';
 import 'package:temp/presentation/widgets/editable_text.dart';
 import 'package:temp/presentation/widgets/goals_widgets/note_widget.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
@@ -34,6 +36,63 @@ class _AddGoalScreenState extends State<AddGoalScreen>
   final TextEditingController goalSaveRepeatAmount = TextEditingController();
   final _addGoalKey = GlobalKey<FormState>();
 
+  _validateAndAddGoal(BuildContext context, GoalsCubit goalCubit) async {
+    if (_addGoalKey.currentState!.validate()) {
+      //TODO put goal comment text form field
+      final GoalModel goalModel = GoalModel.copyWith(
+          goalComment: 'goalComment',
+          goalCreatedDay: DateTime.now(),
+          id: GUIDGen.generate(),
+          goalName: goalNameCtrl.text,
+          goalRemainingAmount: goalCubit.countRemainingAmount(
+              num.tryParse(goalCostCtrl.text)!,
+              num.tryParse(goalSaveRepeatAmount.text)!),
+          //num.tryParse(goalCostCtrl.text)!,
+          goalRemainingPeriod: goalCubit.remainingTimes(
+              cost: num.tryParse(goalCostCtrl.text)!,
+              dailySaving: num.tryParse(goalSaveRepeatAmount.text)!),
+          goalSaveAmount: num.tryParse(goalSaveRepeatAmount.text)!,
+          goalSaveAmountRepeat: goalCubit.choseRepeat,
+          goalTotalAmount: num.parse(goalCostCtrl.text),
+          //num.tryParse(goalCostCtrl.text)!,
+          goalStartSavingDate: goalCubit.chosenDate ?? goalCubit.today,
+          goalCompletionDate: goalCubit.getCompletionDate(
+              cost: num.tryParse(goalCostCtrl.text)!,
+              dailySavings: num.tryParse(goalSaveRepeatAmount.text)!,
+              repeat: goalCubit.choseRepeat,
+              startSavingDate: goalCubit.chosenDate ?? goalCubit.today));
+      await showGoalsDialog(
+          context: context,
+          onPressedYesFunction: () async {
+            await goalCubit.addGoal(goalModel: goalModel).then((_) {
+              _showSuccessSnackBar(context);
+            }).onError((error, stackTrace) {
+              _showErrorSnackBar(context);
+            });
+          },
+          infoMessage: goalCubit.dialogMessage(
+              cost: goalCostCtrl.text.toNum()!,
+              dailySaving: goalSaveRepeatAmount.text.tr().toNum()!));
+    }
+  }
+
+  void _showErrorSnackBar(BuildContext context) {
+    Navigator.of(context).pop();
+    errorSnackBar(context: context, message: AppStrings.someThingWentWrong.tr());
+  }
+
+  void _showSuccessSnackBar(BuildContext context) {
+    Navigator.of(context).pop();
+    successSnackBar(
+        context: context, message: AppStrings.successfullyConfirmedExpenseFood.tr());
+
+    /*showSuccessfulDialog(
+        context, AppStrings.goalAdded, AppStrings.successfullyConfirmedExpenseFood);*/
+    /* Future.microtask(() =>
+        Navigator.pushReplacementNamed(context, AppRouterNames.rGetGoals)
+    );*/
+  }
+
   @override
   Widget build(BuildContext context) {
     GoalsCubit goalsCubit = BlocProvider.of<GoalsCubit>(context);
@@ -47,10 +106,12 @@ class _AddGoalScreenState extends State<AddGoalScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 6.h,
-            ),
+            SizedBox(height: 6.h),
             AppBarWithIcon(
+              onTapFirstIcon: () {
+                Navigator.of(context).pop();
+                goalsCubit.fetchAllGoals();
+              },
               titleIcon: AppIcons.moneyAppBar,
               titleName: AppStrings.timeToSaveMoney.tr(),
               firstIcon: Icons.arrow_back_ios,
@@ -95,16 +156,17 @@ class _AddGoalScreenState extends State<AddGoalScreen>
                           hint: AppStrings.fifteen.tr(),
                           backGroundColor: AppColor.pinkishGrey.withOpacity(0.25),
                           iconName: AppIcons.cartAdd,
-                          trailing: DropDownCustomWidget(
+
+                          /// Don't change any thing please :D
+                          trailing: GoalsFilterWidget(
                             leadingIcon: '',
                             dropDownList: goalsCubit.dropDownChannelItems,
                             hint: goalsCubit.choseRepeat.tr(),
                             isExpanded: false,
                             value: goalsCubit.choseRepeat.tr(),
                             backgroundColor: Colors.transparent,
-                            icon: isEnglish
-                                ? AppIcons.forwardArrow
-                                : AppIcons.backWordArrow,
+                            iconWidget: Icon(Icons.arrow_forward_ios,
+                                color: AppColor.primaryColor, size: 16.dp),
                             onChangedFunc: (value) => goalsCubit.chooseRepeat(value),
                           ),
                         );
@@ -113,14 +175,14 @@ class _AddGoalScreenState extends State<AddGoalScreen>
                     SizedBox(height: 2.0.h),
                     GreenText(text: AppStrings.firstSavingDay.tr()),
                     SizedBox(height: 1.0.h),
-                    chooseDateWidget(goalsCubit),
+                    const ChooseDateWidget(),
                     SizedBox(height: 2.0.h),
                     CustomElevatedButton(
                         height: 6.h,
                         width: 90.w,
                         borderRadius: 8.dp,
                         onPressed: () async =>
-                            await validateAndAddGoal(context, goalsCubit),
+                            await _validateAndAddGoal(context, goalsCubit),
                         text: AppStrings.save.tr()),
                     SizedBox(height: 2.0.h),
                   ],
@@ -132,93 +194,40 @@ class _AddGoalScreenState extends State<AddGoalScreen>
       ),
     ));
   }
+}
 
-  Widget chooseDateWidget(GoalsCubit goalCubit) {
+class ChooseDateWidget extends StatelessWidget with FormatsMixin {
+  const ChooseDateWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final GoalsCubit goalsCubit = BlocProvider.of<GoalsCubit>(context);
     return BlocBuilder<GoalsCubit, GoalsState>(
       builder: (context, state) {
         return InkWell(
           onTap: () async {
-            await goalCubit.changeDate(context);
-            print('Choosed Date is ${goalCubit.chosenDate}');
+            await goalsCubit.changeDate(context);
+            print('Choosed Date is ${goalsCubit.chosenDate}');
           },
-          child: Container(
-            decoration: BoxDecoration(
-                color: AppColor.pinkishGrey.withOpacity(0.25),
-                borderRadius: BorderRadius.circular(20)),
+          child: DecoratedBox(
+            decoration: AppDecorations.editTextDecoration(
+                AppColor.pinkishGrey.withOpacity(0.25)),
             child: ListTile(
+              leading: SvgPicture.asset(AppIcons.dateIcon),
               title: Text(
-                goalCubit.chosenDate == null
+                goalsCubit.chosenDate == null
                     ? AppStrings.chooseDate.tr()
                     : formatDayDate(
-                        goalCubit.chosenDate!, translator.activeLanguageCode),
+                        goalsCubit.chosenDate!, translator.activeLanguageCode),
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2!
                     .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
               ),
-              leading: SvgPicture.asset(AppIcons.dateIcon),
             ),
           ),
         );
       },
     );
-  }
-
-  validateAndAddGoal(BuildContext context, GoalsCubit goalCubit) async {
-    if (_addGoalKey.currentState!.validate()) {
-      //TODO put goal comment text form field
-      final GoalModel goalModel = GoalModel.copyWith(
-          goalComment: 'goalComment',
-          goalCreatedDay: DateTime.now(),
-          id: GUIDGen.generate(),
-          goalName: goalNameCtrl.text,
-          goalRemainingAmount: goalCubit.countRemainingAmount(
-              num.tryParse(goalCostCtrl.text)!,
-              num.tryParse(goalSaveRepeatAmount.text)!),
-          //num.tryParse(goalCostCtrl.text)!,
-          goalRemainingPeriod: goalCubit.remainingTimes(
-              cost: num.tryParse(goalCostCtrl.text)!,
-              dailySaving: num.tryParse(goalSaveRepeatAmount.text)!),
-          goalSaveAmount: num.tryParse(goalSaveRepeatAmount.text)!,
-          goalSaveAmountRepeat: goalCubit.choseRepeat,
-          goalTotalAmount: num.parse(goalCostCtrl.text),
-          //num.tryParse(goalCostCtrl.text)!,
-          goalStartSavingDate: goalCubit.chosenDate ?? goalCubit.today,
-          goalCompletionDate: goalCubit.getCompletionDate(
-              cost: num.tryParse(goalCostCtrl.text)!,
-              dailySavings: num.tryParse(goalSaveRepeatAmount.text)!,
-              repeat: goalCubit.choseRepeat,
-              startSavingDate: goalCubit.chosenDate ?? goalCubit.today));
-      await showGoalsDialog(
-          context: context,
-          onPressedYesFunction: () async {
-            await goalCubit.addGoal(goalModel: goalModel).then((_) {
-              showSuccessSnackBar(context);
-            }).onError((error, stackTrace) {
-              showErrorSnackBar(context);
-            });
-          },
-          onPressedNoFunction: () => Navigator.of(context).pop(),
-          infoMessage: goalCubit.dialogMessage(
-              cost: num.tryParse(goalCostCtrl.text)!,
-              dailySaving: num.tryParse(goalSaveRepeatAmount.text.tr())!));
-    }
-  }
-
-  void showErrorSnackBar(BuildContext context) {
-    Navigator.of(context).pop();
-    errorSnackBar(context: context, message: AppStrings.someThingWentWrong.tr());
-  }
-
-  void showSuccessSnackBar(BuildContext context) {
-    Navigator.of(context).pop();
-    successSnackBar(
-        context: context, message: AppStrings.successfullyConfirmedExpenseFood.tr());
-
-    /*showSuccessfulDialog(
-        context, AppStrings.goalAdded, AppStrings.successfullyConfirmedExpenseFood);*/
-    /* Future.microtask(() =>
-        Navigator.pushReplacementNamed(context, AppRouterNames.rGetGoals)
-    );*/
   }
 }
