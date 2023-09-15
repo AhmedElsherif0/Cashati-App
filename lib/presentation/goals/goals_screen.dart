@@ -9,7 +9,7 @@ import 'package:temp/data/models/goals/repeated_goal_model.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/app_bar_with_icon.dart';
-import 'package:temp/presentation/widgets/drop_down_custom.dart';
+import 'package:temp/presentation/widgets/dorp_downs_buttons/goals_drop_down.dart';
 import 'package:temp/presentation/widgets/goals_widgets/goal_card.dart';
 
 class GoalsScreen extends StatefulWidget {
@@ -49,12 +49,10 @@ class _GoalsScreenState extends State<GoalsScreen> {
               BlocBuilder<GoalsCubit, GoalsState>(
                 builder: (context, state) => Expanded(
                     child: Column(
-                  crossAxisAlignment: translator.activeLanguageCode == 'en'
-                      ? CrossAxisAlignment.end
-                      : CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     SizedBox(height: 2.h),
-                    DropDownCustomWidget(
+                    GoalsFilterWidget(
                       dropDownList: goalCubit.goalsFilterDropDown,
                       hint: goalCubit.choseFilter.toLowerCase().tr(),
                       onChangedFunc: (value) => goalCubit.chooseFilter(value),
@@ -63,10 +61,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                       backgroundColor: AppColor.veryLightGrey,
                       leadingIcon: AppIcons.filterGreen,
                       arrowIconColor: AppColor.pineGreen,
-                      hintStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 13.dp,
-                          color: AppColor.pineGreen),
+                      hintStyle: Theme.of(context).textTheme.subtitle1,
                     ),
                     SizedBox(height: 1.h),
                     Expanded(
