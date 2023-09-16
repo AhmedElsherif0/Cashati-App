@@ -87,14 +87,14 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     getStatisticsCubit().getTransactionsByMonth(true);
   }
 
-  void _onSeeMoreByWeek(BuildContext context, index) {
+  void _onSeeMoreByWeek(BuildContext context, index) async {
     print("transactions are ${getStatisticsCubit().weeks[index]}");
     print("transactions length is ${getStatisticsCubit().weeks[index].length}");
     print("index of the 5 weeks is $index");
     if (getStatisticsCubit().weeks[index].isNotEmpty) {
       getStatisticsCubit().chosenFilterWeekDay = AppStrings.all.tr();
 
-      context.navigateTo(StatisticsWeekDetailsScreen(
+      await context.navigateTo(StatisticsWeekDetailsScreen(
           weekRanges: getStatisticsCubit().weekRangeText(),
           builderIndex: index,
           transactions: getStatisticsCubit().weeks[index]));
@@ -105,7 +105,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     }
   }
 
-  void _onSeeMoreByDay(context, TransactionModel transaction) =>
+  void _onSeeMoreByDay(BuildContext context, TransactionModel transaction) =>
       context.navigateTo(PartTimeDetails(transactionModel: transaction));
 
   @override

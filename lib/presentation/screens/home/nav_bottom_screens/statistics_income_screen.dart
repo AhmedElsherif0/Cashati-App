@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
@@ -62,33 +61,30 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
 
   StatisticsCubit getStatisticsCubit() => BlocProvider.of<StatisticsCubit>(context);
 
+  Future _datePicker() async => await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2020),
+        lastDate: DateTime(2100),
+      );
+
   void showDatePick() async {
-    datePicker = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-    );
+    datePicker = await _datePicker();
     if (datePicker == null) return;
     getStatisticsCubit().getExpensesByDay(datePicker, false);
   }
 
   void showDatePickMonth() async {
-    datePicker = await showMonthPicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-    );
+    datePicker = await _datePicker();
     if (datePicker == null) return;
     getStatisticsCubit().changeDatePicker(datePicker);
     getStatisticsCubit().getTransactionsByMonth(false);
   }
 
-  _onSeeMoreByWeek(BuildContext context, index) {
+  void _onSeeMoreByWeek(BuildContext context, index) async {
     if (getStatisticsCubit().weeks[index].isNotEmpty) {
       getStatisticsCubit().chosenFilterWeekDay = AppStrings.all.tr();
-      context.navigateTo(StatisticsWeekDetailsScreen(
+      await context.navigateTo(StatisticsWeekDetailsScreen(
           weekRanges: getStatisticsCubit().weekRangeText(),
           builderIndex: index,
           transactions: getStatisticsCubit().weeks[index]));
@@ -99,8 +95,8 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
     }
   }
 
-  _onSeeMoreByDay(BuildContext context, TransactionModel transaction) =>
-      context.navigateTo(PartTimeDetails(transactionModel: transaction));
+  void _onSeeMoreByDay(BuildContext context, TransactionModel transaction) async =>
+      await context.navigateTo(PartTimeDetails(transactionModel: transaction));
 
   @override
   Widget build(BuildContext context) {
