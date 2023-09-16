@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '../styles/colors.dart';
 
 class RowIconWithTitle extends StatelessWidget {
@@ -28,11 +29,9 @@ class RowIconWithTitle extends StatelessWidget {
             children: [
               Expanded(
                 flex: 3,
-                child:
-                    Tooltip(
-
-                        message: toolTipMessage,
-                        child: SvgPicture.asset(startIcon, color: AppColor.primaryColor)),
+                child: Tooltip(
+                    message: toolTipMessage,
+                    child: SvgPicture.asset(startIcon, color: AppColor.primaryColor)),
               ),
               const Spacer(),
               Expanded(

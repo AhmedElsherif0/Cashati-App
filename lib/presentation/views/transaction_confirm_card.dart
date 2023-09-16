@@ -5,6 +5,7 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
+import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/views/confirm_paying_expense.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
@@ -44,8 +45,7 @@ class TransactionConfirmCard extends StatelessWidget
                             amount: currentIncome.amount.toDouble(),
                             onDelete: () => showYesOrNoDialog(
                                 title: AppStrings.deleteIncome.tr(),
-                                message: '${getMsg(currentIncome)}\n'
-                                    '${AppStrings.availabilityToCancelTransaction}',
+                                message: getMsg(currentIncome),
                                 onYes: () async => await confirmCubit
                                     .onDeleteTransaction(currentIncome),
                                 context: context),
@@ -56,9 +56,9 @@ class TransactionConfirmCard extends StatelessWidget
                                   onUpdate: () {
                                     confirmCubit.onChangeAmount(
                                         currentIncome.amount.toDouble(),
-                                        double.parse(changedAmount.text));
+                                        changedAmount.text.toDouble());
                                     currentIncome.amount =
-                                        double.parse(changedAmount.text);
+                                        changedAmount.text.toDouble();
                                   },
                                   context: context,
                                   changedAmountCtrl: changedAmount);
@@ -72,10 +72,6 @@ class TransactionConfirmCard extends StatelessWidget
                               confirmCubit.onYesConfirmed(
                                   theAddedExpense: currentIncome);
                             },
-                            // changedAmount: 10000,
-                            // blockedAmount: 20000,
-                            // onEditBlockedAmount: () {},
-                            // onEditChangedAmount: () {},
                           ),
                         ),
                         SizedBox(width: 4.w),

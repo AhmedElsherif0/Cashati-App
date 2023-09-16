@@ -7,6 +7,8 @@ import 'colors.dart';
 class AppDecorations {
   static const duration600ms = Duration(milliseconds: 600);
   static const duration400ms = Duration(milliseconds: 400);
+  static const duration200ms = Duration(milliseconds: 200);
+
   static const welcomeStops = [0.0, 0.087, 0.90, 1.5];
 
   static BoxDecoration defBoxDecoration = BoxDecoration(
