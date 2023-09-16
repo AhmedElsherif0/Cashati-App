@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/constants/app_images.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/repository/helper_class.dart';
+import 'package:temp/presentation/utils/extensions.dart';
+import 'package:temp/presentation/widgets/on_see_more.dart';
 
 import '../../../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import '../../../../constants/enum_classes.dart';
-import '../../../router/app_router.dart';
+import '../../../../data/models/transactions/transaction_model.dart';
 import '../../../styles/colors.dart';
 import '../../../styles/decorations.dart';
 import '../../../views/transaction_card.dart';
@@ -59,13 +62,15 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
         duration: AppDecorations.duration600ms, curve: Curves.easeOut);
   }
 
-  void onSeeMore(context, generateIndex, indexBuilder) => Navigator.push(
-        context,
-        AppRouter.pageBuilderRoute(
-          child: onPressDetails(generateIndex,
-              widget.cubit.getRepeatTransactions(generateIndex), indexBuilder),
-        ),
-      );
+  Future onSeeMore(BuildContext context, int generateIndex,
+      List<TransactionModel> transactions, int builderIndex) {
+    return context.navigateTo(OnSeeMore(
+      generateIndex: generateIndex,
+      builderIndex: builderIndex,
+      transactions: transactions,
+      weekRanges: context.read<StatisticsCubit>().weekRangeText(),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +150,11 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                                 .length,
                             itemBuilder: (context, indexBuilder) =>
                                 TransactionCardView(
-                              onPressSeeMore: () =>
-                                  onSeeMore(context, generateIndex, indexBuilder),
+                              onPressSeeMore: () => onSeeMore(
+                                  context,
+                                  generateIndex,
+                                  widget.cubit.getRepeatTransactions(generateIndex),
+                                  indexBuilder),
                               transaction: widget.cubit
                                   .getRepeatTransactions(generateIndex)[indexBuilder],
                               isVisible: true,

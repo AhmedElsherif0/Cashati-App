@@ -15,11 +15,15 @@ class IncomeRepeatCubit extends Cubit<IncomeRepeatCubitStates> {
   int currentIndex = 0;
 
   List<TransactionModel> getRepeatTransactions(int currentIndex) {
-    return _incomeRepository.getTransactionTypeList(currentIndex);
+    List<TransactionModel> sortedList =
+        _incomeRepository.getTransactionTypeList(currentIndex);
+    sortedList.sort((a, b) => a.createdDate.compareTo(b.createdDate));
+    return sortedList;
   }
 
   num highestTransaction() => getRepeatTransactions(currentIndex)
-      .reduce((current, next) => current.amount > next.amount ? current : next).amount;
+      .reduce((current, next) => current.amount > next.amount ? current : next)
+      .amount;
 
   void changePage({required int index}) {
     currentIndex = index;

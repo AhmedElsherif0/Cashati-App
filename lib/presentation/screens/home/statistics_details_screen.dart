@@ -11,7 +11,7 @@ import 'package:temp/presentation/widgets/transaction_card.dart';
 
 import '../../widgets/custom_app_bar.dart';
 
-class StatisticsDetailsScreen extends StatelessWidget with HelperClass,FormatsMixin {
+class StatisticsDetailsScreen extends StatelessWidget with HelperClass, FormatsMixin {
   const StatisticsDetailsScreen({
     Key? key,
     this.transactions = const [],
@@ -20,6 +20,19 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass,FormatsMi
 
   final List<TransactionModel> transactions;
   final int index;
+
+  String _matchWeek() {
+    final weeks = getWeekRange(chosenDay: transactions[index].createdDate);
+    if (transactions[index].createdDate.day <= 7) return weeks[0];
+    if (transactions[index].createdDate.day <= 14) return weeks[1];
+    if (transactions[index].createdDate.day <= 21) return weeks[2];
+    if (transactions[index].createdDate.day <= 28) return weeks[3];
+    return weeks[4];
+  }
+
+  String _weekDateTime() => transactions[index].repeatType == AppStrings.daily
+      ? formatDayDate(transactions[index].createdDate, translator.activeLanguageCode)
+      : _matchWeek();
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +48,7 @@ class StatisticsDetailsScreen extends StatelessWidget with HelperClass,FormatsMi
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                      transactions[index].repeatType == AppStrings.daily
-                          ? formatDayDate(transactions[index].createdDate,
-                              translator.activeLanguageCode)
-                          : getWeekRange(
-                              chosenDay: transactions[index].createdDate)[index],
-                      style: theme.textTheme.headline6),
+                  Text(_weekDateTime(), style: theme.textTheme.headline6),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

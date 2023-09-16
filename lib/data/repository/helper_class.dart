@@ -4,8 +4,6 @@ import 'package:temp/data/models/transactions/transaction_model.dart';
 
 import '../../constants/app_strings.dart';
 import '../../constants/enum_classes.dart';
-import '../../presentation/screens/home/part_time_details.dart';
-import '../../presentation/screens/home/statistics_details_screen.dart';
 import '../../presentation/styles/colors.dart';
 import '../../presentation/widgets/buttons/underline_text_button.dart';
 import '../../presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
@@ -73,19 +71,6 @@ mixin HelperClass {
         .replaceAll("٧", "7")
         .replaceAll("٨", "8")
         .replaceAll("٩", "9");
-  }
-
-  Widget onPressDetails(
-      int generateIndex, List<TransactionModel> transactions, builderIndex) {
-    switch (generateIndex) {
-      case 0:
-        return PartTimeDetails(
-            transactionModel: transactions[builderIndex], insideIndex: builderIndex);
-      case 1:
-        return StatisticsDetailsScreen(
-            index: builderIndex, transactions: transactions);
-    }
-    return StatisticsDetailsScreen(index: builderIndex, transactions: transactions);
   }
 
   Widget switchWidgets(

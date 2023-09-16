@@ -13,7 +13,10 @@ class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
   int currentIndex = 0;
 
   List<TransactionModel> getRepeatTransactions(int currentIndex) {
-    return _expensesRepository.getTransactionTypeList(currentIndex);
+    List<TransactionModel> sortedList =
+        _expensesRepository.getTransactionTypeList(currentIndex);
+    sortedList.sort((a, b) => a.createdDate.compareTo(b.createdDate));
+    return sortedList;
   }
 
   void changePage({required int index}) {
