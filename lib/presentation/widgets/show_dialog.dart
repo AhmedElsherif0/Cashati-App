@@ -73,19 +73,22 @@ mixin AlertDialogMixin {
           child: DecoratedBox(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
             child: AlertDialog(
-              title: const Text(AppStrings.updatePaidAmount),
+              title: Text('${AppStrings.update.tr()} ${AppStrings.amount.tr()}'),
               content: TextFormField(
                 keyboardType: TextInputType.number,
                 controller: changedAmountCtrl,
                 decoration: InputDecoration(
-                    hintText: "$amount", labelText: AppStrings.paidAmount),
+                    hintText: "$amount", labelText: AppStrings.paidAmount.tr()),
               ),
               actions: [
                 CustomElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
                     text: AppStrings.cancel.tr()),
                 CustomElevatedButton(
-                    onPressed: () => onUpdate().Navigator.of(context).pop(),
+                    onPressed: () {
+                      onUpdate();
+                      Navigator.of(context).pop();
+                    },
                     text: AppStrings.update.tr()),
               ],
             ),
@@ -185,9 +188,9 @@ mixin AlertDialogMixin {
           child: DecoratedBox(
             decoration: AppDecorations.decoratedTextDecoration(radius: 20),
             child: AnimatedContainer(
-              duration: AppDecorations.duration600ms,
+              duration: AppDecorations.duration200ms,
               curve: Curves.easeInToLinear,
-              height: 75.h,
+              height: 70.h,
               width: 80.w,
               child: child,
             ),

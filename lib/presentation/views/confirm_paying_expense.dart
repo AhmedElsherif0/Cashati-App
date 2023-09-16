@@ -5,9 +5,8 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
-import 'package:temp/data/repository/helper_class.dart';
-import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
 import 'package:temp/presentation/widgets/buttons/underline_text_button.dart';
+import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
 
 import '../../data/repository/formats_mixin.dart';
 import '../styles/colors.dart';
@@ -56,18 +55,17 @@ class ConfirmPayingExpense extends StatelessWidget with FormatsMixin {
                   child: RowIconWithTitle(
                       toolTipMessage: AppStrings.transactionCategoryAndSub,
                       startIcon: AppIcons.categories,
-                      title:
-                          "${transactionModel.mainCategory} , ${transactionModel.subCategory}"),
+                      title: transactionModel.subCategory.tr()),
                 ),
                 Expanded(
                   child: RowIconWithTitle(
                     toolTipMessage: AppStrings.editPaidAmount.tr(),
                     startIcon: AppIcons.poundSterlingSign,
-                    title: currencyFormat(context,amount),
+                    title: currencyFormat(context, amount),
                     endIcon: InkWell(
                       onTap: onEditAmount,
                       child: SvgPicture.asset(AppIcons.editIcon,
-                          color: AppColor.primaryColor),
+                          color: AppColor.primaryColor, width: 24.dp, height: 24.dp),
                     ),
                   ),
                 ),
@@ -93,8 +91,8 @@ class ConfirmPayingExpense extends StatelessWidget with FormatsMixin {
                                   AppIcons.exclamationMark,
                                   color: AppColor.primaryColor,
                                 ),
-                                if(translator.activeLanguageCode=='en')
-                                SizedBox(width: 2.w),
+                                if (translator.activeLanguageCode == 'en')
+                                  SizedBox(width: 2.w),
                                 UnderLineTextButton(
                                     fontSize: 14.dp,
                                     borderLineColor: AppColor.primaryColor,
@@ -108,18 +106,15 @@ class ConfirmPayingExpense extends StatelessWidget with FormatsMixin {
                           Expanded(
                             flex: 3,
                             child: InkWell(
-                              onTap: onDelete,
-                              child: SvgPicture.asset(AppIcons.delete,
-                                  color: AppColor.primaryColor),
-                            ),
+                                onTap: onDelete,
+                                child: SvgPicture.asset(AppIcons.delete,
+                                    color: AppColor.primaryColor)),
                           ),
                         ],
                       ),
                       const Spacer(flex: 2),
                       CancelConfirmTextButton(
-                        onCancel: onCancel,
-                        onConfirm: onConfirm,
-                      ),
+                          onCancel: onCancel, onConfirm: onConfirm),
                       const Spacer(),
                     ],
                   ),

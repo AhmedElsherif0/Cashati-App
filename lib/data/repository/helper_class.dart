@@ -118,7 +118,4 @@ mixin HelperClass {
         return PriorityType.HigherExpenses.name;
     }
   }
-
-  Future onNavigateTo<T>(context, Widget navigateScreen) =>
-      Navigator.push(context, MaterialPageRoute(builder: (context) => navigateScreen));
 }
