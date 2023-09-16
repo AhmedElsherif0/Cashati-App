@@ -6,6 +6,7 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/screens/home/statistics_week_details_screen.dart';
+import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
@@ -14,7 +15,6 @@ import 'package:temp/presentation/widgets/show_dialog.dart';
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/models/transactions/transaction_model.dart';
 import '../../../../data/repository/formats_mixin.dart';
-import '../../../router/app_router.dart';
 import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/common_texts/details_text.dart';
@@ -87,19 +87,17 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     getStatisticsCubit().getTransactionsByMonth(true);
   }
 
-  _onSeeMoreByWeek(context, index) {
+  void _onSeeMoreByWeek(BuildContext context, index) async {
     print("transactions are ${getStatisticsCubit().weeks[index]}");
     print("transactions length is ${getStatisticsCubit().weeks[index].length}");
     print("index of the 5 weeks is $index");
     if (getStatisticsCubit().weeks[index].isNotEmpty) {
       getStatisticsCubit().chosenFilterWeekDay = AppStrings.all.tr();
-      Navigator.push(
-          context,
-          AppRouter.pageBuilderRoute(
-              child: StatisticsWeekDetailsScreen(
-                  weekRanges: getStatisticsCubit().weekRangeText(),
-                  builderIndex: index,
-                  transactions: getStatisticsCubit().weeks[index])));
+
+      await context.navigateTo(StatisticsWeekDetailsScreen(
+          weekRanges: getStatisticsCubit().weekRangeText(),
+          builderIndex: index,
+          transactions: getStatisticsCubit().weeks[index]));
     } else {
       errorSnackBar(
           context: context,
@@ -107,12 +105,8 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     }
   }
 
-  _onSeeMoreByDay(context, TransactionModel transaction, insideIndex) =>
-      Navigator.push(
-          context,
-          AppRouter.pageBuilderRoute(
-              child: PartTimeDetails(
-                  transactionModel: transaction, insideIndex: insideIndex)));
+  void _onSeeMoreByDay(BuildContext context, TransactionModel transaction) =>
+      context.navigateTo(PartTimeDetails(transactionModel: transaction));
 
   @override
   Widget build(BuildContext context) {
@@ -126,72 +120,67 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
               controller: _controller,
               onPageChanged: (index) => setState(() => currentIndex = index),
               itemCount: 3,
-              itemBuilder: (context, index) {
-                return Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                    child: Column(
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(minWidth: 20.h, maxWidth: 35.h),
-                          child: CustomElevatedButton(
-                            onPressed: () =>
-                                index == 0 ? showDatePick() : showDatePickMonth(),
-                            text: index == 0
-                                ? formatDayDate(getStatisticsCubit().chosenDay,
-                                    translator.activeLanguageCode)
-                                : formatWeekDate(getStatisticsCubit().chosenDay,
-                                    translator.activeLanguageCode),
-                            textStyle: Theme.of(context).textTheme.subtitle1,
-                            backgroundColor: AppColor.white,
-                            width: 40.w,
-                            borderRadius: 8.dp,
-                          ),
+              itemBuilder: (context, index) => Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  child: Column(
+                    children: [
+                      ConstrainedBox(
+                        constraints: BoxConstraints(minWidth: 20.h, maxWidth: 35.h),
+                        child: CustomElevatedButton(
+                          onPressed: () =>
+                              index == 0 ? showDatePick() : showDatePickMonth(),
+                          text: index == 0
+                              ? formatDayDate(getStatisticsCubit().chosenDay,
+                                  translator.activeLanguageCode)
+                              : formatWeekDate(getStatisticsCubit().chosenDay,
+                                  translator.activeLanguageCode),
+                          textStyle: Theme.of(context).textTheme.subtitle1,
+                          backgroundColor: AppColor.white,
+                          width: 40.w,
+                          borderRadius: 8.dp,
                         ),
-                        const Spacer(),
-                        FlowChartView(
-                          maxExpenses:
-                              context.read<StatisticsCubit>().getTotalExpense(),
-                          totalExpenses:
-                              context.read<StatisticsCubit>().totalImportantExpenses(),
-                          index: index,
-                          priorityType: AppStrings.important,
-                          notPriority: AppStrings.notImportant,
-                          transactionsValues: getStatisticsCubit().transactionsValues,
-                        ),
+                      ),
+                      const Spacer(),
+                      FlowChartView(
+                        maxExpenses: context.read<StatisticsCubit>().getTotalExpense(),
+                        totalExpenses:
+                            context.read<StatisticsCubit>().totalImportantExpenses(),
+                        index: index,
+                        priorityType: AppStrings.important,
+                        notPriority: AppStrings.notImportant,
+                        transactionsValues: getStatisticsCubit().transactionsValues,
+                      ),
 
-                        /// TabBarView Widgets.
-                        DetailsText(
-                            text: AppStrings.filteredBy.tr(),
-                            alignment: translator.activeLanguageCode == 'en'
-                                ? Alignment.centerLeft
-                                : Alignment.centerRight),
-                        Expanded(
-                          flex: 32,
-                          child: CustomTabBarViewEdited(
-                            onPressSeeMore: (int insideIndex) => _onSeeMoreByDay(
-                                context,
-                                getStatisticsCubit().byDayList[insideIndex],
-                                insideIndex),
-                            priorityName: PriorityType.Important,
-                            transactions: getStatisticsCubit().byDayList,
-                            index: index,
-                            pageController: _controller,
-                            monthWidget: WeekCardViewEdited(
-                              onSeeMore: (weekIndex) =>
-                                  _onSeeMoreByWeek(context, weekIndex),
-                              weekRanges: getStatisticsCubit().weekRangeText(),
-                              chosenDay: getStatisticsCubit().chosenDay,
-                              weeksTotals: getStatisticsCubit().totalsWeeks,
-                              seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
-                            ),
+                      /// TabBarView Widgets.
+                      DetailsText(
+                          text: AppStrings.filteredBy.tr(),
+                          alignment: translator.activeLanguageCode == 'en'
+                              ? Alignment.centerLeft
+                              : Alignment.centerRight),
+                      Expanded(
+                        flex: 32,
+                        child: CustomTabBarViewEdited(
+                          onPressSeeMore: (int insideIndex) => _onSeeMoreByDay(
+                              context, getStatisticsCubit().byDayList[insideIndex]),
+                          priorityName: PriorityType.Important,
+                          transactions: getStatisticsCubit().byDayList,
+                          index: index,
+                          pageController: _controller,
+                          monthWidget: WeekCardViewEdited(
+                            onSeeMore: (weekIndex) =>
+                                _onSeeMoreByWeek(context, weekIndex),
+                            weekRanges: getStatisticsCubit().weekRangeText(),
+                            chosenDay: getStatisticsCubit().chosenDay,
+                            weeksTotals: getStatisticsCubit().totalsWeeks,
+                            seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                );
-              },
+                ),
+              ),
             ),
           );
         },

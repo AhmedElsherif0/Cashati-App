@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
+import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
 import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
@@ -14,7 +14,6 @@ import 'package:temp/presentation/widgets/show_dialog.dart';
 
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/repository/formats_mixin.dart';
-import '../../../router/app_router.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/common_texts/details_text.dart';
 import '../part_time_details.dart';
@@ -62,39 +61,33 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
 
   StatisticsCubit getStatisticsCubit() => BlocProvider.of<StatisticsCubit>(context);
 
+  Future _datePicker() async => await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2020),
+        lastDate: DateTime(2100),
+      );
+
   void showDatePick() async {
-    datePicker = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-    );
+    datePicker = await _datePicker();
     if (datePicker == null) return;
     getStatisticsCubit().getExpensesByDay(datePicker, false);
   }
 
   void showDatePickMonth() async {
-    datePicker = await showMonthPicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-    );
+    datePicker = await _datePicker();
     if (datePicker == null) return;
     getStatisticsCubit().changeDatePicker(datePicker);
     getStatisticsCubit().getTransactionsByMonth(false);
   }
 
-  _onSeeMoreByWeek(context, index) {
+  void _onSeeMoreByWeek(BuildContext context, index) async {
     if (getStatisticsCubit().weeks[index].isNotEmpty) {
-      getStatisticsCubit().chosenFilterWeekDay = "All";
-      Navigator.push(
-          context,
-          AppRouter.pageBuilderRoute(
-              child: StatisticsWeekDetailsScreen(
-                  weekRanges: getStatisticsCubit().weekRangeText(),
-                  builderIndex: index,
-                  transactions: getStatisticsCubit().weeks[index])));
+      getStatisticsCubit().chosenFilterWeekDay = AppStrings.all.tr();
+      await context.navigateTo(StatisticsWeekDetailsScreen(
+          weekRanges: getStatisticsCubit().weekRangeText(),
+          builderIndex: index,
+          transactions: getStatisticsCubit().weeks[index]));
     } else {
       errorSnackBar(
           context: context,
@@ -102,12 +95,8 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
     }
   }
 
-  _onSeeMoreByDay(context, TransactionModel transaction, insideIndex) =>
-      Navigator.push(
-          context,
-          AppRouter.pageBuilderRoute(
-              child: PartTimeDetails(
-                  transactionModel: transaction, insideIndex: insideIndex)));
+  void _onSeeMoreByDay(BuildContext context, TransactionModel transaction) async =>
+      await context.navigateTo(PartTimeDetails(transactionModel: transaction));
 
   @override
   Widget build(BuildContext context) {
@@ -169,9 +158,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                             priorityName: PriorityType.Fixed,
                             transactions: getStatisticsCubit().byDayList,
                             onPressSeeMore: (int insideIndex) => _onSeeMoreByDay(
-                                context,
-                                getStatisticsCubit().byDayList[insideIndex],
-                                insideIndex),
+                                context, getStatisticsCubit().byDayList[insideIndex]),
                             index: index,
                             pageController: _controller,
                             monthWidget: WeekCardViewEdited(

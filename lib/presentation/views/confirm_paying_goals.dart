@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
-import 'package:temp/data/repository/helper_class.dart';
 
 import '../../constants/app_icons.dart';
 import '../../data/repository/formats_mixin.dart';
@@ -13,7 +11,7 @@ import '../widgets/buttons/cancel_confirm_text_button.dart';
 import '../widgets/confirm_paying_title_card.dart';
 import '../widgets/custom_row_icon_with_title.dart';
 
-class ConfirmPayingGoals extends StatelessWidget with FormatsMixin{
+class ConfirmPayingGoals extends StatelessWidget with FormatsMixin {
   const ConfirmPayingGoals({
     Key? key,
     required this.amount,
@@ -42,9 +40,10 @@ class ConfirmPayingGoals extends StatelessWidget with FormatsMixin{
   final void Function() onConfirm;
 
   InkWell onPressIcon(onTap, icon) => InkWell(
-    onTap: onTap,
-    child: SvgPicture.asset(icon, color: AppColor.primaryColor),
-  );
+        onTap: onTap,
+        child: SvgPicture.asset(icon, color: AppColor.primaryColor),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,13 +53,13 @@ class ConfirmPayingGoals extends StatelessWidget with FormatsMixin{
           child: Card(
             elevation: 4.dp,
             color: AppColor.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.dp)),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(24))),
             child: Column(
               children: [
-                 const Expanded(
+                const Expanded(
                   flex: 3,
-                  child:
-                      ConfirmPayingTitleCard(cardTitle: AppStrings.goals),
+                  child: ConfirmPayingTitleCard(cardTitle: AppStrings.goals),
                 ),
                 Expanded(
                   flex: 3,
@@ -72,11 +71,10 @@ class ConfirmPayingGoals extends StatelessWidget with FormatsMixin{
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
-                      toolTipMessage:
-                          AppStrings.registeredRepeatedAmount,
+                      toolTipMessage: AppStrings.registeredRepeatedAmount,
                       startIcon: AppIcons.poundSterlingSign,
                       title:
-                          '${currencyFormat(context,  goalModel.goalSaveAmount)}, Weekly',
+                          '${currencyFormat(context, goalModel.goalSaveAmount)}, Weekly',
                       endIcon: onPressIcon(onEditAmount, AppIcons.editIcon)),
                 ),
                 Expanded(
@@ -84,17 +82,16 @@ class ConfirmPayingGoals extends StatelessWidget with FormatsMixin{
                   child: RowIconWithTitle(
                     toolTipMessage: AppStrings.paidAmount,
                     startIcon: AppIcons.change,
-                    title: currencyFormat(context,goalModel.goalSaveAmount),
+                    title: currencyFormat(context, goalModel.goalSaveAmount),
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),
                   ),
                 ),
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
-                    toolTipMessage:
-                        AppStrings.remainingGoalTargetAmount,
+                    toolTipMessage: AppStrings.remainingGoalTargetAmount,
                     startIcon: AppIcons.blockedCash,
-                    title: currencyFormat(context,blockedAmount),
+                    title: currencyFormat(context, blockedAmount),
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),
                   ),
                 ),
@@ -126,5 +123,4 @@ class ConfirmPayingGoals extends StatelessWidget with FormatsMixin{
       ],
     );
   }
-
 }

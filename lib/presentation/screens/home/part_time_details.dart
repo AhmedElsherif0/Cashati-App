@@ -8,6 +8,7 @@ import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/custom_app_bar.dart';
+
 import '../../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import '../../../constants/app_icons.dart';
 import '../../../data/repository/formats_mixin.dart';
@@ -18,11 +19,8 @@ import '../../widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import '../../widgets/uneditable_text.dart';
 
 class PartTimeDetails extends StatefulWidget {
-  const PartTimeDetails(
-      {Key? key, required this.transactionModel, required this.insideIndex})
-      : super(key: key);
+  const PartTimeDetails({Key? key, required this.transactionModel}) : super(key: key);
   final TransactionModel transactionModel;
-  final int insideIndex;
 
   @override
   State<PartTimeDetails> createState() => _PartTimeDetailsState();
