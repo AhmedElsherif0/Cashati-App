@@ -250,6 +250,8 @@ class AppStrings {
   /// NavBottomBar
   static const String appBarTitle = 'appBarTitle'; //appBarTitle
   static const String emptyShow = 'emptyShow'; //Empty Show
+  static const String rateCashati = 'Rate Our App'; //Empty Show
+  static const String rateCashatiDetails = "Kindly Rate our app so we should be able to enhance our service , thanks for your feedback in advance."; //Empty Show
   static const String aboutUsInfo =
       'About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us '; //Empty Show
 

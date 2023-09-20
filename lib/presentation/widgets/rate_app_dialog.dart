@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
 class RateAppWidget extends StatelessWidget {
@@ -24,14 +26,6 @@ class RateAppWidget extends StatelessWidget {
                  text: "ok",
                  callback: () => rateApp.launchStore(),
 
-                 // onPressed: () async {
-                 //   print('Thanks for the ' + (stars == null ? '0' : stars.round().toString()) + ' star(s) !');
-                 //   // You can handle the result as you want (for instance if the user puts 1 star then open your contact page, if he puts more then open the store page, etc...).
-                 //   // This allows to mimic the behavior of the default "Rate" button. See "Advanced > Broadcasting events" for more information :
-                 //  // await rateMyApp.callEvent(RateMyAppEventType.rateButtonPressed);
-                 //   await rateMyApp.launchStore();
-                 //   Navigator.pop<RateMyAppDialogButton>(context, RateMyAppDialogButton.rate);
-                 // },
                ),
              ];
            },
@@ -45,8 +39,8 @@ class RateAppWidget extends StatelessWidget {
            onDismissed: () => rateApp.callEvent(RateMyAppEventType.laterButtonPressed),);
        },
        leading: Icon(Icons.star_border_outlined,color: AppColor.primaryColor,),
-       title: Text("Rate Cashati",),
-       subtitle: Text("Rate our app so we should be able to enhance our service , thanks for your feedback in advance.",style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 10.dp,fontWeight: FontWeight.w300,color: AppColor.subTitleColor),),
+       title: Text(AppStrings.rateCashati.tr(),),
+       subtitle: Text(AppStrings.rateCashatiDetails.tr(),style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 10.dp,fontWeight: FontWeight.w300,color: AppColor.subTitleColor),),
      ),);
 
   }
