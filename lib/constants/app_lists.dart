@@ -276,5 +276,25 @@ class AppConstantList {
       jobTitle: "Software Engineer",
       name: "Ahmed Elsherif"
     ),
+    CashatiEmployerModel(
+        email: "esraaelemam974@gmail.com",
+        jobTitle: "Ui And Ux Designer Team Leader ",
+        name: "Esraa Elemam Badwy"
+    ),
+    CashatiEmployerModel(
+        email: "shurouq.ayyad.2003@gmail.com",
+        jobTitle: "Ui And Ux Designer",
+        name: "Shuroq Hassan Ayyad"
+    ),
+    CashatiEmployerModel(
+        email: "mahmoudelsaey.95@gmail.com",
+        jobTitle: "Ui And Ux Designer",
+        name: "Mahmoud El Saey"
+    ),
+    CashatiEmployerModel(
+        email: "hussamibrahiim0@gmail.com",
+        jobTitle: "Logo Designer",
+        name: "Hossam Ibrahim Mohamed"
+    ),
   ];
 }
