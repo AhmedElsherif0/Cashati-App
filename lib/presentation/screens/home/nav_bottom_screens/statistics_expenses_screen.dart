@@ -5,6 +5,7 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/screens/home/statistics_week_details_screen.dart';
 import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
@@ -15,6 +16,7 @@ import 'package:temp/presentation/widgets/show_dialog.dart';
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/models/transactions/transaction_model.dart';
 import '../../../../data/repository/formats_mixin.dart';
+import '../../../router/app_router_names.dart';
 import '../../../styles/colors.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/common_texts/details_text.dart';
@@ -28,9 +30,11 @@ class ExpensesStatisticsScreen extends StatefulWidget {
 }
 
 class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
-    with FormatsMixin, AlertDialogMixin {
+    with FormatsMixin, AlertDialogMixin, HelperClass {
   final PageController _controller = PageController(initialPage: 0);
   DateTime? datePicker = DateTime.now();
+
+  StatisticsCubit getStatisticsCubit() => BlocProvider.of<StatisticsCubit>(context);
 
   @override
   void dispose() {
@@ -61,8 +65,6 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     super.initState();
   }
 
-  StatisticsCubit getStatisticsCubit() => BlocProvider.of<StatisticsCubit>(context);
-
   void showDatePick() async {
     datePicker = await showDatePicker(
       context: context,
@@ -87,17 +89,20 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
     getStatisticsCubit().getTransactionsByMonth(true);
   }
 
-  void _onSeeMoreByWeek(BuildContext context, index) async {
-    print("transactions are ${getStatisticsCubit().weeks[index]}");
-    print("transactions length is ${getStatisticsCubit().weeks[index].length}");
-    print("index of the 5 weeks is $index");
-    if (getStatisticsCubit().weeks[index].isNotEmpty) {
+  void _onSeeMoreByWeek(BuildContext context, int weekIndex) async {
+    print("transactions are ${getStatisticsCubit().weeks[weekIndex]}");
+    print("transactions length is ${getStatisticsCubit().weeks[weekIndex].length}");
+    print("index of the 5 weeks is $weekIndex");
+    if (getStatisticsCubit().weeks[weekIndex].isNotEmpty) {
       getStatisticsCubit().chosenFilterWeekDay = AppStrings.all.tr();
 
-      await context.navigateTo(StatisticsWeekDetailsScreen(
-          weekRanges: getStatisticsCubit().weekRangeText(),
-          builderIndex: index,
-          transactions: getStatisticsCubit().weeks[index]));
+      await context.navigateTo(
+        StatisticsWeekDetailsScreen(
+            newRouteName: AppRouterNames.rIncomeStatistics,
+            weekRanges: getStatisticsCubit().weekRangeText(),
+            builderIndex: weekIndex,
+            transactions: getStatisticsCubit().weeks[weekIndex]),
+      );
     } else {
       errorSnackBar(
           context: context,
