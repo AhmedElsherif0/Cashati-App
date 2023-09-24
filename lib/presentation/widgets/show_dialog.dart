@@ -143,7 +143,11 @@ mixin AlertDialogMixin {
                       ),
                       Wrap(
                         children: [
-                          Text(message, style: Theme.of(context).textTheme.headline4)
+                          Text(
+                            message,
+                            style: Theme.of(context).textTheme.headline4,
+                            textAlign: TextAlign.center,
+                          )
                         ],
                       ),
                       CustomTextButton(

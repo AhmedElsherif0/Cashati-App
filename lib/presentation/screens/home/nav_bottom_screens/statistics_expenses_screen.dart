@@ -5,7 +5,6 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
-import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/screens/home/statistics_week_details_screen.dart';
 import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/views/flow_chart_view.dart';
@@ -30,7 +29,7 @@ class ExpensesStatisticsScreen extends StatefulWidget {
 }
 
 class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
-    with FormatsMixin, AlertDialogMixin, HelperClass {
+    with FormatsMixin, AlertDialogMixin {
   final PageController _controller = PageController(initialPage: 0);
   DateTime? datePicker = DateTime.now();
 

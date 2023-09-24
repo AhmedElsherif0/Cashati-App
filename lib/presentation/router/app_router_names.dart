@@ -5,6 +5,8 @@ class AppRouterNames {
   static const rHomeRoute = '/home';
   static const rSettingsRoute = '/settings';
   static const rExpenseRepeatType = '/expenseRepeatType';
+  static const rExpenseStatistics = '/expenseStatistics';
+  static const rIncomeStatistics = '/incomeStatistics';
   static const rIncomeRepeatType = '/incomeRepeatType';
   static const rAddExpenseOrIncomeScreen = '/rAddExpenseOrIncomeScreen';
   static const rAddSubCategory = '/rAddSubCategory';

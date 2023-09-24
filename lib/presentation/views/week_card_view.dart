@@ -7,7 +7,6 @@ import 'package:temp/constants/enum_classes.dart';
 import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/styles/colors.dart';
 
-import '../../constants/app_icons.dart';
 import '../../data/repository/formats_mixin.dart';
 
 class WeekCardViewEdited extends StatefulWidget {
@@ -50,8 +49,8 @@ class _WeekCardViewEditedState extends State<WeekCardViewEdited>
                 children: [
                   Card(
                     margin: EdgeInsets.symmetric(horizontal: 16.dp),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.dp)),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
                     elevation: 4.dp,
                     color: AppColor.lightGrey,
                     child: Padding(

@@ -155,13 +155,16 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     businessSubCatsList.addAll(appList.expenseBusinessFixedList);
     if (list.isNotEmpty) {
       for (var item in list) {
-        if (item.mainCategoryName == AppStrings.personal) {
-          personalSubCatsList.add(item);
-        } else if (item.mainCategoryName == AppStrings.home) {
-          homeSubCatsList.add(item);
-        } else if (item.mainCategoryName == AppStrings.business) {
-          businessSubCatsList.add(item);
-        } else {}
+        switch (item.mainCategoryName) {
+          case AppStrings.personal:
+            personalSubCatsList.add(item);
+            break;
+          case AppStrings.home:
+            homeSubCatsList.add(item);
+            break;
+          case AppStrings.business:
+            businessSubCatsList.add(item);
+        }
       }
     }
   }
@@ -172,11 +175,14 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     variableSubCatsList.addAll(appList.incomeVariableSubFixedList);
     if (list.isNotEmpty) {
       for (var item in list) {
-        if (item.mainCategoryName == AppStrings.fixed) {
-          fixedSubCatsList.add(item);
-        } else if (item.mainCategoryName == AppStrings.variable) {
-          variableSubCatsList.add(item);
-        } else {}
+        switch (item.mainCategoryName) {
+          case AppStrings.fixed:
+            fixedSubCatsList.add(item);
+            break;
+          case AppStrings.variable:
+            variableSubCatsList.add(item);
+            break;
+        }
       }
     }
   }
@@ -208,12 +214,9 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
       for (int i = appList.colorsList.length; i < subcategoryList.length; i++) {
         appList.colorsList.add(appList.colorsList[Random().nextInt(6)]);
       }
-      lastColorList = appList.colorsList;
-      return lastColorList;
-    } else {
-      lastColorList = appList.colorsList;
-      return lastColorList;
     }
+    lastColorList = appList.colorsList;
+    return lastColorList;
   }
 
   void chooseCategory(SubCategory currentSubcategory) {
@@ -251,17 +254,19 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     return chosenDate;
   }
 
+  bool _isToday(todayDate) =>
+      chosenDate.day == todayDate.day &&
+      chosenDate.month == todayDate.month &&
+      chosenDate.year == todayDate.year;
+
   Future checkIfTopExpOrInc() async {
     final generalModel = HiveHelper()
         .getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsBox)
         .get(AppStrings.onlyId)!;
     final todayDate = DateTime.now();
-    if (chosenDate.day == todayDate.day &&
-        chosenDate.month == todayDate.month &&
-        chosenDate.year == todayDate.year) {
-      if (isExpense && currentAmount > generalModel.topExpenseAmount) {
-        await _generalStatsRepo.fetchTopExpenseAndTopIncome();
-      } else if (!isExpense && currentAmount > generalModel.topIncomeAmount) {
+    if (_isToday(todayDate)) {
+      if ((isExpense && currentAmount > generalModel.topExpenseAmount) ||
+          (!isExpense && currentAmount > generalModel.topIncomeAmount)) {
         await _generalStatsRepo.fetchTopExpenseAndTopIncome();
       } else {
         print('Is Expense ${isExpense} And current amount is '

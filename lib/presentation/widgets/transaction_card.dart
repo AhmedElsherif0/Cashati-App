@@ -49,10 +49,7 @@ class TransactionsCard extends StatelessWidget with FormatsMixin, HelperClass {
               children: [
                 Row(
                   children: [
-                    Text(
-                        formatDayWeek(transactionModel.createdDate,
-                            translator.activeLanguageCode),
-                        style: textTheme.headline5),
+                    Text(transactionModel.name, style: textTheme.headline5),
                     const Spacer(),
                     Text(
                       currencyFormat(context, transactionModel.amount),
