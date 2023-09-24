@@ -14,6 +14,7 @@ import 'package:temp/presentation/widgets/show_dialog.dart';
 
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/repository/formats_mixin.dart';
+import '../../../router/app_router_names.dart';
 import '../../../views/tab_bar_view.dart';
 import '../../../widgets/common_texts/details_text.dart';
 import '../part_time_details.dart';
@@ -81,13 +82,15 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
     getStatisticsCubit().getTransactionsByMonth(false);
   }
 
-  void _onSeeMoreByWeek(BuildContext context, index) async {
-    if (getStatisticsCubit().weeks[index].isNotEmpty) {
+  void _onSeeMoreByWeek(BuildContext context, weekIndex) async {
+    if (getStatisticsCubit().weeks[weekIndex].isNotEmpty) {
       getStatisticsCubit().chosenFilterWeekDay = AppStrings.all.tr();
+
       await context.navigateTo(StatisticsWeekDetailsScreen(
+          newRouteName: AppRouterNames.rIncomeStatistics,
           weekRanges: getStatisticsCubit().weekRangeText(),
-          builderIndex: index,
-          transactions: getStatisticsCubit().weeks[index]));
+          builderIndex: weekIndex,
+          transactions: getStatisticsCubit().weeks[weekIndex]));
     } else {
       errorSnackBar(
           context: context,

@@ -17,6 +17,7 @@ import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_
 import 'package:temp/presentation/widgets/transaction_card.dart';
 
 import '../../../constants/app_icons.dart';
+import '../../router/app_router_names.dart';
 import '../../widgets/custom_app_bar.dart';
 
 class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
@@ -25,11 +26,13 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
     this.transactions = const [],
     this.weekRanges = const [],
     required this.builderIndex,
+    this.newRouteName,
   }) : super(key: key);
 
   final List<TransactionModel> transactions;
   final List<String> weekRanges;
   final int builderIndex;
+  final String? newRouteName;
 
   String _appTitle(index) {
     final transactionType =
@@ -53,6 +56,9 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
           .toList();
 
   String _weekDateTime() {
+    if (newRouteName == AppRouterNames.rExpenseStatistics) {
+      return weekRanges[builderIndex];
+    }
     final weeks = getWeekRange(chosenDay: transactions[builderIndex].createdDate);
     if (transactions[builderIndex].createdDate.day <= 7) return weeks[0];
     if (transactions[builderIndex].createdDate.day <= 14) return weeks[1];
@@ -166,5 +172,25 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
         ),
       ),
     );
+  }
+}
+
+class PreviousRouteObserver extends NavigatorObserver {
+  Route<dynamic>? previousRoute;
+  Route<dynamic>? beforePrevious;
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    this.previousRoute = previousRoute;
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    previousRoute = oldRoute;
+  }
+
+  @override
+  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    this.previousRoute = previousRoute;
   }
 }
