@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
-import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 
@@ -74,12 +73,13 @@ class ExpensesRepositoryImpl
       MonthlyTransaction().getRepeatedTransactions(isExpense: true),
       NoRepeatTransaction().getRepeatedTransactions(isExpense: true),
     ];
+    expenseTypesList[currentIndex] = getTransactionFromTransactionBox();
     return expenseTypesList[currentIndex];
   }
 
   @override
   List<TransactionModel> getTransactionFromTransactionBox({bool isExpense = true}) {
-    return HiveHelper()
+    return hiveDatabase
         .getBoxName<TransactionModel>(boxName: AppBoxes.transactionBox)
         .values
         .cast<TransactionModel>()

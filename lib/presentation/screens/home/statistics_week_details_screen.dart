@@ -174,23 +174,3 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
     );
   }
 }
-
-class PreviousRouteObserver extends NavigatorObserver {
-  Route<dynamic>? previousRoute;
-  Route<dynamic>? beforePrevious;
-
-  @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    this.previousRoute = previousRoute;
-  }
-
-  @override
-  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    previousRoute = oldRoute;
-  }
-
-  @override
-  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    this.previousRoute = previousRoute;
-  }
-}

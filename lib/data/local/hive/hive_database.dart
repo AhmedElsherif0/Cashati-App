@@ -17,51 +17,47 @@ class HiveHelper {
   List<T> getBoxData<T>({required Box<T> boxName}) => boxName.values.toList();
 
   Future<int> addToBox<T>({required Box boxName, required T dataModel}) async {
-    //TODO by when we add item if box is empty ithrows an error because of the method reuireInitialize
+    /// by when we add item if box is empty it throws an error because of the method require Initialize
     _requireInitialized(boxName);
     return await boxName.add(dataModel);
   }
+
   Future<int> addToBox2<T>({required Box boxName, required T dataModel}) async {
-    //TODO by when we add item if box is empty ithrows an error because of the method reuireInitialize
+    /// by when we add item if box is empty it throws an error because of the method require Initialize
     return await boxName.add(dataModel);
   }
 
-
   Future<void> putByIndexKey<E>(
-      {required Box<E> boxName,
-      required int indexKey,
-      required E dataModel}) async {
+      {required Box<E> boxName, required int indexKey, required E dataModel}) async {
     return await boxName.put(indexKey, dataModel);
   }
 
   Future<void> putByKey<E>(
       {required Box<E> boxName,
-        required dynamic indexKey,
-        required E dataModel}) async {
+      required dynamic indexKey,
+      required E dataModel}) async {
     return await boxName.put(indexKey, dataModel);
   }
 
   /// for updates the value.
   Future<void> update<T>(
-      {required Box boxName,
-      required int indexKey,
-      required T dataModel}) async {
+      {required Box boxName, required int indexKey, required T dataModel}) async {
     _requireInitialized(boxName);
     await boxName.putAt(indexKey, dataModel);
   }
 
-  Future<void> deleteBox(
-      {required Box boxName, required dynamic dataModel}) async {
+  Future<void> deleteBox({required Box boxName, required dynamic dataModel}) async {
     _requireInitialized(boxName);
     await boxName.delete(dataModel.id);
   }
 
-  Future<void> clearBoxes({required Box boxName}) async =>
-      await boxName.clear();
+  Future<void> clearBoxes({required Box boxName}) async => await boxName.clear();
 
-  void _requireInitialized(Box boxName) {
+  void _requireInitialized<E>(Box boxName) async {
     if (boxName.isEmpty) {
+      await Hive.openBox<E>(boxName.name);
       throw HiveError('This object is currently not in a box.');
     }
+    return;
   }
 }
