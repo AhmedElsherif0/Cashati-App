@@ -3,10 +3,10 @@ class AppIcons {
 
   static const String cashatiLogoSVG = '$icons/cashati_logo.svg';
   static const String backWordArrow = '$icons/arrow-backWord.svg';
+  static const String download = '$icons/download.svg';
 
   static const String reminder = '$icons/reminderIcon.svg';
   static const String notificationSetting = '$icons/notificationIconAlert.svg';
-  static const String editCategoryIcon = '$icons/editCategoryIcon.svg';
   static const String englishLang = '$icons/languageSettingIcon.svg';
   static const String arabicLang = '$icons/arabic_lang.svg';
   static const String currencySettings = '$icons/currencySettingsIcon.svg';
@@ -65,7 +65,7 @@ class AppIcons {
   static const String completedGoal = '$icons/completedGoal.svg';
   static const String addIcon = '$icons/addIcon.svg';
   static const String helloRafiki = '$icons/Hello-rafiki.svg';
-  static const String magneticIcon = '$icons/magnetic_icon.svg';
+  static const String magneticIcon = '$icons/magnetic.png';
   static const String successfullyAdded = '$icons/successfully_added.svg';
 
   ///Home Icons...

@@ -97,7 +97,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
 
       await context.navigateTo(
         StatisticsWeekDetailsScreen(
-            newRouteName: AppRouterNames.rIncomeStatistics,
+            newRouteName: AppRouterNames.rExpenseStatistics,
             weekRanges: getStatisticsCubit().weekRangeText(),
             builderIndex: weekIndex,
             transactions: getStatisticsCubit().weeks[weekIndex]),
