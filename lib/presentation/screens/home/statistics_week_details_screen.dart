@@ -56,7 +56,8 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
           .toList();
 
   String _weekDateTime() {
-    if (newRouteName == AppRouterNames.rExpenseStatistics) {
+    if (newRouteName == AppRouterNames.rExpenseStatistics ||
+        newRouteName == AppRouterNames.rIncomeStatistics) {
       return weekRanges[builderIndex];
     }
     final weeks = getWeekRange(chosenDay: transactions[builderIndex].createdDate);
