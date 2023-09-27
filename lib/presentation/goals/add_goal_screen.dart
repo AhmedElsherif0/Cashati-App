@@ -38,28 +38,32 @@ class _AddGoalScreenState extends State<AddGoalScreen>
   final _addGoalKey = GlobalKey<FormState>();
 
   _validateAndAddGoal(BuildContext context, GoalsCubit goalCubit) async {
+    if (goalCubit.chosenDate == null) {
+      return _showErrorSnackBar(context, message: AppStrings.chooseDay);
+    }
     if (_addGoalKey.currentState!.validate()) {
       //TODO put goal comment text form field
+
       final GoalModel goalModel = GoalModel.copyWith(
           goalComment: goalComment.text ?? 'goalComment',
           goalCreatedDay: DateTime.now(),
           id: GUIDGen.generate(),
           goalName: goalNameCtrl.text,
           goalRemainingAmount: goalCubit.countRemainingAmount(
-              num.tryParse(goalCostCtrl.text)!,
-              num.tryParse(goalSaveRepeatAmount.text)!),
+              num.tryParse(goalCostCtrl.text) ?? 0,
+              num.tryParse(goalSaveRepeatAmount.text) ?? 0),
           //num.tryParse(goalCostCtrl.text)!,
           goalRemainingPeriod: goalCubit.remainingTimes(
-              cost: num.tryParse(goalCostCtrl.text)!,
-              dailySaving: num.tryParse(goalSaveRepeatAmount.text)!),
-          goalSaveAmount: num.tryParse(goalSaveRepeatAmount.text)!,
+              cost: num.tryParse(goalCostCtrl.text) ?? 0,
+              dailySaving: num.tryParse(goalSaveRepeatAmount.text) ?? 0),
+          goalSaveAmount: num.tryParse(goalSaveRepeatAmount.text) ?? 0,
           goalSaveAmountRepeat: goalCubit.choseRepeat,
           goalTotalAmount: num.parse(goalCostCtrl.text),
           //num.tryParse(goalCostCtrl.text)!,
           goalStartSavingDate: goalCubit.chosenDate ?? goalCubit.today,
           goalCompletionDate: goalCubit.getCompletionDate(
-              cost: num.tryParse(goalCostCtrl.text)!,
-              dailySavings: num.tryParse(goalSaveRepeatAmount.text)!,
+              cost: num.tryParse(goalCostCtrl.text) ?? 0,
+              dailySavings: num.tryParse(goalSaveRepeatAmount.text) ?? 0,
               repeat: goalCubit.choseRepeat,
               startSavingDate: goalCubit.chosenDate ?? goalCubit.today));
       await showGoalsDialog(
@@ -74,18 +78,17 @@ class _AddGoalScreenState extends State<AddGoalScreen>
           infoMessage: goalCubit.dialogMessage(
               cost: goalCostCtrl.text.toNum()!,
               dailySaving: goalSaveRepeatAmount.text.tr().toNum()!));
+    } else {
+      _showErrorSnackBar(context, message: AppStrings.fillEmptyFields);
     }
   }
 
-  void _showErrorSnackBar(BuildContext context) {
-    Navigator.of(context).pop();
-    errorSnackBar(context: context, message: AppStrings.someThingWentWrong.tr());
-  }
+  void _showErrorSnackBar(BuildContext context,
+          {String message = AppStrings.someThingWentWrong}) =>
+      errorSnackBar(context: context, message: message.tr());
 
   void _showSuccessSnackBar(BuildContext context) {
     Navigator.of(context).pop();
-    /*successSnackBar(
-        context: context, message: AppStrings.successfullyConfirmedExpenseFood.tr());*/
     showSuccessfulDialog(context, AppStrings.successfullyConfirmedExpenseFood.tr());
     Future.delayed(const Duration(seconds: 3), () => Navigator.of(context).pop());
   }

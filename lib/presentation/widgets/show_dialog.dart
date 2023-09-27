@@ -23,7 +23,7 @@ mixin AlertDialogMixin {
                 .bodyMedium!
                 .copyWith(color: AppColor.white)),
       ),
-      duration: const Duration(milliseconds: 2500),
+      duration: const Duration(milliseconds: 1800),
       backgroundColor: backGroundColor,
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
     ));
@@ -56,7 +56,7 @@ mixin AlertDialogMixin {
                   //  offset: const Offset(0.1, -15.0),
                   );
         },
-        transitionDuration: AppDecorations.duration600ms,
+        transitionDuration: AppDecorations.duration400ms,
         pageBuilder: (BuildContext buildContext, Animation animation,
                 Animation secondaryAnimation) =>
             child);
@@ -71,7 +71,8 @@ mixin AlertDialogMixin {
         context: context,
         child: Center(
           child: DecoratedBox(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(12))),
             child: AlertDialog(
               title: Text('${AppStrings.update.tr()} ${AppStrings.amount.tr()}'),
               content: TextFormField(

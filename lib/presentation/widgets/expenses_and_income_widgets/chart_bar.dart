@@ -1,8 +1,10 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/data/repository/helper_class.dart';
+
 import '../../styles/colors.dart';
 
 class ChartBar extends StatefulWidget {
@@ -66,8 +68,8 @@ class _ChartBarState extends State<ChartBar> with HelperClass {
           child: AnimatedContainer(
             height: widget.totalExp == 0 ? 0 : _height,
             onEnd: () => _height = widget.height!,
-            curve: Curves.fastOutSlowIn,
-            duration: const Duration(seconds: 3),
+            curve: Curves.easeInOut,
+            duration: const Duration(milliseconds: 1500),
             constraints: BoxConstraints(
                 minHeight: 3.h, maxHeight: widget.totalExp == 0 ? 3.h : 30.h),
             child: SizedBox(
