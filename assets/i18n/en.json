@@ -161,6 +161,7 @@
   "threeHours": "3h",
   "successfullyConfirmedExpenseFood": "You have Successfully confirmed your expense for food",
   "someThingWentWrong": "Something Went Wrong",
+  "fillEmptyFields": "Please fill the Empty Fields",
   "inThisWeek": "in this week",
   "addTransaction": "Add Transaction",
   "Home": "Home",

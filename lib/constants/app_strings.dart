@@ -147,6 +147,7 @@ class AppStrings {
 
   /// snack bars messages.
   static const String someThingWentWrong = "someThingWentWrong"; //UnCompleted
+  static const String fillEmptyFields = "fillEmptyFields"; // Please Fill Empty Fields
   static const String inThisWeek = "inThisWeek"; //No Expenses in this week.
   static const String kindlyPutTheAmount =
       "kindlyPutTheAmount"; // 'Kindly put the amount ! '
@@ -251,7 +252,8 @@ class AppStrings {
   static const String appBarTitle = 'appBarTitle'; //appBarTitle
   static const String emptyShow = 'emptyShow'; //Empty Show
   static const String rateCashati = 'Rate Our App'; //Empty Show
-  static const String rateCashatiDetails = "Kindly Rate our app so we should be able to enhance our service , thanks for your feedback in advance."; //Empty Show
+  static const String rateCashatiDetails =
+      "Kindly Rate our app so we should be able to enhance our service , thanks for your feedback in advance."; //Empty Show
   static const String aboutUsInfo =
       'About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us '; //Empty Show
 
