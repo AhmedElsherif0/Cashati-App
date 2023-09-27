@@ -215,7 +215,7 @@ mixin AlertDialogMixin {
                 children: [
                   Expanded(
                     flex: 3,
-                    child: SvgPicture.asset('assets/icons/successfully_added.svg'),
+                    child: SvgPicture.asset(AppIcons.successfullyAdded),
                   ),
                   const Spacer(flex: 2),
                   Expanded(
@@ -400,8 +400,7 @@ class GoalsDialogBody extends StatelessWidget {
                           textStyle:
                               textTheme.headline6?.copyWith(color: AppColor.grey)),
                       const Spacer(flex: 2),
-                      Expanded(
-                          flex: 9, child: SvgPicture.asset(AppIcons.magneticIcon)),
+                      Expanded(flex: 9, child: Image.asset(AppIcons.magneticIcon)),
                       const Spacer(flex: 2),
                       CustomTextButton(
                           onPressed: () => onPressedYesFunction(),

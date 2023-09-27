@@ -3,6 +3,8 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/presentation/styles/colors.dart';
+
+import '../../../constants/app_strings.dart';
 import '../../widgets/show_dialog.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -44,10 +46,11 @@ class _LoadingScreenState extends State<LoadingScreen> with AlertDialogMixin {
                     Image(
                       colorBlendMode: BlendMode.srcOut,
                       width: 70.w,
-                      image: const AssetImage(AppIcons.loading1),
+                      image: const AssetImage(AppIcons.loading),
                       gaplessPlayback: true,
                     ),
-                    Text('loading'.tr(), style: Theme.of(context).textTheme.headline2),
+                    Text(AppStrings.loading.tr(),
+                        style: Theme.of(context).textTheme.headline2),
                   ],
                 ),
               ),

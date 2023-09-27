@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/constants/app_images.dart';
 import 'package:temp/presentation/styles/colors.dart';
+import 'package:temp/presentation/utils/extensions.dart';
+
 import '../../../constants/app_strings.dart';
 import '../../widgets/buttons/elevated_button.dart';
 
@@ -14,10 +17,7 @@ class ErrorScreen extends StatelessWidget {
         child: Column(
           children: [
             const Spacer(flex: 5),
-            Expanded(
-              flex: 10,
-              child: Image.asset("assets/images/robot_assistant_error.png")
-            ),
+            Expanded(flex: 10, child: Image.asset(AppImages.robotAssistantError)),
             const Spacer(),
             Expanded(
               child: Text(
@@ -30,7 +30,7 @@ class ErrorScreen extends StatelessWidget {
               flex: 2,
               child: CustomElevatedButton(
                 text: AppStrings.back.tr(),
-                onPressed: () {},
+                onPressed: () => context.pops,
                 icon: Icons.arrow_back_ios,
               ),
             ),

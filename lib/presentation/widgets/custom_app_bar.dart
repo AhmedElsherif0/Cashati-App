@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 
+import '../../constants/app_icons.dart';
 import '../styles/colors.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -42,7 +42,7 @@ class CustomAppBar extends StatelessWidget {
                   borderRadius: BorderRadius.zero,
                   radius: 0.0,
                   onTap: onTapFirstIcon,
-                  child: SvgPicture.asset('assets/icons/stair_menu.svg',
+                  child: SvgPicture.asset(AppIcons.stairMenu,
                       height: 24.dp, width: 24.dp),
                 ),
         ),
@@ -61,9 +61,8 @@ class CustomAppBar extends StatelessWidget {
               radius: 0.0,
               onTap: () =>
                   onTapNotification ??
-                      Navigator.of(context)
-                          .pushNamed(AppRouterNames.rNotification),
-              child: SvgPicture.asset('assets/images/notification.svg',
+                  Navigator.of(context).pushNamed(AppRouterNames.rNotification),
+              child: SvgPicture.asset(AppIcons.notificationSetting,
                   height: 22.sp, width: 22.sp),
             ),
           ),
