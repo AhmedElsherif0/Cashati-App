@@ -76,7 +76,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return DefaultTabController(
-      animationDuration: AppDecorations.duration600ms,
+      animationDuration: AppDecorations.duration400ms,
       length: tabController.length,
       initialIndex: tabController.index,
       child: Scaffold(

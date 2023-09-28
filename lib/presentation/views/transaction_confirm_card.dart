@@ -4,7 +4,9 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
+import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
+import 'package:temp/presentation/screens/home/part_time_details.dart';
 import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/views/confirm_paying_expense.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
@@ -16,6 +18,10 @@ class TransactionConfirmCard extends StatelessWidget
   const TransactionConfirmCard({Key? key, required this.changedAmount})
       : super(key: key);
   final TextEditingController changedAmount;
+
+  _onDetails(BuildContext context, TransactionModel transaction) {
+    context.navigateTo(PartTimeDetails(transactionModel: transaction));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +47,7 @@ class TransactionConfirmCard extends StatelessWidget
                             date: formatDayDate(
                                 DateTime.now(), translator.activeLanguageCode),
                             transactionModel: currentIncome,
-                            onDetails: () {},
+                            onDetails: () => _onDetails(context, currentIncome),
                             amount: currentIncome.amount.toDouble(),
                             onDelete: () => showYesOrNoDialog(
                                 title: AppStrings.deleteIncome.tr(),
@@ -82,7 +88,7 @@ class TransactionConfirmCard extends StatelessWidget
               ),
               child: Visibility(
                 visible: confirmCubit.allTodayList.isNotEmpty,
-                replacement: const Center(child: Text(AppStrings.noDataToConfirm)),
+                replacement: Center(child: Text(AppStrings.noDataToConfirm.tr())),
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(vertical: 4.dp),
                   itemExtent: 85.w,
@@ -98,7 +104,7 @@ class TransactionConfirmCard extends StatelessWidget
                             date: formatDayDate(currentExpense.createdDate,
                                 translator.activeLanguageCode),
                             transactionModel: currentExpense,
-                            onDetails: () {},
+                            onDetails: () => _onDetails(context, currentExpense),
                             amount: currentExpense.amount.toDouble(),
                             onDelete: () {
                               showYesOrNoDialog(

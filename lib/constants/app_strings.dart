@@ -28,9 +28,9 @@ class AppStrings {
   static const String goals = 'goals'; // Goals
   static const String exportData = 'exportData'; // Export Data
   static const String byUsingApp = "byUsingApp"; // Export Data
-  static const String privacyPolicy = 'Privacy and Policy'; // Export Data
+  static const String privacyPolicy = 'privacyPolicy'; // Export Data
   static const String and = 'and'; // Export Data
-  static const String termsConditions = 'Terms and Conditions'; // Export Data
+  static const String termsConditions = 'termsConditions'; // Export Data
   static const String cashatiTeam = "cashatiTeam"; // Cashati Team
 
   /// bottom_nav_bar.dart
