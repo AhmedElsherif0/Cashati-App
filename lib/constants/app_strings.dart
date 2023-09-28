@@ -254,9 +254,8 @@ class AppStrings {
   static const String rateCashati = 'Rate Our App'; //Empty Show
   static const String rateCashatiDetails =
       "Kindly Rate our app so we should be able to enhance our service , thanks for your feedback in advance."; //Empty Show
-  static const String aboutUsInfo =
-      'About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us '; //Empty Show
-
+  static const String aboutUsInfo = 'aboutDetails';
+  static const String aboutDetailsSubTitle = 'aboutDetailsSubTitle';
   static const String cashatiPrivacy = '''
   Privacy Policy for Cashati
 

@@ -24,27 +24,29 @@ class GlobalCubit extends Cubit<GlobalState> {
 
   /// Currency
   final OnBoardingData _boardingData = OnBoardingData();
-  String selectedValue = AppStrings.chooseCurrency.tr();
+  String selectedCurrency = AppStrings.chooseCurrency;
   String curr = 'LE';
   String curr1 = 'جنية';
+  int currentIndex = 0;
 
   List<String> get getCurrency => translator.activeLanguageCode == 'en'
       ? _boardingData.englishCurrency
       : _boardingData.arabicCurrency;
 
   void changeCurrency() {
-    if (isLanguage) selectedValue = isEnglish ? 'EGP' : 'USD';
-    if (!isLanguage) selectedValue = isArabic ? 'المصرية' : 'الامريكية';
-    print('changeCurrency is $selectedValue');
-    onChangeCurrency(selectedValue);
+    selectedCurrency = AppStrings.chooseCurrency.tr();
+    if (isLanguage) selectedCurrency = isEnglish ? 'EGP' : 'USD';
+    if (!isLanguage) selectedCurrency = isArabic ? 'المصرية' : 'الامريكية';
+    print('changeCurrency is $selectedCurrency');
+    onChangeCurrency(selectedCurrency);
   }
 
   void onChangeCurrency(String? value) {
-    selectedValue = value!;
+    selectedCurrency = value!;
     translator.activeLanguageCode == 'en'
         ? curr = _currencySign()
         : curr1 = _currencySign();
-    CacheHelper.saveDataSharedPreference(key: appCurrencyKey, value: selectedValue);
+    CacheHelper.saveDataSharedPreference(key: appCurrencyKey, value: selectedCurrency);
     emit(CurrencyChangedState());
   }
 
@@ -57,15 +59,16 @@ class GlobalCubit extends Cubit<GlobalState> {
   }
 
   String _returnTheRightValue() {
-    if (isLanguage && selectedValue == 'المصرية') return selectedValue = 'EGP';
-    if (!isLanguage && selectedValue == 'EGP') return selectedValue = 'المصرية';
-    if (isLanguage && selectedValue == 'الامريكية') return selectedValue = 'USD';
-    if (!isLanguage && selectedValue == 'USD') return selectedValue = 'الامريكية';
-    return selectedValue;
+    if (isLanguage && selectedCurrency == 'المصرية') return selectedCurrency = 'EGP';
+    if (!isLanguage && selectedCurrency == 'EGP') return selectedCurrency = 'المصرية';
+    if (isLanguage && selectedCurrency == 'الامريكية') return selectedCurrency = 'USD';
+    if (!isLanguage && selectedCurrency == 'USD')
+      return selectedCurrency = 'الامريكية';
+    return selectedCurrency;
   }
 
   String _currencySign() {
-    switch (selectedValue) {
+    switch (selectedCurrency) {
       case 'EGP':
         curr = 'LE';
         break;
@@ -93,8 +96,6 @@ class GlobalCubit extends Cubit<GlobalState> {
     isArabic = !isValue;
     emit(ChangeCurrencyBGColorState());
   }
-
-  int currentIndex = 0;
 
   void changePage({required int index}) {
     currentIndex = index;

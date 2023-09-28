@@ -109,7 +109,7 @@ class WelcomeScreen extends StatelessWidget {
                       WelcomeDropDownButton(
                         isDirection: translator.isDirectionRTL(context),
                         items: globalCubit.getCurrency,
-                        selectedValue: globalCubit.selectedValue.tr(),
+                        selectedValue: globalCubit.selectedCurrency.tr(),
                         onChange: (value) => globalCubit.onChangeCurrency(value),
                       )
                     ],
