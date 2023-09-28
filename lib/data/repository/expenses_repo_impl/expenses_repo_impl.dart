@@ -73,7 +73,6 @@ class ExpensesRepositoryImpl
       MonthlyTransaction().getRepeatedTransactions(isExpense: true),
       NoRepeatTransaction().getRepeatedTransactions(isExpense: true),
     ];
-    expenseTypesList[currentIndex] = getTransactionFromTransactionBox();
     return expenseTypesList[currentIndex];
   }
 
