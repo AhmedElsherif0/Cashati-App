@@ -255,8 +255,10 @@ class AppStrings {
   static const String rateCashatiDetails =
       "Kindly Rate our app so we should be able to enhance our service , thanks for your feedback in advance."; //Empty Show
   static const String aboutUsInfo =
-      'About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us '; //Empty Show
-
+      '''Cashati is a Mobile Application that provides users with a simple way to track and analyze their income and expense transactions.'
+      ' The app allows users to grab their transactions from various sources,
+       such as bank accounts, credit cards, and cash, and then organizes 
+       and analyzes the data according to the user\'s desired time period''';
   static const String cashatiPrivacy = '''
   Privacy Policy for Cashati
 

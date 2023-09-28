@@ -147,7 +147,7 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
                       SettingListTile(
                           icon: AppIcons.currencySettings,
                           title: AppStrings.currency.tr(),
-                          subtitle: globalCubit.selectedValue.tr(),
+                          subtitle: globalCubit.selectedCurrency.tr(),
                           isTrail: false,
                           onTap: () => _onCurrencyTap(context, globalCubit)),
                     ],
