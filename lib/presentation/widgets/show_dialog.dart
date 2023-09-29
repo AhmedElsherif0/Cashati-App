@@ -79,7 +79,9 @@ mixin AlertDialogMixin {
                 keyboardType: TextInputType.number,
                 controller: changedAmountCtrl,
                 decoration: InputDecoration(
-                    hintText: "$amount", labelText: AppStrings.paidAmount.tr()),
+                    hintStyle: TextStyle(locale: translator.activeLocale),
+                    hintText: "$amount",
+                    labelText: AppStrings.paidAmount.tr()),
               ),
               actions: [
                 CustomElevatedButton(

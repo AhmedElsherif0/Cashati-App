@@ -27,7 +27,7 @@ class PrivacyPolicyAndTermsWidget extends StatelessWidget with AlertDialogMixin 
                       showPrivacyAndTermsDialog(
                         context: context,
                         child: const UiPrivacyAndTermsDialog(
-                          header: AppStrings.privacyPolicy,
+                          header: 'Privacy and Policy',
                           bodyTitle: AppStrings.cashatiPrivacy,
                         ),
                       );
@@ -42,7 +42,7 @@ class PrivacyPolicyAndTermsWidget extends StatelessWidget with AlertDialogMixin 
                       showPrivacyAndTermsDialog(
                         context: context,
                         child: const UiPrivacyAndTermsDialog(
-                          header: AppStrings.termsConditions,
+                          header: 'Terms And Conditions',
                           bodyTitle: AppStrings.cashatiTerms,
                         ),
                       );
@@ -74,19 +74,25 @@ class UiPrivacyAndTermsDialog extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Center(
-            child: Text(header, style: textTheme.headlineMedium),
+            child: Column(
+              children: [
+                SizedBox(height: 2.h),
+                Text(header, style: textTheme.headlineMedium),
+              ],
+            ),
           ),
         ),
-        SizedBox(height: 1.h),
+        SizedBox(height: 2.h),
         Expanded(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SingleChildScrollView(
-            child: Text(bodyTitle, style: textTheme.bodySmall),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: SingleChildScrollView(
+              child: Text(bodyTitle, style: textTheme.bodySmall),
+            ),
           ),
-        )),
+        ),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           customButton(context, 'Cancel', isEnglish),
           customButton(context, 'Agree', !isEnglish),
