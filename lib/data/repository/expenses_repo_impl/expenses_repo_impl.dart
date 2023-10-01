@@ -73,7 +73,6 @@ class ExpensesRepositoryImpl
       MonthlyTransaction().getRepeatedTransactions(isExpense: true),
       NoRepeatTransaction().getRepeatedTransactions(isExpense: true),
     ];
-    expenseTypesList[currentIndex] = getTransactionFromTransactionBox();
     return expenseTypesList[currentIndex];
   }
 
@@ -94,4 +93,9 @@ class ExpensesRepositoryImpl
             boxName: AppBoxes.transactionBox),
         dataModel: transaction);
   }
+
+  // @override
+  // List<TransactionRepeatDetailsModel> getRepeatedTransactionsByType({required String repeat, required isExpense}) {
+  //   return getRepTransactionsByRep(isExpense: isExpense,repeat: repeat);
+  // }
 }

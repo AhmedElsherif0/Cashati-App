@@ -14,6 +14,7 @@ import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart
 import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
+import 'package:temp/notification_manager.dart';
 import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/screens/shared/empty_screen.dart';
@@ -44,7 +45,8 @@ Future<void> main() async {
       localeType: LocalizationDefaultType.device,
       languagesList: <String>['ar', 'en'],
       assetsDirectory: 'assets/i18n/');
-
+   await NotificationManager().init();
+   // await NotificationsManagerHandler().saveInitialNotification();
   BlocOverrides.runZoned(
     () async {
       await CacheHelper.init();

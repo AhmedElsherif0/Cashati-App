@@ -14,16 +14,17 @@ class RateAppWidget extends StatelessWidget {
 
    @override
   Widget build(BuildContext context) {
-     return RateAppInitWidget(builder: (rateApp)=> ListTile(
+     return RateAppInitWidget(
+       builder: (rateApp)=> ListTile(
        onTap: ()async{
-         await rateApp.showStarRateDialog(context,    title: 'Rate this app', // The dialog title.
-           message: 'You like this app ? Then take a little bit of your time to leave a rating :', // The dialog message.
+         await rateApp.showStarRateDialog(context,    title: AppStrings.rateCashati.tr(), // The dialog title.
+           message: AppStrings.rateCashatiMessage.tr(), // The dialog message.
            actionsBuilder: (context, stars) { // Triggered when the user updates the star rating.
              return [
                RateMyAppRateButton(
 
                  rateApp,
-                 text: "ok",
+                 text: AppStrings.ok.tr(),
                  callback: () => rateApp.launchStore(),
 
                ),

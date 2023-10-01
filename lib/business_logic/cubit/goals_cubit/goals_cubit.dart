@@ -13,7 +13,7 @@ part 'goals_state.dart';
 
 class GoalsCubit extends Cubit<GoalsState> {
   GoalsCubit() : super(GoalsInitial());
-  String choseRepeat = AppStrings.day.tr();
+  String choseRepeat = AppStrings.daily;
   String choseFilter = AppStrings.all.tr();
   DateTime? chosenDate;
   final DateTime today = DateTime.now();
@@ -24,9 +24,9 @@ class GoalsCubit extends Cubit<GoalsState> {
   List<GoalRepeatedDetailsModel> registeredGoals = [];
 
   List<DropdownMenuItem<String>> dropDownChannelItems = [
-    DropdownMenuItem(value: AppStrings.day.tr(), child: Text(AppStrings.day.tr())),
-    DropdownMenuItem(value: AppStrings.week.tr(), child: Text(AppStrings.week.tr())),
-    DropdownMenuItem(value: AppStrings.month.tr(), child: Text(AppStrings.month.tr()))
+    DropdownMenuItem(value: AppStrings.daily, child: Text(AppStrings.day.tr())),
+    DropdownMenuItem(value: AppStrings.weekly, child: Text(AppStrings.week.tr())),
+    DropdownMenuItem(value: AppStrings.monthly, child: Text(AppStrings.month.tr()))
   ];
   List<DropdownMenuItem<String>> goalsFilterDropDown = [
     DropdownMenuItem(

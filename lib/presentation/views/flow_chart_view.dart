@@ -70,7 +70,7 @@ class FlowChartView extends StatelessWidget {
                 children: [
                   const Spacer(flex: 11),
                   Expanded(
-                    flex: 5,
+                    flex: 6,
                     child: Column(
                       children: [
                         PriorityWidget(text: priorityType.tr()),

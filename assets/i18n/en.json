@@ -81,7 +81,6 @@
   "deleteIncome": "Delete Income",
   "areYouSureYouWantToDelete": "Are you sure you want to delete",
   "permanently": "Permanently",
-  "noDataToConfirm": "No Data To Confirm",
   "availabilityToCancelTransaction": "you can press cancel on the card to confirm not receiving the transaction",
   "chooseRepeat": "Choose Repeat",
   "chooseDate": "Choose Date",
@@ -175,5 +174,11 @@
   "appInfo": "App Information",
   "aboutApp": "About App",
   "and": "And",
-  "byUsingApp": "By using this app\n you are agreeing to our\n"
+  "noExpYet": "No Expense Added",
+  "noIncYet": "No Income Added",
+  "noDataToConfirm": "No transactions to confirm",
+  "byUsingApp": "By using this app\n you are agreeing to our\n",
+  "rateOurApp": "Rate App",
+  "rateMessage":"Your voice matters the most to us to provide the best service to our clients , kindly rate our app and we wish to always meet your expectations",
+  "rateCashatiDetails":"Kindly Rate our app so we should be able to enhance our service , thanks for your feedback in advance."
 }

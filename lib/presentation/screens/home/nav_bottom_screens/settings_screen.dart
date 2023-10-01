@@ -16,8 +16,15 @@ import '../../../widgets/custom_divder.dart';
 import '../../../widgets/setting_choosen_component.dart';
 import '../../../widgets/setting_list_tile.dart';
 
-class SettingsScreen extends StatelessWidget with AlertDialogMixin {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen>  with AlertDialogMixin{
+
 
   Future<void> _choseLanguage(String languageCode, context) async {
     await translator.setNewLanguage(context,
@@ -71,6 +78,13 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<GlobalCubit>().initializeNotificationTime();
+    context.read<GlobalCubit>().initializeNotificationEnabled();
+  }
+  @override
   Widget build(BuildContext context) {
     final globalCubit = context.read<GlobalCubit>();
     final textTheme = Theme.of(context).textTheme;
@@ -98,11 +112,14 @@ class SettingsScreen extends StatelessWidget with AlertDialogMixin {
                         icon: AppIcons.reminder,
                         title: AppStrings.dailyReminders.tr(),
                         subtitle: AppStrings.reminderSubtitle.tr(),
-                        dateTime: AppStrings.reminderTime.tr(),
+                        dateTime:  context.read<GlobalCubit>().getNotificationTime(),
                         isTrail: true,
                         isReminder: true,
                         switchValue: false,
-                        onChangedFunc: (value) {},
+                        onTapReminder: (){
+                          context.read<GlobalCubit>().changeNotificationTime(context: context);
+                        },
+
                       ),
                       const CustomDivider(),
                       BlocBuilder<GlobalCubit, GlobalState>(

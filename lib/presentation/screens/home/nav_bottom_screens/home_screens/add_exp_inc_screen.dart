@@ -38,8 +38,9 @@ class AddExpenseOrIncomeScreen extends StatelessWidget {
                     //  padding: EdgeInsets.symmetric(horizontal: 24.0),
                     indicatorSize: TabBarIndicatorSize.label,
                     indicatorColor: AppColor.primaryColor,
-                    onTap: (index) =>
-                        context.read<AddExpOrIncCubit>().changeCurrentIndex(index),
+                    //TODO Uncomment on tab
+                    //onTap: (index) =>
+                     //   context.read<AddExpOrIncCubit>().changeCurrentIndex(index),
                     tabs: [
                       Tab(child: Text(AppStrings.expenses.tr())),
                       Tab(child: Text(AppStrings.income.tr()))
