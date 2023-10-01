@@ -14,50 +14,33 @@ class RateAppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RateAppInitWidget(
-      builder: (rateApp) => ListTile(
-        onTap: () async {
-          await rateApp.showStarRateDialog(
-            context, title: 'Rate this app',
-            // The dialog title.
-            message:
-                'You like this app ? Then take a little bit of your time to leave a rating :',
-            // The dialog message.
-            actionsBuilder: (context, stars) {
-              // Triggered when the user updates the star rating.
-              return [
-                RateMyAppRateButton(
-                  rateApp,
-                  text: "ok",
-                  callback: () => rateApp.launchStore(),
-                ),
-              ];
-            },
-            ignoreNativeDialog: Platform.isAndroid,
-            // Set to false if you want to show the Apple's native app rating dialog on iOS or Google's native app rating dialog (depends on the current Platform).
-            dialogStyle: const DialogStyle(
-              // Custom dialog styles.
-              titleAlign: TextAlign.center,
-              messageAlign: TextAlign.center,
-              messagePadding: EdgeInsets.only(bottom: 20),
-            ),
-            starRatingOptions: const StarRatingOptions(),
-            // Custom star bar rating options.
-            onDismissed: () =>
-                rateApp.callEvent(RateMyAppEventType.laterButtonPressed),
-          );
-        },
-        leading: const Icon(Icons.star_border_outlined, color: AppColor.primaryColor),
-        title: Text(AppStrings.rateCashati.tr()),
-        subtitle: Text(
-          AppStrings.rateCashatiDetails.tr(),
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(
-              fontSize: 10.dp,
-              fontWeight: FontWeight.w300,
-              color: AppColor.subTitleColor),
-        ),
-      ),
-    );
+     return RateAppInitWidget(
+       builder: (rateApp)=> ListTile(
+       onTap: ()async{
+         await rateApp.showStarRateDialog(context,    title: AppStrings.rateCashati.tr(), // The dialog title.
+           message: AppStrings.rateCashatiMessage.tr(), // The dialog message.
+           actionsBuilder: (context, stars) { // Triggered when the user updates the star rating.
+             return [
+               RateMyAppRateButton(
+                 rateApp,
+                 text: AppStrings.ok.tr(),
+                 callback: () => rateApp.launchStore(),
+               ),
+             ];
+           },
+           ignoreNativeDialog: Platform.isAndroid, // Set to false if you want to show the Apple's native app rating dialog on iOS or Google's native app rating dialog (depends on the current Platform).
+           dialogStyle: const DialogStyle( // Custom dialog styles.
+             titleAlign: TextAlign.center,
+             messageAlign: TextAlign.center,
+             messagePadding: EdgeInsets.only(bottom: 20),
+           ),
+           starRatingOptions: const StarRatingOptions(), // Custom star bar rating options.
+           onDismissed: () => rateApp.callEvent(RateMyAppEventType.laterButtonPressed),);
+       },
+       leading: Icon(Icons.star_border_outlined,color: AppColor.primaryColor,),
+       title: Text(AppStrings.rateCashati.tr(),),
+       subtitle: Text(AppStrings.rateCashatiDetails.tr(),style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 10.dp,fontWeight: FontWeight.w300,color: AppColor.subTitleColor),),
+     ),);
   }
 }
 

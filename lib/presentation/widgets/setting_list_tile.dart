@@ -13,6 +13,7 @@ class SettingListTile extends StatefulWidget {
       required this.isTrail,
       this.switchValue = false,
       required this.icon,
+        this.onTapReminder,
       this.isReminder = false,
       this.dateTime = '',  this.onTap})
       : super(key: key);
@@ -22,6 +23,7 @@ class SettingListTile extends StatefulWidget {
   final String icon;
   final Function(bool)? onChangedFunc;
   final void Function()? onTap;
+  final void Function()? onTapReminder;
 
   final bool isTrail;
   final bool isReminder;
@@ -60,14 +62,18 @@ class _SettingListTileState extends State<SettingListTile> {
             : Text(widget.subtitle,
                 style: textTheme.subtitle1!.copyWith(fontSize: 13.dp)),
         trailing: widget.isTrail
-            ? Switch.adaptive(
-                value: widget.switchValue!,
-                onChanged: widget.onChangedFunc == (){}? (val) {
-                  setState(() => widget.switchValue = val);
-                  widget.onChangedFunc!(val);
-                }:widget.onChangedFunc,
-                activeColor: AppColor.primaryColor,
-              )
+            ? Visibility(
+          visible: !widget.isReminder,
+              child: Switch.adaptive(
+                  value: widget.switchValue!,
+                  onChanged: widget.onChangedFunc == (){}? (val) {
+                    setState(() => widget.switchValue = val);
+                    widget.onChangedFunc!(val);
+                  }:widget.onChangedFunc,
+                  activeColor: AppColor.primaryColor,
+                ),
+          replacement: IconButton(onPressed: widget.onTapReminder, icon: Icon(Icons.timer_outlined)),
+            )
             : null,
       ),
     );

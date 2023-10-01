@@ -93,4 +93,9 @@ class ExpensesRepositoryImpl
             boxName: AppBoxes.transactionBox),
         dataModel: transaction);
   }
+
+  // @override
+  // List<TransactionRepeatDetailsModel> getRepeatedTransactionsByType({required String repeat, required isExpense}) {
+  //   return getRepTransactionsByRep(isExpense: isExpense,repeat: repeat);
+  // }
 }
