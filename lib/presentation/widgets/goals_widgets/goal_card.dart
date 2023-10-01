@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/business_logic/cubit/goals_cubit/goals_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/presentation/styles/colors.dart';
@@ -46,7 +48,7 @@ class GoalCard extends StatelessWidget with FormatsMixin {
                   GoalsRichText(
                       title: AppStrings.yourSaving.tr(),
                       subTitle:
-                          '${currencyFormat(context,goal.goalSaveAmount)}, ${amountRepeat.tr()}'),
+                          '${currencyFormat(context,goal.goalSaveAmount)}, ${context.read<GoalsCubit>().repeatUiValues(goal.goalSaveAmountRepeat)}'),
                   GoalsRichText(
                       title: AppStrings.beginIn.tr(),
                       subTitle:
