@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/styles/decorations.dart';
 
@@ -10,10 +11,10 @@ class WelcomeDropDownButton extends StatelessWidget {
   final List<String> items;
   final bool isExpanded;
   final bool isDirection;
-  String selectedValue;
+  final String selectedValue;
   final void Function(String?) onChange;
 
-  WelcomeDropDownButton({
+  const WelcomeDropDownButton({
     Key? key,
     this.iconColor,
     required this.selectedValue,
@@ -23,7 +24,7 @@ class WelcomeDropDownButton extends StatelessWidget {
     required this.onChange,
   }) : super(key: key);
 
-  bool get isEqual => selectedValue != AppStrings.chooseCurrency;
+  bool get isEqual => selectedValue != AppStrings.chooseCurrency.tr();
 
   Color get dropDownColor => isEqual ? AppColor.white : AppColor.primaryColor;
 
@@ -67,7 +68,7 @@ class WelcomeDropDownButton extends StatelessWidget {
                   (index) => DropdownMenuItem<String>(
                         value: items[index],
                         child: Center(
-                            child: Text(items[index],
+                            child: Text(items[index].tr(),
                                 style: textTheme.bodyText2
                                     ?.copyWith(fontWeight: FontWeight.w500))),
                       ),

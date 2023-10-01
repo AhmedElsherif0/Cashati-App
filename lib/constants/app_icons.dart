@@ -50,16 +50,15 @@ class AppIcons {
 
   ///App bar icons
   static const String medalAppBar = '$icons/app_bar/medal.svg';
-  static const String moneyEmojiAppBar = '$icons/app_bar/moneyEmoji.png';
   static const String moneyAppBar = '$icons/app_bar/emoji.svg';
+  static const String stairMenu = '$icons/app_bar/stair_menu.svg';
 
   ///Goal Images
 
-  static const String loading1 = "$icons/on_boarding/loading1.gif";
+  static const String loading = "$icons/on_boarding/loading.gif";
   static const String medalStar = '$icons/medalStar.svg';
   static const String dollarCircle = '$icons/dollar-circle.svg';
   static const String cartAdd = '$icons/cartAdd.svg';
-  static const String savingMoneyCute = '$icons/saveMoneyCute.svg';
   static const String filterGreen = '$icons/filter_green.svg';
   static const String goalCompleteDollar = '$icons/goalCompleteDollar.svg';
   static const String completedGoal = '$icons/completedGoal.svg';
@@ -77,6 +76,7 @@ class AppIcons {
   static const String person = '$icons/home/person.svg';
   static const String variable = '$icons/home/variable.svg';
 
+  //TODO: this Sub Categories Icons unUsed...what we have todo ?
   /// add Sub Category Icon List.
   static const String cap = "$icons/sub_categories/cap.svg";
   static const String cellPhone = "$icons/sub_categories/cellPhone.svg";

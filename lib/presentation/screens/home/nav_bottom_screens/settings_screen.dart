@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
 import 'package:temp/constants/app_icons.dart';
@@ -164,7 +165,7 @@ class _SettingsScreenState extends State<SettingsScreen>  with AlertDialogMixin{
                       SettingListTile(
                           icon: AppIcons.currencySettings,
                           title: AppStrings.currency.tr(),
-                          subtitle: globalCubit.selectedValue.tr(),
+                          subtitle: globalCubit.selectedCurrency.tr(),
                           isTrail: false,
                           onTap: () => _onCurrencyTap(context, globalCubit)),
                     ],
@@ -180,11 +181,19 @@ class _SettingsScreenState extends State<SettingsScreen>  with AlertDialogMixin{
                       iconColor: AppColor.primaryColor,
                       title: Text(AppStrings.aboutApp.tr()),
                       leading: const Icon(Icons.info_outline),
-                      childrenPadding: const EdgeInsets.all(8.0),
+                      childrenPadding:
+                          const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4),
                       children: [
-                        /// didn't translated yet till it become correct text
-                        Text(AppStrings.aboutUsInfo,
-                            style: textTheme.subtitle1!.copyWith(fontSize: 10.dp))
+                        SizedBox(
+                          width: 30.w,
+                          child: SvgPicture.asset(AppIcons.cashatiLogoSVG),
+                        ),
+                        SizedBox(height: 3.h),
+                        Text(AppStrings.aboutUsInfo.tr(), style: textTheme.subtitle1!),
+                        SizedBox(height: 1.h),
+                        Text(AppStrings.aboutDetailsSubTitle.tr(),
+                            style: textTheme.overline!
+                                .copyWith(color: AppColor.middleGrey))
                       ],
                     ),
                     const CustomDivider(),

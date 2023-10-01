@@ -30,9 +30,9 @@ class AppStrings {
   static const String goals = 'goals'; // Goals
   static const String exportData = 'exportData'; // Export Data
   static const String byUsingApp = "byUsingApp"; // Export Data
-  static const String privacyPolicy = 'Privacy and Policy'; // Export Data
+  static const String privacyPolicy = 'privacyPolicy'; // Export Data
   static const String and = 'and'; // Export Data
-  static const String termsConditions = 'Terms and Conditions'; // Export Data
+  static const String termsConditions = 'termsConditions'; // Export Data
   static const String cashatiTeam = "cashatiTeam"; // Cashati Team
 
   /// bottom_nav_bar.dart
@@ -151,6 +151,7 @@ class AppStrings {
 
   /// snack bars messages.
   static const String someThingWentWrong = "someThingWentWrong"; //UnCompleted
+  static const String fillEmptyFields = "fillEmptyFields"; // Please Fill Empty Fields
   static const String inThisWeek = "inThisWeek"; //No Expenses in this week.
   static const String kindlyPutTheAmount =
       "kindlyPutTheAmount"; // 'Kindly put the amount ! '
@@ -257,8 +258,9 @@ class AppStrings {
   static const String rateCashati = 'rateOurApp'; //Empty Show
   static const String rateCashatiMessage = 'rateMessage';
   static const String rateCashatiDetails = "rateCashatiDetails"; //Empty Show
-  static const String aboutUsInfo =
-      'About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us About us '; //Empty Show
+
+  static const String aboutUsInfo = 'aboutDetails';
+  static const String aboutDetailsSubTitle = 'aboutDetailsSubTitle';
 
   static const String cashatiPrivacy = '''
   Privacy Policy for Cashati

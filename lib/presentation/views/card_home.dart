@@ -5,11 +5,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
-import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
-import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/widgets/buttons/dotted_button.dart';
 import 'package:temp/presentation/widgets/buttons/underline_text_button.dart';
 
@@ -109,11 +107,11 @@ class CardHome extends StatelessWidget with FormatsMixin {
                               bottom: 14.dp),
                           child: Column(
                             children: [
-                              SvgPicture.asset('assets/icons/download.svg',
+                              SvgPicture.asset(AppIcons.download,
                                   height: 20.dp, width: 20.dp),
                               SizedBox(height: 2.h),
                               Center(
-                                child: Text(topTransaction(context,box),
+                                child: Text(topTransaction(context, box),
                                     textDirection: isEnglish
                                         ? TextDirection.rtl
                                         : TextDirection.ltr,
@@ -138,8 +136,8 @@ class CardHome extends StatelessWidget with FormatsMixin {
                     DottedButton(
                         icon: AppIcons.balance,
                         text: ourGeneral.balance == 0
-                            ? '${AppStrings.balance.tr()} ${currencyFormat(context,0.00)}'
-                            : currencyFormat(context,ourGeneral.balance).tr(),
+                            ? '${AppStrings.balance.tr()} ${currencyFormat(context, 0.00)}'
+                            : currencyFormat(context, ourGeneral.balance).tr(),
                         onPressed: () {}),
                     SizedBox(height: 2.h),
                     DottedButton(

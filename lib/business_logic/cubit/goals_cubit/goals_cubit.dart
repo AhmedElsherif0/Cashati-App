@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:meta/meta.dart';
 import 'package:temp/business_logic/repository/goals_repo/goals_repo.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';

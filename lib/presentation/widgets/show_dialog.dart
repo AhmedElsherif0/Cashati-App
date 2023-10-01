@@ -23,7 +23,7 @@ mixin AlertDialogMixin {
                 .bodyMedium!
                 .copyWith(color: AppColor.white)),
       ),
-      duration: const Duration(milliseconds: 2500),
+      duration: const Duration(milliseconds: 1800),
       backgroundColor: backGroundColor,
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
     ));
@@ -56,7 +56,7 @@ mixin AlertDialogMixin {
                   //  offset: const Offset(0.1, -15.0),
                   );
         },
-        transitionDuration: AppDecorations.duration600ms,
+        transitionDuration: AppDecorations.duration400ms,
         pageBuilder: (BuildContext buildContext, Animation animation,
                 Animation secondaryAnimation) =>
             child);
@@ -71,14 +71,17 @@ mixin AlertDialogMixin {
         context: context,
         child: Center(
           child: DecoratedBox(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(12))),
             child: AlertDialog(
               title: Text('${AppStrings.update.tr()} ${AppStrings.amount.tr()}'),
               content: TextFormField(
                 keyboardType: TextInputType.number,
                 controller: changedAmountCtrl,
                 decoration: InputDecoration(
-                    hintText: "$amount", labelText: AppStrings.paidAmount.tr()),
+                    hintStyle: TextStyle(locale: translator.activeLocale),
+                    hintText: "$amount",
+                    labelText: AppStrings.paidAmount.tr()),
               ),
               actions: [
                 CustomElevatedButton(
@@ -215,7 +218,7 @@ mixin AlertDialogMixin {
                 children: [
                   Expanded(
                     flex: 3,
-                    child: SvgPicture.asset('assets/icons/successfully_added.svg'),
+                    child: SvgPicture.asset(AppIcons.successfullyAdded),
                   ),
                   const Spacer(flex: 2),
                   Expanded(
@@ -400,8 +403,7 @@ class GoalsDialogBody extends StatelessWidget {
                           textStyle:
                               textTheme.headline6?.copyWith(color: AppColor.grey)),
                       const Spacer(flex: 2),
-                      Expanded(
-                          flex: 9, child: SvgPicture.asset(AppIcons.magneticIcon)),
+                      Expanded(flex: 9, child: Image.asset(AppIcons.magneticIcon)),
                       const Spacer(flex: 2),
                       CustomTextButton(
                           onPressed: () => onPressedYesFunction(),

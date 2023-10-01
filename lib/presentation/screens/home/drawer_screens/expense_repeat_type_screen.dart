@@ -59,7 +59,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
 
   void onSwap({required int index}) {
     tabController.animateTo(index,
-        duration: AppDecorations.duration600ms, curve: Curves.easeOut);
+        duration: AppDecorations.duration400ms, curve: Curves.easeIn);
   }
 
   Future onSeeMore(BuildContext context, int generateIndex,
@@ -76,7 +76,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return DefaultTabController(
-      animationDuration: AppDecorations.duration600ms,
+      animationDuration: AppDecorations.duration400ms,
       length: tabController.length,
       initialIndex: tabController.index,
       child: Scaffold(

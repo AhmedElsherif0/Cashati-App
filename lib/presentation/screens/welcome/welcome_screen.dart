@@ -18,7 +18,7 @@ import '../../widgets/gradiant_background.dart';
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
-  void onPressNext(context) async {
+  void _onPressNext(context) async {
     await CacheHelper.saveDataSharedPreference(key: 'onWelcome', value: true);
     Navigator.pushNamed(context, AppRouterNames.rOnBoardingRoute);
   }
@@ -109,14 +109,14 @@ class WelcomeScreen extends StatelessWidget {
                       WelcomeDropDownButton(
                         isDirection: translator.isDirectionRTL(context),
                         items: globalCubit.getCurrency,
-                        selectedValue: globalCubit.selectedValue.tr(),
+                        selectedValue: globalCubit.selectedCurrency.tr(),
                         onChange: (value) => globalCubit.onChangeCurrency(value),
                       )
                     ],
                   ),
                 ),
                 CustomElevatedButton(
-                  onPressed: () => onPressNext(context),
+                  onPressed: () => _onPressNext(context),
                   text: AppStrings.skip.tr(),
                   borderRadius: 6.dp,
                   width: 85.w,

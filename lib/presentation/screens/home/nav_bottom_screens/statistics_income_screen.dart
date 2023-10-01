@@ -137,6 +137,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
                         ),
                         const Spacer(),
                         FlowChartView(
+                          transactionType: TransactionType.income,
                           maxExpenses: context
                               .read<StatisticsCubit>()
                               .getTotalExpense(isExpense: false),
