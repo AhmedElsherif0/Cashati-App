@@ -59,7 +59,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
 
   void onSwap({required int index}) {
     tabController.animateTo(index,
-        duration: AppDecorations.duration600ms, curve: Curves.easeOut);
+        duration: AppDecorations.duration400ms, curve: Curves.easeIn);
   }
 
   Future onSeeMore(BuildContext context, int generateIndex,
