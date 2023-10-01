@@ -11,10 +11,10 @@ class WelcomeDropDownButton extends StatelessWidget {
   final List<String> items;
   final bool isExpanded;
   final bool isDirection;
-  String selectedValue;
+  final String selectedValue;
   final void Function(String?) onChange;
 
-  WelcomeDropDownButton({
+  const WelcomeDropDownButton({
     Key? key,
     this.iconColor,
     required this.selectedValue,
