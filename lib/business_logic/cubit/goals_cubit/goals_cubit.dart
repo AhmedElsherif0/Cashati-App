@@ -12,7 +12,7 @@ part 'goals_state.dart';
 
 class GoalsCubit extends Cubit<GoalsState> {
   GoalsCubit() : super(GoalsInitial());
-  String choseRepeat = AppStrings.daily;
+  String choseRepeat = AppStrings.day.tr();
   String choseFilter = AppStrings.all.tr();
   DateTime? chosenDate;
   final DateTime today = DateTime.now();
@@ -23,9 +23,9 @@ class GoalsCubit extends Cubit<GoalsState> {
   List<GoalRepeatedDetailsModel> registeredGoals = [];
 
   List<DropdownMenuItem<String>> dropDownChannelItems = [
-    DropdownMenuItem(value: AppStrings.daily, child: Text(AppStrings.day.tr())),
-    DropdownMenuItem(value: AppStrings.weekly, child: Text(AppStrings.week.tr())),
-    DropdownMenuItem(value: AppStrings.monthly, child: Text(AppStrings.month.tr()))
+    DropdownMenuItem(value: AppStrings.day.tr(), child: Text(AppStrings.day.tr())),
+    DropdownMenuItem(value: AppStrings.week.tr(), child: Text(AppStrings.week.tr())),
+    DropdownMenuItem(value: AppStrings.month.tr(), child: Text(AppStrings.month.tr()))
   ];
   List<DropdownMenuItem<String>> goalsFilterDropDown = [
     DropdownMenuItem(
@@ -34,6 +34,36 @@ class GoalsCubit extends Cubit<GoalsState> {
         value: AppStrings.unCompleted.tr(), child: Text(AppStrings.unCompleted.tr())),
     DropdownMenuItem(value: AppStrings.all.tr(), child: Text(AppStrings.all.tr())),
   ];
+  repeatDatabaseEntries(){
+    switch (choseRepeat){
+      case "Daily":
+        return AppStrings.daily;
+      case "يوميا":
+        return AppStrings.daily;
+      case "Weekly":
+        return AppStrings.weekly;
+      case "اسبوعيا":
+        return AppStrings.weekly;
+        case "Monthly":
+      return AppStrings.monthly;
+      case  "شهريا":
+        return AppStrings.monthly;
+        default:
+          return AppStrings.daily;
+
+    }
+  }
+  repeatUiValues(String saveAmountRepeat){
+    switch (saveAmountRepeat){
+      case AppStrings.daily:
+        return AppStrings.day.tr();
+      case AppStrings.weekly:
+        return AppStrings.week.tr();
+      case AppStrings.monthly:
+        return AppStrings.month.tr();
+
+    }
+  }
 
   chooseRepeat(String value) {
     choseRepeat = value;
