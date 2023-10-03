@@ -2,7 +2,6 @@ import 'package:hive/hive.dart';
 import 'package:temp/business_logic/repository/transactions_repo/transaction_repo.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
-import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
 
@@ -84,7 +83,7 @@ class IncomeRepositoryImpl
 
   @override
   Future<void> deleteTransactionRepo(TransactionModel transaction) async {
-  await  hiveDatabase.deleteBox(
+    await hiveDatabase.deleteBox(
         boxName: hiveDatabase.getBoxName<TransactionModel>(
             boxName: AppBoxes.transactionBox),
         dataModel: transaction);
