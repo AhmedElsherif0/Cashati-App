@@ -114,7 +114,6 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
 
   @override
   Widget build(BuildContext context) {
-    int currentIndex = 0;
     return Scaffold(
       body: BlocBuilder<StatisticsCubit, StatisticsState>(
         builder: (context, state) {
@@ -122,7 +121,7 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
             textDirection: TextDirection.ltr,
             child: PageView.builder(
               controller: _controller,
-              onPageChanged: (index) => setState(() => currentIndex = index),
+              onPageChanged: (index) => setState(() => index),
               itemCount: 3,
               itemBuilder: (context, index) => Center(
                 child: Padding(

@@ -103,7 +103,6 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
 
   @override
   Widget build(BuildContext context) {
-    int currentIndex = 0;
     return BlocBuilder<StatisticsCubit, StatisticsState>(
       builder: (context, state) {
         return Scaffold(
@@ -111,7 +110,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
             textDirection: TextDirection.ltr,
             child: PageView.builder(
               controller: _controller,
-              onPageChanged: (value) => setState(() => currentIndex = value),
+              onPageChanged: (value) => setState(() => value),
               itemCount: 3,
               itemBuilder: (context, index) {
                 return Center(
