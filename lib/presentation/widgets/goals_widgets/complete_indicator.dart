@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,19 +8,15 @@ import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/styles/decorations.dart';
 
 class CompleteIndicatorBar extends StatelessWidget {
-  const CompleteIndicatorBar({
-    Key? key,
-    required this.goalModel,
-  }) : super(key: key);
+  const CompleteIndicatorBar({Key? key, required this.goalModel}) : super(key: key);
   final GoalModel goalModel;
 
 //  final int width ;
 //  int cost = 1000;
   //int remaining = 300;
 
-  int getPosition() {
-    return (goalModel.goalRemainingAmount / goalModel.goalTotalAmount * 70).truncate();
-  }
+  int getPosition() =>
+      (goalModel.goalRemainingAmount / goalModel.goalTotalAmount * 70).truncate();
 
   @override
   Widget build(BuildContext context) {

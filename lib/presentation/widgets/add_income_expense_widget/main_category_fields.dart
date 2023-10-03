@@ -89,7 +89,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
       BuildContext context, TransactionModel transactionModel) async {
     final addExpIncCubit = context.read<AddExpOrIncCubit>();
     addExpIncCubit.currentAmount = transactionModel.amount;
-    if (transactionModel.amount == null || transactionModel.amount == 0) {
+    if (transactionModel.amount == 0) {
       errorSnackBar(context: context, message: AppStrings.kindlyPutTheAmount.tr());
     } else if (addExpIncCubit.subCatName.isEmpty) {
       errorSnackBar(
@@ -107,6 +107,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     final isEnglish = translator.activeLanguageCode == 'en';
     return BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
       builder: (context, state) {
@@ -148,7 +149,7 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                       FittedBox(
                           child: Text(
                         AppStrings.egp.tr(),
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
+                        style: textTheme.headline5!.copyWith(
                             color: AppColor.primaryColor, fontWeight: FontWeight.bold),
                       )),
                       SizedBox(width: .4.w),
@@ -227,15 +228,12 @@ class _MainCategoryFieldsState extends State<MainCategoryFields>
                                       repeatType: widget.addExpOrIncCubit.choseRepeat,
                                       mainCategory:
                                           widget.addExpOrIncCubit.currentMainCat,
+                                      // Todo: what is the isAddAuto for ?.
                                       isAddAuto: false,
                                       isPriority: widget.addExpOrIncCubit.isImportant,
                                       subCategory: widget.addExpOrIncCubit.subCatName,
                                       isExpense: widget.addExpOrIncCubit.isExpense =
-                                          _checkTheCurrentTab()
-                                              ? widget.addExpOrIncCubit.isExpense =
-                                                  true
-                                              : widget.addExpOrIncCubit.isExpense =
-                                                  false,
+                                          _checkTheCurrentTab() ? true : false,
                                       isProcessing: false,
                                       createdDate:
                                           context.read<AddExpOrIncCubit>().chosenDate,

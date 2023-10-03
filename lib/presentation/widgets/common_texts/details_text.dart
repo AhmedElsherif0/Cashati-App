@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:temp/constants/app_strings.dart';
 
 class DetailsText extends StatelessWidget {
-  const DetailsText({Key? key, required this.text,  required this.alignment})
+  const DetailsText({Key? key, required this.text, required this.alignment})
       : super(key: key);
 
   final String text;
