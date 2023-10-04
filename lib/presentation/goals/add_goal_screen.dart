@@ -57,14 +57,14 @@ class _AddGoalScreenState extends State<AddGoalScreen>
               cost: num.tryParse(goalCostCtrl.text) ?? 0,
               dailySaving: num.tryParse(goalSaveRepeatAmount.text) ?? 0),
           goalSaveAmount: num.tryParse(goalSaveRepeatAmount.text) ?? 0,
-          goalSaveAmountRepeat: goalCubit.choseRepeat,
+          goalSaveAmountRepeat: goalCubit.repeatDatabaseEntries(),
           goalTotalAmount: num.parse(goalCostCtrl.text),
           //num.tryParse(goalCostCtrl.text)!,
           goalStartSavingDate: goalCubit.chosenDate ?? goalCubit.today,
           goalCompletionDate: goalCubit.getCompletionDate(
               cost: num.tryParse(goalCostCtrl.text) ?? 0,
               dailySavings: num.tryParse(goalSaveRepeatAmount.text) ?? 0,
-              repeat: goalCubit.choseRepeat,
+              repeat: goalCubit.repeatDatabaseEntries(),
               startSavingDate: goalCubit.chosenDate ?? goalCubit.today));
       await showGoalsDialog(
           context: context,

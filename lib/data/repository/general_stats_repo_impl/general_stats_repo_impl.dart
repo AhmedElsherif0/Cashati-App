@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
@@ -68,8 +69,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
           .then((value) => print(
               'The model is  ${HiveHelper().getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsBox).get(AppStrings.onlyId)!.key}'));
     } catch (error) {
-      print(
-          'Error adding general stats model for the first time is ${error.toString()}');
+
     }
   }
 
@@ -95,10 +95,10 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         generalStatsModel = generalBox.get(AppStrings.onlyId) ??
             GeneralStatsModel(
                 id: AppStrings.onlyId,
-                balance: 3,
-                topIncome: 'No Income Added',
+                balance: 0,
+                topIncome: AppStrings.noIncYet.tr(),
                 topIncomeAmount: 0,
-                topExpense: 'No Expense Added',
+                topExpense: AppStrings.noExpYet.tr(),
                 topExpenseAmount: 0,
                 latestCheck: DateTime.now(),
                 notificationList: []);

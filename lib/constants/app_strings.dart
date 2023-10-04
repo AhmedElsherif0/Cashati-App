@@ -6,6 +6,8 @@ class AppStrings {
   static const String editCategories = 'editCategories'; // Edit Categories
   static const String dailyReminders = 'dailyReminders'; // Daily Reminders
   static const String reminderTime = 'reminderTime'; // 9:00
+  static const String reminderSharedPref = 'reminderSharedPref'; // 9:00
+  static const String reminderBoolSharedPref = 'reminderBoolSharedPref'; // 9:00
   static const String reminderSubtitle =
       'reminderSubtitle'; //'Set Reminder to insert your daily transaction. \n Remind me on 9:00 Pm'
   static const String enableAlerts = 'enableAlerts'; // Enable alerts .
@@ -91,6 +93,8 @@ class AppStrings {
   static const String highest = "highest"; //'Highest'
   static const String from = "from"; //From
   static const String to = "to"; //To
+  static const String noExpYet = 'noExpYet';
+  static const String noIncYet = 'noIncYet';
   static const String areYouSureYouWantToDelete =
       "areYouSureYouWantToDelete"; //Are you sure you want to delete
   static const String permanently = "permanently"; // Permanently
@@ -251,11 +255,13 @@ class AppStrings {
   /// NavBottomBar
   static const String appBarTitle = 'appBarTitle'; //appBarTitle
   static const String emptyShow = 'emptyShow'; //Empty Show
-  static const String rateCashati = 'Rate Our App'; //Empty Show
-  static const String rateCashatiDetails =
-      "Kindly Rate our app so we should be able to enhance our service , thanks for your feedback in advance."; //Empty Show
+  static const String rateCashati = 'rateOurApp'; //Empty Show
+  static const String rateCashatiMessage = 'rateMessage';
+  static const String rateCashatiDetails = "rateCashatiDetails"; //Empty Show
+
   static const String aboutUsInfo = 'aboutDetails';
   static const String aboutDetailsSubTitle = 'aboutDetailsSubTitle';
+
   static const String cashatiPrivacy = '''
   Privacy Policy for Cashati
 

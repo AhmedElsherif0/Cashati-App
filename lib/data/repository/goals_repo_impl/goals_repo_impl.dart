@@ -120,10 +120,14 @@ class GoalsRepoImpl with GeneralStatsRepoImpl, MixinGoals implements GoalsReposi
     List<GoalModel> todayList = [];
 
     List<GoalRepeatedDetailsModel> repeatedGoals = getRepeatedGoalsFromRepeatBox();
+    print("All Repeated goals ${repeatedGoals}");
     for (var item in repeatedGoals) {
+      print("goalSaveAmountRepeat ${item.goal.goalSaveAmountRepeat}");
       // here we check confirmation date  Slide number 12
       switch (item.goal.goalSaveAmountRepeat) {
+
         case (AppStrings.daily):
+          print("Repeated Goals Daily");
           if (dailyShowChecking(item)) {
             todayList.add(item.goal);
           }

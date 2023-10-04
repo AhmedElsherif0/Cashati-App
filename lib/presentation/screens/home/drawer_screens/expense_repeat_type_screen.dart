@@ -65,7 +65,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
   Future onSeeMore(BuildContext context, int generateIndex,
       List<TransactionModel> transactions, int builderIndex) {
     return context.navigateTo(OnSeeMore(
-      generateIndex: generateIndex,
+      generateIndex: 0,
       builderIndex: builderIndex,
       transactions: transactions,
       weekRanges: context.read<StatisticsCubit>().weekRangeText(),

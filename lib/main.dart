@@ -1,9 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:intl/intl.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
@@ -14,13 +14,9 @@ import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart
 import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
+import 'package:temp/notification_manager.dart';
 import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
-import 'package:temp/presentation/screens/shared/empty_screen.dart';
-import 'package:temp/presentation/screens/shared/error_sreen.dart';
-import 'package:temp/presentation/screens/shared/loading_screen.dart';
-import 'package:temp/presentation/screens/welcome/on_boarding_screens.dart';
-import 'package:temp/presentation/screens/welcome/welcome_screen.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'package:temp/presentation/widgets/status_bar_configuration.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -40,11 +36,12 @@ Future<void> main() async {
   await HiveInitialize.init();
   tz.initializeTimeZones();
 
-   await translator.init(
+  await translator.init(
       localeType: LocalizationDefaultType.device,
       languagesList: <String>['ar', 'en'],
       assetsDirectory: 'assets/i18n/');
-
+  await NotificationManager().init();
+  // await NotificationsManagerHandler().saveInitialNotification();
   BlocOverrides.runZoned(
     () async {
       await CacheHelper.init();
@@ -68,7 +65,6 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
   final TransactionRepo _incomeRepository = IncomeRepositoryImpl();
   final GeneralStatsRepo _generalStatsRepository = GeneralStatsRepoImpl();
 
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -77,10 +73,6 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
         BlocProvider(
             create: ((context) =>
                 HomeCubit(_generalStatsRepository)..getTheGeneralStatsModel())),
-        BlocProvider(
-            create: ((context) => AddExpOrIncCubit(
-                _expensesRepository, _incomeRepository, _generalStatsRepository))),
-        BlocProvider(create: ((context) => ExpenseRepeatCubit(_expensesRepository))),
         BlocProvider(
             create: ((context) => AddExpOrIncCubit(
                 _expensesRepository, _incomeRepository, _generalStatsRepository))),
@@ -109,7 +101,7 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
                     locale: translator.activeLocale,
                     // Active locale
                     supportedLocales: translator.locals(),
-                   // home: const EmptyScreen(), // Locals list
+                    // home: const WelcomeScreen(), // Locals list
                     initialRoute: AppRouterNames.rSplashScreen,
                     onGenerateRoute: widget.appRouter.onGenerateRoute,
                   );
