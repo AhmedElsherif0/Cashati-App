@@ -37,12 +37,12 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
 
   @override
   void dispose() {
+    mainCategoryController.dispose();
     dateController.dispose();
     amountController.dispose();
     subCategoryController.dispose();
     descriptionController.dispose();
     calenderController.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -59,7 +59,7 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
     getAddExpOrIncCubit().changeDate(datePicker);
   }
 
-  void onDelete() async {
+  void _onDelete() async {
     final statisticsCubit = BlocProvider.of<StatisticsCubit>(context);
     await statisticsCubit.deleteTransaction(widget.transactionModel);
     statisticsCubit.getExpenses();
@@ -89,11 +89,9 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                     builder: (context, state) {
                       return Column(
                         children: [
-
-
                           UnEditableInfoField(
                             hint: widget.transactionModel.name,
-                            iconName:AppIcons.home,
+                            iconName: AppIcons.home,
                           ),
                           SizedBox(height: 15.dp),
                           SizedBox(
@@ -148,11 +146,11 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
-                                    onDelete();
+                                    _onDelete();
                                     Navigator.of(context).pop();
                                   },
                                   child: CircleAvatar(
-                                    radius: 16.sp,
+                                    radius: 16.dp,
                                     backgroundColor: AppColor.primaryColor,
                                     child: SvgPicture.asset(AppIcons.delete,
                                         color: AppColor.white),

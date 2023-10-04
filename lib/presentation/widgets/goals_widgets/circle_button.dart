@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/presentation/styles/colors.dart';

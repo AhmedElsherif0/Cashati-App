@@ -45,7 +45,7 @@ class _AddGoalScreenState extends State<AddGoalScreen>
       //TODO put goal comment text form field
 
       final GoalModel goalModel = GoalModel.copyWith(
-          goalComment: goalComment.text ?? 'goalComment',
+          goalComment: goalComment.text,
           goalCreatedDay: DateTime.now(),
           id: GUIDGen.generate(),
           goalName: goalNameCtrl.text,

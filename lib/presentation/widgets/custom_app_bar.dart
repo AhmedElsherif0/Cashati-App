@@ -63,7 +63,7 @@ class CustomAppBar extends StatelessWidget {
                   onTapNotification ??
                   Navigator.of(context).pushNamed(AppRouterNames.rNotification),
               child: SvgPicture.asset(AppIcons.notificationSetting,
-                  height: 22.sp, width: 22.sp),
+                  height: 22.dp, width: 22.dp),
             ),
           ),
         )

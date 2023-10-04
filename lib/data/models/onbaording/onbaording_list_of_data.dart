@@ -1,4 +1,3 @@
-import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_images.dart';
 
 class OnBoardingModel {
@@ -29,39 +28,9 @@ class OnBoardingData {
         buttonTitle: 'Start'),
   ];
 
-  final List<String> englishCurrency = [
-    'EGP',
-    'USD',
-    /*   'EUR',
-    'GBP',
-    'SAR',
-    'AED',
-    'RUB',
-    'JPY',
-    'INR',
-    'BRL',
-    'KWD',
-    'QAR',
-    'SYP',
-    'BTC'*/
-  ];
+  final List<String> englishCurrency = ['EGP', 'USD'];
 
-  final List<String> arabicCurrency = [
-    'الامريكية',
-    'المصرية',
-    /* 'الاوربية',
-    'الانجليزية',
-    'السعودية',
-    'الامارتية',
-    'الروبية',
-    'اليابانية',
-    'الهندية',
-    'البرازيلية',
-    'الكوتية',
-    'القطرية',
-    'السورية',
-    'البت كوين(BTC)'*/
-  ];
+  final List<String> arabicCurrency = ['الامريكية', 'المصرية'];
 
   List<OnBoardingModel> get getOnBoardingData => _myData;
 }
