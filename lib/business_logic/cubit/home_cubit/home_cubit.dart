@@ -6,6 +6,7 @@ import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
 import 'package:temp/data/repository/transactions_impl/confirm_transaction_repo_impl.dart';
+import 'package:temp/presentation/views/confirm_paying_goals.dart';
 
 import 'home_state.dart';
 
@@ -14,6 +15,7 @@ class HomeCubit extends Cubit<HomeState> {
   final GeneralStatsRepo generalStatsRepo;
   GeneralStatsModel? generalStatsModel;
   ConfirmTransactionRepo confirmTransactionRepo = ConfirmTransactionImpl();
+  //TODO confirm goal notification
   List<NotificationModel>? notificationList;
   bool isExpense = true;
   bool isGotNotifications = false;
@@ -31,7 +33,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future addTheGeneralStatsModel() async {
-    // await HiveHelper().openBox<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsModel);
 
     if (Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsModel).isNotEmpty) {
       print(

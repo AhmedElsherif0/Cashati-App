@@ -46,7 +46,12 @@ class GlobalCubit extends Cubit<GlobalState> {
     onChangeCurrency(selectedCurrency);
   }
    initializeNotificationTime(){
-     chosenTime=TimeOfDay(hour: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").first), minute: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").last));
+    if(notificationsManagerHandler.fetchCurrentSavedTime().split(":").first.isNotEmpty){
+      chosenTime=TimeOfDay(hour: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").first), minute: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").last??"00"));
+
+    }else{
+      chosenTime=TimeOfDay(hour: 9, minute: 0);
+    }
   }
   initializeNotificationEnabled(){
     if(notificationsManagerHandler.fetchCurrentSavedTime().isNotEmpty){
@@ -130,6 +135,10 @@ class GlobalCubit extends Cubit<GlobalState> {
     isEnable = value;
     if(isEnable){
       await _notificationManager.scheduleDailyNotification(hour: chosenTime.hour,minute: chosenTime.minute);
+    //  chosenTime=TimeOfDay(hour: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").first), minute: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").last??"00"));
+
+      await notificationsManagerHandler.saveTime(hour: chosenTime.hour, minute: chosenTime.minute);
+      print("Saved Time in Enabled Which is ${chosenTime}");
       emit(SavedDailyNotification());
     }else{
       await _notificationManager.cancelNotification();
@@ -147,10 +156,12 @@ class GlobalCubit extends Cubit<GlobalState> {
       await notificationsManagerHandler.saveTime(hour: chosenTime.hour, minute: chosenTime.minute);
       print("Saved Time Which is ${chosenTime}");
       emit(ChangeNotificationTime());
-      await _notificationManager.cancelNotification();
-      emit(CanceledDailyNotification());
-      await _notificationManager.scheduleDailyNotification(hour: chosenTime.hour,minute: chosenTime.minute);
-      emit(SavedDailyNotification());
+      await _notificationManager.cancelNotification().whenComplete(() async{
+          emit(CanceledDailyNotification());
+    await _notificationManager.scheduleDailyNotification(hour: chosenTime.hour,minute: chosenTime.minute).whenComplete(() => isEnable=true);
+    emit(SavedDailyNotification());
+      });
+
 
     }else{
 
