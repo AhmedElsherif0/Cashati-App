@@ -2,6 +2,7 @@ import 'package:temp/business_logic/repository/goals_repo/goals_repo.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
+import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/goals_repo_impl/mixin_goals.dart';
 
@@ -70,6 +71,7 @@ class GoalsRepoImpl with GeneralStatsRepoImpl, MixinGoals implements GoalsReposi
   @override
   Future<void> yesConfirmGoal({required GoalModel goalModel, num? newAmount}) async {
     print('working yes ..');
+
     try {
       if (goalModel.goalSaveAmountRepeat == AppStrings.daily) {
         GoalRepeatedDetailsModel theEditedDailyGoal =
@@ -150,5 +152,46 @@ class GoalsRepoImpl with GeneralStatsRepoImpl, MixinGoals implements GoalsReposi
   @override
   List<GoalRepeatedDetailsModel> fetchRepeatedGoals() {
     return getRepeatedGoalsFromRepeatBox();
+  }
+
+  @override
+  Future<void> yesConfirmGoalFromNotification({required NotificationModel notificationModel})async {
+
+    try {
+      if (notificationModel.payLoad == AppStrings.daily) {
+        GoalRepeatedDetailsModel theEditedDailyGoal =
+        editRepeatedGoalFromNotification(notificationModel: notificationModel);
+        await saveDailyGoalAndAddToRepeatBox(
+        theMatchingGoalinRep: theEditedDailyGoal, newAmount: notificationModel.amount)
+            .then((_) {
+          print("notificationModel goal id ${notificationModel.id}");
+          print("the matching goal  id ${theEditedDailyGoal.goal.id}");
+          super.minusBalance(amount: notificationModel.amount);
+        });
+        // print('After Edit Daily ${theMatchingDailyExpense.lastConfirmationDate}');
+      }
+      if (notificationModel.payLoad == AppStrings.weekly) {
+        GoalRepeatedDetailsModel theEditedWeeklyGoal =
+        editRepeatedGoalFromNotification(notificationModel: notificationModel);
+        await saveWeeklyGoalAndAddToRepeatBox(
+        theMatchingWeeklyExpenseModel: theEditedWeeklyGoal,
+        newAmount: notificationModel.amount)
+            .then((_) {
+          super.minusBalance(amount: notificationModel.amount);
+        });
+      }
+      if (notificationModel.payLoad == AppStrings.monthly) {
+        GoalRepeatedDetailsModel theEditedMonthlyGoal =
+        editRepeatedGoalFromNotification(notificationModel: notificationModel);
+        saveMonthlyGoalAndAddToRepeatBox(
+            theMatchingMonthlyExpenseModel: theEditedMonthlyGoal,
+            NewAmount: notificationModel.amount)
+            .then((_) {
+          super.minusBalance(amount: notificationModel.amount);
+        });
+      }
+    } catch (error) {
+      print('Error in yes confirm goal is ${error.toString()}');
+    }
   }
 }
