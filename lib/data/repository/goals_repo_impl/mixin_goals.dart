@@ -5,6 +5,7 @@ import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
+import 'package:temp/data/models/notification/notification_model.dart';
 
 mixin MixinGoals {
   final HiveHelper _hiveDatabase = HiveHelper();
@@ -252,6 +253,16 @@ mixin MixinGoals {
     theMatchingDailyExpense.goalLastShownDate = today;
     return theMatchingDailyExpense;
   }
+  GoalRepeatedDetailsModel editRepeatedGoalFromNotification({required NotificationModel notificationModel}) {
+    /// this goal model is fetched from the repeated model So its key is always the same one
+    /// with its repeated model as both have same key and id (when adding goal at first time)
+    GoalRepeatedDetailsModel theMatchingGoal =
+    goalRepeatedBox.get(notificationModel.id)!;
+    theMatchingGoal.goal.goalRemainingAmount = theMatchingGoal.goal.goalRemainingAmount-notificationModel.amount;
+
+    return theMatchingGoal;
+  }
+
 
   Future<void> saveDailyGoalAndAddToRepeatBox(
       {required GoalRepeatedDetailsModel theMatchingGoalinRep,
