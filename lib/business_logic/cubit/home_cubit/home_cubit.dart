@@ -3,10 +3,14 @@ import 'package:hive/hive.dart';
 import 'package:temp/business_logic/repository/expenses_repo/confirm_expense_repo.dart';
 import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
 import 'package:temp/business_logic/repository/goals_repo/goals_repo.dart';
+import 'package:temp/business_logic/repository/transactions_repo/transaction_repo.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
+import 'package:temp/data/models/transactions/transaction_model.dart';
+import 'package:temp/data/repository/expenses_repo_impl/expenses_repo_impl.dart';
 import 'package:temp/data/repository/goals_repo_impl/goals_repo_impl.dart';
+import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 import 'package:temp/data/repository/transactions_impl/confirm_transaction_repo_impl.dart';
 
 import 'home_state.dart';
@@ -16,12 +20,28 @@ class HomeCubit extends Cubit<HomeState> {
   final GeneralStatsRepo generalStatsRepo;
   GeneralStatsModel? generalStatsModel;
   ConfirmTransactionRepo confirmTransactionRepo = ConfirmTransactionImpl();
+  TransactionRepo? transactionRepo ;
   GoalsRepository _goalsRepository = GoalsRepoImpl();
 
   //TODO confirm goal notification
   List<NotificationModel>? notificationList;
   bool isExpense = true;
   bool isGotNotifications = false;
+
+ TransactionModel fetchHighestTransaction(){
+
+    if(isExpense){
+      transactionRepo=ExpensesRepositoryImpl();
+      return transactionRepo!.getTransactionByNameFromRepeated(generalStatsModel!.topExpense, isExpense, generalStatsModel!.topExpenseAmount);
+    }else{
+      transactionRepo=IncomeRepositoryImpl();
+      return transactionRepo!.getTransactionByNameFromRepeated(generalStatsModel!.topIncome, isExpense, generalStatsModel!.topIncomeAmount);
+
+    }
+
+
+
+  }
 
   checkItemInBox() {
     if (generalStatsRepo.isGeneralModelExists()) {

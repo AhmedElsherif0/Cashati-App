@@ -2,20 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
+import 'package:temp/data/models/transactions/transaction_model.dart';
+import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
 
 import '../../../../../business_logic/cubit/home_cubit/home_cubit.dart';
 import '../../../../../business_logic/cubit/home_cubit/home_state.dart';
 import '../../../../router/app_router_names.dart';
 import '../../../../views/card_home.dart';
+import '../../part_time_details.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  void onAddTransaction(BuildContext context) =>
-      Navigator.of(context).pushNamed(AppRouterNames.rAddExpenseOrIncomeScreen);
+  void onAddTransaction(BuildContext context,bool isExpense) {
+    isExpense? context.read<AddExpOrIncCubit>().currentIndex=0:context.read<AddExpOrIncCubit>().currentIndex=1;
+    Navigator.of(context).pushNamed(AppRouterNames.rAddExpenseOrIncomeScreen);
+  }
+  void showHighestTransactionDetails(BuildContext context){
+    final highestTransaction=context.read<HomeCubit>().fetchHighestTransaction();
+    context.navigateTo(PartTimeDetails(transactionModel: highestTransaction));
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +79,9 @@ class HomeScreen extends StatelessWidget {
                         GeneralStatsModel(
                           id: AppStrings.onlyId,
                           balance: 0,
-                          topIncome: 'No Income Added',
+                          topIncome: AppStrings.noIncYet.tr(),
                           topIncomeAmount: 0,
-                          topExpense: 'No Expense Added',
+                          topExpense: AppStrings.noExpYet.tr(),
                           topExpenseAmount: 0,
                           latestCheck: DateTime.now(),
                           notificationList: [],
@@ -78,10 +89,8 @@ class HomeScreen extends StatelessWidget {
                     title: homeCubit.isExpense
                         ? AppStrings.expenseSmall
                         : AppStrings.incomeSmall,
-                    onAdd: () => onAddTransaction(context),
-                    onShow: homeCubit.isExpense
-                        ? homeCubit.onShowExpense
-                        : homeCubit.onShowIncome,
+                    onAdd: () => onAddTransaction(context,homeCubit.isExpense),
+                    onShow: ()=>homeCubit.generalStatsModel!=null?showHighestTransactionDetails(context):null,
                   ),
                 ),
                 const Spacer(),

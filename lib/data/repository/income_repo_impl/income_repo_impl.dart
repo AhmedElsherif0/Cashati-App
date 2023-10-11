@@ -88,4 +88,9 @@ class IncomeRepositoryImpl
             boxName: AppBoxes.transactionBox),
         dataModel: transaction);
   }
+  @override
+  TransactionModel getTransactionByNameFromRepeated(String transactionName,bool isExpense,num amount) {
+    return getTransactionsFromDetailsByTransactionName(transactionName,false,amount);
+
+  }
 }
