@@ -94,6 +94,12 @@ class ExpensesRepositoryImpl
         dataModel: transaction);
   }
 
+  @override
+  TransactionModel getTransactionByNameFromRepeated(String transactionName,bool isExpense,num amount) {
+    return getTransactionsFromDetailsByTransactionName(transactionName,true,amount);
+
+  }
+
   // @override
   // List<TransactionRepeatDetailsModel> getRepeatedTransactionsByType({required String repeat, required isExpense}) {
   //   return getRepTransactionsByRep(isExpense: isExpense,repeat: repeat);

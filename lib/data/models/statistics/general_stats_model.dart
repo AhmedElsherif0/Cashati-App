@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/notification/notification_model.dart';
 
 part 'general_stats_model.g.dart';

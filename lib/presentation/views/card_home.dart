@@ -53,7 +53,7 @@ class CardHome extends StatelessWidget with FormatsMixin {
           return Stack(
             children: [
               /// Show Expense or Income.
-              Padding(
+              generalStatsModel.balance!=0?Padding(
                 padding: EdgeInsets.only(top: 13.w),
                 child: DecoratedBox(
                   decoration: AppDecorations.homeCard,
@@ -71,7 +71,7 @@ class CardHome extends StatelessWidget with FormatsMixin {
                     ),
                   ),
                 ),
-              ),
+              ):SizedBox(),
 
               ///  Stacked Balance Widget.
               Align(

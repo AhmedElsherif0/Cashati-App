@@ -1,8 +1,11 @@
+// ignore_for_file: division_optimization
+
 import 'package:hive/hive.dart';
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/local/hive/hive_database.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 import 'package:temp/data/models/goals/repeated_goal_model.dart';
+import 'package:temp/data/models/notification/notification_model.dart';
 
 mixin MixinGoals {
   final HiveHelper _hiveDatabase = HiveHelper();
@@ -27,13 +30,10 @@ mixin MixinGoals {
   DateTime _putNextShownDateFirstAdd(
       {required DateTime startSavingDate, required String repeatType}) {
     switch (repeatType) {
-
       case 'Daily':
         return startSavingDate;
       case 'Weekly':
-        if (
-
-            checkSameDay(date: startSavingDate)) {
+        if (checkSameDay(date: startSavingDate)) {
           return startSavingDate.add(const Duration(days: 7));
         } else {
           // return expensePaymentDate.add(Duration(days: 7));
@@ -192,11 +192,9 @@ mixin MixinGoals {
       case 'Daily':
         return goalModel.goalStartSavingDate.add(Duration(days: remainingTime));
       case 'Weekly':
-        return goalModel.goalStartSavingDate
-            .add(Duration(days: remainingTime * 7));
+        return goalModel.goalStartSavingDate.add(Duration(days: remainingTime * 7));
       case 'Monthly':
-        return goalModel.goalStartSavingDate
-            .add(Duration(days: remainingTime * 30));
+        return goalModel.goalStartSavingDate.add(Duration(days: remainingTime * 30));
       default:
         return goalModel.goalStartSavingDate.add(Duration(days: remainingTime));
     }
@@ -240,33 +238,39 @@ mixin MixinGoals {
 
 // when Yes
 
-  GoalRepeatedDetailsModel editDailyGoalLastShown(
-      {required GoalModel goalModel}) {
+  GoalRepeatedDetailsModel editDailyGoalLastShown({required GoalModel goalModel}) {
     /// this goal model is fetched from the repeated model So its key is always the same one
     /// with its repeated model as both have same key and id (when adding goal at first time)
     GoalRepeatedDetailsModel theMatchingDailyExpense =
         goalRepeatedBox.get(goalModel.id)!;
 
-    print(
-        'Before Edit Daily ${theMatchingDailyExpense.goalLastConfirmationDate}');
+    print('Before Edit Daily ${theMatchingDailyExpense.goalLastConfirmationDate}');
     theMatchingDailyExpense.goalLastConfirmationDate = today;
-    theMatchingDailyExpense.goal.goalRemainingAmount =
-        goalModel.goalRemainingAmount;
-    theMatchingDailyExpense.goal.goalCompletionDate =
-        goalModel.goalCompletionDate;
-    theMatchingDailyExpense.goal.goalRemainingPeriod =
-        goalModel.goalRemainingPeriod;
+    theMatchingDailyExpense.goal.goalRemainingAmount = goalModel.goalRemainingAmount;
+    theMatchingDailyExpense.goal.goalCompletionDate = goalModel.goalCompletionDate;
+    theMatchingDailyExpense.goal.goalRemainingPeriod = goalModel.goalRemainingPeriod;
     theMatchingDailyExpense.nextShownDate = today.add(const Duration(days: 1));
     theMatchingDailyExpense.goalLastShownDate = today;
     return theMatchingDailyExpense;
   }
+  GoalRepeatedDetailsModel editRepeatedGoalFromNotification({required NotificationModel notificationModel}) {
+    /// this goal model is fetched from the repeated model So its key is always the same one
+    /// with its repeated model as both have same key and id (when adding goal at first time)
+    GoalRepeatedDetailsModel theMatchingGoal =
+    goalRepeatedBox.get(notificationModel.id)!;
+    theMatchingGoal.goal.goalRemainingAmount = theMatchingGoal.goal.goalRemainingAmount-notificationModel.amount;
+
+    return theMatchingGoal;
+  }
+
 
   Future<void> saveDailyGoalAndAddToRepeatBox(
       {required GoalRepeatedDetailsModel theMatchingGoalinRep,
       required num? newAmount}) async {
     await theMatchingGoalinRep.save();
     print("the matching daily goal id ${theMatchingGoalinRep.goal.id}");
-    print("the matching daily remaining amount ${theMatchingGoalinRep.goal.goalRemainingAmount}");
+    print(
+        "the matching daily remaining amount ${theMatchingGoalinRep.goal.goalRemainingAmount}");
     await addGoalToBoxFromRepeatedBox(
         currentGoal: theMatchingGoalinRep.goal, newAmount: newAmount);
   }
@@ -298,8 +302,7 @@ mixin MixinGoals {
         goalModel.goalCompletionDate;
     theMatchingWeeklyExpenseModel.goal.goalRemainingPeriod =
         goalModel.goalRemainingPeriod;
-    theMatchingWeeklyExpenseModel.nextShownDate =
-        today.add(const Duration(days: 7));
+    theMatchingWeeklyExpenseModel.nextShownDate = today.add(const Duration(days: 7));
     theMatchingWeeklyExpenseModel.goalLastShownDate = today;
     return theMatchingWeeklyExpenseModel;
   }
@@ -324,8 +327,7 @@ mixin MixinGoals {
         goalModel.goalCompletionDate;
     theMatchingMonthlyRepeatedGoal.goal.goalRemainingPeriod =
         goalModel.goalRemainingPeriod;
-    theMatchingMonthlyRepeatedGoal.nextShownDate =
-        today.add(const Duration(days: 30));
+    theMatchingMonthlyRepeatedGoal.nextShownDate = today.add(const Duration(days: 30));
     theMatchingMonthlyRepeatedGoal.goalLastShownDate = today;
     return theMatchingMonthlyRepeatedGoal;
   }
@@ -337,5 +339,4 @@ mixin MixinGoals {
     await addGoalToBoxFromRepeatedBox(
         currentGoal: theMatchingMonthlyExpenseModel.goal, newAmount: NewAmount);
   }
-
 }

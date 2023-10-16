@@ -6,6 +6,7 @@ import 'package:temp/data/models/transactions/transaction_details_model.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import 'package:temp/data/repository/transactions_impl/mixin_transaction.dart';
+
 import '../../../business_logic/repository/expenses_repo/confirm_expense_repo.dart';
 import '../../local/hive/id_generator.dart';
 
@@ -14,7 +15,7 @@ class ConfirmTransactionImpl
     implements ConfirmTransactionRepo {
   List<TransactionModel> todayList = [];
 
-  Future<void> addTransactionToBoxFromRepeatedBox(
+  Future<void> _addTransactionToBoxFromRepeatedBox(
       {required TransactionModel currentExpense, double? newAmount}) async {
     final TransactionModel transaction = currentExpense;
     transaction.amount = newAmount ?? currentExpense.amount;
@@ -31,56 +32,13 @@ class ConfirmTransactionImpl
           .then((_) {
         if (transaction.isExpense) {
           super.minusBalance(amount: transaction.amount);
-        }else{
+        } else {
           super.plusBalance(amount: transaction.amount);
-
         }
       });
     } catch (error) {
       print(
           'Error in adding transaction from repeated box to transaction box (confirm) is ${error.toString()}');
-    }
-  }
-
-  /// is it calling from any class less this ??
-  bool checkNoConfirmedAndWeekly(
-      {required DateTime nextShownDate,
-      required DateTime lastConfirmedDate,
-      required DateTime expensePayment}) {
-    // for showing the payment weekly if it is not the same expense date day
-    if (
-        //today.difference(expensePayment).inDays!=0&&
-        !checkSameDay(date: expensePayment) &&
-            today.difference(nextShownDate).inDays % 7 == 0
-
-            // &&today.difference(lastConfirmedDate).inDays!=0
-            &&
-            !checkSameDay(date: lastConfirmedDate)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /// is it calling from any class less this ??
-  bool checkNoConfirmedAndMonthly(
-      {required DateTime nextShownDate,
-      required DateTime lastConfirmedDate,
-      required DateTime expensePayment}) {
-    // for showing the payment weekly if he didn't take action
-    if (
-        //today.difference(expensePayment).inDays!=0&&
-        !checkSameDay(date: expensePayment) &&
-            today.difference(nextShownDate).inDays % 30 == 0
-            //&&today.difference(lastConfirmedDate).inDays!=0
-            &&
-            !checkSameDay(date: lastConfirmedDate)
-
-        // &&expensePayment.isAfter(today)
-        ) {
-      return true;
-    } else {
-      return false;
     }
   }
 
@@ -103,7 +61,7 @@ class ConfirmTransactionImpl
         getRepTransactionsByRep(repeat: AppStrings.daily, isExpense: isExpense);
     for (var item in dailyExpenses) {
       // here we check confirmation date  Slide number 12
-      if (dailyShowChecking(item)) {
+      if (_dailyShowChecking(item)) {
         todaDailyList.add(item.transactionModel);
       }
     }
@@ -117,7 +75,7 @@ class ConfirmTransactionImpl
         getRepTransactionsByRep(repeat: AppStrings.weekly, isExpense: isExpense);
     for (var item in weeklyExpenses) {
       // here we check confirmation date  Slide number 12
-      if (weeklyShowChecking(item)) {
+      if (_weeklyShowChecking(item)) {
         todayWeeklyList.add(item.transactionModel);
       }
     }
@@ -132,9 +90,7 @@ class ConfirmTransactionImpl
     List<TransactionRepeatDetailsModel> monthlyExpenses =
         getRepTransactionsByRep(repeat: AppStrings.monthly, isExpense: isExpense);
     for (var item in monthlyExpenses) {
-      if (monthlyShowChecking(item)) {
-        todayMonthlyList.add(item.transactionModel);
-      } else {}
+      if (_monthlyShowChecking(item)) todayMonthlyList.add(item.transactionModel);
     }
     return todayMonthlyList;
   }
@@ -145,49 +101,90 @@ class ConfirmTransactionImpl
     List<TransactionRepeatDetailsModel> noRepeatExpenses =
         getRepTransactionsByRep(repeat: AppStrings.monthly, isExpense: isExpense);
     for (var item in noRepeatExpenses) {
-      if (noRepeatShowChecking(item)) {
+      if (_noRepeatShowChecking(item)) {
         todayNoRepeatList.add(item.transactionModel);
       }
     }
     return todayNoRepeatList;
   }
 
-  bool dailyShowChecking(TransactionRepeatDetailsModel dailyTransacion) {
-    if (!checkSameDay(date: dailyTransacion.lastConfirmationDate)) {
+  /// is it calling from any class less this ??
+  bool _checkNoConfirmedAndWeekly(
+      {required DateTime nextShownDate,
+      required DateTime lastConfirmedDate,
+      required DateTime expensePayment}) {
+    // for showing the payment weekly if it is not the same expense date day
+    if (
+        //today.difference(expensePayment).inDays!=0&&
+        !checkSameDay(date: expensePayment) &&
+            today.difference(nextShownDate).inDays % 7 == 0
+
+            // &&today.difference(lastConfirmedDate).inDays!=0
+            &&
+            !checkSameDay(date: lastConfirmedDate)) {
       return true;
     } else {
       return false;
     }
   }
 
-  bool weeklyShowChecking(TransactionRepeatDetailsModel weeklyTransaction) {
+  /// is it calling from any class less this ??
+  bool _checkNoConfirmedAndMonthly(
+      {required DateTime nextShownDate,
+      required DateTime lastConfirmedDate,
+      required DateTime expensePayment}) {
+    // for showing the payment weekly if he didn't take action
+    if (
+        //today.difference(expensePayment).inDays!=0&&
+        !checkSameDay(date: expensePayment) &&
+            today.difference(nextShownDate).inDays % 30 == 0
+            //&&today.difference(lastConfirmedDate).inDays!=0
+            &&
+            !checkSameDay(date: lastConfirmedDate)
+
+        // &&expensePayment.isAfter(today)
+        ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool _dailyShowChecking(TransactionRepeatDetailsModel dailyTransaction) {
+    if (!checkSameDay(date: dailyTransaction.lastConfirmationDate)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool _weeklyShowChecking(TransactionRepeatDetailsModel weeklyTransaction) {
     if (checkSameDay(date: weeklyTransaction.nextShownDate) &&
             !checkSameDay(date: weeklyTransaction.lastConfirmationDate) ||
-        checkNoConfirmedAndWeekly(
+        _checkNoConfirmedAndWeekly(
             nextShownDate: weeklyTransaction.nextShownDate,
             lastConfirmedDate: weeklyTransaction.lastConfirmationDate,
-            expensePayment:
-                weeklyTransaction.transactionModel.paymentDate as DateTime)) {
+            expensePayment: weeklyTransaction.transactionModel.paymentDate)) {
       return true;
     } else {
       return false;
     }
   }
 
-  bool monthlyShowChecking(TransactionRepeatDetailsModel monthlyTransaction) {
+  bool _monthlyShowChecking(TransactionRepeatDetailsModel monthlyTransaction) {
     if (checkSameDay(date: monthlyTransaction.nextShownDate) &&
             !checkSameDay(date: monthlyTransaction.lastConfirmationDate) ||
-        checkNoConfirmedAndMonthly(
+        _checkNoConfirmedAndMonthly(
             nextShownDate: monthlyTransaction.nextShownDate,
             lastConfirmedDate: monthlyTransaction.lastConfirmationDate,
-            expensePayment: monthlyTransaction.transactionModel.paymentDate as DateTime)) {
+            expensePayment: monthlyTransaction.transactionModel.paymentDate)) {
       return true;
     } else {
       return false;
     }
   }
 
-  bool noRepeatShowChecking(TransactionRepeatDetailsModel noRepTransaction) {
+  bool _noRepeatShowChecking(TransactionRepeatDetailsModel noRepTransaction) {
     if (checkSameDay(date: noRepTransaction.nextShownDate) &&
         !checkSameDay(date: noRepTransaction.lastConfirmationDate)) {
       return true;
@@ -198,7 +195,50 @@ class ConfirmTransactionImpl
 
 // when Yes
 
-  TransactionRepeatDetailsModel editDailyExpenseLastShown(
+  Future _saveDailyExpenseNoConfirm(
+      TransactionRepeatDetailsModel theMatchingDailyExpense) async {
+    await theMatchingDailyExpense.save();
+  }
+
+  Future _saveWeeklyExpenseNoConfirm(
+      TransactionRepeatDetailsModel theMatchingWeeklyExpenseModel) async {
+    await theMatchingWeeklyExpenseModel.save();
+  }
+
+  Future _saveMonthlyExpenseNoConfirm(
+      TransactionRepeatDetailsModel theMatchingMonthlyExpenseModel) async {
+    await theMatchingMonthlyExpenseModel.save();
+  }
+
+  Future<void> _saveDailyExpenseAndAddToRepeatBox(
+      TransactionRepeatDetailsModel theMatchingDailyExpense) async {
+    await theMatchingDailyExpense.save();
+    await _addTransactionToBoxFromRepeatedBox(
+        currentExpense: theMatchingDailyExpense.transactionModel);
+  }
+
+  Future _saveWeeklyExpenseAndAddToRepeatBox(
+      TransactionRepeatDetailsModel theMatchingWeeklyExpenseModel) async {
+    await theMatchingWeeklyExpenseModel.save();
+    await _addTransactionToBoxFromRepeatedBox(
+        currentExpense: theMatchingWeeklyExpenseModel.transactionModel);
+  }
+
+  Future _saveMonthlyExpenseAndAddToRepeatBox(
+      TransactionRepeatDetailsModel theMatchingMonthlyExpenseModel) async {
+    await theMatchingMonthlyExpenseModel.save();
+    await _addTransactionToBoxFromRepeatedBox(
+        currentExpense: theMatchingMonthlyExpenseModel.transactionModel);
+  }
+
+  Future _saveNoRepeatExpenseAndDeleteRepeatBox(
+      TransactionRepeatDetailsModel theMatchingNoRepExpenseModel) async {
+    await _addTransactionToBoxFromRepeatedBox(
+        currentExpense: theMatchingNoRepExpenseModel.transactionModel);
+    theMatchingNoRepExpenseModel.delete();
+  }
+
+  TransactionRepeatDetailsModel _editDailyExpenseLastShown(
       {required TransactionModel addedExpense, required DateTime today}) {
     //TODO check if there is any difference between getting key and loop in ids
     /// this transaction model is fetched from the repeated model So its key is always the same one
@@ -206,10 +246,6 @@ class ConfirmTransactionImpl
     TransactionRepeatDetailsModel theMatchingDailyExpense =
         Hive.box<TransactionRepeatDetailsModel>(AppBoxes.dailyTransactionsBoxName)
             .get(addedExpense.id)!;
-    // Hive.box<TransactionRepeatDetailsModel>(AppBoxes.dailyTransactionsBoxName)
-    //     .values
-    //     .where((element) => element.transactionModel.id == addedExpense.id)
-    //     .single;
     print('Before Edit Daily ${theMatchingDailyExpense.lastConfirmationDate}');
     theMatchingDailyExpense.isLastConfirmed =
         isEqualToday(date: addedExpense.paymentDate);
@@ -219,29 +255,7 @@ class ConfirmTransactionImpl
     return theMatchingDailyExpense;
   }
 
-  Future<void> saveDailyExpenseAndAddToRepeatBox(
-      TransactionRepeatDetailsModel theMatchingDailyExpense) async {
-    await theMatchingDailyExpense.save();
-    await addTransactionToBoxFromRepeatedBox(
-        currentExpense: theMatchingDailyExpense.transactionModel);
-  }
-
-  Future saveDailyExpenseNoConfirm(
-      TransactionRepeatDetailsModel theMatchingDailyExpense) async {
-    await theMatchingDailyExpense.save();
-  }
-
-  Future saveWeeklyExpenseNoConfirm(
-      TransactionRepeatDetailsModel theMatchingWeeklyExpenseModel) async {
-    await theMatchingWeeklyExpenseModel.save();
-  }
-
-  Future saveMonthlyExpenseNoConfirm(
-      TransactionRepeatDetailsModel theMatchingMonthlyExpenseModel) async {
-    await theMatchingMonthlyExpenseModel.save();
-  }
-
-  TransactionRepeatDetailsModel editWeeklyExpenseLastShown(
+  TransactionRepeatDetailsModel _editWeeklyExpenseLastShown(
       {required TransactionModel addedExpense, required DateTime today}) {
     TransactionRepeatDetailsModel theMatchingWeeklyExpenseModel =
         Hive.box<TransactionRepeatDetailsModel>(AppBoxes.weeklyTransactionsBoxName)
@@ -262,14 +276,7 @@ class ConfirmTransactionImpl
     return theMatchingWeeklyExpenseModel;
   }
 
-  Future saveWeeklyExpenseAndAddToRepeatBox(
-      TransactionRepeatDetailsModel theMatchingWeeklyExpenseModel) async {
-    await theMatchingWeeklyExpenseModel.save();
-    await addTransactionToBoxFromRepeatedBox(
-        currentExpense: theMatchingWeeklyExpenseModel.transactionModel);
-  }
-
-  TransactionRepeatDetailsModel editMonthlyExpenseLastShown(
+  TransactionRepeatDetailsModel _editMonthlyExpenseLastShown(
       {required TransactionModel addedExpense, required DateTime today}) {
     TransactionRepeatDetailsModel theMatchingMonthlyExpenseModel =
         Hive.box<TransactionRepeatDetailsModel>(AppBoxes.monthlyTransactionsBoxName)
@@ -288,7 +295,7 @@ class ConfirmTransactionImpl
     return theMatchingMonthlyExpenseModel;
   }
 
-  TransactionRepeatDetailsModel editNoRepeatExpenseLastShown(
+  TransactionRepeatDetailsModel _editNoRepeatExpenseLastShown(
       {required TransactionModel addedExpense, required DateTime today}) {
     TransactionRepeatDetailsModel theMatchingNoRepExpenseModel =
         Hive.box<TransactionRepeatDetailsModel>(AppBoxes.noRepeaTransactionsBoxName)
@@ -306,20 +313,6 @@ class ConfirmTransactionImpl
     return theMatchingNoRepExpenseModel;
   }
 
-  Future saveMonthlyExpenseAndAddToRepeatBox(
-      TransactionRepeatDetailsModel theMatchingMonthlyExpenseModel) async {
-    await theMatchingMonthlyExpenseModel.save();
-    await addTransactionToBoxFromRepeatedBox(
-        currentExpense: theMatchingMonthlyExpenseModel.transactionModel);
-  }
-
-  Future saveNoRepeatExpenseAndDeleteRepeatBox(
-      TransactionRepeatDetailsModel theMatchingNoRepExpenseModel) async {
-    await addTransactionToBoxFromRepeatedBox(
-        currentExpense: theMatchingNoRepExpenseModel.transactionModel);
-    theMatchingNoRepExpenseModel.delete();
-  }
-
   @override
   Future deleteNoRepeatTransaction(
       TransactionRepeatDetailsModel theMatchingNoRepExpenseModel) async {
@@ -332,24 +325,24 @@ class ConfirmTransactionImpl
     try {
       if (addedExpense.repeatType == 'Daily') {
         TransactionRepeatDetailsModel theEditedDailyExpense =
-            editDailyExpenseLastShown(addedExpense: addedExpense, today: today);
-        await saveDailyExpenseAndAddToRepeatBox(theEditedDailyExpense);
+            _editDailyExpenseLastShown(addedExpense: addedExpense, today: today);
+        await _saveDailyExpenseAndAddToRepeatBox(theEditedDailyExpense);
         // print('After Edit Daily ${theMatchingDailyExpense.lastConfirmationDate}');
       }
       if (addedExpense.repeatType == 'Weekly') {
         TransactionRepeatDetailsModel theEditedWeeklyExpense =
-            editWeeklyExpenseLastShown(addedExpense: addedExpense, today: today);
-        await saveWeeklyExpenseAndAddToRepeatBox(theEditedWeeklyExpense);
+            _editWeeklyExpenseLastShown(addedExpense: addedExpense, today: today);
+        await _saveWeeklyExpenseAndAddToRepeatBox(theEditedWeeklyExpense);
       }
       if (addedExpense.repeatType == 'Monthly') {
         TransactionRepeatDetailsModel theEditedMonthlyExpense =
-            editMonthlyExpenseLastShown(addedExpense: addedExpense, today: today);
-        saveMonthlyExpenseAndAddToRepeatBox(theEditedMonthlyExpense);
+            _editMonthlyExpenseLastShown(addedExpense: addedExpense, today: today);
+        _saveMonthlyExpenseAndAddToRepeatBox(theEditedMonthlyExpense);
       }
       if (addedExpense.repeatType == 'No Repeat') {
         TransactionRepeatDetailsModel theEditedNoRepeatedExpense =
-            editNoRepeatExpenseLastShown(addedExpense: addedExpense, today: today);
-        await saveNoRepeatExpenseAndDeleteRepeatBox(theEditedNoRepeatedExpense);
+            _editNoRepeatExpenseLastShown(addedExpense: addedExpense, today: today);
+        await _saveNoRepeatExpenseAndDeleteRepeatBox(theEditedNoRepeatedExpense);
       }
     } catch (error) {
       print('error on yes is $error');
@@ -360,69 +353,66 @@ class ConfirmTransactionImpl
   Future<void> onNoConfirmed({required TransactionModel addedExpense}) async {
     if (addedExpense.repeatType == 'Daily') {
       TransactionRepeatDetailsModel theEditedDailyExpense =
-          editDailyExpenseLastShown(addedExpense: addedExpense, today: today);
-      await saveDailyExpenseNoConfirm(theEditedDailyExpense);
+          _editDailyExpenseLastShown(addedExpense: addedExpense, today: today);
+      await _saveDailyExpenseNoConfirm(theEditedDailyExpense);
     }
     if (addedExpense.repeatType == 'Weekly') {
       TransactionRepeatDetailsModel theMatchingWeeklyExpenseModel =
-          editWeeklyExpenseLastShown(addedExpense: addedExpense, today: today);
-      await saveWeeklyExpenseNoConfirm(theMatchingWeeklyExpenseModel);
+          _editWeeklyExpenseLastShown(addedExpense: addedExpense, today: today);
+      await _saveWeeklyExpenseNoConfirm(theMatchingWeeklyExpenseModel);
     }
     if (addedExpense.repeatType == 'Monthly') {
       TransactionRepeatDetailsModel theEditedMonthlyExpense =
-          editMonthlyExpenseLastShown(addedExpense: addedExpense, today: today);
-      await saveMonthlyExpenseNoConfirm(theEditedMonthlyExpense);
+          _editMonthlyExpenseLastShown(addedExpense: addedExpense, today: today);
+      await _saveMonthlyExpenseNoConfirm(theEditedMonthlyExpense);
     }
     if (addedExpense.repeatType == 'No Repeat') {
       TransactionRepeatDetailsModel theEditedNoRepeatExpense =
-          editNoRepeatExpenseLastShown(addedExpense: addedExpense, today: today);
+          _editNoRepeatExpenseLastShown(addedExpense: addedExpense, today: today);
       await deleteNoRepeatTransaction(theEditedNoRepeatExpense);
     }
   }
+
   @override
-  Future<void> onYesConfirmedFromNotifications({ required NotificationModel notificationModel})async{
+  Future<void> onYesConfirmedFromNotifications(
+      {required NotificationModel notificationModel}) async {
     print('working yes ..');
     try {
-
-      TransactionModel theMatchingExpense =
-          Hive.box<TransactionRepeatDetailsModel>(
+      TransactionModel theMatchingExpense = Hive.box<TransactionRepeatDetailsModel>(
               getBoxNameAccordingToRepeat(repeatType: notificationModel.payLoad!))
-              .get(notificationModel.id)!.transactionModel;
-      theMatchingExpense.id =GUIDGen.generate();
-      theMatchingExpense.amount =notificationModel.amount;
-      theMatchingExpense.paymentDate =notificationModel.checkedDate;
-      theMatchingExpense.createdDate =notificationModel.checkedDate;
+          .get(notificationModel.id)!
+          .transactionModel;
+      theMatchingExpense.id = GUIDGen.generate();
+      theMatchingExpense.amount = notificationModel.amount;
+      theMatchingExpense.paymentDate = notificationModel.checkedDate;
+      theMatchingExpense.createdDate = notificationModel.checkedDate;
       final box = Hive.box<TransactionModel>(AppBoxes.transactionBox);
 
-      await box.put(theMatchingExpense.id, theMatchingExpense).whenComplete(()async {
-        switch(notificationModel.typeName) {
+      await box.put(theMatchingExpense.id, theMatchingExpense).whenComplete(() async {
+        switch (notificationModel.typeName) {
           case "Expense":
-           await minusBalance(amount: notificationModel.amount);
+            await minusBalance(amount: notificationModel.amount);
             print("Minus balance Notification Confirm Expense");
             break;
           case "Income":
             print("Plus balance Notification Confirm Expense");
-            await  plusBalance(amount: notificationModel.amount);
+            await plusBalance(amount: notificationModel.amount);
         }
-      } );
-
-
+      });
     } catch (error) {
       print('error on yes is $error');
     }
   }
+
   @override
-  Future<void> onNoConfirmedFromNotifications ({required NotificationModel notificationModel})async{
+  Future<void> onNoConfirmedFromNotifications(
+      {required NotificationModel notificationModel}) async {
     // TODO: implement onNoConfirmedFromNotifications
     throw UnimplementedError();
   }
 
   @override
-  Future<void> deleteTransactionPermanently(TransactionModel transactionModel)async {
+  Future<void> deleteTransactionPermanently(TransactionModel transactionModel) async {
     await deleteTransactionRepeatedModelByTransactionId(transactionModel);
-
-
   }
-
-
 }

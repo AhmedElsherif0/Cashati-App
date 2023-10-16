@@ -102,6 +102,35 @@ mixin MixinTransaction {
     }
     return repeatedTransactions;
   }
+  TransactionModel getTransactionsFromDetailsByTransactionName(String transactionName,bool isExpense,num amount) {
+    TransactionModel? matchingTransaction;
+    List<TransactionRepeatDetailsModel> repeatedTransactions = [];
+    try {
+      repeatedTransactions.addAll(getRepeatedTransByBoxName(AppBoxes.dailyTransactionsBoxName)
+          .where((element) => element.transactionModel.isExpense == isExpense&&element.transactionModel.name == transactionName)
+          .toList());
+
+    repeatedTransactions.addAll(getRepeatedTransByBoxName(AppBoxes.weeklyTransactionsBoxName)
+        .where((element) => element.transactionModel.isExpense == isExpense&&element.transactionModel.name == transactionName)
+        .toList());
+    repeatedTransactions.addAll(getRepeatedTransByBoxName(AppBoxes.monthlyTransactionsBoxName)
+        .where((element) => element.transactionModel.isExpense == isExpense&&element.transactionModel.name == transactionName)
+        .toList());
+    repeatedTransactions.addAll(getRepeatedTransByBoxName(AppBoxes.noRepeaTransactionsBoxName)
+        .where((element) => element.transactionModel.isExpense == isExpense&&element.transactionModel.name == transactionName)
+        .toList());
+
+    } catch (error) {
+      print('new error in searching highest transaction ${error.toString()}');
+    }
+    repeatedTransactions.forEach((element) {
+      if(element.transactionModel.amount==amount){
+        matchingTransaction=element.transactionModel;
+      }
+    });
+
+   return matchingTransaction??  repeatedTransactions.last.transactionModel;
+  }
 
   List<TransactionRepeatDetailsModel> getRepTransactionsByRep(
       {required String repeat, required isExpense}) {
