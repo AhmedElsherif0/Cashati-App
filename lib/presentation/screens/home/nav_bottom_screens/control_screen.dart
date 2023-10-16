@@ -42,7 +42,10 @@ class ControlScreen extends StatelessWidget {
                   child: CustomAppBar(
                     title: '${AppStrings.appBarTitle}${_cubit(context).currentIndex}'
                         .tr(),
-                    onTapFirstIcon: () => _cubit(context).emitDrawer(context),
+                    onTapFirstIcon: () {
+                      Scaffold.of(context).openDrawer();
+                      _cubit(context).emitDrawer();
+                    },
                     isEndIconVisible: _cubit(context).currentIndex == 4 ? false : true,
                     firstIcon: Icons.menu,
                     textStyle: _cubit(context).currentIndex == 1

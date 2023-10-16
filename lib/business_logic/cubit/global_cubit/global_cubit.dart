@@ -1,12 +1,11 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:temp/constants/end_points.dart';
-import 'package:temp/constants/language_manager.dart';
 import 'package:temp/notification_manager.dart';
 
 import '../../../constants/app_strings.dart';
+import '../../../constants/end_points.dart';
+import '../../../constants/language_manager.dart';
 import '../../../data/local/cache_helper.dart';
 import '../../../data/models/onbaording/onbaording_list_of_data.dart';
 
@@ -23,10 +22,12 @@ class GlobalCubit extends Cubit<GlobalState> {
   bool isEnable = false;
   bool isLanguage = translator.activeLanguageCode == 'en';
   LanguageManager languageManager = LanguageManager();
-   late TimeOfDay chosenTime;
+  late TimeOfDay chosenTime;
 
-  final NotificationsManagerHandler notificationsManagerHandler=NotificationsManagerHandler();
-  final NotificationManager _notificationManager=NotificationManager();
+  final NotificationsManagerHandler notificationsManagerHandler =
+      NotificationsManagerHandler();
+  final NotificationManager _notificationManager = NotificationManager();
+
   /// Currency
   final OnBoardingData _boardingData = OnBoardingData();
   String selectedCurrency = AppStrings.chooseCurrency;
@@ -45,23 +46,37 @@ class GlobalCubit extends Cubit<GlobalState> {
     print('changeCurrency is $selectedCurrency');
     onChangeCurrency(selectedCurrency);
   }
-   initializeNotificationTime(){
-     chosenTime=TimeOfDay(hour: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").first), minute: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").last));
-  }
-  initializeNotificationEnabled(){
-    if(notificationsManagerHandler.fetchCurrentSavedTime().isNotEmpty){
-      isEnable=true;
-    }else{
-      isEnable=false;
+
+  initializeNotificationTime() {
+    if (notificationsManagerHandler
+        .fetchCurrentSavedTime()
+        .split(":")
+        .first
+        .isNotEmpty) {
+      chosenTime = TimeOfDay(
+          hour: int.parse(
+              notificationsManagerHandler.fetchCurrentSavedTime().split(":").first),
+          minute: int.parse(
+              notificationsManagerHandler.fetchCurrentSavedTime().split(":").last ??
+                  "00"));
+    } else {
+      chosenTime = TimeOfDay(hour: 9, minute: 0);
     }
   }
-  String getNotificationTime(){
-    if(notificationsManagerHandler.fetchCurrentSavedTime().isNotEmpty){
-      return convertTime(" ${timeMinusTwelve(notificationsManagerHandler.fetchCurrentSavedTime())} ${replacePmAm(notificationsManagerHandler.fetchCurrentSavedTime(),isLanguage)}",isLanguage);
 
-    }else{
-      return convertTime("9:00 ${replacePmAm("9:00",isLanguage)}",isLanguage);
+  initializeNotificationEnabled() {
+    isEnable =
+        notificationsManagerHandler.fetchCurrentSavedTime().isNotEmpty ? true : false;
+  }
 
+  String getNotificationTime() {
+    final currSavedTime = notificationsManagerHandler.fetchCurrentSavedTime();
+    if (currSavedTime.isNotEmpty) {
+      return convertTime(
+          " ${timeMinusTwelve(currSavedTime)} ${replacePmAm(currSavedTime, isLanguage)}",
+          isLanguage);
+    } else {
+      return convertTime("9:00 ${replacePmAm("9:00", isLanguage)}", isLanguage);
     }
   }
 
@@ -126,47 +141,50 @@ class GlobalCubit extends Cubit<GlobalState> {
     emit(ChangeScreenState());
   }
 
-  void enableNotifications({required bool value})async {
+  void enableNotifications({required bool value}) async {
     isEnable = value;
-    if(isEnable){
-      await _notificationManager.scheduleDailyNotification(hour: chosenTime.hour,minute: chosenTime.minute);
+    if (isEnable) {
+      await _notificationManager.scheduleDailyNotification(
+          hour: chosenTime.hour, minute: chosenTime.minute);
+      //  chosenTime=TimeOfDay(hour: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").first), minute: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").last??"00"));
+
+      await notificationsManagerHandler.saveTime(
+          hour: chosenTime.hour, minute: chosenTime.minute);
+      print("Saved Time in Enabled Which is ${chosenTime}");
       emit(SavedDailyNotification());
-    }else{
+    } else {
       await _notificationManager.cancelNotification();
       await notificationsManagerHandler.clearTime();
       emit(CanceledDailyNotification());
     }
     // emit(ChangeEnableNotifications());
-
   }
-  void changeNotificationTime({required BuildContext context})async {
-    final chosenTimePicker=await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    if(chosenTimePicker!=null){
-      chosenTime=chosenTimePicker;
 
-      await notificationsManagerHandler.saveTime(hour: chosenTime.hour, minute: chosenTime.minute);
+  void changeNotificationTime({required BuildContext context}) async {
+    final chosenTimePicker =
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    if (chosenTimePicker != null) {
+      chosenTime = chosenTimePicker;
+
+      await notificationsManagerHandler.saveTime(
+          hour: chosenTime.hour, minute: chosenTime.minute);
       print("Saved Time Which is ${chosenTime}");
       emit(ChangeNotificationTime());
-      await _notificationManager.cancelNotification();
-      emit(CanceledDailyNotification());
-      await _notificationManager.scheduleDailyNotification(hour: chosenTime.hour,minute: chosenTime.minute);
-      emit(SavedDailyNotification());
-
-    }else{
-
-    }
+      await _notificationManager.cancelNotification().whenComplete(() async {
+        emit(CanceledDailyNotification());
+        await _notificationManager
+            .scheduleDailyNotification(
+                hour: chosenTime.hour, minute: chosenTime.minute)
+            .whenComplete(() => isEnable = true);
+        emit(SavedDailyNotification());
+      });
+    } else {}
   }
 
-  void emitDrawer(context) {
-    Scaffold.of(context).openDrawer();
+  void emitDrawer() {
     emit(OpenDrawerState());
   }
 
-  ////////////////////////navigator
-  Future navigate({VoidCallback? afterSuccess}) async {
-    await Future.delayed(const Duration(milliseconds: 1500), () {});
-    afterSuccess!();
-  }
   String convertTime(String time, bool toEnglish) {
     final Map<String, String> arabicToEnglish = {
       '٠': '0',
@@ -209,17 +227,14 @@ class GlobalCubit extends Cubit<GlobalState> {
       }
     }
     return convertedTime;
-
-
   }
-  timeMinusTwelve(String convertedTime){
-    if(int.parse(convertedTime.split(":").first)>=12){
-      return "${int.parse(convertedTime.split(":").first)-12}:${convertedTime.split(":").last}";
-    }else{
+
+  timeMinusTwelve(String convertedTime) {
+    if (int.parse(convertedTime.split(":").first) >= 12) {
+      return "${int.parse(convertedTime.split(":").first) - 12}:${convertedTime.split(":").last}";
+    } else {
       return convertedTime;
     }
-
-
   }
 
   bool isArabicTime(String time) {
@@ -266,12 +281,11 @@ class GlobalCubit extends Cubit<GlobalState> {
   //     }
   //   }
   // }
-  String replacePmAm(String savedTime,bool isEnglishLang){
-    if(int.parse(savedTime.split(":").first)>12){
-      return  isEnglishLang?  "PM":'م';
-
-    }else{
-      return  isEnglishLang?  "AM":'ص';
+  String replacePmAm(String savedTime, bool isEnglishLang) {
+    if (int.parse(savedTime.split(":").first) > 12) {
+      return isEnglishLang ? "PM" : 'م';
+    } else {
+      return isEnglishLang ? "AM" : 'ص';
     }
   }
 }
