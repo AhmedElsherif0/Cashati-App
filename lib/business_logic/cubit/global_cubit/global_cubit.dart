@@ -46,7 +46,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     print('changeCurrency is $selectedCurrency');
     onChangeCurrency(selectedCurrency);
   }
-
+  
   initializeNotificationTime() {
     if (notificationsManagerHandler
         .fetchCurrentSavedTime()
@@ -61,6 +61,7 @@ class GlobalCubit extends Cubit<GlobalState> {
                   "00"));
     } else {
       chosenTime = TimeOfDay(hour: 9, minute: 0);
+
     }
   }
 
@@ -143,13 +144,14 @@ class GlobalCubit extends Cubit<GlobalState> {
 
   void enableNotifications({required bool value}) async {
     isEnable = value;
+
     if (isEnable) {
       await _notificationManager.scheduleDailyNotification(
           hour: chosenTime.hour, minute: chosenTime.minute);
       //  chosenTime=TimeOfDay(hour: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").first), minute: int.parse(notificationsManagerHandler.fetchCurrentSavedTime().split(":").last??"00"));
-
       await notificationsManagerHandler.saveTime(
           hour: chosenTime.hour, minute: chosenTime.minute);
+
       print("Saved Time in Enabled Which is ${chosenTime}");
       emit(SavedDailyNotification());
     } else {
@@ -178,7 +180,7 @@ class GlobalCubit extends Cubit<GlobalState> {
             .whenComplete(() => isEnable = true);
         emit(SavedDailyNotification());
       });
-    } else {}
+    }
   }
 
   void emitDrawer() {
