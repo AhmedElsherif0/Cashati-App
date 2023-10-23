@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
+import 'package:temp/business_logic/cubit/home_cubit/home_state.dart';
 import 'package:temp/presentation/screens/home/nav_bottom_screens/settings_screen.dart';
 import 'package:temp/presentation/screens/home/nav_bottom_screens/statistics_expenses_screen.dart';
 import 'package:temp/presentation/screens/home/nav_bottom_screens/statistics_income_screen.dart';
@@ -36,10 +38,13 @@ class ControlScreen extends StatelessWidget {
         builder: (context, state) {
           return Column(
             children: [
-              Expanded(
+              BlocBuilder<HomeCubit, HomeState>(
+  builder: (context, state) {
+    return Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.0.dp),
                   child: CustomAppBar(
+                    notificationsNumber:context.read<HomeCubit>().notificationList!=null? context.read<HomeCubit>().notificationList!.where((element) => element.didTakeAction==false).toList().length.toString():"0",
                     title: '${AppStrings.appBarTitle}${_cubit(context).currentIndex}'
                         .tr(),
                     onTapFirstIcon: () {
@@ -56,7 +61,9 @@ class ControlScreen extends StatelessWidget {
                         : null,
                   ),
                 ),
-              ),
+              );
+  },
+),
               Expanded(flex: 19, child: _currentPage()[_cubit(context).currentIndex]),
             ],
           );
