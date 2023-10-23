@@ -70,10 +70,12 @@ class NotificationScreen extends StatelessWidget {
                                   notificationModel:
                                   BlocProvider.of<HomeCubit>(context)
                                       .notificationList![index],
-                                  date: BlocProvider.of<HomeCubit>(context)
-                                      .notificationList![index]
-                                      .checkedDate
-                                      .toString(),
+                                  date: DateFormat.yMMMd( context
+                                      .read<GlobalCubit>().isLanguage?"en":"ar").format(
+                                      context
+                                          .read<HomeCubit>()
+                                          .notificationList![index]
+                                          .checkedDate),
                                   onDelete: () {},
                                   onCancel: () {
                                     Navigator.pop(context);
