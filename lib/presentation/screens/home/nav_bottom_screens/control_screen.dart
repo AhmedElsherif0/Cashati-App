@@ -19,8 +19,6 @@ import 'home_screens/home_screen.dart';
 class ControlScreen extends StatelessWidget {
   const ControlScreen({Key? key}) : super(key: key);
 
-  GlobalCubit _cubit(context) => BlocProvider.of<GlobalCubit>(context);
-
   List<Widget> _currentPage() => [
         const HomeScreen(),
         const ConfirmPayingScreen(),
@@ -31,12 +29,13 @@ class ControlScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      drawer: const AppDrawer(),
-      body: BlocBuilder<GlobalCubit, GlobalState>(
-        builder: (context, state) {
-          return Column(
+    final globalCubit = context.read<GlobalCubit>();
+    return OrientationBuilder(
+      builder: (context, orientation) => Scaffold(
+        appBar: AppBar(),
+        drawer: const AppDrawer(),
+        body: BlocBuilder<GlobalCubit, GlobalState>(
+          builder: (context, state) => Column(
             children: [
               BlocBuilder<HomeCubit, HomeState>(
   builder: (context, state) {
@@ -49,11 +48,11 @@ class ControlScreen extends StatelessWidget {
                         .tr(),
                     onTapFirstIcon: () {
                       Scaffold.of(context).openDrawer();
-                      _cubit(context).emitDrawer();
+                      globalCubit.emitDrawer();
                     },
-                    isEndIconVisible: _cubit(context).currentIndex == 4 ? false : true,
+                    isEndIconVisible: globalCubit.currentIndex == 4 ? false : true,
                     firstIcon: Icons.menu,
-                    textStyle: _cubit(context).currentIndex == 1
+                    textStyle: globalCubit.currentIndex == 1
                         ? Theme.of(context)
                             .textTheme
                             .headline3
@@ -61,17 +60,18 @@ class ControlScreen extends StatelessWidget {
                         : null,
                   ),
                 ),
-              );
-  },
-),
-              Expanded(flex: 19, child: _currentPage()[_cubit(context).currentIndex]),
+              ),
+              Expanded(
+                  flex: orientation == Orientation.portrait ? 19 : 8,
+                  child: _currentPage()[globalCubit.currentIndex]),
+
             ],
-          );
-        },
-      ),
-      bottomNavigationBar: BlocBuilder<GlobalCubit, GlobalState>(
-        builder: (context, state) => BottomNavBarWidget(
-          cubit: _cubit(context),
+          ),
+        ),
+        bottomNavigationBar: BlocBuilder<GlobalCubit, GlobalState>(
+          builder: (context, state) => BottomNavBarWidget(
+            cubit: globalCubit,
+          ),
         ),
       ),
     );
