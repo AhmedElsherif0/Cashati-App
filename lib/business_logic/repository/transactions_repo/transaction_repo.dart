@@ -11,4 +11,6 @@ abstract class TransactionRepo {
   List<TransactionModel> getTransactionFromTransactionBox({bool isExpense});
 
   Future<void> deleteTransactionRepo(TransactionModel transaction);
+  TransactionModel getTransactionByNameFromRepeated(String transactionName,bool isExpense,num amount);
+
 }
