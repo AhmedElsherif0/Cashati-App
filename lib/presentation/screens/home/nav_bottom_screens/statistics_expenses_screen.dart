@@ -12,6 +12,7 @@ import 'package:temp/presentation/views/week_card_view.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
+import '../../../../constants/app_images.dart';
 import '../../../../constants/enum_classes.dart';
 import '../../../../data/models/transactions/transaction_model.dart';
 import '../../../../data/repository/formats_mixin.dart';
@@ -71,17 +72,25 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
     );
-    if (datePicker == null) return;
+    if (datePicker == null){
+
+    } else{
+
+
+    print(" maxExpenses: ${context.read<StatisticsCubit>().getTotalExpense()}");
+    print(" totalExpenses: ${context.read<StatisticsCubit>().totalImportantExpenses()}");
+      getStatisticsCubit().getExpensesByDay(datePicker!, true);
+
+    }
     // getStatisticsCubit().choosenDay = datePicker;
-    getStatisticsCubit().getExpensesByDay(datePicker!, true);
   }
 
   void showDatePickMonth() async {
     datePicker = await showMonthPicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
+      initialDate: getStatisticsCubit().chosenDay,
+      firstDate: DateTime(2023),
+      lastDate: DateTime.now().add(Duration(days: 2000)),
     );
     if (datePicker == null) return;
     getStatisticsCubit().changeDatePicker(datePicker);
@@ -145,14 +154,30 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                         ),
                       ),
                       const Spacer(),
-                      FlowChartView(
-                        maxExpenses: context.read<StatisticsCubit>().getTotalExpense(),
-                        totalExpenses:
-                            context.read<StatisticsCubit>().totalImportantExpenses(),
-                        index: index,
-                        priorityType: AppStrings.important,
-                        notPriority: AppStrings.notImportant,
-                        transactionsValues: getStatisticsCubit().transactionsValues,
+                      //TODO Fix Error caused by  maxExpenses: 80,
+
+                      Visibility(
+                        visible:getStatisticsCubit().byDayList.isNotEmpty ,
+                        child: FlowChartView(
+                          maxExpenses: context.read<StatisticsCubit>().getTotalExpense(),
+                          totalExpenses:
+                              context.read<StatisticsCubit>().totalImportantExpenses(),
+                          index: index,
+                          priorityType: AppStrings.important,
+                          notPriority: AppStrings.notImportant,
+                          transactionsValues: getStatisticsCubit().transactionsValues,
+                        ),
+                        replacement: FlowChartView(
+                          //TODO Fix Error caused by  maxExpenses: 80,When it is = 0 the app crashes
+
+                        maxExpenses: 80,
+                          totalExpenses:
+                          context.read<StatisticsCubit>().totalImportantExpenses(),
+                          index: index,
+                          priorityType: AppStrings.important,
+                          notPriority: AppStrings.notImportant,
+                          transactionsValues: getStatisticsCubit().transactionsValues,
+                        ),
                       ),
 
                       /// TabBarView Widgets.
@@ -161,24 +186,28 @@ class _ExpensesStatisticsScreenState extends State<ExpensesStatisticsScreen>
                           alignment: translator.activeLanguageCode == 'en'
                               ? Alignment.centerLeft
                               : Alignment.centerRight),
-                      Expanded(
-                        flex: 32,
-                        child: CustomTabBarViewEdited(
-                          onPressSeeMore: (int insideIndex) => _onSeeMoreByDay(
-                              context, getStatisticsCubit().byDayList[insideIndex]),
-                          priorityName: PriorityType.Important,
-                          transactions: getStatisticsCubit().byDayList,
-                          index: index,
-                          pageController: _controller,
-                          monthWidget: WeekCardViewEdited(
-                            onSeeMore: (weekIndex) =>
-                                _onSeeMoreByWeek(context, weekIndex),
-                            weekRanges: getStatisticsCubit().weekRangeText(),
-                            chosenDay: getStatisticsCubit().chosenDay,
-                            weeksTotals: getStatisticsCubit().totalsWeeks,
-                            seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
+                      Visibility(
+                        visible: getStatisticsCubit().byDayList.isNotEmpty,
+                        child: Expanded(
+                          flex: 32,
+                          child:  CustomTabBarViewEdited(
+                            onPressSeeMore: (int insideIndex) => _onSeeMoreByDay(
+                                context, getStatisticsCubit().byDayList[insideIndex]),
+                            priorityName: PriorityType.Important,
+                            transactions: getStatisticsCubit().byDayList,
+                            index: index,
+                            pageController: _controller,
+                            monthWidget: WeekCardViewEdited(
+                              onSeeMore: (weekIndex) =>
+                                  _onSeeMoreByWeek(context, weekIndex),
+                              weekRanges: getStatisticsCubit().weekRangeText(),
+                              chosenDay: getStatisticsCubit().chosenDay,
+                              weeksTotals: getStatisticsCubit().totalsWeeks,
+                              seeMoreOrDetailsOrHighest: SwitchWidgets.seeMore,
+                            ),
                           ),
                         ),
+                        replacement: Image.asset(AppImages.noDataCate),
                       ),
                     ],
                   ),
