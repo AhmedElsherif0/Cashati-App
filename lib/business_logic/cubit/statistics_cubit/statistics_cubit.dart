@@ -50,7 +50,7 @@ class StatisticsCubit extends Cubit<StatisticsState> with FormatsMixin, HelperCl
   }
 
   List<TransactionModel> getExpenses() {
-    return _expensesRepository.getTransactionFromTransactionBox();
+    return _expensesRepository.getTransactionFromTransactionBox(isExpense: true);
   }
 
 /*  int highestTransaction() =>
@@ -71,6 +71,7 @@ class StatisticsCubit extends Cubit<StatisticsState> with FormatsMixin, HelperCl
     num totalImport = 0, totalNotImport = 0, chosenDayTotal = 0;
     chosenDay = date!;
     byDayList = getTodayExpenses(isExpense);
+    print("By day list ${byDayList}");
     byDayList.forEach((element) {
       if (element.isPriority) {
         /// Green space

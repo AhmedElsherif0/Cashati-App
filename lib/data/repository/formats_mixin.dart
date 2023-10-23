@@ -23,9 +23,19 @@ mixin FormatsMixin{
   String formatDayWeek(DateTime inputDate, String currentLocal) =>
       DateFormat('EEE', currentLocal).format(inputDate.toLocal());
 
-  String formatWeekDate(DateTime inputDate, String currentLocal) =>
-      DateFormat(' MM / yyyy', currentLocal)
-          .format(inputDate.toLocal())
-          .replaceFirst('0', '');
+  String formatWeekDate(DateTime inputDate, String currentLocal) {
+
+    if(DateFormat(' MM / yyyy', currentLocal)
+        .format(inputDate.toLocal()).trim().startsWith("0")){
+
+      return DateFormat(' MM / yyyy', currentLocal)
+          .format(inputDate.toLocal()).replaceFirst("0", "");
+    }else{
+      return DateFormat(' MM / yyyy', currentLocal)
+          .format(inputDate.toLocal());
+    }
+  }
+
+
 
 }
