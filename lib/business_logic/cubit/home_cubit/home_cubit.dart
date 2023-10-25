@@ -7,12 +7,12 @@ import 'package:temp/business_logic/repository/transactions_repo/transaction_rep
 import 'package:temp/data/local/hive/app_boxes.dart';
 import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
-import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/expenses_repo_impl/expenses_repo_impl.dart';
 import 'package:temp/data/repository/goals_repo_impl/goals_repo_impl.dart';
-import 'package:temp/data/repository/income_repo_impl/income_repo_impl.dart';
 import 'package:temp/data/repository/transactions_impl/confirm_transaction_repo_impl.dart';
 
+import '../../../data/models/transactions/transaction_model.dart';
+import '../../../data/repository/income_repo_impl/income_repo_impl.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -20,7 +20,8 @@ class HomeCubit extends Cubit<HomeState> {
   final GeneralStatsRepo generalStatsRepo;
   GeneralStatsModel? generalStatsModel;
   ConfirmTransactionRepo confirmTransactionRepo = ConfirmTransactionImpl();
-  TransactionRepo? transactionRepo ;
+  TransactionRepo transactionRepo = ExpensesRepositoryImpl();
+
   GoalsRepository _goalsRepository = GoalsRepoImpl();
 
   //TODO confirm goal notification
@@ -28,21 +29,30 @@ class HomeCubit extends Cubit<HomeState> {
   bool isExpense = true;
   bool isGotNotifications = false;
 
- TransactionModel fetchHighestTransaction(){
+  String notificationsNumber() => notificationList != null
+      ? notificationList!
+          .where((element) => element.didTakeAction == false)
+          .toList()
+          .length
+          .toString()
+      : "0";
 
-    if(isExpense){
-      transactionRepo=ExpensesRepositoryImpl();
-      return transactionRepo!.getTransactionByNameFromRepeated(generalStatsModel!.topExpense, isExpense, generalStatsModel!.topExpenseAmount);
-    }else{
-      transactionRepo=IncomeRepositoryImpl();
-      return transactionRepo!.getTransactionByNameFromRepeated(generalStatsModel!.topIncome, isExpense, generalStatsModel!.topIncomeAmount);
-
+  TransactionModel fetchHighestTransaction() {
+    if (isExpense) {
+      return transactionRepo.getTransactionByNameFromRepeated(
+          generalStatsModel!.topExpense,
+          isExpense,
+          generalStatsModel!.topExpenseAmount);
+    } else {
+      transactionRepo = IncomeRepositoryImpl();
+      return transactionRepo.getTransactionByNameFromRepeated(
+          generalStatsModel!.topIncome,
+          !isExpense,
+          generalStatsModel!.topIncomeAmount);
     }
-
-
-
   }
 
+  // TODO: unused Function:
   checkItemInBox() {
     if (generalStatsRepo.isGeneralModelExists()) {
       emit(ModelExistsSuccState());
@@ -56,8 +66,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future addTheGeneralStatsModel() async {
-    if (Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsModel)
-        .isNotEmpty) {
+    if (Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsModel).isNotEmpty) {
       print(
           'General stats model is in box already ${generalStatsRepo.getTheGeneralStatsModel()}');
       emit(FetchedGeneralModelSuccState());
@@ -81,8 +90,8 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future getNotificationList() async {
-    notificationList = await generalStatsRepo.getNotifications(
-        didOpenAppToday: isGotNotifications);
+    notificationList =
+        await generalStatsRepo.getNotifications(didOpenAppToday: isGotNotifications);
     if (notificationList == null) {
       emit(FetchedNotificationListFailedState());
     } else {
@@ -96,18 +105,17 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   onYesTransactionNotification(NotificationModel notificationModel) async {
-    if(notificationModel.typeName == "Goal"){
+    if (notificationModel.typeName == "Goal") {
       await _goalsRepository
           .yesConfirmGoalFromNotification(notificationModel: notificationModel)
-          .whenComplete(() async => await generalStatsRepo
-          .changeStatusOfNotification(notificationModel));
-    }else{
+          .whenComplete(() async =>
+              await generalStatsRepo.changeStatusOfNotification(notificationModel));
+    } else {
       await confirmTransactionRepo
           .onYesConfirmedFromNotifications(notificationModel: notificationModel)
-          .whenComplete(() async => await generalStatsRepo
-          .changeStatusOfNotification(notificationModel));
+          .whenComplete(() async =>
+              await generalStatsRepo.changeStatusOfNotification(notificationModel));
     }
-
 
     emit(NotificationYesActionTakenSucc());
   }
