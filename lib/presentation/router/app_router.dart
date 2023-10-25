@@ -7,7 +7,6 @@ import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screens/a
 import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screens/add_subcategory_screen.dart';
 import 'package:temp/presentation/screens/home/statistics_details_screen.dart';
 import 'package:temp/presentation/screens/shared/notification_screen.dart';
-import 'package:temp/presentation/screens/test_screens/notifications_test.dart';
 import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import 'package:temp/presentation/screens/welcome/welcome_screen.dart';
 import 'package:temp/presentation/styles/decorations.dart';
