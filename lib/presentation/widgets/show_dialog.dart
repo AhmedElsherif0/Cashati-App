@@ -21,7 +21,9 @@ mixin AlertDialogMixin {
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
-                .copyWith(color: AppColor.white)),
+                .copyWith(color: AppColor.white),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis),
       ),
       duration: const Duration(milliseconds: 1800),
       backgroundColor: backGroundColor,

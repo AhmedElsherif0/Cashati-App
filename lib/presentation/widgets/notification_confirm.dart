@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_icons.dart';
 import 'package:temp/data/models/notification/notification_model.dart';
 import 'package:temp/data/repository/formats_mixin.dart';
-import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
 import 'package:temp/presentation/widgets/buttons/underline_text_button.dart';
+import 'package:temp/presentation/widgets/confirm_paying_title_card.dart';
 
 import '../../constants/app_strings.dart';
 import '../styles/colors.dart';
@@ -44,21 +43,19 @@ class NotifyingConfirmPaying extends StatelessWidget with FormatsMixin {
           child: Card(
             elevation: 8.dp,
             color: AppColor.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24.dp)),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(24))),
             child: Column(
               children: [
                 Expanded(
-                  child: ConfirmPayingTitleCard(
-                      cardTitle: notificationModel.modelName),
+                  child:
+                      ConfirmPayingTitleCard(cardTitle: notificationModel.modelName),
                 ),
-
                 Expanded(
                   child: RowIconWithTitle(
                     toolTipMessage: AppStrings.editPaidAmount,
-
                     startIcon: AppIcons.poundSterlingSign,
-                    title:  currencyFormat(context,notificationModel.amount).tr(),
+                    title: currencyFormat(context, notificationModel.amount).tr(),
                     endIcon: InkWell(
                       onTap: onEditAmount,
                       child: SvgPicture.asset(AppIcons.editIcon,
@@ -68,9 +65,9 @@ class NotifyingConfirmPaying extends StatelessWidget with FormatsMixin {
                 ),
                 Expanded(
                   child: RowIconWithTitle(
-                      toolTipMessage:AppStrings.transactionDate,
-
-                      startIcon: AppIcons.calender, title: date),
+                      toolTipMessage: AppStrings.transactionDate,
+                      startIcon: AppIcons.calender,
+                      title: date),
                 ),
                 Expanded(
                   flex: 2,
@@ -84,11 +81,9 @@ class NotifyingConfirmPaying extends StatelessWidget with FormatsMixin {
                             flex: 7,
                             child: Row(
                               children: [
-                                SvgPicture.asset(
-                                  AppIcons.exclamationMark,
-                                  color: AppColor.primaryColor,
-                                ),
-                                SizedBox(width: 2.w,),
+                                SvgPicture.asset(AppIcons.exclamationMark,
+                                    color: AppColor.primaryColor),
+                                SizedBox(width: 2.w),
                                 UnderLineTextButton(
                                     onPressed: onDetails,
                                     text: AppStrings.details,
@@ -114,9 +109,7 @@ class NotifyingConfirmPaying extends StatelessWidget with FormatsMixin {
                       ),
                       const Spacer(flex: 2),
                       CancelConfirmTextButton(
-                        onCancel: onCancel,
-                        onConfirm: onConfirm,
-                      ),
+                          onCancel: onCancel, onConfirm: onConfirm),
                       const Spacer(),
                     ],
                   ),

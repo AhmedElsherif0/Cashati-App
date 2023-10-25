@@ -24,14 +24,11 @@ class NotificationTestScreen extends StatefulWidget {
 class _NotificationTestScreenState extends State<NotificationTestScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchNotifications();
   }
 
-  fetchNotifications() {
-    BlocProvider.of<HomeCubit>(context).getNotificationList();
-  }
+  fetchNotifications() => BlocProvider.of<HomeCubit>(context).getNotificationList();
 
   @override
   Widget build(BuildContext context) {
