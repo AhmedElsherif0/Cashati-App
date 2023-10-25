@@ -5,7 +5,6 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/statistics/general_stats_model.dart';
-import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/expenses_income_header.dart';
 
@@ -18,15 +17,17 @@ import '../../part_time_details.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  void onAddTransaction(BuildContext context,bool isExpense) {
-    isExpense? context.read<AddExpOrIncCubit>().currentIndex=0:context.read<AddExpOrIncCubit>().currentIndex=1;
+  void onAddTransaction(BuildContext context, bool isExpense) {
+    isExpense
+        ? context.read<AddExpOrIncCubit>().currentIndex = 0
+        : context.read<AddExpOrIncCubit>().currentIndex = 1;
     Navigator.of(context).pushNamed(AppRouterNames.rAddExpenseOrIncomeScreen);
   }
-  void showHighestTransactionDetails(BuildContext context){
-    final highestTransaction=context.read<HomeCubit>().fetchHighestTransaction();
+
+  void showHighestTransactionDetails(BuildContext context) {
+    final highestTransaction = context.read<HomeCubit>().fetchHighestTransaction();
     context.navigateTo(PartTimeDetails(transactionModel: highestTransaction));
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +44,7 @@ class HomeScreen extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is HomeInitial || state is ModelExistsFailState) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         } else {
           return Scaffold(
             body: Column(
@@ -89,8 +88,10 @@ class HomeScreen extends StatelessWidget {
                     title: homeCubit.isExpense
                         ? AppStrings.expenseSmall
                         : AppStrings.incomeSmall,
-                    onAdd: () => onAddTransaction(context,homeCubit.isExpense),
-                    onShow: ()=>homeCubit.generalStatsModel!=null?showHighestTransactionDetails(context):null,
+                    onAdd: () => onAddTransaction(context, homeCubit.isExpense),
+                    onShow: () => homeCubit.generalStatsModel != null
+                        ? showHighestTransactionDetails(context)
+                        : null,
                   ),
                 ),
                 const Spacer(),
