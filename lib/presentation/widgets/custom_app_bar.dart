@@ -72,20 +72,13 @@ class CustomAppBar extends StatelessWidget {
                         height: 25.dp, width: 22.dp),
                     Visibility(
                       visible: notificationsNumber != "0",
-                      child: Visibility(
-                        visible: translator.activeLanguageCode == 'en',
-                        child: Positioned(
-                            top: 1,
-                            left: 1,
-                            child: CircleAvatar(
-                                backgroundColor: AppColor.red, radius: 4)),
-                        replacement: Positioned(
-                            top: 1,
-                            right: 1,
-                            child: CircleAvatar(
-                                backgroundColor: AppColor.red, radius: 4)),
-                      ),
-                      replacement: SizedBox(),
+                      child: Positioned(
+                          top: 1,
+                          left: translator.activeLanguageCode == 'en' ? 1 : null,
+                          right: translator.activeLanguageCode == 'en' ? null : 1,
+                          child:
+                              CircleAvatar(backgroundColor: AppColor.red, radius: 4)),
+                      replacement: SizedBox.shrink(),
                     )
                   ],
                 ),
