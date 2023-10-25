@@ -64,7 +64,7 @@ class CustomAppBar extends StatelessWidget {
               radius: 0.0,
               onTap: () =>
                   onTapNotification ??
-                  Navigator.of(context).pushNamed(AppRouterNames.rNotificationTest),
+                  Navigator.of(context).pushNamed(AppRouterNames.rNotification),
               child: Center(
                 child: Stack(
                   children: [
