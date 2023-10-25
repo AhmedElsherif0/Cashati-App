@@ -17,6 +17,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
   bool isGotNotifications = false;
 
   final HiveHelper hiveHelper = HiveHelper();
+
   // var hiveBox=Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsModel);
 
   @override
@@ -68,14 +69,12 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
                   notificationList: []))
           .then((value) => print(
               'The model is  ${HiveHelper().getBoxName<GeneralStatsModel>(boxName: AppBoxes.generalStatisticsBox).get(AppStrings.onlyId)!.key}'));
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
 
   @override
   Future<GeneralStatsModel> getTheGeneralStatsModel() async {
-    if (isGeneralModelBoxOpen()) {
+    if (_isGeneralModelBoxOpen()) {
       if (isGeneralModelExists()) {
         Box<GeneralStatsModel> generalBox =
             HiveHelper().getBoxName(boxName: AppBoxes.generalStatisticsBox);
@@ -110,7 +109,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         });
       }
     } else {
-      await openGeneralModelBox().then((value) async {
+      await _openGeneralModelBox().then((value) async {
         await getTheGeneralStatsModel();
       });
     }
@@ -134,20 +133,14 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
   bool isGeneralModelExists() {
     if (Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsBox).values.isNotEmpty) {
       print('model exists');
-      // print('${.get(AppStrings.theOnlyGeneralStatsModelID)}');
-      // print('${gene.values.toList()
-      //     }');
       return true;
     } else {
       print('Box is open , but no values');
-
-      // addTheGeneralStateModel();
       return false;
     }
   }
 
-  @override
-  bool isGeneralModelBoxOpen() {
+  bool _isGeneralModelBoxOpen() {
     if (Hive.isBoxOpen(AppBoxes.generalStatisticsBox)) {
       print('Box is open');
       return true;
@@ -158,8 +151,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     }
   }
 
-  @override
-  Future<void> openGeneralModelBox() async {
+  Future<void> _openGeneralModelBox() async {
     try {
       await Hive.openBox(AppBoxes.generalStatisticsBox);
     } catch (error) {
@@ -167,8 +159,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     }
   }
 
-  @override
-  bool areRepeatedBoxesOpen() {
+  bool _areRepeatedBoxesOpen() {
     if (Hive.isBoxOpen(AppBoxes.dailyTransactionsBoxName) &&
         Hive.isBoxOpen(AppBoxes.weeklyTransactionsBoxName) &&
         Hive.isBoxOpen(AppBoxes.monthlyTransactionsBoxName) &&
@@ -183,23 +174,17 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     }
   }
 
-  @override
-  bool didGetNotificationsToday(bool didOpenAppToday) {
-    if (isGotNotifications) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  bool _didGetNotificationsToday(bool didOpenAppToday) =>
+      isGotNotifications = didOpenAppToday ? true : false;
 
   @override
   Future<List<NotificationModel>> getNotifications(
       {required bool didOpenAppToday}) async {
-    if (areRepeatedBoxesOpen()) {
-      if (didGetNotificationsToday(didOpenAppToday)) {
+    if (_areRepeatedBoxesOpen()) {
+      if (_didGetNotificationsToday(didOpenAppToday)) {
         return generalStatsModel.notificationList;
       } else {
-        return await fetchedNotifications();
+        return await _fetchedNotifications();
       }
     } else {
       // await openRepeatedBoxes().then((value) async {
@@ -209,8 +194,7 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     }
   }
 
-  @override
-  Future<List<NotificationModel>> fetchedNotifications() async {
+  Future<List<NotificationModel>> _fetchedNotifications() async {
     // final notificationBox =hiveHelper.getBoxName<NotificationModel>(
     // boxName: AppBoxes.notificationBox);
     final todayNotificationList =
@@ -227,121 +211,31 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         boxName: AppBoxes.noRepeaTransactionsBoxName);
     final goalRepBox = hiveHelper.getBoxName<GoalRepeatedDetailsModel>(
         boxName: AppBoxes.goalRepeatedBox);
-    if (savedNotificationDate[0] != todayDate.day.toString() ||
-        savedNotificationDate[1] != todayDate.month.toString() ||
-        savedNotificationDate[2] != todayDate.year.toString()) {
+    if (_isNotificationSaved(savedNotificationDate)) {
       generalStatsModel.notificationList.clear();
 
       dailyBox.values.forEach((element) async {
-        if (shouldAddNotification(element)) {
+        if (_shouldAddNotification(element)) {
           //TODO check which icon to add
-          generalStatsModel.notificationList.add(NotificationModel(
-            id: element.transactionModel.id,
-            amount: element.transactionModel.amount,
-            checkedDate: element.nextShownDate,
-            actionDate: DateTime.now(),
-            didTakeAction: false,
-            icon: AppIcons.dollarCircle,
-            modelName: element.transactionModel.name,
-            payLoad: element.transactionModel.repeatType,
-            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
-          ));
-          // await notificationBox.put(element.key,NotificationModel(
-          //    id: element.transactionModel.id,
-          //    amount: element.transactionModel.amount!,
-          //    checkedDate: element.nextShownDate,
-          //    actionDate: DateTime.now(),
-          //    didTakeAction: false,
-          //    icon: AppIcons.dollarCircle,
-          //    modelName: element.transactionModel.name,
-          //    payLoad: 'ss',
-          //    typeName: 'Transaction',
-          //
-          //  ));
+          generalStatsModel.notificationList.add(_notificationModel(element));
         }
       });
       weeklyBox.values.forEach((element) async {
-        if (shouldAddNotification(element)) {
+        if (_shouldAddNotification(element)) {
           //TODO check which icon to add
-          generalStatsModel.notificationList.add(NotificationModel(
-            id: element.transactionModel.id,
-            amount: element.transactionModel.amount,
-            checkedDate: element.nextShownDate,
-            actionDate: DateTime.now(),
-            didTakeAction: false,
-            icon: AppIcons.dollarCircle,
-            modelName: element.transactionModel.name,
-            payLoad: element.transactionModel.repeatType,
-            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
-          ));
-          // await notificationBox.put(element.key,NotificationModel(
-          //   id: element.transactionModel.id,
-          //   amount: element.transactionModel.amount!,
-          //   checkedDate: element.nextShownDate,
-          //   actionDate: DateTime.now(),
-          //   didTakeAction: false,
-          //   icon:AppIcons.dollarCircle,
-          //   modelName: element.transactionModel.name,
-          //   payLoad: 'ss',
-          //   typeName: 'Transaction',
-          //
-          // ));
+          generalStatsModel.notificationList.add(_notificationModel(element));
         }
       });
       monthlyBox.values.forEach((element) async {
-        if (shouldAddNotification(element)) {
+        if (_shouldAddNotification(element)) {
           //TODO check which icon to add
-          generalStatsModel.notificationList.add(NotificationModel(
-            id: element.transactionModel.id,
-            amount: element.transactionModel.amount,
-            checkedDate: element.nextShownDate,
-            actionDate: DateTime.now(),
-            didTakeAction: false,
-            icon: AppIcons.dollarCircle,
-            modelName: element.transactionModel.name,
-            payLoad: element.transactionModel.repeatType,
-            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
-          ));
-          // await notificationBox.put(element.key,NotificationModel(
-          //   id: element.transactionModel.id,
-          //   amount: element.transactionModel.amount!,
-          //   checkedDate: element.nextShownDate,
-          //   actionDate: DateTime.now(),
-          //   didTakeAction: false,
-          //   icon: AppIcons.dollarCircle,
-          //   modelName: element.transactionModel.name,
-          //   payLoad: 'ss',
-          //   typeName: 'Transaction',
-          //
-          // ));
+          generalStatsModel.notificationList.add(_notificationModel(element));
         }
       });
       noRepBox.values.forEach((element) async {
-        if (shouldAddNotification(element)) {
+        if (_shouldAddNotification(element)) {
           //TODO check which icon to add
-          generalStatsModel.notificationList.add(NotificationModel(
-            id: element.transactionModel.id,
-            amount: element.transactionModel.amount,
-            checkedDate: element.nextShownDate,
-            actionDate: DateTime.now(),
-            didTakeAction: false,
-            icon: AppIcons.dollarCircle,
-            modelName: element.transactionModel.name,
-            payLoad: element.transactionModel.repeatType,
-            typeName: element.transactionModel.isExpense ? "Expense" : "Income",
-          ));
-          // await  notificationBox.put(element.key,NotificationModel(
-          //   id: element.transactionModel.id,
-          //   amount: element.transactionModel.amount!,
-          //   checkedDate: element.nextShownDate,
-          //   actionDate: DateTime.now(),
-          //   didTakeAction: false,
-          //   icon:  AppIcons.dollarCircle,
-          //   modelName: element.transactionModel.name,
-          //   payLoad: 'ss',
-          //   typeName: 'Transaction',
-          //
-          // ));
+          generalStatsModel.notificationList.add(_notificationModel(element));
         }
       });
       goalRepBox.values.forEach((element) async {
@@ -360,18 +254,6 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
             payLoad: element.goal.goalSaveAmountRepeat,
             typeName: 'Goal',
           ));
-          // await notificationBox.put(element.key,NotificationModel(
-          //   id: element.goal.id,
-          //   amount: element.goal.goalSaveAmount,
-          //   checkedDate: element.nextShownDate,
-          //   actionDate: DateTime.now(),
-          //   didTakeAction: false,
-          //   icon: AppIcons.goals,
-          //   modelName: element.goal.goalName,
-          //   payLoad: 'ss',
-          //   typeName: 'Goals',
-          //
-          // ));
         }
       });
       await CacheHelper.saveDataSharedPreference(
@@ -442,10 +324,8 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         topExp = element.transactionModel.amount;
         topExpName = element.transactionModel.name;
         print('Element before saving is ${element.isLastConfirmed}');
-
         element.isLastConfirmed = false;
         print('Element after saving is ${element.isLastConfirmed}');
-
         await element.save();
       } else if (element.isLastConfirmed &&
           element.transactionModel.paymentDate.month == todayDate.month &&
@@ -538,13 +418,28 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
     await generalStatsModel.save();
   }
 
-  bool shouldAddNotification(TransactionRepeatDetailsModel element) {
-    if (element.nextShownDate.isBefore(todayDate) &&
-        todayDate.difference(element.nextShownDate).inDays > 0 &&
-        element.lastConfirmationDate.isBefore(element.nextShownDate)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  bool _shouldAddNotification(TransactionRepeatDetailsModel element) =>
+      (element.nextShownDate.isBefore(todayDate) &&
+              todayDate.difference(element.nextShownDate).inDays > 0 &&
+              element.lastConfirmationDate.isBefore(element.nextShownDate))
+          ? true
+          : false;
+
+  bool _isNotificationSaved(savedNotificationDate) =>
+      (savedNotificationDate[0] != todayDate.day.toString() ||
+          savedNotificationDate[1] != todayDate.month.toString() ||
+          savedNotificationDate[2] != todayDate.year.toString());
+
+  NotificationModel _notificationModel(TransactionRepeatDetailsModel element) =>
+      NotificationModel(
+        id: element.transactionModel.id,
+        amount: element.transactionModel.amount,
+        checkedDate: element.nextShownDate,
+        actionDate: DateTime.now(),
+        didTakeAction: false,
+        icon: AppIcons.dollarCircle,
+        modelName: element.transactionModel.name,
+        payLoad: element.transactionModel.repeatType,
+        typeName: element.transactionModel.isExpense ? "Expense" : "Income",
+      );
 }
