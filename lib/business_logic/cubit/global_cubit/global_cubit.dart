@@ -8,12 +8,13 @@ import '../../../constants/end_points.dart';
 import '../../../constants/language_manager.dart';
 import '../../../data/local/cache_helper.dart';
 import '../../../data/models/onbaording/onbaording_list_of_data.dart';
+import '../../../data/repository/helper_class.dart';
 
 part 'global_state.dart';
 
 enum CurrencyPayment { EGP, USD }
 
-class GlobalCubit extends Cubit<GlobalState> {
+class GlobalCubit extends Cubit<GlobalState> with HelperClass {
   GlobalCubit() : super(GlobalInitial());
 
   ////////////////////////language
@@ -55,9 +56,10 @@ class GlobalCubit extends Cubit<GlobalState> {
     } else {
       chosenTime = TimeOfDay(hour: 9, minute: 0);
     }
+    _initializeNotificationEnabled();
   }
 
-  initializeNotificationEnabled() {
+  _initializeNotificationEnabled() {
     isEnable =
         notificationsManagerHandler.fetchCurrentSavedTime().isNotEmpty ? true : false;
   }
@@ -65,11 +67,11 @@ class GlobalCubit extends Cubit<GlobalState> {
   String getNotificationTime() {
     final currSavedTime = notificationsManagerHandler.fetchCurrentSavedTime();
     if (currSavedTime.isNotEmpty) {
-      return convertTime(
-          " ${timeMinusTwelve(currSavedTime)} ${_replacePmAm(currSavedTime, isLanguage)}",
+      return _convertTime(
+          " ${_timeMinusTwelve(currSavedTime)} ${_replacePmAm(currSavedTime, isLanguage)}",
           isLanguage);
     } else {
-      return convertTime("9:00 ${_replacePmAm("9:00", isLanguage)}", isLanguage);
+      return _convertTime("9:00 ${_replacePmAm("9:00", isLanguage)}", isLanguage);
     }
   }
 
@@ -179,86 +181,30 @@ class GlobalCubit extends Cubit<GlobalState> {
     emit(OpenDrawerState());
   }
 
-  String convertTime(String time, bool toEnglish) {
-    final Map<String, String> arabicToEnglish = {
-      '٠': '0',
-      '١': '1',
-      '٢': '2',
-      '٣': '3',
-      '٤': '4',
-      '٥': '5',
-      '٦': '6',
-      '٧': '7',
-      '٨': '8',
-      '٩': '9',
-    };
-
-    final Map<String, String> englishToArabic = {
-      '0': '٠',
-      '1': '١',
-      '2': '٢',
-      '3': '٣',
-      '4': '٤',
-      '5': '٥',
-      '6': '٦',
-      '7': '٧',
-      '8': '٨',
-      '9': '٩',
-    };
-
+  String _convertTime(String time, bool toEnglish) {
     String convertedTime = '';
     if (toEnglish) {
       for (int i = 0; i < time.length; i++) {
         final String char = time[i];
-        final String convertedChar = arabicToEnglish[char] ?? char;
-        convertedTime += convertedChar;
+        convertedTime += arabicToEnglishNum(char);
       }
     } else {
       for (int i = 0; i < time.length; i++) {
         final String char = time[i];
-        final String convertedChar = englishToArabic[char] ?? char;
+        final String convertedChar = engToArabNum(char);
         convertedTime += convertedChar;
       }
     }
     return convertedTime;
   }
 
-  timeMinusTwelve(String convertedTime) {
+  String _timeMinusTwelve(String convertedTime) {
     final splitTime = convertedTime.split(":");
     if (int.parse(splitTime.first) >= 12) {
       return "${int.parse(splitTime.first) - 12}:${splitTime.last}";
     } else {
       return convertedTime;
     }
-  }
-
-  bool isArabicTime(String time) {
-    final arabicTimeRegex = RegExp(r'^[٠-٩]+(:[٠-٥٩]+)?[مص]$');
-    return arabicTimeRegex.hasMatch(time);
-  }
-
-  String convertTimeToEnglish(String time) {
-    final Map<String, String> arabicToEnglish = {
-      '٠': '0',
-      '١': '1',
-      '٢': '2',
-      '٣': '3',
-      '٤': '4',
-      '٥': '5',
-      '٦': '6',
-      '٧': '7',
-      '٨': '8',
-      '٩': '9',
-    };
-
-    String convertedTime = '';
-    for (int i = 0; i < time.length; i++) {
-      final String char = time[i];
-      final String convertedChar = arabicToEnglish[char] ?? char;
-      convertedTime += convertedChar;
-    }
-
-    return convertedTime;
   }
 
   String _replacePmAm(String savedTime, bool isEnglishLang) {
@@ -268,4 +214,21 @@ class GlobalCubit extends Cubit<GlobalState> {
       return isEnglishLang ? "AM" : 'ص';
     }
   }
+
+/*  bool isArabicTime(String time) {
+    final arabicTimeRegex = RegExp(r'^[٠-٩]+(:[٠-٥٩]+)?[مص]$');
+    return arabicTimeRegex.hasMatch(time);
+  }*/
+
+/* String convertTimeToEnglish(String time) {
+
+    String convertedTime = '';
+    for (int i = 0; i < time.length; i++) {
+      final String char = time[i];
+      final String convertedChar = arabicToEnglish[char] ?? char;
+      convertedTime += convertedChar;
+    }
+
+    return convertedTime;
+  }*/
 }

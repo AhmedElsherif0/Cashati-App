@@ -81,7 +81,6 @@ class _SettingsScreenState extends State<SettingsScreen> with AlertDialogMixin {
     // TODO: implement initState
     super.initState();
     context.read<GlobalCubit>().initializeNotificationTime();
-    context.read<GlobalCubit>().initializeNotificationEnabled();
   }
 
   @override
