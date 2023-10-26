@@ -10,20 +10,20 @@ import 'package:temp/presentation/widgets/notification_confirm.dart';
 
 import '../../../business_logic/cubit/home_cubit/home_cubit.dart';
 import '../../../constants/app_strings.dart';
+import '../../../data/models/notification/notification_model.dart';
+import '../../views/custom_app_bar.dart';
 import '../../views/custom_notification_tile.dart';
-import '../../widgets/custom_app_bar.dart';
 import '../../widgets/show_dialog.dart';
 
 class NotificationScreen extends StatelessWidget with AlertDialogMixin {
   const NotificationScreen({Key? key}) : super(key: key);
 
-  void _onConfirm(context, notification) {
+  void _onConfirm(BuildContext context, NotificationModel notification) {
     context.read<HomeCubit>().onYesTransactionNotification(notification);
     Navigator.pop(context);
   }
 
-  void _onPressedNotification(context, index) {
-    final notification = context.read<HomeCubit>().notificationList![index];
+  void _onPressedNotification(BuildContext context, NotificationModel notification) {
     if (!notification.didTakeAction) {
       showDialog(
           context: context,
@@ -69,37 +69,26 @@ class NotificationScreen extends StatelessWidget with AlertDialogMixin {
             child: BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
                 return ListView.builder(
-                  itemCount:
-                      BlocProvider.of<HomeCubit>(context).notificationList!.length,
-                  itemBuilder: (_, index) => CustomNotificationTile(
-                      isActionTaken: context
-                          .read<HomeCubit>()
-                          .notificationList![index]
-                          .didTakeAction,
-                      dateTime: DateFormat.yMMMd(
-                              context.read<GlobalCubit>().isLanguage ? "en" : "ar")
-                          .format(context
-                              .read<HomeCubit>()
-                              .notificationList![index]
-                              .checkedDate),
-                      firstIcon: context
-                              .read<HomeCubit>()
-                              .notificationList![index]
-                              .didTakeAction
-                          ? const Icon(Icons.check_circle_outline,
-                              color: AppColor.green)
-                          : const Icon(Icons.flag_circle_rounded, color: AppColor.red),
-                      onPressedNotification: () =>
-                          _onPressedNotification(context, index),
-                      subTitle: BlocProvider.of<HomeCubit>(context)
-                          .notificationList![index]
-                          .modelName,
-                      title: BlocProvider.of<HomeCubit>(context)
-                          .notificationList![index]
-                          .typeName
-                          .toLowerCase()
-                          .tr()),
-                );
+                    itemCount:
+                        BlocProvider.of<HomeCubit>(context).notificationList!.length,
+                    itemBuilder: (context, index) {
+                      final notification =
+                          context.read<HomeCubit>().notificationList![index];
+                      return CustomNotificationTile(
+                          isActionTaken: notification.didTakeAction,
+                          dateTime: DateFormat.yMMMd(
+                                  context.read<GlobalCubit>().isLanguage ? "en" : "ar")
+                              .format(notification.checkedDate),
+                          firstIcon: notification.didTakeAction
+                              ? const Icon(Icons.check_circle_outline,
+                                  color: AppColor.green)
+                              : const Icon(Icons.flag_circle_rounded,
+                                  color: AppColor.red),
+                          onPressedNotification: () =>
+                              _onPressedNotification(context, notification),
+                          subTitle: notification.modelName,
+                          title: notification.typeName.toLowerCase().tr());
+                    });
               },
             ),
           ),

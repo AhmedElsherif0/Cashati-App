@@ -13,9 +13,10 @@ class SettingListTile extends StatefulWidget {
       required this.isTrail,
       this.switchValue = false,
       required this.icon,
-        this.onTapReminder,
+      this.onTapReminder,
       this.isReminder = false,
-      this.dateTime = '',  this.onTap})
+      this.dateTime = '',
+      this.onTap})
       : super(key: key);
   final String title;
   final String subtitle;
@@ -24,7 +25,6 @@ class SettingListTile extends StatefulWidget {
   final Function(bool)? onChangedFunc;
   final void Function()? onTap;
   final void Function()? onTapReminder;
-
   final bool isTrail;
   final bool isReminder;
   bool? switchValue;
@@ -38,7 +38,7 @@ class _SettingListTileState extends State<SettingListTile> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return InkWell(
-      onTap: widget.onTap ?? (){},
+      onTap: widget.onTap ?? () {},
       child: ListTile(
         leading: Padding(
           padding: const EdgeInsets.only(top: 8.0),
@@ -63,17 +63,20 @@ class _SettingListTileState extends State<SettingListTile> {
                 style: textTheme.subtitle1!.copyWith(fontSize: 13.dp)),
         trailing: widget.isTrail
             ? Visibility(
-          visible: !widget.isReminder,
-              child: Switch.adaptive(
+                visible: !widget.isReminder,
+                child: Switch.adaptive(
                   value: widget.switchValue!,
-                  onChanged: widget.onChangedFunc == (){}? (val) {
-                    setState(() => widget.switchValue = val);
-                    widget.onChangedFunc!(val);
-                  }:widget.onChangedFunc,
+                  onChanged: widget.onChangedFunc == () {}
+                      ? (val) {
+                          setState(() => widget.switchValue = val);
+                          widget.onChangedFunc!(val);
+                        }
+                      : widget.onChangedFunc,
                   activeColor: AppColor.primaryColor,
                 ),
-          replacement: IconButton(onPressed: widget.onTapReminder, icon: Icon(Icons.timer_outlined)),
-            )
+                replacement: IconButton(
+                    onPressed: widget.onTapReminder, icon: Icon(Icons.timer_outlined)),
+              )
             : null,
       ),
     );
