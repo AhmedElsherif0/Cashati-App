@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
 import 'package:temp/business_logic/cubit/home_cubit/home_state.dart';
+import 'package:temp/data/models/notification/notification_model.dart';
+import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/notification_confirm.dart';
 
@@ -17,13 +19,12 @@ import '../../widgets/show_dialog.dart';
 class NotificationScreen extends StatelessWidget with AlertDialogMixin {
   const NotificationScreen({Key? key}) : super(key: key);
 
-  void _onConfirm(context, notification) {
+  void _onConfirm(BuildContext context, notification) {
     context.read<HomeCubit>().onYesTransactionNotification(notification);
     Navigator.pop(context);
   }
 
-  void _onPressedNotification(context, index) {
-    final notification = context.read<HomeCubit>().notificationList![index];
+  void _onPressedNotification(BuildContext context, NotificationModel notification) {
     if (!notification.didTakeAction) {
       showDialog(
           context: context,
@@ -41,7 +42,10 @@ class NotificationScreen extends StatelessWidget with AlertDialogMixin {
                   date: DateFormat.yMMMd(
                           context.read<GlobalCubit>().isLanguage ? "en" : "ar")
                       .format(notification.checkedDate),
-                  onDelete: () {},
+                  onDelete: () {
+                    context.read<HomeCubit>().onRemoveNotification(notification);
+                    Navigator.pop(context);
+                  },
                   onCancel: () => Navigator.pop(context),
                   onConfirm: () => _onConfirm(context, notification)),
             );
@@ -90,7 +94,8 @@ class NotificationScreen extends StatelessWidget with AlertDialogMixin {
                               color: AppColor.green)
                           : const Icon(Icons.flag_circle_rounded, color: AppColor.red),
                       onPressedNotification: () =>
-                          _onPressedNotification(context, index),
+                          _onPressedNotification(context,  BlocProvider.of<HomeCubit>(context)
+                              .notificationList![index]),
                       subTitle: BlocProvider.of<HomeCubit>(context)
                           .notificationList![index]
                           .modelName,
