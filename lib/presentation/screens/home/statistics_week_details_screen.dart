@@ -18,7 +18,7 @@ import 'package:temp/presentation/widgets/transaction_card.dart';
 
 import '../../../constants/app_icons.dart';
 import '../../router/app_router_names.dart';
-import '../../widgets/custom_app_bar.dart';
+import '../../views/custom_app_bar.dart';
 
 class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
   const StatisticsWeekDetailsScreen({

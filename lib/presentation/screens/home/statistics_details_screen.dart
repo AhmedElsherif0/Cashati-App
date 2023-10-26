@@ -9,7 +9,7 @@ import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import 'package:temp/presentation/widgets/transaction_card.dart';
 
-import '../../widgets/custom_app_bar.dart';
+import '../../views/custom_app_bar.dart';
 
 class StatisticsDetailsScreen extends StatelessWidget with HelperClass, FormatsMixin {
   const StatisticsDetailsScreen({

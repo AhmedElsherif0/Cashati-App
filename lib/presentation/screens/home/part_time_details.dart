@@ -7,7 +7,7 @@ import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
-import 'package:temp/presentation/widgets/custom_app_bar.dart';
+import 'package:temp/presentation/views/custom_app_bar.dart';
 
 import '../../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import '../../../constants/app_icons.dart';

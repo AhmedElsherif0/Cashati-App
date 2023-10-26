@@ -39,8 +39,6 @@ class AppRouter {
         return pageBuilderRoute(child: const AddSubCategoryScreen());
       case AppRouterNames.rNotification:
         return pageBuilderRoute(child: const NotificationScreen());
-      case AppRouterNames.rNotificationTest:
-        return pageBuilderRoute(child: const NotificationScreen());
       case AppRouterNames.rAddGoal:
         return pageBuilderRoute(child: const AddGoalScreen());
       case AppRouterNames.rGetGoals:

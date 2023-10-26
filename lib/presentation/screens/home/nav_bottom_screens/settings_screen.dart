@@ -24,9 +24,7 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen>  with AlertDialogMixin{
-
-
+class _SettingsScreenState extends State<SettingsScreen> with AlertDialogMixin {
   Future<void> _choseLanguage(String languageCode, context) async {
     await translator.setNewLanguage(context,
         restart: false, remember: true, newLanguage: languageCode);
@@ -85,6 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen>  with AlertDialogMixin{
     context.read<GlobalCubit>().initializeNotificationTime();
     context.read<GlobalCubit>().initializeNotificationEnabled();
   }
+
   @override
   Widget build(BuildContext context) {
     final globalCubit = context.read<GlobalCubit>();
@@ -113,14 +112,13 @@ class _SettingsScreenState extends State<SettingsScreen>  with AlertDialogMixin{
                         icon: AppIcons.reminder,
                         title: AppStrings.dailyReminders.tr(),
                         subtitle: AppStrings.reminderSubtitle.tr(),
-                        dateTime:  context.read<GlobalCubit>().getNotificationTime(),
+                        dateTime: context.read<GlobalCubit>().getNotificationTime(),
                         isTrail: true,
                         isReminder: true,
                         switchValue: false,
-                        onTapReminder: (){
-                          context.read<GlobalCubit>().changeNotificationTime(context: context);
-                        },
-
+                        onTapReminder: () => context
+                            .read<GlobalCubit>()
+                            .changeNotificationTime(context: context),
                       ),
                       const CustomDivider(),
                       BlocBuilder<GlobalCubit, GlobalState>(

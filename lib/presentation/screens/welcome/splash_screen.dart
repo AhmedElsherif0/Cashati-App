@@ -26,6 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    _onClickNotify(context);
     Timer(const Duration(seconds: 2), () {
       bool? onBoardingData =
           CacheHelper.getDataFromSharedPreference(key: 'OnBoardDone');
@@ -34,7 +35,6 @@ class _SplashScreenState extends State<SplashScreen> {
       debugPrint('onBoarding is = $onBoardingData');
       _whichScreenToNavigate(onBoardingData: onBoardingData, onWelcome: onWelcome);
     });
-    _onClickNotify(context);
   }
 
   void isCurrency() {
@@ -53,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  StreamSubscription _onClickNotify(context) =>
+  StreamSubscription _onClickNotify(BuildContext context) =>
       NotificationsApi.streamController.stream.listen(
           (event) => Navigator.of(context).pushNamed(AppRouterNames.rNotification));
 
@@ -100,43 +100,6 @@ class _SplashScreenState extends State<SplashScreen> {
                                       payLoad: 'hello.0'),
                                 );
                               }),
-                        ),
-                        Expanded(
-                          child: CustomElevatedButton(
-                              text: 'specific',
-                              onPressed: () async {
-                                /// here we can add specific time
-                                await notifyApi.showSpecificScheduledNotification(
-                                  notifyModel: NotificationsModel(
-                                      id: 2,
-                                      title: 'saied',
-                                      subTitle: 'income Result from notification',
-                                      dateTime: DateTime.now().add(
-                                        Duration(seconds: 10),
-                                      ),
-                                      payLoad: 'hello.0'),
-                                );
-                              }),
-                        ),
-                        Expanded(
-                          child: CustomElevatedButton(
-                            text: 'Repeat',
-                            onPressed: () async {
-                              print('schedule');
-                              await notifyApi.showDailyNotification(
-                                  notifyModel: NotificationsModel(
-                                      id: 1,
-                                      title: 'Repeat',
-                                      subTitle: 'Expense Result from notification',
-                                      dateTime: DateTime.now(),
-                                      payLoad: 'hello.0'));
-                              print('hello');
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          child:
-                              CustomElevatedButton(text: 'Remove', onPressed: () {}),
                         ),
                       ],
                     ),
