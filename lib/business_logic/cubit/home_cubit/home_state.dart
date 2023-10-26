@@ -13,3 +13,4 @@ class FetchedNotificationListSuccState extends HomeState{}
 class FetchedNotificationListFailedState extends HomeState{}
 class SuccessState extends HomeState{}
 class NotificationYesActionTakenSucc extends HomeState{}
+class RemoveNotificationState extends HomeState{}

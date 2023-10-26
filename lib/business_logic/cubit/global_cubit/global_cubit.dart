@@ -46,22 +46,14 @@ class GlobalCubit extends Cubit<GlobalState> {
     print('changeCurrency is $selectedCurrency');
     onChangeCurrency(selectedCurrency);
   }
-  
+
   initializeNotificationTime() {
-    if (notificationsManagerHandler
-        .fetchCurrentSavedTime()
-        .split(":")
-        .first
-        .isNotEmpty) {
-      chosenTime = TimeOfDay(
-          hour: int.parse(
-              notificationsManagerHandler.fetchCurrentSavedTime().split(":").first),
-          minute: int.parse(
-              notificationsManagerHandler.fetchCurrentSavedTime().split(":").last ??
-                  "00"));
+    final time = notificationsManagerHandler.fetchCurrentSavedTime().split(":");
+    if (time.first.isNotEmpty) {
+      chosenTime =
+          TimeOfDay(hour: int.parse(time.first), minute: int.parse(time.last ?? "00"));
     } else {
       chosenTime = TimeOfDay(hour: 9, minute: 0);
-
     }
   }
 
@@ -74,10 +66,10 @@ class GlobalCubit extends Cubit<GlobalState> {
     final currSavedTime = notificationsManagerHandler.fetchCurrentSavedTime();
     if (currSavedTime.isNotEmpty) {
       return convertTime(
-          " ${timeMinusTwelve(currSavedTime)} ${replacePmAm(currSavedTime, isLanguage)}",
+          " ${timeMinusTwelve(currSavedTime)} ${_replacePmAm(currSavedTime, isLanguage)}",
           isLanguage);
     } else {
-      return convertTime("9:00 ${replacePmAm("9:00", isLanguage)}", isLanguage);
+      return convertTime("9:00 ${_replacePmAm("9:00", isLanguage)}", isLanguage);
     }
   }
 
@@ -232,8 +224,9 @@ class GlobalCubit extends Cubit<GlobalState> {
   }
 
   timeMinusTwelve(String convertedTime) {
-    if (int.parse(convertedTime.split(":").first) >= 12) {
-      return "${int.parse(convertedTime.split(":").first) - 12}:${convertedTime.split(":").last}";
+    final splitTime = convertedTime.split(":");
+    if (int.parse(splitTime.first) >= 12) {
+      return "${int.parse(splitTime.first) - 12}:${splitTime.last}";
     } else {
       return convertedTime;
     }
@@ -268,22 +261,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     return convertedTime;
   }
 
-  // String convertTimePMOrAm(String time, bool toEnglish) {
-  //   if (isArabicTime(time)) {
-  //     if (toEnglish) {
-  //       return convertTimeToEnglish(time);
-  //     } else {
-  //       return time.replaceAll('م', 'PM').replaceAll('ص', 'AM');
-  //     }
-  //   } else {
-  //     if (toEnglish) {
-  //       return time;
-  //     } else {
-  //       return time.replaceAll('PM', 'م').replaceAll('AM', 'ص');
-  //     }
-  //   }
-  // }
-  String replacePmAm(String savedTime, bool isEnglishLang) {
+  String _replacePmAm(String savedTime, bool isEnglishLang) {
     if (int.parse(savedTime.split(":").first) > 12) {
       return isEnglishLang ? "PM" : 'م';
     } else {

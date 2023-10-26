@@ -39,6 +39,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   TransactionModel fetchHighestTransaction() {
     if (isExpense) {
+      transactionRepo = ExpensesRepositoryImpl();
       return transactionRepo.getTransactionByNameFromRepeated(
           generalStatsModel!.topExpense,
           isExpense,
@@ -118,6 +119,11 @@ class HomeCubit extends Cubit<HomeState> {
     }
 
     emit(NotificationYesActionTakenSucc());
+  }
+  onRemoveNotification(NotificationModel notificationModel)async{
+    await generalStatsRepo
+        .changeStatusOfNotification(notificationModel);
+    emit(RemoveNotificationState());
   }
 
   void onShowExpense() {}
