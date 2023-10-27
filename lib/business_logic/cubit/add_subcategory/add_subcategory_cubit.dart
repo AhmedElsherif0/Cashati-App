@@ -8,7 +8,6 @@ import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.d
 import 'package:temp/data/repository/subcategories_repo_impl/income_subcategory_repo_impl.dart';
 
 import '../../../data/repository/subcategories_repo_impl/expense_subcategory_repo_impl.dart';
-import '../add_exp_inc/add_exp_or_inc_cubit.dart';
 
 part 'add_subcategory_state.dart';
 
@@ -26,10 +25,6 @@ class AddSubcategoryCubit extends Cubit<AddSubcategoryState> {
     currentIconName = iconName;
     emit(ChoseSubCategory());
   }
-
-  goBackWithNewData(BuildContext context, {required bool isExpSub}) => isExpSub
-      ? BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList()
-      : BlocProvider.of<AddExpOrIncCubit>(context).addMoreToIncomeList();
 
   Future filterSubCategory(String subCategoryName) async {
     switch (currentMainCategory) {

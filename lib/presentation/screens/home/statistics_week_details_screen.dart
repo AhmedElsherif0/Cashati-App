@@ -34,9 +34,9 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
   final int builderIndex;
   final String? newRouteName;
 
-  String _appTitle(index) {
+  String _appTitle(int index) {
     final transactionType =
-        transactions[0].isExpense ? AppStrings.expenses.tr() : AppStrings.income.tr();
+        _isExpense() ? AppStrings.expenses.tr() : AppStrings.income.tr();
     return translator.activeLanguageCode == 'en'
         ? '${'the'.tr()} ${AppStrings.week.tr()} $transactionType'
         : '$transactionType ${'the'.tr()}${AppStrings.week.tr()}';
@@ -47,6 +47,8 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
         BlocProvider.of<StatisticsCubit>(context).chosenFilterWeekDay;
     return chosenFilterWeekDay == "All" || chosenFilterWeekDay == "الكل";
   }
+
+  bool _isExpense() => newRouteName == AppRouterNames.rExpenseStatistics;
 
   List<DropdownMenuItem<String>> _daysFilter() =>
       (translator.activeLanguageCode == 'en'
@@ -68,7 +70,8 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
     return weeks[4];
   }
 
-  void _toPartTimeScreen(BuildContext context, currIndex, statisticsCubit) =>
+  void _toPartTimeScreen(
+          BuildContext context, currIndex, StatisticsCubit statisticsCubit) =>
       context.navigateTo(PartTimeDetails(
           transactionModel: _isAll(context)
               ? transactions[currIndex]
@@ -164,7 +167,7 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
                         ),
                       ),
                     ),
-                    child: const EmptyScreen(),
+                    child: EmptyScreen(isExpense: _isExpense()),
                   ),
                 )
               ],

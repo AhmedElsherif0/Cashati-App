@@ -64,4 +64,9 @@ class AppDecorations {
   static editTextDecoration(backGroundColor) => BoxDecoration(
       color: backGroundColor ?? AppColor.primaryColor.withOpacity(0.25),
       borderRadius: const BorderRadius.all(Radius.circular(16)));
+
+  static BoxDecoration animatedDecoration(Color color) => BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        border: Border.all(color: color, width: 1),
+      );
 }

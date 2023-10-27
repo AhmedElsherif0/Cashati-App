@@ -5,8 +5,9 @@ import 'package:temp/business_logic/cubit/add_subcategory/add_subcategory_cubit.
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/styles/decorations.dart';
 import 'package:temp/presentation/widgets/buttons/elevated_button.dart';
+import 'package:temp/presentation/widgets/show_dialog.dart';
 
-import '../router/app_router_names.dart';
+import '../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
 import '../styles/colors.dart';
 import 'category_info_field.dart';
 import 'common_texts/green_text.dart';
@@ -21,7 +22,8 @@ class AddSubCategoryWidget extends StatefulWidget {
   State<AddSubCategoryWidget> createState() => _AddSubCategoryWidgetState();
 }
 
-class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
+class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget>
+    with AlertDialogMixin {
   final TextEditingController subCategoryName = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -36,24 +38,20 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
     if (formKey.currentState!.validate()) {
       print('validated');
       addSubcategoryCubit.filterSubCategory(subCategoryName.text);
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Center(child: Text('Added Successfully'))));
-      Navigator.pushReplacementNamed(
-          context, AppRouterNames.rAddExpenseOrIncomeScreen);
+      Navigator.of(context).pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final isEnglish = translator.activeLanguageCode == 'en';
-    AddSubcategoryCubit addSubcategoryCubit =
-        BlocProvider.of<AddSubcategoryCubit>(context);
+    final addSubcategoryCubit = BlocProvider.of<AddSubcategoryCubit>(context);
     return BlocListener<AddSubcategoryCubit, AddSubcategoryState>(
       listener: (context, state) {
         if (state is AddedExpSubcategorySuccessfully) {
-          addSubcategoryCubit.goBackWithNewData(context, isExpSub: true);
+          BlocProvider.of<AddExpOrIncCubit>(context).addMoreToExpenseList();
         } else if (state is AddedIncSubcategorySuccessfully) {
-          addSubcategoryCubit.goBackWithNewData(context, isExpSub: false);
+          BlocProvider.of<AddExpOrIncCubit>(context).addMoreToIncomeList();
         }
       },
       child: Form(
@@ -93,11 +91,10 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget> {
                               addSubcategoryCubit.chooseSubCategory(addSubcategoryCubit
                                   .appList.iconsOfApp.keys
                                   .toList()[index]);
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                      "${AppStrings.chosenIconName.tr()} $iconNameFromList,"
-                                      " ${AppStrings.currentIconName.tr()}"
-                                      " ${addSubcategoryCubit.currentIconName}")));
+                              successSnackBar(
+                                  context: context,
+                                  message:
+                                      "${AppStrings.confirmedSuccessfully.tr()} ");
                             },
                             child:
                                 BlocBuilder<AddSubcategoryCubit, AddSubcategoryState>(
