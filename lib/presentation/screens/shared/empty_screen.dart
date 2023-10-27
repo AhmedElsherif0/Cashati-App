@@ -45,6 +45,13 @@ class EmptyScreen extends StatelessWidget {
                       ? Icons.arrow_back_ios
                       : Icons.arrow_forward_ios),
             ),
+            const Spacer(),
+            Expanded(
+                flex: 2,
+                child: CustomElevatedButton(
+                    text: AppStrings.add.tr(),
+                    onPressed: () => _onAdd(context),
+                    icon: Icons.add)),
             const Spacer(flex: 6),
           ],
         ),
