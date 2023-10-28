@@ -32,7 +32,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
   num currentAmount = 0;
   int currentIndex = 0;
 
-  List<MaterialColor> lastColorList = [];
+  List<Color> lastColorList = [];
   bool isExpense = true;
   List<String> expMainCats = const [
     AppStrings.home,
@@ -208,7 +208,7 @@ class AddExpOrIncCubit extends Cubit<AddExpOrIncState> {
     businessSubCatsList.insert(businessSubCatsList.length, appList.addMoreOption);
   }
 
-  List<MaterialColor> fitRandomColors(List<SubCategory> subcategoryList) {
+  List<Color> fitRandomColors(List<SubCategory> subcategoryList) {
     //TODO recode this method as there are 3 lists for expenses and 2 for income
     if (subcategoryList.length > appList.colorsList.length) {
       for (int i = appList.colorsList.length; i < subcategoryList.length; i++) {

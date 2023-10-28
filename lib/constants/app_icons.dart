@@ -87,8 +87,9 @@ class AppIcons {
   static const String boiler = "$icons/sub_categories/boiler.svg";
 
   /// Fixed App Icons
-  static const String fbAppIcon = "fb";
-  static const String keyAppIcon = "key";
+  static const String fastFood = "fb";
+  static const String drinks = "drinks";
+  static const String transportation = "key";
   static const String sevenAppIcon = "seven_k";
   static const String titleAppIcon = "title";
   static const String buildAppIcon = "build";
@@ -97,4 +98,20 @@ class AppIcons {
   static const String pauseAppIcon = "pause";
   static const String dangerousAppIcon = "dangerous";
   static const String addAppIcon = "add";
+  static const String gas = "gas";
+  static const String electricity = "electricity";
+  static const String taxes = "taxes";
+  static const String internet = "internet";
+  static const String water = "water";
+  static const String clothing = "clothing";
+  static const String healthCare = "healthCare";
+  static const String movie = "movie";
+  static const String sports = "sports";
+  static const String events = "events";
+  static const String equipment = "equipment";
+  static const String marketing = "marketing";
+  static const String perHour = "perHour";
+  static const String contract = "contract";
+  static const String partTime = "partTime";
+  static const String remote = "remote";
 }

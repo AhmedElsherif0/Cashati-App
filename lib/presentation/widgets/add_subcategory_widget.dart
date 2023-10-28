@@ -80,7 +80,7 @@ class _AddSubCategoryWidgetState extends State<AddSubCategoryWidget>
                   child: SizedBox(
                     height: 100,
                     child: ListView.builder(
-                        itemCount: addSubcategoryCubit.appList.iconsOfApp.length,
+                        itemCount: addSubcategoryCubit.appList.iconsOfApp.length - 1,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           String iconNameFromList = addSubcategoryCubit
