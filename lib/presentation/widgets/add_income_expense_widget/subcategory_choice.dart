@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:temp/constants/app_lists.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/styles/decorations.dart';
@@ -25,7 +26,7 @@ class SubCategoryChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      padding: EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       duration: AppDecorations.duration600ms,
       decoration: _decoration(),
       child: Column(
@@ -35,11 +36,13 @@ class SubCategoryChoice extends StatelessWidget {
         children: [
           Icon(AppConstantList().iconsOfApp[subCategory.subCategoryIconName],
               color: _fontColor()),
-          const SizedBox(height: 10),
+          SizedBox(height: 1.2.h),
           Text(
             subCategory.subCategoryName,
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: _fontColor(), fontSize: 15, fontWeight: FontWeight.w500),
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall!
+                .copyWith(color: _fontColor(), fontSize: 13.dp),
             overflow: TextOverflow.clip,
             maxLines: 1,
           )
