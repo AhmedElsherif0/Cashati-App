@@ -50,6 +50,7 @@
   "reminders": "Reminders",
   "dailyReminders": "Daily Reminders",
   "reminderSubtitle": "Set Reminder to insert\n your daily transaction.\n Remind me on",
+  "deletedTransaction": "You have already deleted this transaction !",
   "reminderTime": "9:00 pm",
   "enableAlerts": "Enable alerts",
   "disableAlerts": "Disable alerts",

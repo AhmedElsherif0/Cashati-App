@@ -81,7 +81,6 @@ class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
 
   Future<void> onDeleteTransaction(TransactionModel transactionModel) async {
     try {
-      await transactionRep.deleteTransactionPermanently(transactionModel);
       if (transactionModel.isExpense) {
         allTodayList.remove(transactionModel);
       } else {

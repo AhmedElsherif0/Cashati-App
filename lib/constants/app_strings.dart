@@ -58,6 +58,7 @@ class AppStrings {
   static const String transactionConfirmDate =
       "transactionConfirmDate"; //Transaction Confirm Date
   static const String details = "details"; // Details
+  static const String deletedTransaction = "deletedTransaction"; // deletedTransaction
 
   /// confirm_paying_goals.dart
 // goalsEng

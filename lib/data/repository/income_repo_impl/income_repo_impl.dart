@@ -83,10 +83,8 @@ class IncomeRepositoryImpl
 
   @override
   Future<void> deleteTransactionRepo(TransactionModel transaction) async {
-    await hiveDatabase.deleteBox(
-        boxName: hiveDatabase.getBoxName<TransactionModel>(
-            boxName: AppBoxes.transactionBox),
-        dataModel: transaction);
+    await deleteTransactionRepeatedModelByTransactionId(transaction);
+
   }
   @override
   TransactionModel getTransactionByNameFromRepeated(String transactionName,bool isExpense,num amount) {

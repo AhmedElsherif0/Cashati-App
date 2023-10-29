@@ -42,6 +42,7 @@
   "week": "اسبوعيا",
   "month": "شهريا",
   "transactionCategoryAndSub": "القسم الثانوى",
+  "deletedTransaction": "لقد قمت بحذف هذه المعامله !",
   "editPaidAmount": "المبلغ المدفوع و يمكنك تعديل المبلغ",
   "editCategories": "تعديل الفئات",
   "reminders": "تذكيرات",

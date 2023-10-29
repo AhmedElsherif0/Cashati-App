@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
+import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
+import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
@@ -10,12 +13,14 @@ import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/views/custom_app_bar.dart';
 
 import '../../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
+import '../../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import '../../../constants/app_icons.dart';
 import '../../../data/repository/formats_mixin.dart';
 import '../../styles/colors.dart';
 import '../../widgets/add_income_expense_widget/choose_container.dart';
 import '../../widgets/editable_text.dart';
 import '../../widgets/expenses_and_income_widgets/important_or_fixed.dart';
+import '../../widgets/show_dialog.dart';
 import '../../widgets/uneditable_text.dart';
 
 class PartTimeDetails extends StatefulWidget {
@@ -27,7 +32,7 @@ class PartTimeDetails extends StatefulWidget {
 }
 
 class _PartTimeDetailsState extends State<PartTimeDetails>
-    with FormatsMixin, HelperClass {
+    with AlertDialogMixin,FormatsMixin, HelperClass {
   final TextEditingController mainCategoryController = TextEditingController();
   final TextEditingController calenderController = TextEditingController();
   final TextEditingController subCategoryController = TextEditingController();
@@ -59,11 +64,28 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
     getAddExpOrIncCubit().changeDate(datePicker);
   }
 
-  void _onDelete() async {
+  void _onDelete(bool isExpense) async {
     final statisticsCubit = BlocProvider.of<StatisticsCubit>(context);
+
     await statisticsCubit.deleteTransaction(widget.transactionModel);
+    var repeatCubit;
+    if(isExpense){
+       repeatCubit = BlocProvider.of<ExpenseRepeatCubit>(context);
+      await repeatCubit.getRepeatTransactions(0);
+      await repeatCubit.getRepeatTransactions(1);
+      await repeatCubit.getRepeatTransactions(2);
+      await repeatCubit.getRepeatTransactions(3);
+    }else{
+       repeatCubit = BlocProvider.of<IncomeRepeatCubit>(context);
+      await repeatCubit.getRepeatTransactions(0);
+      await repeatCubit.getRepeatTransactions(1);
+      await repeatCubit.getRepeatTransactions(2);
+      await repeatCubit.getRepeatTransactions(3);
+    }
     statisticsCubit.getExpenses();
     statisticsCubit.getTodayExpenses(true);
+    BlocProvider.of<HomeCubit>(context).onRemoveNotificationForDeletedTransaction(widget.transactionModel.name);
+    BlocProvider.of<HomeCubit>(context).getNotificationList();
   }
 
   @override
@@ -146,7 +168,13 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
-                                    _onDelete();
+                                    showYesOrNoDialog(
+                                        title: AppStrings.deleteExpense.tr(),
+                                        message: getMsg(widget.transactionModel),
+                                        onYes: () =>
+                                            _onDelete(widget.transactionModel.isExpense),
+                                        context: context);
+
                                     Navigator.of(context).pop();
                                   },
                                   child: CircleAvatar(

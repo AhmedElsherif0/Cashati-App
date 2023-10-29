@@ -11,6 +11,10 @@ import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/views/confirm_paying_expense.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
+import '../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
+import '../../business_logic/cubit/home_cubit/home_cubit.dart';
+import '../../business_logic/cubit/income_repeat/income_repeat_cubit.dart';
+import '../../business_logic/cubit/statistics_cubit/statistics_cubit.dart';
 import '../../data/repository/formats_mixin.dart';
 
 class TransactionConfirmCard extends StatelessWidget
@@ -22,6 +26,32 @@ class TransactionConfirmCard extends StatelessWidget
   _onDetails(BuildContext context, TransactionModel transaction) {
     context.navigateTo(PartTimeDetails(transactionModel: transaction));
   }
+  void _onDelete(BuildContext context,TransactionModel chosenTransaction) async {
+    final statisticsCubit = BlocProvider.of<StatisticsCubit>(context);
+
+    await statisticsCubit.deleteTransaction(chosenTransaction);
+    var repeatCubit;
+    if(chosenTransaction.isExpense){
+      repeatCubit = BlocProvider.of<ExpenseRepeatCubit>(context);
+      await repeatCubit.getRepeatTransactions(0);
+      await repeatCubit.getRepeatTransactions(1);
+      await repeatCubit.getRepeatTransactions(2);
+      await repeatCubit.getRepeatTransactions(3);
+    }else{
+      repeatCubit = BlocProvider.of<IncomeRepeatCubit>(context);
+      await repeatCubit.getRepeatTransactions(0);
+      await repeatCubit.getRepeatTransactions(1);
+      await repeatCubit.getRepeatTransactions(2);
+      await repeatCubit.getRepeatTransactions(3);
+    }
+    statisticsCubit.getExpenses();
+    statisticsCubit.getTodayExpenses(true);
+    BlocProvider.of<HomeCubit>(context).onRemoveNotificationForDeletedTransaction(chosenTransaction.name);
+    BlocProvider.of<HomeCubit>(context).getNotificationList();
+    BlocProvider.of<ConfirmPaymentCubit>(context).onDeleteTransaction(chosenTransaction);
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +82,7 @@ class TransactionConfirmCard extends StatelessWidget
                             onDelete: () => showYesOrNoDialog(
                                 title: AppStrings.deleteIncome.tr(),
                                 message: getMsg(currentIncome),
-                                onYes: () async => await confirmCubit
-                                    .onDeleteTransaction(currentIncome),
+                                onYes: () async =>  _onDelete(context,currentIncome),
                                 context: context),
                             onEditAmount: () {
                               changedAmount.text = currentIncome.amount.toString();
@@ -111,7 +140,7 @@ class TransactionConfirmCard extends StatelessWidget
                                   title: AppStrings.deleteExpense.tr(),
                                   message: getMsg(currentExpense),
                                   onYes: () =>
-                                      confirmCubit.onDeleteTransaction(currentExpense),
+                                      _onDelete(context,currentExpense),
                                   context: context);
                             },
                             onEditAmount: () {

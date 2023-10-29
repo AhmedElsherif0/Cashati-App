@@ -126,6 +126,11 @@ class HomeCubit extends Cubit<HomeState> {
     emit(RemoveNotificationState());
   }
 
+  onRemoveNotificationForDeletedTransaction(String notificationModelName)async{
+    await generalStatsRepo
+        .deleteNotificationByName(notificationModelName);
+    emit(RemoveNotificationState());
+  }
   void onShowExpense() {}
 
   void onShowIncome() {}

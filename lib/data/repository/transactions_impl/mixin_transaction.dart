@@ -193,7 +193,7 @@ mixin MixinTransaction {
 
       }
       if (transactionModel.repeatType == 'Monthly') {
-         theMatchingRepeatedModel =Hive.box<TransactionRepeatDetailsModel>(AppBoxes.monthlyGoalModel).get(transactionModel.id)!;
+         theMatchingRepeatedModel =Hive.box<TransactionRepeatDetailsModel>(AppBoxes.monthlyTransactionsBoxName).get(transactionModel.id)!;
       }
       if (transactionModel.repeatType == 'NoRepeat') {
         theMatchingRepeatedModel = Hive.box<TransactionRepeatDetailsModel>(AppBoxes.noRepeaTransactionsBoxName).get(transactionModel.id)!;
