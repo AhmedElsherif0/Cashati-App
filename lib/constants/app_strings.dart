@@ -62,7 +62,9 @@ class AppStrings {
   /// confirm_paying_goals.dart
 // goalsEng
   static const String goalName = "goalName"; // Goal Name
-  static const String paidAmount = "paidAmount"; // Paid Amount
+  static const String goalNameTip = "goalNameTip"; // Goal Name
+  static const String paidAmount = "paidAmountTip"; // Paid Amount
+  static const String paidAmountTip = "paidAmountTip"; // Paid Amount
   static const String registeredRepeatedAmount =
       "registeredRepeatedAmount"; // Registered Repeated amount
   static const String remainingGoalTargetAmount =
