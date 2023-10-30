@@ -33,21 +33,11 @@ class PartTimeDetails extends StatefulWidget {
 
 class _PartTimeDetailsState extends State<PartTimeDetails>
     with AlertDialogMixin,FormatsMixin, HelperClass {
-  final TextEditingController mainCategoryController = TextEditingController();
-  final TextEditingController calenderController = TextEditingController();
-  final TextEditingController subCategoryController = TextEditingController();
-  final TextEditingController amountController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+
 
   @override
   void dispose() {
-    mainCategoryController.dispose();
-    dateController.dispose();
-    amountController.dispose();
-    subCategoryController.dispose();
-    descriptionController.dispose();
-    calenderController.dispose();
+
     super.dispose();
   }
 
@@ -82,6 +72,8 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
       await repeatCubit.getRepeatTransactions(2);
       await repeatCubit.getRepeatTransactions(3);
     }
+     repeatCubit.refreshData();
+
     statisticsCubit.getExpenses();
     statisticsCubit.getTodayExpenses(true);
     BlocProvider.of<HomeCubit>(context).onRemoveNotificationForDeletedTransaction(widget.transactionModel.name);
@@ -133,19 +125,10 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                             iconName: AppIcons.categories,
                           ),
                           SizedBox(height: 15.dp),
-                          EditableInfoField(
-                            textEditingController: amountController,
+                          UnEditableInfoField(
                             hint: currencyFormat(
                                 context, widget.transactionModel.amount),
                             iconName: AppIcons.amountIcon,
-                            keyboardType: TextInputType.text,
-                            trailing: IconButton(
-                                icon: const Icon(Icons.edit_outlined),
-                                color: AppColor.primaryColor,
-                                onPressed: () {
-                                  widget.transactionModel.amount =
-                                      int.parse(amountController.text);
-                                }),
                           ),
                           SizedBox(height: 15.dp),
                           UnEditableInfoField(
@@ -171,11 +154,12 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                                     showYesOrNoDialog(
                                         title: AppStrings.deleteExpense.tr(),
                                         message: getMsg(widget.transactionModel.name),
-                                        onYes: () =>
-                                            _onDelete(widget.transactionModel.isExpense),
+                                        onYes: () {
+                                          _onDelete(widget.transactionModel.isExpense);
+                                          Navigator.of(context).pop();
+                                        },
                                         context: context);
 
-                                    Navigator.of(context).pop();
                                   },
                                   child: CircleAvatar(
                                     radius: 16.dp,

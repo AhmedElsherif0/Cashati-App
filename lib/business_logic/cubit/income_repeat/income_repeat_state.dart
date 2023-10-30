@@ -6,6 +6,7 @@ abstract class IncomeRepeatCubitStates {}
 class IncomeRepeatCubitInitial extends IncomeRepeatCubitStates {}
 
 class IncomeRepeatLoading extends IncomeRepeatCubitStates {}
+class FetchedRepeatedIncomeTransactions extends IncomeRepeatCubitStates {}
 
 class IncomeRepeatSuccess extends IncomeRepeatCubitStates {}
 class IncomeRepeatScreenState extends IncomeRepeatCubitStates {}

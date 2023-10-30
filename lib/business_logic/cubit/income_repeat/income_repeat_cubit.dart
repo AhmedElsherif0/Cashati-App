@@ -20,7 +20,9 @@ class IncomeRepeatCubit extends Cubit<IncomeRepeatCubitStates> {
     sortedList.sort((a, b) => a.createdDate.compareTo(b.createdDate));
     return sortedList;
   }
-
+  refreshData(){
+    emit(FetchedRepeatedIncomeTransactions());
+  }
   num highestTransaction() => getRepeatTransactions(currentIndex)
       .reduce((current, next) => current.amount > next.amount ? current : next)
       .amount;

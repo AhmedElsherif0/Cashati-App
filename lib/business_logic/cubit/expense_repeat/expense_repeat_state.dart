@@ -4,6 +4,7 @@ part of 'expense_repeat_cubit.dart';
 abstract class ExpenseRepeatState {}
 
 class ExpenseRepeatInitial extends ExpenseRepeatState {}
+class FetchedRepeatedExpenseTransactions extends ExpenseRepeatState {}
 
 class ExpenseRepeatLoading extends ExpenseRepeatState {}
 
