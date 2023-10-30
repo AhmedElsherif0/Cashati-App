@@ -10,7 +10,12 @@ class IncomeRepeatTypeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final incomeCubit = BlocProvider.of<IncomeRepeatCubit>(context);
-    return TransactionRepeatWidget(cubit: incomeCubit, appBarText: AppStrings.incomeRepeat);
+    return BlocBuilder<IncomeRepeatCubit, IncomeRepeatCubitStates>(
+      builder: (context, state) {
+        return TransactionRepeatWidget(
+            cubit: BlocProvider.of<IncomeRepeatCubit>(context),
+            appBarText: AppStrings.incomeRepeat);
+      },
+    );
   }
 }

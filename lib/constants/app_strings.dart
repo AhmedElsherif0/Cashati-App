@@ -58,11 +58,14 @@ class AppStrings {
   static const String transactionConfirmDate =
       "transactionConfirmDate"; //Transaction Confirm Date
   static const String details = "details"; // Details
+  static const String deletedTransaction = "deletedTransaction"; // deletedTransaction
 
   /// confirm_paying_goals.dart
 // goalsEng
   static const String goalName = "goalName"; // Goal Name
-  static const String paidAmount = "paidAmount"; // Paid Amount
+  static const String goalNameTip = "goalNameTip"; // Goal Name
+  static const String paidAmount = "paidAmountTip"; // Paid Amount
+  static const String paidAmountTip = "paidAmountTip"; // Paid Amount
   static const String registeredRepeatedAmount =
       "registeredRepeatedAmount"; // Registered Repeated amount
   static const String remainingGoalTargetAmount =
@@ -89,6 +92,7 @@ class AppStrings {
   /// transaction_card.dart
   static const String deleteExpense = "deleteExpense"; //Delete Expense
   static const String deleteIncome = "deleteIncome"; //Delete Income
+  static const String deleteGoal = "deleteGoal"; //Delete Goal
   static const String seeMore = "seeMore"; //'see more'
   static const String highest = "highest"; //'Highest'
   static const String from = "from"; //From

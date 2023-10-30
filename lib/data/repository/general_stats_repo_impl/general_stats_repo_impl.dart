@@ -442,4 +442,10 @@ class GeneralStatsRepoImpl implements GeneralStatsRepo {
         payLoad: element.transactionModel.repeatType,
         typeName: element.transactionModel.isExpense ? "Expense" : "Income",
       );
+
+  @override
+  Future<void> deleteNotificationByName(String notificationTransactionName)async {
+     generalStatsModel.notificationList.removeWhere((element) => element.modelName==notificationTransactionName);
+    await generalStatsModel.save();
+  }
 }

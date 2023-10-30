@@ -23,9 +23,13 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final expenseCubit = BlocProvider.of<ExpenseRepeatCubit>(context);
+    return BlocBuilder<ExpenseRepeatCubit, ExpenseRepeatState>(
+  builder: (context, state) {
     return TransactionRepeatWidget(
-        cubit: expenseCubit, appBarText: AppStrings.expenseRepeat);
+        cubit:  BlocProvider.of<ExpenseRepeatCubit>(context), appBarText: AppStrings.expenseRepeat);
+  },
+);
+
   }
 }
 

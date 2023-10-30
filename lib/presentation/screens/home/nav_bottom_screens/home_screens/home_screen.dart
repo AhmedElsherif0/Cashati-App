@@ -25,8 +25,12 @@ class HomeScreen extends StatelessWidget {
   }
 
   void showHighestTransactionDetails(BuildContext context) {
-    final highestTransaction = context.read<HomeCubit>().fetchHighestTransaction();
-    context.navigateTo(PartTimeDetails(transactionModel: highestTransaction));
+    try{
+      final highestTransaction = context.read<HomeCubit>().fetchHighestTransaction();
+      context.navigateTo(PartTimeDetails(transactionModel: highestTransaction));
+    }catch (e){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppStrings.deletedTransaction.tr())));
+    }
   }
 
   @override

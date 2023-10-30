@@ -16,3 +16,4 @@ class NoConfirmedState extends ConfirmPaymentState {}
 class DeletedTransactionSuccess extends ConfirmPaymentState {}
 
 class DeletedTransactionFailure extends ConfirmPaymentState {}
+class DeletedGoalSuccess extends ConfirmPaymentState {}

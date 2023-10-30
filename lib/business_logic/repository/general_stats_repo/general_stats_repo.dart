@@ -8,6 +8,7 @@ abstract class GeneralStatsRepo {
   Future<List<NotificationModel>> getNotifications({required bool didOpenAppToday});
   Future<void> addNotification(NotificationModel notificationModel);
   Future<void> deleteNotification(NotificationModel notificationModel);
+  Future<void> deleteNotificationByName(String notificationTransactionName);
   bool isGeneralModelExists();
   Future<GeneralStatsModel> getTheGeneralStatsModel();
   Future<void> fetchTopExpenseAndTopIncome();

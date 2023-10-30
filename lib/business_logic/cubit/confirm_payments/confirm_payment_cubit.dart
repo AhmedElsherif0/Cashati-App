@@ -81,7 +81,6 @@ class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
 
   Future<void> onDeleteTransaction(TransactionModel transactionModel) async {
     try {
-      await transactionRep.deleteTransactionPermanently(transactionModel);
       if (transactionModel.isExpense) {
         allTodayList.remove(transactionModel);
       } else {
@@ -91,5 +90,9 @@ class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
     } catch (error) {
       emit(DeletedTransactionFailure());
     }
+  }
+  onDeleteGoal(GoalModel goalModel){
+    allTodayGoals.contains(goalModel)?allTodayGoals.remove(goalModel):null;
+    emit(DeletedGoalSuccess());
   }
 }

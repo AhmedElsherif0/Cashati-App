@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/goals/goal_model.dart';
 
@@ -64,23 +65,23 @@ class ConfirmPayingGoals extends StatelessWidget with FormatsMixin {
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
-                      toolTipMessage: AppStrings.goalName,
+                      toolTipMessage: AppStrings.goalNameTip.tr(),
                       startIcon: AppIcons.goals,
                       title: goalModel.goalName),
                 ),
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
-                      toolTipMessage: AppStrings.registeredRepeatedAmount,
+                      toolTipMessage: AppStrings.registeredRepeatedAmount.tr(),
                       startIcon: AppIcons.poundSterlingSign,
                       title:
-                          '${currencyFormat(context, goalModel.goalSaveAmount)}, Weekly',
+                          '${currencyFormat(context, goalModel.goalSaveAmount)}, ${goalModel.goalSaveAmountRepeat.tr()}',
                       endIcon: onPressIcon(onEditAmount, AppIcons.editIcon)),
                 ),
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
-                    toolTipMessage: AppStrings.paidAmount,
+                    toolTipMessage: AppStrings.paidAmountTip.tr(),
                     startIcon: AppIcons.change,
                     title: currencyFormat(context, goalModel.goalSaveAmount),
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),
@@ -89,7 +90,7 @@ class ConfirmPayingGoals extends StatelessWidget with FormatsMixin {
                 Expanded(
                   flex: 3,
                   child: RowIconWithTitle(
-                    toolTipMessage: AppStrings.remainingGoalTargetAmount,
+                    toolTipMessage: AppStrings.remainingGoalTargetAmount.tr(),
                     startIcon: AppIcons.blockedCash,
                     title: currencyFormat(context, blockedAmount),
                     endIcon: onPressIcon(onEditChangedAmount, AppIcons.editIcon),

@@ -58,7 +58,7 @@ class StatisticsCubit extends Cubit<StatisticsState> with FormatsMixin, HelperCl
           max<int>(element.amount.toInt(), element.amount.toInt()).);*/
 
   Future<void> deleteTransaction(TransactionModel transaction) async {
-    byDayList.removeAt(transactionIndex);
+    byDayList.contains(transaction)?byDayList.removeAt(transactionIndex):null;
     await _expensesRepository.deleteTransactionRepo(transaction);
     emit(StatisticsDeleteTransaction());
   }

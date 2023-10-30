@@ -88,10 +88,11 @@ class ExpensesRepositoryImpl
 
   @override
   Future<void> deleteTransactionRepo(TransactionModel transaction) async {
-    await hiveDatabase.deleteBox(
-        boxName: hiveDatabase.getBoxName<TransactionModel>(
-            boxName: AppBoxes.transactionBox),
-        dataModel: transaction);
+    // await hiveDatabase.deleteBox(
+    //     boxName: hiveDatabase.getBoxName<TransactionModel>(
+    //         boxName: AppBoxes.transactionBox),
+    //     dataModel: transaction);
+    deleteTransactionRepeatedModelByTransactionId(transaction);
   }
 
   @override

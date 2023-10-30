@@ -17,7 +17,11 @@ class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
         _expensesRepository.getTransactionTypeList(currentIndex);
     sortedList.sort((a, b) => a.createdDate.compareTo(b.createdDate));
     print("Sorted list is ${_expensesRepository.getTransactionTypeList(currentIndex)}");
+
     return sortedList;
+  }
+  refreshData(){
+    emit(FetchedRepeatedExpenseTransactions());
   }
 
   void changePage({required int index}) {
