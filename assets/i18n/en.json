@@ -82,6 +82,7 @@
   "noGoalsToConfirm": "No Goals To confirm",
   "deleteExpense": "Delete Expense",
   "deleteIncome": "Delete Income",
+  "deleteGoal": "Delete Goal",
   "areYouSureYouWantToDelete": "Are you sure you want to delete",
   "permanently": "Permanently",
   "availabilityToCancelTransaction": "you can press cancel on the card to confirm not receiving the transaction",

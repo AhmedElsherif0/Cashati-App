@@ -170,7 +170,7 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                                   onTap: () {
                                     showYesOrNoDialog(
                                         title: AppStrings.deleteExpense.tr(),
-                                        message: getMsg(widget.transactionModel),
+                                        message: getMsg(widget.transactionModel.name),
                                         onYes: () =>
                                             _onDelete(widget.transactionModel.isExpense),
                                         context: context);

@@ -81,7 +81,7 @@ class TransactionConfirmCard extends StatelessWidget
                             amount: currentIncome.amount.toDouble(),
                             onDelete: () => showYesOrNoDialog(
                                 title: AppStrings.deleteIncome.tr(),
-                                message: getMsg(currentIncome),
+                                message: getMsg(currentIncome.name),
                                 onYes: () async =>  _onDelete(context,currentIncome),
                                 context: context),
                             onEditAmount: () {
@@ -138,7 +138,7 @@ class TransactionConfirmCard extends StatelessWidget
                             onDelete: () {
                               showYesOrNoDialog(
                                   title: AppStrings.deleteExpense.tr(),
-                                  message: getMsg(currentExpense),
+                                  message: getMsg(currentExpense.name),
                                   onYes: () =>
                                       _onDelete(context,currentExpense),
                                   context: context);

@@ -75,7 +75,7 @@ class ConfirmPayingGoals extends StatelessWidget with FormatsMixin {
                       toolTipMessage: AppStrings.registeredRepeatedAmount.tr(),
                       startIcon: AppIcons.poundSterlingSign,
                       title:
-                          '${currencyFormat(context, goalModel.goalSaveAmount)}, Weekly',
+                          '${currencyFormat(context, goalModel.goalSaveAmount)}, ${goalModel.goalSaveAmountRepeat.tr()}',
                       endIcon: onPressIcon(onEditAmount, AppIcons.editIcon)),
                 ),
                 Expanded(

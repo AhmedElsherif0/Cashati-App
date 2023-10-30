@@ -32,11 +32,11 @@ mixin HelperClass {
     ];
   }
 
-  String getMsg(TransactionModel currentExpense) {
+  String getMsg(String name) {
     final isEnglish = translator.activeLanguageCode == 'en';
     final questionMark = isEnglish ? '?' : '؟';
     return "${AppStrings.areYouSureYouWantToDelete.tr()}"
-        " ${currentExpense.name} ${AppStrings.permanently.tr()} $questionMark";
+        " ${name} ${AppStrings.permanently.tr()} $questionMark";
   }
 
   String weekNum(index) => translator.activeLanguageCode == 'en'

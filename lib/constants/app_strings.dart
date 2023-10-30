@@ -92,6 +92,7 @@ class AppStrings {
   /// transaction_card.dart
   static const String deleteExpense = "deleteExpense"; //Delete Expense
   static const String deleteIncome = "deleteIncome"; //Delete Income
+  static const String deleteGoal = "deleteGoal"; //Delete Goal
   static const String seeMore = "seeMore"; //'see more'
   static const String highest = "highest"; //'Highest'
   static const String from = "from"; //From
