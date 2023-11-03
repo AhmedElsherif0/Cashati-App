@@ -11,7 +11,6 @@ import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/views/confirm_paying_expense.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
-import '../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import '../../business_logic/cubit/home_cubit/home_cubit.dart';
 import '../../business_logic/cubit/income_repeat/income_repeat_cubit.dart';
 import '../../business_logic/cubit/statistics_cubit/statistics_cubit.dart';
@@ -24,20 +23,21 @@ class TransactionConfirmCard extends StatelessWidget
   final TextEditingController changedAmount;
 
   _onDetails(BuildContext context, TransactionModel transaction) {
-    context.navigateTo(PartTimeDetails(transactionModel: transaction));
+    context.pushTo(PartTimeDetails(transactionModel: transaction));
   }
-  void _onDelete(BuildContext context,TransactionModel chosenTransaction) async {
+
+  void _onDelete(BuildContext context, TransactionModel chosenTransaction) async {
     final statisticsCubit = BlocProvider.of<StatisticsCubit>(context);
+    IncomeRepeatCubit repeatCubit = BlocProvider.of<IncomeRepeatCubit>(context);
 
     await statisticsCubit.deleteTransaction(chosenTransaction);
-    var repeatCubit;
-    if(chosenTransaction.isExpense){
-      repeatCubit = BlocProvider.of<ExpenseRepeatCubit>(context);
+    //var repeatCubit;
+    if (chosenTransaction.isExpense) {
       await repeatCubit.getRepeatTransactions(0);
       await repeatCubit.getRepeatTransactions(1);
       await repeatCubit.getRepeatTransactions(2);
       await repeatCubit.getRepeatTransactions(3);
-    }else{
+    } else {
       repeatCubit = BlocProvider.of<IncomeRepeatCubit>(context);
       await repeatCubit.getRepeatTransactions(0);
       await repeatCubit.getRepeatTransactions(1);
@@ -46,12 +46,12 @@ class TransactionConfirmCard extends StatelessWidget
     }
     statisticsCubit.getExpenses();
     statisticsCubit.getTodayExpenses(true);
-    BlocProvider.of<HomeCubit>(context).onRemoveNotificationForDeletedTransaction(chosenTransaction.name);
+    BlocProvider.of<HomeCubit>(context)
+        .onRemoveNotificationForDeletedTransaction(chosenTransaction.name);
     BlocProvider.of<HomeCubit>(context).getNotificationList();
-    BlocProvider.of<ConfirmPaymentCubit>(context).onDeleteTransaction(chosenTransaction);
-
+    BlocProvider.of<ConfirmPaymentCubit>(context)
+        .onDeleteTransaction(chosenTransaction);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class TransactionConfirmCard extends StatelessWidget
                             onDelete: () => showYesOrNoDialog(
                                 title: AppStrings.deleteIncome.tr(),
                                 message: getMsg(currentIncome.name),
-                                onYes: () async =>  _onDelete(context,currentIncome),
+                                onYes: () async => _onDelete(context, currentIncome),
                                 context: context),
                             onEditAmount: () {
                               changedAmount.text = currentIncome.amount.toString();
@@ -139,8 +139,7 @@ class TransactionConfirmCard extends StatelessWidget
                               showYesOrNoDialog(
                                   title: AppStrings.deleteExpense.tr(),
                                   message: getMsg(currentExpense.name),
-                                  onYes: () =>
-                                      _onDelete(context,currentExpense),
+                                  onYes: () => _onDelete(context, currentExpense),
                                   context: context);
                             },
                             onEditAmount: () {
