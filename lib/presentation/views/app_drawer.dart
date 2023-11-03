@@ -5,6 +5,7 @@ import 'package:temp/constants/app_icons.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/decorations.dart';
+import 'package:temp/presentation/utils/extensions.dart';
 import 'package:temp/presentation/widgets/drawer_item.dart';
 import 'package:temp/presentation/widgets/privacy_terms_widget.dart';
 
@@ -36,8 +37,7 @@ class AppDrawer extends StatelessWidget {
                 child: DrawerItem(
                   icon: AppIcons.expenseDrawer,
                   text: AppStrings.expenseTypes.tr(),
-                  onTap: () => Navigator.of(context)
-                      .pushNamed(AppRouterNames.rExpenseRepeatType),
+                  onTap: () => context.pushNamedTo(AppRouterNames.rExpenseRepeatType),
                 ),
               ),
               Expanded(
@@ -45,24 +45,18 @@ class AppDrawer extends StatelessWidget {
                 child: DrawerItem(
                   icon: AppIcons.incomeDrawer,
                   text: AppStrings.incomeTypes.tr(),
-                  onTap: () => Navigator.of(context)
-                      .pushNamed(AppRouterNames.rIncomeRepeatType),
+                  onTap: () => context.pushNamedTo(AppRouterNames.rIncomeRepeatType),
                 ),
               ),
               Expanded(
-                  flex: 5,
-                  child: DrawerItem(
-                      icon: AppIcons.goalsDrawer,
-                      text: AppStrings.goals.tr(),
-                      onTap: () =>
-                          Navigator.pushNamed(context, AppRouterNames.rGetGoals))),
-              Expanded(
                 flex: 5,
                 child: DrawerItem(
-                    icon: AppIcons.exportDrawer,
-                    text: AppStrings.exportData.tr(),
-                    onTap: () {}),
+                  icon: AppIcons.goalsDrawer,
+                  text: AppStrings.goals.tr(),
+                  onTap: () => context.pushNamedTo(AppRouterNames.rGetGoals),
+                ),
               ),
+              Spacer(flex: 3),
               const Expanded(
                   flex: 3,
                   child: Padding(

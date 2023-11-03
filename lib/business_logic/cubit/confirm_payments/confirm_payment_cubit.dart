@@ -91,8 +91,9 @@ class ConfirmPaymentCubit extends Cubit<ConfirmPaymentState> {
       emit(DeletedTransactionFailure());
     }
   }
-  onDeleteGoal(GoalModel goalModel){
-    allTodayGoals.contains(goalModel)?allTodayGoals.remove(goalModel):null;
+
+  onDeleteGoal(GoalModel goalModel) {
+    allTodayGoals.contains(goalModel) ? allTodayGoals.remove(goalModel) : null;
     emit(DeletedGoalSuccess());
   }
 }

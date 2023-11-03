@@ -86,7 +86,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
     if (getStatisticsCubit().weeks[weekIndex].isNotEmpty) {
       getStatisticsCubit().chosenFilterWeekDay = AppStrings.all.tr();
 
-      await context.navigateTo(StatisticsWeekDetailsScreen(
+      await context.pushTo(StatisticsWeekDetailsScreen(
           newRouteName: AppRouterNames.rIncomeStatistics,
           weekRanges: getStatisticsCubit().weekRangeText(),
           builderIndex: weekIndex,
@@ -99,7 +99,7 @@ class _IncomeStatisticsScreenState extends State<IncomeStatisticsScreen>
   }
 
   void _onSeeMoreByDay(BuildContext context, TransactionModel transaction) async =>
-      await context.navigateTo(PartTimeDetails(transactionModel: transaction));
+      await context.pushTo(PartTimeDetails(transactionModel: transaction));
 
   @override
   Widget build(BuildContext context) {

@@ -72,7 +72,7 @@ class StatisticsWeekDetailsScreen extends StatelessWidget with HelperClass {
 
   void _toPartTimeScreen(
           BuildContext context, currIndex, StatisticsCubit statisticsCubit) =>
-      context.navigateTo(PartTimeDetails(
+      context.pushTo(PartTimeDetails(
           transactionModel: _isAll(context)
               ? transactions[currIndex]
               : statisticsCubit.transactionsWeekFiltered[currIndex]));
