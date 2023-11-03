@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
+import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/home_cubit/home_cubit.dart';
 import 'package:temp/business_logic/cubit/income_repeat/income_repeat_cubit.dart';
 import 'package:temp/business_logic/cubit/statistics_cubit/statistics_cubit.dart';
@@ -13,12 +13,10 @@ import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/views/custom_app_bar.dart';
 
 import '../../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
-import '../../../business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import '../../../constants/app_icons.dart';
 import '../../../data/repository/formats_mixin.dart';
 import '../../styles/colors.dart';
 import '../../widgets/add_income_expense_widget/choose_container.dart';
-import '../../widgets/editable_text.dart';
 import '../../widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import '../../widgets/show_dialog.dart';
 import '../../widgets/uneditable_text.dart';
@@ -32,63 +30,42 @@ class PartTimeDetails extends StatefulWidget {
 }
 
 class _PartTimeDetailsState extends State<PartTimeDetails>
-    with AlertDialogMixin,FormatsMixin, HelperClass {
-
-
-  @override
-  void dispose() {
-
-    super.dispose();
-  }
-
-  AddExpOrIncCubit getAddExpOrIncCubit() => BlocProvider.of<AddExpOrIncCubit>(context);
-
-  void showDatePick() async {
-    final datePicker = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
-    if (datePicker == null) return;
-    getAddExpOrIncCubit().changeDate(datePicker);
-  }
-
+    with AlertDialogMixin, FormatsMixin, HelperClass {
   void _onDelete(bool isExpense) async {
     final statisticsCubit = BlocProvider.of<StatisticsCubit>(context);
+    final homeCubit = BlocProvider.of<HomeCubit>(context);
 
     await statisticsCubit.deleteTransaction(widget.transactionModel);
-    var repeatCubit;
-    if(isExpense){
-       repeatCubit = BlocProvider.of<ExpenseRepeatCubit>(context);
-      await repeatCubit.getRepeatTransactions(0);
-      await repeatCubit.getRepeatTransactions(1);
-      await repeatCubit.getRepeatTransactions(2);
-      await repeatCubit.getRepeatTransactions(3);
-    }else{
-       repeatCubit = BlocProvider.of<IncomeRepeatCubit>(context);
-      await repeatCubit.getRepeatTransactions(0);
-      await repeatCubit.getRepeatTransactions(1);
-      await repeatCubit.getRepeatTransactions(2);
-      await repeatCubit.getRepeatTransactions(3);
-    }
-     repeatCubit.refreshData();
 
-    statisticsCubit.getExpenses();
-    statisticsCubit.getTodayExpenses(true);
-    BlocProvider.of<HomeCubit>(context).onRemoveNotificationForDeletedTransaction(widget.transactionModel.name);
-    BlocProvider.of<HomeCubit>(context).getNotificationList();
+    if (isExpense) {
+      await _getRepeatTransactions(BlocProvider.of<ExpenseRepeatCubit>(context));
+    } else {
+      await _getRepeatTransactions(BlocProvider.of<IncomeRepeatCubit>(context));
+    }
+
+    BlocProvider.of<StatisticsCubit>(context).getExpenses();
+    BlocProvider.of<StatisticsCubit>(context).getTodayExpenses(true);
+
+    homeCubit.onRemoveNotificationForDeletedTransaction(widget.transactionModel.name);
+    homeCubit.getNotificationList();
+  }
+
+  Future<void> _getRepeatTransactions(repeatCubit) async {
+    for (int i = 0; i <= 3; i++) {
+      await repeatCubit.getRepeatTransactions(i);
+    }
+    repeatCubit.refreshData();
   }
 
   @override
   Widget build(BuildContext context) {
     final txtDirection =
         translator.activeLanguageCode == 'en' ? TextDirection.rtl : TextDirection.ltr;
-    return Scaffold(body: SafeArea(
-      child: SingleChildScrollView(
-        child: BlocBuilder<StatisticsCubit, StatisticsState>(
-          builder: (context, state) {
-            return Column(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: BlocBuilder<StatisticsCubit, StatisticsState>(
+            builder: (context, state) => Column(
               children: [
                 SizedBox(height: 15.dp),
                 CustomAppBar(
@@ -159,7 +136,6 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                                           Navigator.of(context).pop();
                                         },
                                         context: context);
-
                                   },
                                   child: CircleAvatar(
                                     radius: 16.dp,
@@ -193,10 +169,10 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                   ),
                 ),
               ],
-            );
-          },
+            ),
+          ),
         ),
       ),
-    ));
+    );
   }
 }

@@ -24,12 +24,9 @@ class ExpenseRepeatTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ExpenseRepeatCubit, ExpenseRepeatState>(
-  builder: (context, state) {
-    return TransactionRepeatWidget(
-        cubit:  BlocProvider.of<ExpenseRepeatCubit>(context), appBarText: AppStrings.expenseRepeat);
-  },
-);
-
+        builder: (context, state) => TransactionRepeatWidget(
+            cubit: BlocProvider.of<ExpenseRepeatCubit>(context),
+            appBarText: AppStrings.expenseRepeat));
   }
 }
 
@@ -68,7 +65,7 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
 
   Future onSeeMore(BuildContext context, int generateIndex,
       List<TransactionModel> transactions, int builderIndex) {
-    return context.navigateTo(OnSeeMore(
+    return context.pushTo(OnSeeMore(
       generateIndex: 0,
       builderIndex: builderIndex,
       transactions: transactions,
