@@ -6,14 +6,12 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:temp/business_logic/cubit/global_cubit/global_cubit.dart';
 import 'package:temp/constants/end_points.dart';
-import 'package:temp/data/models/notifications.dart';
 import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/widgets/gradiant_background.dart';
 
 import '../../../constants/app_icons.dart';
 import '../../../data/local/cache_helper.dart';
 import '../../router/app_router_names.dart';
-import '../../widgets/buttons/elevated_button.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -65,7 +63,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final notifyApi = NotificationsApi();
     return Scaffold(
       body: GradiantBackground(
         child: Center(
@@ -80,28 +77,6 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: SizedBox(
                       width: 40.w,
                       child: SvgPicture.asset(AppIcons.cashatiLogoSVG),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: CustomElevatedButton(
-                              text: 'simple',
-                              onPressed: () async {
-                                print('hello');
-                                await notifyApi.showNotification(
-                                  notifyModel: NotificationsModel(
-                                      id: 0,
-                                      title: 'ahmed',
-                                      subTitle: 'welcome everybody',
-                                      dateTime: DateTime.now(),
-                                      payLoad: 'hello.0'),
-                                );
-                              }),
-                        ),
-                      ],
                     ),
                   ),
                 ]),
