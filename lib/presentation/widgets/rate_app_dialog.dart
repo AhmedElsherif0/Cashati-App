@@ -57,7 +57,7 @@ class _RateAppInitWidgetState extends State<RateAppInitWidget> {
   RateMyApp rateMyApp =
       RateMyApp(minDays: 0, googlePlayIdentifier: playStoreId, minLaunches: 0);
 
-  static const playStoreId = "com.example.temp";
+  static const playStoreId = "com.cashati.team";
 
   @override
   Widget build(BuildContext context) {
