@@ -1,4 +1,4 @@
-package com.example.temp
+package com.cashati.team
 
 import io.flutter.embedding.android.FlutterActivity
 
