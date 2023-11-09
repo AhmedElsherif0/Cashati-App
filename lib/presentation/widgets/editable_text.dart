@@ -69,7 +69,7 @@ class _EditableInfoFieldState extends State<EditableInfoField> {
                   hintStyle: theme.bodyText2!.copyWith(
                     fontWeight: FontWeight.w300,
                     fontSize: 12.dp,
-                    color: AppColor.primaryColor,
+                    color: AppColor.grey,
                   ),
                   border: InputBorder.none),
             ),

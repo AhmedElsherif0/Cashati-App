@@ -20,7 +20,7 @@ import 'package:temp/presentation/widgets/editable_text.dart';
 import 'package:temp/presentation/widgets/goals_widgets/note_widget.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
 
-import '../../data/repository/formats_mixin.dart';
+import '../../../../../data/repository/formats_mixin.dart';
 
 class AddGoalScreen extends StatefulWidget {
   const AddGoalScreen({Key? key}) : super(key: key);
@@ -70,7 +70,7 @@ class _AddGoalScreenState extends State<AddGoalScreen>
           context: context,
           onPressedYesFunction: () async {
             await goalCubit.addGoal(goalModel: goalModel).then((_) {
-              _showSuccessSnackBar(context);
+              _showSuccessDialog(context);
             }).onError((error, stackTrace) {
               _showErrorSnackBar(context);
             });
@@ -87,9 +87,10 @@ class _AddGoalScreenState extends State<AddGoalScreen>
           {String message = AppStrings.someThingWentWrong}) =>
       errorSnackBar(context: context, message: message.tr());
 
-  void _showSuccessSnackBar(BuildContext context) {
+  void _showSuccessDialog(BuildContext context) {
     Navigator.of(context).pop();
     showSuccessfulDialog(context, AppStrings.successfullyConfirmedExpenseFood.tr());
+    context.read<GoalsCubit>().fetchAllGoals();
     Future.delayed(const Duration(seconds: 3), () => Navigator.of(context).pop());
   }
 
@@ -213,7 +214,7 @@ class ChooseDateWidget extends StatelessWidget with FormatsMixin {
             decoration: AppDecorations.editTextDecoration(
                 AppColor.pinkishGrey.withOpacity(0.25)),
             child: ListTile(
-              leading: SvgPicture.asset(AppIcons.dateIcon),
+              leading: SvgPicture.asset(AppIcons.dateIcon, color: AppColor.grey),
               title: Text(
                 goalsCubit.chosenDate == null
                     ? AppStrings.chooseDate.tr()
@@ -222,7 +223,7 @@ class ChooseDateWidget extends StatelessWidget with FormatsMixin {
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2!
-                    .copyWith(fontWeight: FontWeight.w300, fontSize: 13),
+                    .copyWith(fontWeight: FontWeight.w300, color: AppColor.grey),
               ),
             ),
           ),

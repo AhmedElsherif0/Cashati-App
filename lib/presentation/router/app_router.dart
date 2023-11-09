@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:temp/presentation/goals/add_goal_screen.dart';
-import 'package:temp/presentation/goals/goals_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/expense_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/drawer_screens/income_repeat_type_screen.dart';
 import 'package:temp/presentation/screens/home/nav_bottom_screens/home_screens/add_exp_inc_screen.dart';
@@ -11,6 +9,8 @@ import 'package:temp/presentation/screens/welcome/splash_screen.dart';
 import 'package:temp/presentation/screens/welcome/welcome_screen.dart';
 import 'package:temp/presentation/styles/decorations.dart';
 
+import '../screens/home/drawer_screens/goals/add_goal_screen.dart';
+import '../screens/home/drawer_screens/goals/goals_screen.dart';
 import '../screens/home/nav_bottom_screens/control_screen.dart';
 import '../screens/home/nav_bottom_screens/settings_screen.dart';
 import '../screens/welcome/on_boarding_screens.dart';

@@ -21,7 +21,12 @@ class IncomeRepeatCubit extends Cubit<IncomeRepeatCubitStates> {
     return sortedList;
   }
 
-  refreshData() => emit(FetchedRepeatedIncomeTransactions());
+  Future<void> getAllRepeatTransactions() async {
+    for (int i = 0; i <= 3; i++) {
+      await getRepeatTransactions(i);
+    }
+    emit(FetchedRepeatedIncomeTransactions());
+  }
 
   num highestTransaction() => getRepeatTransactions(currentIndex)
       .reduce((current, next) => current.amount > next.amount ? current : next)

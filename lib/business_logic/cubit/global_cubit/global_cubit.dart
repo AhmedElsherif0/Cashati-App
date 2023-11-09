@@ -22,7 +22,6 @@ class GlobalCubit extends Cubit<GlobalState> with HelperClass {
   bool isArabic = false;
   bool isEnable = false;
   bool isLanguage = translator.activeLanguageCode == 'en';
-  LanguageManager languageManager = LanguageManager();
   late TimeOfDay chosenTime;
 
   final NotificationsManagerHandler notificationsManagerHandler =
@@ -50,12 +49,9 @@ class GlobalCubit extends Cubit<GlobalState> with HelperClass {
 
   initializeNotificationTime() {
     final time = notificationsManagerHandler.fetchCurrentSavedTime().split(":");
-    if (time.first.isNotEmpty) {
-      chosenTime =
-          TimeOfDay(hour: int.parse(time.first), minute: int.parse(time.last ?? "00"));
-    } else {
-      chosenTime = TimeOfDay(hour: 9, minute: 0);
-    }
+    chosenTime = TimeOfDay(
+        hour: time.first.isNotEmpty ? int.parse(time.first) : 9,
+        minute: time.first.isNotEmpty ? int.parse(time.last) : 0);
     _initializeNotificationEnabled();
   }
 
@@ -85,6 +81,7 @@ class GlobalCubit extends Cubit<GlobalState> with HelperClass {
   }
 
   void onChangeLanguage(bool value) {
+    LanguageManager languageManager = LanguageManager();
     isLanguage = translator.activeLanguageCode == 'en';
     isEnglish = value;
     languageManager.changeAppLanguage();
@@ -101,6 +98,7 @@ class GlobalCubit extends Cubit<GlobalState> with HelperClass {
     return selectedCurrency;
   }
 
+  /// Test Coverage Well.
   String _currencySign() {
     switch (selectedCurrency) {
       case 'EGP':
@@ -214,21 +212,4 @@ class GlobalCubit extends Cubit<GlobalState> with HelperClass {
       return isEnglishLang ? "AM" : 'ص';
     }
   }
-
-/*  bool isArabicTime(String time) {
-    final arabicTimeRegex = RegExp(r'^[٠-٩]+(:[٠-٥٩]+)?[مص]$');
-    return arabicTimeRegex.hasMatch(time);
-  }*/
-
-/* String convertTimeToEnglish(String time) {
-
-    String convertedTime = '';
-    for (int i = 0; i < time.length; i++) {
-      final String char = time[i];
-      final String convertedChar = arabicToEnglish[char] ?? char;
-      convertedTime += convertedChar;
-    }
-
-    return convertedTime;
-  }*/
 }
