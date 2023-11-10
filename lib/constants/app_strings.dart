@@ -217,7 +217,10 @@ class AppStrings {
       'youSuccessfullyGoal'; //You have successfully added goal
 
   /// goals_screen.dart
-  static const String yourGoals = 'yourGoals'; //Your Goals
+  static const String yourGoals = 'yourGoals'; // Your Goals
+  static const String addGoals = 'addGoals'; // Add Goals
+  static const String noGoalsAddedYet =
+      'noGoalsAddedYet'; // There\'s no Goal\'s added yet
 
   /// expense_repeat_type_screen.dart
   static const String expenseRepeat = 'expenseRepeat'; //Expense Repeat
