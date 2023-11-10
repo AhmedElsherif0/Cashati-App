@@ -6,6 +6,8 @@ import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/views/custom_app_bar.dart';
 import 'package:temp/presentation/widgets/add_subcategory_widget.dart';
 
+import '../../../../../business_logic/cubit/home_cubit/home_cubit.dart';
+
 class AddSubCategoryScreen extends StatelessWidget {
   const AddSubCategoryScreen({Key? key}) : super(key: key);
 
@@ -16,7 +18,9 @@ class AddSubCategoryScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CustomAppBar(title: AppStrings.addSubcategory.tr()),
+            CustomAppBar(
+                title: AppStrings.addSubcategory.tr(),
+                notificationsNumber: context.read<HomeCubit>().notificationsNumber()),
             BlocBuilder<AddExpOrIncCubit, AddExpOrIncState>(
               builder: (context, state) {
                 return AddSubCategoryWidget(

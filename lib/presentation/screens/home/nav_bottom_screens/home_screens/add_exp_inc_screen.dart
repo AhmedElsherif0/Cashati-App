@@ -6,6 +6,7 @@ import 'package:temp/business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart'
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/presentation/views/custom_app_bar.dart';
 
+import '../../../../../business_logic/cubit/home_cubit/home_cubit.dart';
 import '../../../../styles/colors.dart';
 import '../../../../widgets/add_income_expense_widget/main_category_fields.dart';
 
@@ -26,7 +27,10 @@ class AddExpenseOrIncomeScreen extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: 5.h),
-                CustomAppBar(title: AppStrings.addTransaction.tr()),
+                CustomAppBar(
+                    title: AppStrings.addTransaction.tr(),
+                    notificationsNumber:
+                        context.read<HomeCubit>().notificationsNumber()),
                 SizedBox(height: 1.h),
                 TabBar(
                     isScrollable: false,
