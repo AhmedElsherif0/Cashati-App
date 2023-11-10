@@ -22,7 +22,12 @@ class ExpenseRepeatCubit extends Cubit<ExpenseRepeatState> {
     return sortedList;
   }
 
-  refreshData() => emit(FetchedRepeatedExpenseTransactions());
+  Future<void> getAllRepeatTransactions() async {
+    for (int i = 0; i <= 3; i++) {
+      await getRepeatTransactions(i);
+    }
+    emit(FetchedRepeatedExpenseTransactions());
+  }
 
   void changePage({required int index}) {
     currentIndex = index;

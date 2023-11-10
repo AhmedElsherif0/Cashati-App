@@ -34,8 +34,8 @@ class GoalsCubit extends Cubit<GoalsState> {
         value: AppStrings.unCompleted.tr(), child: Text(AppStrings.unCompleted.tr())),
     DropdownMenuItem(value: AppStrings.all.tr(), child: Text(AppStrings.all.tr())),
   ];
-  repeatDatabaseEntries(){
-    switch (choseRepeat){
+  repeatDatabaseEntries() {
+    switch (choseRepeat) {
       case "Daily":
         return AppStrings.daily;
       case "يوميا":
@@ -44,24 +44,23 @@ class GoalsCubit extends Cubit<GoalsState> {
         return AppStrings.weekly;
       case "اسبوعيا":
         return AppStrings.weekly;
-        case "Monthly":
-      return AppStrings.monthly;
-      case  "شهريا":
+      case "Monthly":
         return AppStrings.monthly;
-        default:
-          return AppStrings.daily;
-
+      case "شهريا":
+        return AppStrings.monthly;
+      default:
+        return AppStrings.daily;
     }
   }
-  repeatUiValues(String saveAmountRepeat){
-    switch (saveAmountRepeat){
+
+  repeatUiValues(String saveAmountRepeat) {
+    switch (saveAmountRepeat) {
       case AppStrings.daily:
         return AppStrings.day.tr();
       case AppStrings.weekly:
         return AppStrings.week.tr();
       case AppStrings.monthly:
         return AppStrings.month.tr();
-
     }
   }
 
@@ -161,21 +160,22 @@ class GoalsCubit extends Cubit<GoalsState> {
   }
 
   String dialogMessage({required num cost, required num dailySaving}) {
+    final remeningDay = cost ~/ dailySaving;
     switch (choseRepeat) {
       case 'Daily':
-        return 'Days';
-      case 'اليومية':
-        return 'يوم';
+        return '${remeningDay} Days';
+      case 'يوميا':
+        return ' ${remeningDay} يوم ';
       case 'Weekly':
-        return 'Weeks';
-      case 'الاسبوعية':
-        return 'اسبوع';
+        return '${remeningDay}Weeks';
+      case 'اسبوعيا':
+        return '${remeningDay} اسبوع ';
       case 'Monthly':
-        return 'Months';
-      case 'الشهرية':
-        return 'شهر';
+        return '${remeningDay} Months';
+      case 'شهريا':
+        return '${remeningDay} شهر ';
     }
-    return '${cost ~/ dailySaving} $choseRepeat';
+    return '${remeningDay} $choseRepeat';
   }
 
   String transferDateToString(GoalModel goalModel) {
