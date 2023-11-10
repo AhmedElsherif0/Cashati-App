@@ -46,7 +46,7 @@ class HiveHelper {
     await boxName.putAt(indexKey, dataModel);
   }
 
-  Future<void> deleteBox({required Box boxName, required dynamic dataModel}) async {
+  Future<void> remove({required Box boxName, required dynamic dataModel}) async {
     _requireInitialized(boxName);
     await boxName.delete(dataModel.id);
   }

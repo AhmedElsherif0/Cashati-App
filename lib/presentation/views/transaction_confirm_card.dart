@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/business_logic/cubit/confirm_payments/confirm_payment_cubit.dart';
+import 'package:temp/business_logic/cubit/expense_repeat/expense_repeat_cubit.dart';
 import 'package:temp/constants/app_strings.dart';
 import 'package:temp/data/models/transactions/transaction_model.dart';
 import 'package:temp/data/repository/helper_class.dart';
@@ -28,21 +29,13 @@ class TransactionConfirmCard extends StatelessWidget
 
   void _onDelete(BuildContext context, TransactionModel chosenTransaction) async {
     final statisticsCubit = BlocProvider.of<StatisticsCubit>(context);
-    IncomeRepeatCubit repeatCubit = BlocProvider.of<IncomeRepeatCubit>(context);
 
     await statisticsCubit.deleteTransaction(chosenTransaction);
-    //var repeatCubit;
+
     if (chosenTransaction.isExpense) {
-      await repeatCubit.getRepeatTransactions(0);
-      await repeatCubit.getRepeatTransactions(1);
-      await repeatCubit.getRepeatTransactions(2);
-      await repeatCubit.getRepeatTransactions(3);
+      await context.read<ExpenseRepeatCubit>().getAllRepeatTransactions();
     } else {
-      repeatCubit = BlocProvider.of<IncomeRepeatCubit>(context);
-      await repeatCubit.getRepeatTransactions(0);
-      await repeatCubit.getRepeatTransactions(1);
-      await repeatCubit.getRepeatTransactions(2);
-      await repeatCubit.getRepeatTransactions(3);
+      await context.read<IncomeRepeatCubit>().getAllRepeatTransactions();
     }
     statisticsCubit.getExpenses();
     statisticsCubit.getTodayExpenses(true);
