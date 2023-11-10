@@ -21,40 +21,32 @@ import '../../widgets/expenses_and_income_widgets/important_or_fixed.dart';
 import '../../widgets/show_dialog.dart';
 import '../../widgets/uneditable_text.dart';
 
-class PartTimeDetails extends StatefulWidget {
+class PartTimeDetails extends StatelessWidget
+    with AlertDialogMixin, FormatsMixin, HelperClass {
   const PartTimeDetails({Key? key, required this.transactionModel}) : super(key: key);
   final TransactionModel transactionModel;
 
-  @override
-  State<PartTimeDetails> createState() => _PartTimeDetailsState();
-}
-
-class _PartTimeDetailsState extends State<PartTimeDetails>
-    with AlertDialogMixin, FormatsMixin, HelperClass {
-  void _onDelete(bool isExpense) async {
-    final statisticsCubit = BlocProvider.of<StatisticsCubit>(context);
+  Future<void> _onDelete(BuildContext context, bool isExpense) async {
     final homeCubit = BlocProvider.of<HomeCubit>(context);
+    await context.read<StatisticsCubit>().deleteTransaction(transactionModel);
 
-    await statisticsCubit.deleteTransaction(widget.transactionModel);
+    await _getAllData(context, isExpense);
 
-    if (isExpense) {
-      await _getRepeatTransactions(BlocProvider.of<ExpenseRepeatCubit>(context));
-    } else {
-      await _getRepeatTransactions(BlocProvider.of<IncomeRepeatCubit>(context));
-    }
-
-    BlocProvider.of<StatisticsCubit>(context).getExpenses();
-    BlocProvider.of<StatisticsCubit>(context).getTodayExpenses(true);
-
-    homeCubit.onRemoveNotificationForDeletedTransaction(widget.transactionModel.name);
+    homeCubit.onRemoveNotificationForDeletedTransaction(transactionModel.name);
     homeCubit.getNotificationList();
   }
 
-  Future<void> _getRepeatTransactions(repeatCubit) async {
-    for (int i = 0; i <= 3; i++) {
-      await repeatCubit.getRepeatTransactions(i);
+  Future<void> _getAllData(BuildContext context, bool isExpense) async {
+    BlocProvider.of<StatisticsCubit>(context).getExpenses();
+    BlocProvider.of<StatisticsCubit>(context).getTodayExpenses(true);
+
+    if (isExpense) {
+      await context.read<ExpenseRepeatCubit>().getAllRepeatTransactions();
+    } else {
+      await context.read<IncomeRepeatCubit>().getAllRepeatTransactions();
     }
-    repeatCubit.refreshData();
+
+    context.read<HomeCubit>().getNotificationList();
   }
 
   @override
@@ -69,7 +61,7 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
               children: [
                 SizedBox(height: 15.dp),
                 CustomAppBar(
-                    title: widget.transactionModel.isExpense
+                    title: transactionModel.isExpense
                         ? AppStrings.expenseDetails.tr()
                         : AppStrings.incomeDetails.tr(),
                     isEndIconVisible: false),
@@ -81,7 +73,7 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                       return Column(
                         children: [
                           UnEditableInfoField(
-                            hint: widget.transactionModel.name,
+                            hint: transactionModel.name,
                             iconName: AppIcons.home,
                           ),
                           SizedBox(height: 15.dp),
@@ -89,35 +81,34 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                               width: 90.w,
                               child: DateChooseContainer(
                                 onTap: () {},
-                                dateTime: widget.transactionModel.createdDate,
+                                dateTime: transactionModel.createdDate,
                               )),
                           SizedBox(height: 15.dp),
                           UnEditableInfoField(
-                            hint: widget.transactionModel.mainCategory.tr(),
+                            hint: transactionModel.mainCategory.tr(),
                             iconName: AppIcons.categoryIcon,
                           ),
                           SizedBox(height: 15.dp),
                           UnEditableInfoField(
-                            hint: widget.transactionModel.subCategory.tr(),
+                            hint: transactionModel.subCategory.tr(),
                             iconName: AppIcons.categories,
                           ),
                           SizedBox(height: 15.dp),
                           UnEditableInfoField(
-                            hint: currencyFormat(
-                                context, widget.transactionModel.amount),
+                            hint: currencyFormat(context, transactionModel.amount),
                             iconName: AppIcons.amountIcon,
                           ),
                           SizedBox(height: 15.dp),
                           UnEditableInfoField(
-                            hint: widget.transactionModel.repeatType.tr(),
+                            hint: transactionModel.repeatType.tr(),
                             iconName: AppIcons.change,
                           ),
                           SizedBox(height: 15.dp),
                           UnEditableInfoField(
                             header: AppStrings.description.tr(),
-                            hint: widget.transactionModel.description == ''
+                            hint: transactionModel.description == ''
                                 ? AppStrings.subDescription.tr()
-                                : widget.transactionModel.description,
+                                : transactionModel.description,
                             iconName: '',
                           ),
                           SizedBox(height: 30.dp),
@@ -130,9 +121,10 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                                   onTap: () {
                                     showYesOrNoDialog(
                                         title: AppStrings.deleteExpense.tr(),
-                                        message: getMsg(widget.transactionModel.name),
+                                        message: getMsg(transactionModel.name),
                                         onYes: () {
-                                          _onDelete(widget.transactionModel.isExpense);
+                                          _onDelete(
+                                              context, transactionModel.isExpense);
                                           Navigator.of(context).pop();
                                         },
                                         context: context);
@@ -151,12 +143,11 @@ class _PartTimeDetailsState extends State<PartTimeDetails>
                                   children: [
                                     const Spacer(),
                                     PriorityWidget(
-                                      color: widget.transactionModel.isPriority
+                                      color: transactionModel.isPriority
                                           ? AppColor.secondColor
                                           : AppColor.pinkishGrey,
-                                      text: priorityNames(
-                                          widget.transactionModel.isExpense,
-                                          widget.transactionModel.isPriority),
+                                      text: priorityNames(transactionModel.isExpense,
+                                          transactionModel.isPriority),
                                     ),
                                   ],
                                 ),

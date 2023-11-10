@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:temp/business_logic/repository/subcategories_repo/expense_subcategory_repo.dart';
 import 'package:temp/data/models/subcategories_models/expense_subcaegory_model.dart';
+
 import '../../local/hive/app_boxes.dart';
 import '../../local/hive/hive_database.dart';
 import '../../local/hive/id_generator.dart';
@@ -27,8 +28,7 @@ class IncomeSubcategoryImpl implements CategoryTransactionRepo {
 
   @override
   Future<void> deleteSubCategories({required SubCategory subCategory}) async {
-    await _hiveHelper.deleteBox(
-        boxName: _getSubCategoryBox(), dataModel: subCategory);
+    await _hiveHelper.remove(boxName: _getSubCategoryBox(), dataModel: subCategory);
   }
 
   Box<SubCategory> _getSubCategoryBox() =>

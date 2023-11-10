@@ -68,8 +68,6 @@ class NotificationManager {
 }
 
 class NotificationsManagerHandler {
-  final CacheHelper cacheHelper = CacheHelper();
-
   Future saveInitialNotification() async {
     if (CacheHelper.sharedPreferences.getString(AppStrings.reminderSharedPref) !=
         null) {
@@ -102,15 +100,3 @@ class NotificationsManagerHandler {
         "";
   }
 }
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//
-//   final NotificationManager notificationManager = NotificationManager();
-//   await notificationManager.init();
-//
-//   // Schedule daily notification at 9 pm
-//   await notificationManager.scheduleDailyNotification(hour: 21, minute: 0);
-//
-//   // Uncomment the line below to cancel the notification
-//   // await notificationManager.cancelNotification();
-// }

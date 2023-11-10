@@ -24,23 +24,22 @@ extension LanguageTypeExtension on LanguageType {
 }
 
 class LanguageManager {
-
-  Future<String> getAppLanguage() async {
-    String? language =
-        CacheHelper.getDataFromSharedPreference(key: appLanguageSharedKey);
-    return language != null && language.isNotEmpty
-        ? language
-        : LanguageType.english.getValue();
-  }
-
   Future<void> changeAppLanguage() async {
-    String currentLang = await getAppLanguage();
+    String currentLang = await _getAppLanguage();
     CacheHelper.saveDataSharedPreference(
         key: appLanguageSharedKey, value: currentLang == arabic ? english : arabic);
   }
 
   Future<Locale> getLocal() async {
-    String currentLang = await getAppLanguage();
+    String currentLang = await _getAppLanguage();
     return currentLang == LanguageType.arabic.getValue() ? arabicLocal : englishLocal;
+  }
+
+  Future<String> _getAppLanguage() async {
+    String? language =
+        CacheHelper.getDataFromSharedPreference(key: appLanguageSharedKey);
+    return language != null && language.isNotEmpty
+        ? language
+        : LanguageType.english.getValue();
   }
 }

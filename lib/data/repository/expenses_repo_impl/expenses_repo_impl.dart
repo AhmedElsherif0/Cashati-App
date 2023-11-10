@@ -96,9 +96,9 @@ class ExpensesRepositoryImpl
   }
 
   @override
-  TransactionModel getTransactionByNameFromRepeated(String transactionName,bool isExpense,num amount) {
-    return getTransactionsFromDetailsByTransactionName(transactionName,true,amount);
-
+  TransactionModel getTransactionByNameFromRepeated(
+      String transactionName, bool isExpense, num amount) {
+    return getTransactionsFromDetailsByTransactionName(transactionName, true, amount);
   }
 
   // @override
