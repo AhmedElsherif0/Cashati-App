@@ -104,6 +104,8 @@ class _GoalsScreenState extends State<GoalsScreen> with AlertDialogMixin, Helper
                               ),
                             )
                           : ListView.builder(
+                              physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
                               padding: EdgeInsets.zero,
                               itemCount: goalCubit.registeredGoals.length,
                               itemBuilder: (context, index) {

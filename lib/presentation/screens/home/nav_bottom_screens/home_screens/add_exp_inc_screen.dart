@@ -70,6 +70,7 @@ class AddExpenseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     AddExpOrIncCubit addExpOrIncCubit = BlocProvider.of<AddExpOrIncCubit>(context);
     return ListView.builder(
+      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       itemCount: addExpOrIncCubit.expMainCats.length,
       itemBuilder: (context, index) {
         return MainCategoryFields(

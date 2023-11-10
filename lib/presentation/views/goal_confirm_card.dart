@@ -13,16 +13,18 @@ import '../../business_logic/cubit/goals_cubit/goals_cubit.dart';
 import '../../business_logic/cubit/home_cubit/home_cubit.dart';
 import '../../constants/app_strings.dart';
 
-class GoalConfirmCard extends StatelessWidget with AlertDialogMixin,HelperClass {
+class GoalConfirmCard extends StatelessWidget with AlertDialogMixin, HelperClass {
   const GoalConfirmCard({Key? key, required this.changedAmount}) : super(key: key);
   final TextEditingController changedAmount;
 
-  _deleteGoal(GoalModel goalModel,BuildContext context){
+  _deleteGoal(GoalModel goalModel, BuildContext context) {
     BlocProvider.of<GoalsCubit>(context).deleteGoal(goalModel);
-    BlocProvider.of<HomeCubit>(context).onRemoveNotificationForDeletedTransaction(goalModel.goalName);
+    BlocProvider.of<HomeCubit>(context)
+        .onRemoveNotificationForDeletedTransaction(goalModel.goalName);
     BlocProvider.of<HomeCubit>(context).getNotificationList();
     BlocProvider.of<ConfirmPaymentCubit>(context).onDeleteGoal(goalModel);
   }
+
   @override
   Widget build(BuildContext context) {
     final cubitConfirm = context.read<ConfirmPaymentCubit>();
@@ -30,6 +32,7 @@ class GoalConfirmCard extends StatelessWidget with AlertDialogMixin,HelperClass 
       visible: cubitConfirm.allTodayGoals.isNotEmpty,
       replacement: Center(child: Text(AppStrings.noGoalsToConfirm.tr())),
       child: ListView.builder(
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         padding: EdgeInsets.symmetric(vertical: 4.dp),
         itemExtent: 85.w,
         scrollDirection: Axis.horizontal,
@@ -44,10 +47,11 @@ class GoalConfirmCard extends StatelessWidget with AlertDialogMixin,HelperClass 
                   goalModel: currentGoal,
                   amount: currentGoal.goalSaveAmount.toDouble(),
                   //Todo: Doesn't work yet.
-                  onDelete: () =>showYesOrNoDialog(
+                  onDelete: () => showYesOrNoDialog(
                       title: AppStrings.deleteGoal.tr(),
                       message: getMsg(currentGoal.goalName),
-                      onYes: ()=>_deleteGoal(currentGoal,context), context: context),
+                      onYes: () => _deleteGoal(currentGoal, context),
+                      context: context),
                   onEditAmount: () {
                     changedAmount.text = currentGoal.goalSaveAmount.toString();
                     newAmountDialog(
