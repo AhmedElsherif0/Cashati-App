@@ -12,6 +12,7 @@ import 'package:temp/data/repository/helper_class.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/views/app_bar_with_icon.dart';
+import 'package:temp/presentation/widgets/buttons/underline_text_button.dart';
 import 'package:temp/presentation/widgets/dorp_downs_buttons/goals_drop_down.dart';
 import 'package:temp/presentation/widgets/goals_widgets/goal_card.dart';
 import 'package:temp/presentation/widgets/show_dialog.dart';
@@ -81,7 +82,27 @@ class _GoalsScreenState extends State<GoalsScreen> with AlertDialogMixin, Helper
                     SizedBox(height: 1.h),
                     Expanded(
                       child: goalCubit.registeredGoals.isEmpty
-                          ? Image.asset(AppImages.noDataCate)
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(AppImages.noDataCate),
+                                  Text(
+                                    AppStrings.noGoalsAddedYet.tr(),
+                                    style: Theme.of(context).textTheme.headline5,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  UnderLineTextButton(
+                                      borderLineColor: AppColor.primaryColor,
+                                      textColor: AppColor.primaryColor,
+                                      fontSize: 16.dp,
+                                      text: AppStrings.addGoals.tr(),
+                                      onPressed: () => Navigator.of(context)
+                                          .pushNamed(AppRouterNames.rAddGoal)),
+                                  SizedBox(height: 20.h)
+                                ],
+                              ),
+                            )
                           : ListView.builder(
                               padding: EdgeInsets.zero,
                               itemCount: goalCubit.registeredGoals.length,

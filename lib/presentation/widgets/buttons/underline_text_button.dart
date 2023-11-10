@@ -12,7 +12,9 @@ class UnderLineTextButton extends StatelessWidget {
     this.decorationColor = AppColor.pineGreen,
     this.padding,
     this.fontSize,
-    this.borderLineColor = AppColor.white, this.borderPadding,
+    this.borderLineColor = AppColor.white,
+    this.borderPadding,
+    this.textColor,
   }) : super(key: key);
 
   final void Function()? onPressed;
@@ -20,6 +22,7 @@ class UnderLineTextButton extends StatelessWidget {
   final TextStyle? textStyle;
   final Color? decorationColor;
   final Color borderLineColor;
+  final Color? textColor;
   final EdgeInsets? padding;
   final double? fontSize;
   final EdgeInsetsGeometry? borderPadding;
@@ -38,14 +41,17 @@ class UnderLineTextButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Container(
-        padding: borderPadding,
+          padding: borderPadding,
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
                   style: BorderStyle.solid, color: borderLineColor, width: 1.5.dp),
             ),
           ),
-          child: Text(text)),
+          child: Text(
+            text,
+            style: TextStyle(color: textColor),
+          )),
     );
   }
 }
