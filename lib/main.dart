@@ -83,33 +83,31 @@ class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
         BlocProvider(create: ((context) => ConfirmPaymentCubit())),
         BlocProvider(create: ((context) => StatisticsCubit(_expensesRepository))),
       ],
-      child: BlocConsumer<GlobalCubit, GlobalState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return FlutterSizer(
-            builder: (context, orientation, deviceType) {
-              return LayoutBuilder(
-                builder: (context, constraints) {
-                  print(constraints.maxWidth);
-                  statusBarConfig();
-                  return MaterialApp(
-                    title: 'Cashati',
-                    theme: AppTheme.lightThemeMode,
-                    debugShowCheckedModeBanner: false,
-                    localizationsDelegates: translator.delegates,
-                    // Android + iOS Delegates
-                    locale: translator.activeLocale,
-                    // Active locale
-                    supportedLocales: translator.locals(),
-                    // home: const WelcomeScreen(), // Locals list
-                    initialRoute: AppRouterNames.rSplashScreen,
-                    onGenerateRoute: widget.appRouter.onGenerateRoute,
-                  );
-                },
-              );
-            },
-          );
-        },
+      child: BlocBuilder<GlobalCubit, GlobalState>(
+        builder: (context, state) => FlutterSizer(
+          builder: (context, orientation, deviceType) {
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                print(constraints.maxWidth);
+                setOrientationPortraitUP();
+                statusBarConfig();
+                return MaterialApp(
+                  title: 'Cashati',
+                  theme: AppTheme.lightThemeMode,
+                  debugShowCheckedModeBanner: false,
+                  localizationsDelegates: translator.delegates,
+                  // Android + iOS Delegates
+                  locale: translator.activeLocale,
+                  // Active locale
+                  supportedLocales: translator.locals(),
+                  // home: const WelcomeScreen(), // Locals list
+                  initialRoute: AppRouterNames.rSplashScreen,
+                  onGenerateRoute: widget.appRouter.onGenerateRoute,
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

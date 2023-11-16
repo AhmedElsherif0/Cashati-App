@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-mixin ConfigurationStatusBar{
-
+mixin ConfigurationStatusBar {
   void statusBarConfig() {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -10,5 +9,11 @@ mixin ConfigurationStatusBar{
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.dark),
     );
+  }
+
+  void setOrientationPortraitUP() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
   }
 }
