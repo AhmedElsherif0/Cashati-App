@@ -116,9 +116,7 @@ class _GoalsScreenState extends State<GoalsScreen> with AlertDialogMixin, Helper
                                   deleteFunction: () => showYesOrNoDialog(
                                       title: AppStrings.deleteGoal.tr(),
                                       message: getMsg(goal.goal.goalName),
-                                      onYes: () {
-                                        _deleteGoal(goal.goal);
-                                      },
+                                      onYes: () => _deleteGoal(goal.goal),
                                       context: context),
                                   editFunction: () {},
                                 );

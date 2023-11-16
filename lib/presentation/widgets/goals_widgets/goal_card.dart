@@ -26,7 +26,6 @@ class GoalCard extends StatelessWidget with FormatsMixin {
   @override
   Widget build(BuildContext context) {
     final aLangCode = translator.activeLanguageCode;
-    final amountRepeat = goal.goalSaveAmountRepeat.toLowerCase();
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Stack(
@@ -44,11 +43,11 @@ class GoalCard extends StatelessWidget with FormatsMixin {
                   GoalName(goalName: goal.goalName),
                   GoalsRichText(
                       title: AppStrings.goalCost.tr(),
-                      subTitle: currencyFormat(context,goal.goalRemainingAmount)),
+                      subTitle: currencyFormat(context, goal.goalRemainingAmount)),
                   GoalsRichText(
                       title: AppStrings.yourSaving.tr(),
                       subTitle:
-                          '${currencyFormat(context,goal.goalSaveAmount)}, ${context.read<GoalsCubit>().repeatUiValues(goal.goalSaveAmountRepeat)}'),
+                          '${currencyFormat(context, goal.goalSaveAmount)}, ${context.read<GoalsCubit>().repeatUiValues(goal.goalSaveAmountRepeat)}'),
                   GoalsRichText(
                       title: AppStrings.beginIn.tr(),
                       subTitle:
@@ -60,7 +59,7 @@ class GoalCard extends StatelessWidget with FormatsMixin {
                           ' ${formatDayDate(goal.goalCompletionDate, aLangCode)}'),
                   GoalsRichText(
                       title: AppStrings.remainingAmount.tr(),
-                      subTitle: currencyFormat(context,goal.goalRemainingAmount)),
+                      subTitle: currencyFormat(context, goal.goalRemainingAmount)),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 1.h),
                     child: Center(child: CompleteIndicatorBar(goalModel: goal)),
