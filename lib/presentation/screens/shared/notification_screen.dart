@@ -10,6 +10,7 @@ import 'package:temp/presentation/styles/colors.dart';
 import 'package:temp/presentation/widgets/notification_confirm.dart';
 
 import '../../../business_logic/cubit/home_cubit/home_cubit.dart';
+import '../../../constants/app_images.dart';
 import '../../../constants/app_strings.dart';
 import '../../views/custom_app_bar.dart';
 import '../../views/custom_notification_tile.dart';
@@ -60,6 +61,7 @@ class NotificationScreen extends StatelessWidget with AlertDialogMixin {
 
   @override
   Widget build(BuildContext context) {
+    final homeCubit = BlocProvider.of<HomeCubit>(context);
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0.5.h),
       body: Column(
@@ -71,27 +73,38 @@ class NotificationScreen extends StatelessWidget with AlertDialogMixin {
           Expanded(
             child: BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
-                return ListView.builder(
-                    itemCount:
-                        BlocProvider.of<HomeCubit>(context).notificationList!.length,
-                    itemBuilder: (context, index) {
-                      final notification =
-                          context.read<HomeCubit>().notificationList![index];
-                      return CustomNotificationTile(
-                          isActionTaken: notification.didTakeAction,
-                          dateTime: DateFormat.yMMMd(
-                                  context.read<GlobalCubit>().isLanguage ? "en" : "ar")
-                              .format(notification.checkedDate),
-                          firstIcon: notification.didTakeAction
-                              ? const Icon(Icons.check_circle_outline,
-                                  color: AppColor.green)
-                              : const Icon(Icons.flag_circle_rounded,
-                                  color: AppColor.red),
-                          onPressedNotification: () =>
-                              _onPressedNotification(context, notification),
-                          subTitle: notification.modelName,
-                          title: notification.typeName.toLowerCase().tr());
-                    });
+                return homeCubit.notificationList!.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(AppImages.noDataCate),
+                            SizedBox(height: 20.h)
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: homeCubit.notificationList!.length,
+                        itemBuilder: (context, index) {
+                          final notification = homeCubit.notificationList![index];
+                          return CustomNotificationTile(
+                              isActionTaken: notification.didTakeAction,
+                              dateTime: DateFormat.yMMMd(
+                                      context.read<GlobalCubit>().isLanguage
+                                          ? "en"
+                                          : "ar")
+                                  .format(notification.checkedDate),
+                              firstIcon: notification.didTakeAction
+                                  ? const Icon(Icons.check_circle_outline,
+                                      color: AppColor.green)
+                                  : const Icon(Icons.flag_circle_rounded,
+                                      color: AppColor.red),
+                              onPressedNotification: () =>
+                                  _onPressedNotification(context, notification),
+                              subTitle: notification.modelName,
+                              title: notification.typeName.toLowerCase().tr());
+                        },
+                      );
               },
             ),
           ),

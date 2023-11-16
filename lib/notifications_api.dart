@@ -1,8 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:temp/data/models/notifications.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationsApi {
   static final _notificationPlugins = FlutterLocalNotificationsPlugin();
@@ -78,7 +79,7 @@ class NotificationsApi {
         ? scheduledDate.add(const Duration(days: 1))
         : scheduledDate;
   }
-
+/*
   tz.TZDateTime _scheduleWeekly(DateTime time) {
     final now = DateTime.now().toLocal();
     final scheduledDate = tz.TZDateTime(
@@ -88,7 +89,7 @@ class NotificationsApi {
     return scheduledDate.isBefore(now)
         ? scheduledDate.add(const Duration(days: 7))
         : scheduledDate;
-  }
+  }*/
 
 /*
   tz.TZDateTime _scheduleRepeatedDate(int scheduleTime, DateTime time) {
