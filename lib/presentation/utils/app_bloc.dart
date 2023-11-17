@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../business_logic/cubit/add_exp_inc/add_exp_or_inc_cubit.dart';
@@ -15,25 +16,34 @@ import '../../data/repository/expenses_repo_impl/expenses_repo_impl.dart';
 import '../../data/repository/general_stats_repo_impl/general_stats_repo_impl.dart';
 import '../../data/repository/income_repo_impl/income_repo_impl.dart';
 
-class AppBlocs {
-  List<BlocProvider> providers() {
+class AppBlocs extends StatelessWidget {
+  const AppBlocs({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
     final TransactionRepo _expensesRepository = ExpensesRepositoryImpl();
     final TransactionRepo _incomeRepository = IncomeRepositoryImpl();
     final GeneralStatsRepo _generalStatsRepository = GeneralStatsRepoImpl();
-    return [
-      BlocProvider(create: ((context) => GlobalCubit())),
-      BlocProvider(
-          create: ((context) =>
-              HomeCubit(_generalStatsRepository)..getTheGeneralStatsModel())),
-      BlocProvider(
-          create: ((context) => AddExpOrIncCubit(
-              _expensesRepository, _incomeRepository, _generalStatsRepository))),
-      BlocProvider(create: ((context) => ExpenseRepeatCubit(_expensesRepository))),
-      BlocProvider(create: ((context) => IncomeRepeatCubit(_incomeRepository))),
-      BlocProvider(create: ((context) => AddSubcategoryCubit())),
-      BlocProvider(create: ((context) => GoalsCubit())),
-      BlocProvider(create: ((context) => ConfirmPaymentCubit())),
-      BlocProvider(create: ((context) => StatisticsCubit(_expensesRepository))),
-    ];
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: ((context) => GlobalCubit())),
+        BlocProvider(
+            create: ((context) =>
+                HomeCubit(_generalStatsRepository)..getTheGeneralStatsModel())),
+        BlocProvider(
+            create: ((context) => AddExpOrIncCubit(
+                _expensesRepository, _incomeRepository, _generalStatsRepository))),
+        BlocProvider(create: ((context) => ExpenseRepeatCubit(_expensesRepository))),
+        BlocProvider(create: ((context) => IncomeRepeatCubit(_incomeRepository))),
+        BlocProvider(create: ((context) => AddSubcategoryCubit())),
+        BlocProvider(create: ((context) => GoalsCubit())),
+        BlocProvider(create: ((context) => ConfirmPaymentCubit())),
+        BlocProvider(create: ((context) => StatisticsCubit(_expensesRepository))),
+      ],
+      child: child,
+    );
   }
 }
