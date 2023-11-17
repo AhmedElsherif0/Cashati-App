@@ -34,17 +34,15 @@ Future<void> main() async {
     () async {
       await CacheHelper.init();
       await NotificationsApi.initialize();
-      runApp(MyApp(appRouter: AppRouter(), appBlocs: AppBlocs()));
+      runApp(MyApp(appRouter: AppRouter()));
     },
     blocObserver: MyBlocObserver(),
   );
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({required this.appRouter, Key? key, required this.appBlocs})
-      : super(key: key);
+  const MyApp({required this.appRouter, Key? key}) : super(key: key);
   final AppRouter appRouter;
-  final AppBlocs appBlocs;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -53,11 +51,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with ConfigurationStatusBar {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: widget.appBlocs.providers(),
+    return AppBlocs(
       child: BlocBuilder<GlobalCubit, GlobalState>(
         builder: (context, state) => FlutterSizer(
-          builder: (context, orientation, deviceType) {
+          builder: (_, orientation, deviceType) {
             return LayoutBuilder(
               builder: (context, constraints) {
                 print(constraints.maxWidth);
