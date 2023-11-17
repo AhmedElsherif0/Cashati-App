@@ -30,6 +30,8 @@ class SubCategoryFields extends StatelessWidget {
     return SizedBox(
       height: 30.h,
       child: GridView.builder(
+          physics:
+              const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           itemCount: subCatsList.length,
           scrollDirection: Axis.horizontal,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

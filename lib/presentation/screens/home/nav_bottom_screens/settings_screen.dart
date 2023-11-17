@@ -93,6 +93,8 @@ class _SettingsScreenState extends State<SettingsScreen> with AlertDialogMixin {
             body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
           child: SingleChildScrollView(
+            physics:
+                const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -104,6 +104,8 @@ class _GoalsScreenState extends State<GoalsScreen> with AlertDialogMixin, Helper
                               ),
                             )
                           : ListView.builder(
+                              physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
                               padding: EdgeInsets.zero,
                               itemCount: goalCubit.registeredGoals.length,
                               itemBuilder: (context, index) {
@@ -114,9 +116,7 @@ class _GoalsScreenState extends State<GoalsScreen> with AlertDialogMixin, Helper
                                   deleteFunction: () => showYesOrNoDialog(
                                       title: AppStrings.deleteGoal.tr(),
                                       message: getMsg(goal.goal.goalName),
-                                      onYes: () {
-                                        _deleteGoal(goal.goal);
-                                      },
+                                      onYes: () => _deleteGoal(goal.goal),
                                       context: context),
                                   editFunction: () {},
                                 );

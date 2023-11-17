@@ -145,6 +145,8 @@ class _TransactionRepeatWidgetState extends State<TransactionRepeatWidget>
                     return widget.cubit.getRepeatTransactions(generateIndex).isEmpty
                         ? Image.asset(AppImages.noDataCate)
                         : ListView.builder(
+                            physics: const BouncingScrollPhysics(
+                                parent: AlwaysScrollableScrollPhysics()),
                             padding: EdgeInsets.zero,
                             itemCount: widget.cubit
                                 .getRepeatTransactions(generateIndex)

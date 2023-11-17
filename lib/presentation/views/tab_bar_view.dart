@@ -111,6 +111,9 @@ class _CustomTabBarViewEditedState extends State<CustomTabBarViewEdited>
                         return widget.transactions.isEmpty
                             ? Image.asset(AppImages.noDataCate)
                             : ListView.builder(
+                                physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics(),
+                                ),
                                 padding: EdgeInsets.zero,
                                 itemCount: widget.transactions.length,
                                 itemBuilder: (context, index) {

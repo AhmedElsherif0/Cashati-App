@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -30,16 +28,13 @@ class _OnBoardScreensState extends State<OnBoardScreens> with HelperClass {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(const Duration(seconds: 3), (timer) {
+    /*  Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_currentIndex < 2) _currentIndex++;
       if (_pageController.hasClients) {
-        _pageController.animateToPage(
-          _currentIndex,
-          duration: const Duration(seconds: 1),
-          curve: Curves.easeIn,
-        );
+        _pageController.animateToPage(_currentIndex,
+            duration: const Duration(milliseconds: 1800), curve: Curves.easeIn);
       }
-    });
+    });*/
   }
 
   void onNext(context) {
