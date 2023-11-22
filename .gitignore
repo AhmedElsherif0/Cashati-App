@@ -31,6 +31,12 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+pubspec.lock
+pubspec.yaml
+lib/business_logic/cubit
+lib/presentation/styles
+lib/presentation/utils
+lib/presentation/widgets
 
 # Web related
 lib/generated_plugin_registrant.dart
