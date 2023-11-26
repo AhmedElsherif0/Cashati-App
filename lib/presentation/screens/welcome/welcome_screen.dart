@@ -25,7 +25,7 @@ class WelcomeScreen extends StatelessWidget {
 
   Future<void> changeLanguageTo(String languageCode, context) async {
     await translator.setNewLanguage(context,
-        restart: false, newLanguage: languageCode);
+        newLanguage: languageCode);
     BlocProvider.of<GlobalCubit>(context)
         .onChangeLanguage(translator.activeLanguageCode == 'ar');
     print(translator.activeLanguageCode);

@@ -27,7 +27,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> with AlertDialogMixin {
   Future<void> _choseLanguage(String languageCode, context) async {
     await translator.setNewLanguage(context,
-        restart: false, remember: true, newLanguage: languageCode);
+        remember: true, newLanguage: languageCode);
     BlocProvider.of<GlobalCubit>(context)
         .onChangeLanguage(translator.activeLanguageCode == languageCode);
   }
