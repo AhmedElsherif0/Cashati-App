@@ -32,7 +32,7 @@ class AppBlocs extends StatelessWidget {
         BlocProvider(create: ((context) => GlobalCubit())),
         BlocProvider(
             create: ((context) =>
-                HomeCubit(_generalStatsRepository)..getTheGeneralStatsModel())),
+                HomeCubit(_generalStatsRepository)..getTheGeneralStatsModel()..checkUpdate(context))),
         BlocProvider(
             create: ((context) => AddExpOrIncCubit(
                 _expensesRepository, _incomeRepository, _generalStatsRepository))),

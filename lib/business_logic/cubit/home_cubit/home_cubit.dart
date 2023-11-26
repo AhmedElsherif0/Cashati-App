@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:new_version_plus/new_version_plus.dart';
 import 'package:temp/business_logic/repository/expenses_repo/confirm_expense_repo.dart';
 import 'package:temp/business_logic/repository/general_stats_repo/general_stats_repo.dart';
 import 'package:temp/business_logic/repository/goals_repo/goals_repo.dart';
@@ -28,6 +30,19 @@ class HomeCubit extends Cubit<HomeState> {
   List<NotificationModel>? notificationList;
   bool isExpense = true;
   bool isGotNotifications = false;
+
+  Future checkUpdate(BuildContext context) async {
+    final newVersion = NewVersionPlus(androidId: "com.cashati.team");
+    final status = await newVersion.getVersionStatus();
+    if (status != null) {
+      newVersion.showUpdateDialog(
+        context: context,
+        versionStatus: status,
+        dialogText:
+            "A new version has been released, update cashati to get the most recent features.",
+      dialogTitle: "Update Required",updateButtonText: "Update",dismissButtonText: "Not Now",dismissAction: ()=>Navigator.pop(context));
+    }
+  }
 
   String notificationsNumber() => notificationList != null
       ? notificationList!
@@ -67,7 +82,8 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future addTheGeneralStatsModel() async {
-    if (Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsModel).isNotEmpty) {
+    if (Hive.box<GeneralStatsModel>(AppBoxes.generalStatisticsModel)
+        .isNotEmpty) {
       print(
           'General stats model is in box already ${generalStatsRepo.getTheGeneralStatsModel()}');
       emit(FetchedGeneralModelSuccState());
@@ -91,8 +107,8 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future getNotificationList() async {
-    notificationList =
-        await generalStatsRepo.getNotifications(didOpenAppToday: isGotNotifications);
+    notificationList = await generalStatsRepo.getNotifications(
+        didOpenAppToday: isGotNotifications);
     if (notificationList == null) {
       emit(FetchedNotificationListFailedState());
     } else {
@@ -109,28 +125,29 @@ class HomeCubit extends Cubit<HomeState> {
     if (notificationModel.typeName == "Goal") {
       await _goalsRepository
           .yesConfirmGoalFromNotification(notificationModel: notificationModel)
-          .whenComplete(() async =>
-              await generalStatsRepo.changeStatusOfNotification(notificationModel));
+          .whenComplete(() async => await generalStatsRepo
+              .changeStatusOfNotification(notificationModel));
     } else {
       await confirmTransactionRepo
           .onYesConfirmedFromNotifications(notificationModel: notificationModel)
-          .whenComplete(() async =>
-              await generalStatsRepo.changeStatusOfNotification(notificationModel));
+          .whenComplete(() async => await generalStatsRepo
+              .changeStatusOfNotification(notificationModel));
     }
 
     emit(NotificationYesActionTakenSucc());
   }
-  onRemoveNotification(NotificationModel notificationModel)async{
-    await generalStatsRepo
-        .changeStatusOfNotification(notificationModel);
+
+  onRemoveNotification(NotificationModel notificationModel) async {
+    await generalStatsRepo.changeStatusOfNotification(notificationModel);
     emit(RemoveNotificationState());
   }
 
-  onRemoveNotificationForDeletedTransaction(String notificationModelName)async{
-    await generalStatsRepo
-        .deleteNotificationByName(notificationModelName);
+  onRemoveNotificationForDeletedTransaction(
+      String notificationModelName) async {
+    await generalStatsRepo.deleteNotificationByName(notificationModelName);
     emit(RemoveNotificationState());
   }
+
   void onShowExpense() {}
 
   void onShowIncome() {}
