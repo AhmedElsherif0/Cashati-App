@@ -6,7 +6,6 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:temp/notification_manager.dart';
-import 'package:temp/notifications_api.dart';
 import 'package:temp/presentation/router/app_router_names.dart';
 import 'package:temp/presentation/styles/themes.dart';
 import 'package:temp/presentation/utils/app_bloc.dart';
@@ -17,6 +16,7 @@ import 'business_logic/cubit/bloc_observer.dart';
 import 'business_logic/cubit/global_cubit/global_cubit.dart';
 import 'data/local/cache_helper.dart';
 import 'data/local/hive/hive_initialize.dart';
+import 'notifications_api.dart';
 import 'presentation/router/app_router.dart';
 
 Future<void> main() async {
@@ -29,15 +29,10 @@ Future<void> main() async {
       languagesList: <String>['ar', 'en'],
       assetsDirectory: 'assets/i18n/');
   await NotificationManager().init();
-  // await NotificationsManagerHandler().saveInitialNotification();
-  BlocOverrides.runZoned(
-    () async {
-      await CacheHelper.init();
-      await NotificationsApi.initialize();
-      runApp(MyApp(appRouter: AppRouter()));
-    },
-    blocObserver: MyBlocObserver(),
-  );
+  await CacheHelper.init();
+  await NotificationsApi.initialize();
+  Bloc.observer = MyBlocObserver();
+  runApp(MyApp(appRouter: AppRouter()));
 }
 
 class MyApp extends StatefulWidget {
